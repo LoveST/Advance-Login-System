@@ -13,7 +13,7 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 define( "DBURL" , "localhost"); // Set the database url (ex : localhost || 127.0.01 ).
 define( "DBUSER" , "root"); // Set the database user.
 define( "DBPASS" , "199601997masis@"); // Set the database password to access it.
-define( "DBNAME" , "als1"); // Set the database name used to store all the data.
+define( "DBNAME" , "als"); // Set the database name used to store all the data.
 define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the database ( default : 3306 ).
 
 /**

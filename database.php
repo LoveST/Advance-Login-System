@@ -10,6 +10,7 @@ class Database
 {
 
     var $connection; // public variable for the database connection
+    private $message;
 
     /**
      * Database constructor for PHP4
@@ -22,6 +23,7 @@ class Database
      * Database constructor for PHP5.
      */
     function __construct(){
+        $this->message = new Message();
         $this->connect();
     }
 
@@ -29,11 +31,12 @@ class Database
      * Establish the database connection
      */
     function connect(){
-        try {
-            $this->connection = new PDO('mysql:host=' . DBURL . ';dbname=' . DBNAME . ';charset=utf8mb4', DBUSER, DBPASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        } catch(PDOException $ex){
-            die('Unable to connect : ' . $ex->getMessage());
+        $this->connection = mysqli_connect(DBURL,DBUSER,DBPASS,DBNAME,DBPORT);
+        // Check for any connection errors
+        if (mysqli_connect_errno()){
+            $this->message->setError("Connection to the database failed: " . mysqli_connect_error() , Message::Fatal, __FILE__ , __LINE__);
         }
+
     }
 
     /**
