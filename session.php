@@ -7,6 +7,7 @@
  */
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
+require "include/message.php";
 require "config.php";
 require "database.php";
 
@@ -14,13 +15,16 @@ class session {
 
     var $connection; // public variable for the database connection
     private $user = Array(); // store all the needed user information
+    private $message; // instance of the Message class.
 
     /**
      * session constructor.
      */
     function __construct(){
+        $this->message = new Message(); // init the message class for any errors
         $this->dbConnect(); // init the connect to database function
         $this->setupLogin(); // store all the current user information if logged in
+
     }
 
     /**
