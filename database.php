@@ -45,7 +45,7 @@ class Database
      * @return string
      */
     function escapeString($string){
-        return mysql_escape_string($string);
+        return mysqli_real_escape_string($this->connection, $string);
     }
 
     /**

@@ -77,6 +77,7 @@ class Message {
      * @return mixed
      */
     function getError($type=0){
+        if(empty($_SESSION["error"])) return ;
         if($type == 0){ // get all the errors
             foreach($_SESSION["error"] as $key => $value){
                 if($key != 0) echo "<br>";
@@ -90,11 +91,11 @@ class Message {
                     echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
                 }
             }
-        } else if($type == 2){ // get all the errors with a type value of 3
+        } else if($type == 3){ // get all the errors with a type value of 3
             foreach($_SESSION["error"] as $key => $value){
                 if($value['type'] == 3) {
                     if ($key != 0) echo "<br>";
-                    echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
+                    echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'];
                 }
             }
         }

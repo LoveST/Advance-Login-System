@@ -5,43 +5,36 @@
  * Date: 5/12/2016
  * Time: 12:42 PM
  */
+
+error_reporting(0);
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
-require "include/message.php";
+require "include/user.php";
 require "config.php";
 require "database.php";
 
 class session {
 
     var $connection; // public variable for the database connection
-    private $user = Array(); // store all the needed user information
     private $message; // instance of the Message class.
+    private $userData; // instance of the user class.
 
     /**
      * session constructor.
      */
     function __construct(){
         $this->message = new Message(); // init the message class for any errors
+        $this->userData = new User(); // init the message class for any errors
         $this->dbConnect(); // init the connect to database function
-        $this->setupLogin(); // store all the current user information if logged in
-
     }
 
     /**
      * Initiate the connection to the database
+     *
      */
     private function dbConnect(){
         $database = new Database();
         $this->connection = $database->connection;
-    }
-
-    /**
-     * Setup up the session if a user is logged in
-     */
-    private function setupLogin(){
-        if(isset($_SESSION['userInfo']) || $_SESSION['userInfo']){
-            $this->user = $_SESSION['userInfo'];
-        }
     }
 
     /**
@@ -52,39 +45,47 @@ class session {
      * @return true|false
      */
     public function loginWithPassword($username, $password, $rememberMe = 0){
+
+        $username = $this->escapeString($username);
+        $password = $this->escapeString($password);
+        $rememberMe = $this->escapeString($rememberMe);
+
         if(empty($username) || empty($password)){
-            $this->setError("Username/Password most not be empty");
+            $this->message->setError("Username/Password most not be empty", Message::Error);
             return false;
         }
 
         // Username checks
         if(preg_match('/[^A-Za-z0-9]/', $username)){
-            $this->setError("Username most contain only letters and numbers");
+            $this->message->setError("Username most contain only letters and numbers", Message::Error);
             return false;
         }
 
         if(strlen($username) < 6 || strlen($username) > 25){
-            $this->setError("Username length most be between 6 -> 25 characters long");
+            $this->message->setError("Username length most be between 6 -> 25 characters long", Message::Error);
             return false;
         }
 
         // password checks
-        if(strlen($username) >= 8 && strlen($username) <= 25){
-            $this->setError("Password length most be between 8 -> 25 characters long");
+        if(strlen($password) < 8 && strlen($password) > 25){
+            $this->message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
             return false;
         }
 
-        $password = md5($password);
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE username = '". $username ."' AND password = '". $password . "'");
-        $sql->execute();
+        $password = md5($password); // hash the password
 
-        if($sql->rowCount() < 1){
-            $this->setError("Wrong username/password has been used");
+        $sql = ("SELECT * FROM users WHERE username = '". $username ."' AND password = '". $password . "'");
+
+        if (!$result = mysqli_query($this->connection,$sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        }
+
+        if(mysqli_num_rows($result) < 1){
+            $this->message->setError("Wrong username/password has been used", Message::Error);
             return false;
         }
 
-        $row = $sql->fetch(PDO::FETCH_ASSOC);
-
+        $row = mysqli_fetch_assoc($result);
 
         // ** login successful process ** //
         $rememberMe = (86400 * $rememberMe);
@@ -93,24 +94,12 @@ class session {
         $userIP = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR']);
         $value = "$userIP|$newtoken|$newuserhash";
 
-        $_SESSION['username'] = $row['username'];
-        $_SESSION['level'] = $row['level'];
-        $_SESSION['f_name'] = $row['firstName'];
-        $_SESSION['l_name'] = $row['lastName'];
+        $_SESSION["user_data"]['username'] = $row['username'];
+        $_SESSION["user_data"]['level'] = $row['level'];
+        $_SESSION["user_data"]['firstName'] = $row['firstName'];
+        $_SESSION["user_data"]['lastName'] = $row['lastName'];
 
-        setcookie('remember', $value, $rememberMe, '/', SITEURL, isset($_SERVER["HTTP"]), true);
-
-        $sql = $this->connection->prepare("UPDATE users SET token='" . $newtoken ."', expire='". $rememberMe ."' WHERE " . TBL_USERS_USERNAME ."='". $username ."'");
-        $sql->bindParam(':username', $username);
-        if($sql->execute() && $sql->rowCount() > 0){
-
-            $info = Array("username" => $username, "email" => $row['username']);
-            $_SESSION["userInfo"] = $info;
             return true;
-        } else {
-            $this->setError("Something went wrong while trying to log in :(");
-            return false;
-        }
     }
 
     /**
@@ -124,31 +113,38 @@ class session {
     }
 
     /**
-     * Set the error message to be shown to the guest or to the user
-     * @param $msg
+     *
+     * @param $username
+     * @param $email
      */
-    private function setError($msg = "Unknown error"){
-        $_SESSION['error'] = $msg;
+    function forgetPasswordWithEmail($username, $email){
+
     }
 
-    /**
-     * Get the error message if any occurred
-     * @return mixed
-     */
-    public function getError(){
-        return $_SESSION['error'];
+    function resetPasswordUsingCodeAndEmail($email, $code){
+
     }
 
     public function register(){
 
     }
 
+    /**
+     * Log the user out from the current session
+     * @return bool
+     */
     public function logOut(){
-
+        if(empty($_SESSION["user_data"])){
+            return false;
+        } else { unset($_SESSION["user_data"]); return true;}
     }
 
+    /**
+     * check if the client is logged in as a user or as a guest !
+     * @return bool
+     */
     public function logged_in(){
-        if(!empty(['userInfo'])){
+        if(isset($_SESSION['user_data']) || $_SESSION['user_data']){
             return true;
         }
     }
@@ -162,35 +158,12 @@ class session {
     }
 
     /**
-     * Get the current session username
-     * @return mixed
+     * Prepare any given string from injections
+     * @param $string
+     * @return string
      */
-    public function Username(){
-        return $this->user['username'];
-    }
-
-    /**
-     * Get the current session user email
-     * @return mixed
-     */
-    public function Email(){
-        return $this->user['email'];
-    }
-
-    /**
-     * Get the current session user first name
-     * @return mixed
-     */
-    public function firstName(){
-        return $this->user['firstName'];
-    }
-
-    /**
-     * Get the current session user last name
-     * @return mixed
-     */
-    public function lastName(){
-        return $this->user['lastName'];
+    function escapeString($string){
+        return mysqli_real_escape_string($this->connection, $string);
     }
 }
 
