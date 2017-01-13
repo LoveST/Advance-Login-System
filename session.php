@@ -201,7 +201,7 @@ class session {
         } else {
 
             // ** Clear the Cookie auth code ** //
-            $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->getUser(User::UserName)."'";
+            $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->get(User::UserName)."'";
             if (!$result = mysqli_query($this->connection,$sql)) {
                 $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
                 return false;

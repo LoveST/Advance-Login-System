@@ -76,7 +76,7 @@ class passwordManager {
         $reset_code = $this->generateRandomString(); // the reset code that will be sent to the user
 
         // ** Update the database with the new reset code ** //
-        $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_RESET_CODE." = '".$reset_code."' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->getUser(User::UserName)."'";
+        $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_RESET_CODE." = '".$reset_code."' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->get(User::UserName)."'";
         if (!$result = mysqli_query($this->connection,$sql)) {
             $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
             return false;

@@ -42,7 +42,7 @@ class User {
      * @param $dataType
      * @return mixed
      */
-    function getUser($dataType){
+    function get($dataType){
         return $this->userData[$dataType];
     }
 

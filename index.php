@@ -21,4 +21,4 @@ if(isset($_POST['logout'])){
 }
 
 require "login.html";
-echo $user->getUser(User::First_Name) . " " . $user->getUser(User::Last_Name);
+echo $user->get(User::First_Name) . " " . $user->get(User::Last_Name);
