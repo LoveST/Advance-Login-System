@@ -116,7 +116,7 @@ class passwordManager {
             die($this->printError("Username and Authentication key most not be empty"));
         }
 
-        $sql = $this->connection->prepare("SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_USERNAME." = '". $username . "'");
+        $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_USERNAME." = '". $username . "'";
         if (!$result = mysqli_query($this->connection,$sql)) {
             $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
