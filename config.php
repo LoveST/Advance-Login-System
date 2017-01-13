@@ -21,8 +21,9 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
  */
 define("SITENAME" , ""); // Set the site main name
 define("SITEURL" , "localhost/als/"); // Set the script main url ending with '/' (ex : htt://localhost/login/)
+define("SITE_EMAIL" , "administrator@localhost"); // Set the site main email used in Mail class
 define("SITE_KEY" , "k4jhkwhdsf92h234rtjfdslfowruy23yrodjkhl");
-define("COOKIE_AUTH_CODE" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
+define("COOKIE_AUTH_SECRET" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
 
 /**
  * Declare all sql tables that's been used in the script
@@ -38,3 +39,5 @@ define("COOKIE_AUTH_CODE" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
     define("TBL_USERS_SINCE" , "since");
     define("TBL_USERS_EXPIRE" , "expire");
     define("TBL_USERS_TOKEN" , "token");
+    define("TBL_USERS_RESET_CODE" , "reset_code");
+    define("TBL_USERS_PIN" , "pin");
