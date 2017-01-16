@@ -28,10 +28,16 @@ class Message {
      * Message constructor for PHP5.
      */
     function __construct(){
-        // check if any error has been posted to the session and if true then pull it and clear the session.
-        if(!empty($_SESSION["error"])){
-            $this->msg[] = $_SESSION["error"];
 
+    }
+
+    /**
+     * init the class
+     */
+    function init(){
+        // check if any error has been posted to the session and if true then pull it and clear the session.
+        if($_SESSION["error"] != ""){
+            $this->msg = $_SESSION["error"];
             unset($_SESSION["error"]);
         }
     }
@@ -44,24 +50,25 @@ class Message {
      * @param int $lineNumber / include the line number that the error has occurred in
      */
     function setError($msg, $type, $fileName="", $lineNumber=0){
-        if(!empty($msg)){
-
-            if($type == 3){
+        if(!empty($msg)){ // check if the message is not empty
+            if($type == 3){ // check if it's a user error
                 $array = array(
                     "msg" => $msg,
                     "type" => $type,
                 );
+                $this->msg = $array;
                 $_SESSION["error"][] = $array;
                 return;
+            } else {
+                $array = array(
+                    "msg" => $msg,
+                    "type" => $type,
+                    "fileName" => $fileName,
+                    "lineNumber" => $lineNumber,
+                );
+                $this->msg = $array;
+                $_SESSION["error"][] = $array;
             }
-
-            $array = array(
-                "msg" => $msg,
-                "type" => $type,
-                "fileName" => $fileName,
-                "lineNumber" => $lineNumber,
-            );
-            $_SESSION["error"][] = $array;
         }
     }
 
@@ -69,7 +76,7 @@ class Message {
      * check to see if any error has occurred
      */
     function anyError(){
-        return !empty($this->msg);
+        return !empty($this->msg) && $this->msg["msg"] != "";
     }
 
     /**
@@ -77,22 +84,24 @@ class Message {
      * @return mixed
      */
     function getError($type=0){
-        if(empty($_SESSION["error"])) return ;
+        $data = $_SESSION["error"];
+        if(empty($data) || $data[0]['msg'] == "") return "";
+
         if($type == 0){ // get all the errors
-            foreach($_SESSION["error"] as $key => $value){
+            foreach($data as $key => $value){
                 if($key != 0) echo "<br>";
                 echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> '.$value['fileName'].'</b> on Line <b>'.$value['lineNumber'].'</b> )';
                 if($value["type"] == 1) die;
             }
         } else if($type == 2){ // get all the errors with a type value of 2
-            foreach($_SESSION["error"] as $key => $value){
+            foreach($data as $key => $value){
                 if($value['type'] == 2) {
                     if ($key != 0) echo "<br>";
                     echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
                 }
             }
         } else if($type == 3){ // get all the errors with a type value of 3
-            foreach($_SESSION["error"] as $key => $value){
+            foreach($data as $key => $value){
                 if($value['type'] == 3) {
                     if ($key != 0) echo "<br>";
                     echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'];
@@ -105,7 +114,7 @@ class Message {
      * return the current error type
      * @return integer
      */
-    function getErrorType(){
+    static function getErrorType(){
         return $_SESSION["error"]["type"];
     }
 
@@ -114,7 +123,7 @@ class Message {
      * @param $type
      * @return string
      */
-    function readErrorType($type){
+    static function readErrorType($type){
         $error = "";
 
         switch($type){

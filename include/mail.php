@@ -6,6 +6,7 @@
  * Date: 4/28/2016
  * Time: 1:40 AM
  */
+
 class Mail
 {
 

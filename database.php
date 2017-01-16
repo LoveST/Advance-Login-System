@@ -6,6 +6,7 @@
  * Date: 8/10/2016
  * Time: 5:46 PM
  */
+
 class Database
 {
 
@@ -20,11 +21,19 @@ class Database
     }
 
     /**
+     * init the class
+     * @param $message
+     */
+    function init($message){
+        $this->message = $message;
+        $this->connect();
+    }
+
+    /**
      * Database constructor for PHP5.
      */
     function __construct(){
-        $this->message = new Message();
-        $this->connect();
+
     }
 
     /**
@@ -61,4 +70,5 @@ class Database
     }
 
 }
+
 $database = new Database();

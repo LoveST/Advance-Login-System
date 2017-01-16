@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<center>
+<form action="" method="post">
+
+        <? if($message->anyError()){ echo $message->getError(3); ?><br><? } ?>
+        <div><p>Username: <input type="text" value="" name="username"></p></div>
+        <div><p>Password: <input type="password" value="" name="password"></p></div>
+        <div><p>Remember me for</p><select name="rememberMe">
+            <option value="0">Don't remember me :)</option>
+            <option value="1">1 day</option>
+            <option value="7">1 week</option>
+            <option value="30">1 month</option>
+            <option value="365">1 year</option>
+        </select></div><br>
+        <button type="submit" name="login">Login</button>
+    </form><br>
+    <div><a href="forgetPass.php">Forget password ?</a></div>
+    </center>
+</body>
+</html>

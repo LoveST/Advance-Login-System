@@ -9,16 +9,11 @@
 //error_reporting(0);
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
-require "include/user.php";
-require "config.php";
-require "database.php";
-require "include/mail.php";
-require "include/passwordManager.php";
 
 class session {
 
     var $connection; // public variable for the database connection
-    private $message; // instance of the Message class.
+    public $message; // instance of the Message class.
     private $userData; // instance of the user class.
     private $passwordManager; // instance of the password manager class
     private $mail; // instance of the mail class.
@@ -27,21 +22,32 @@ class session {
      * session constructor.
      */
     function __construct(){
-        $this->message = new Message(); // init the message class for any errors
-        $this->userData = new User(); // init the User class
-        $this->mail = new Mail(); // init the Mail class
-        $this->passwordManager = new passwordManager($this->connection,$this->message,$this->userData,$this->mail);
-        $this->dbConnect(); // init the connect to database function
+
+    }
+
+    /**
+     * init the class
+     * @param $databaseClass
+     * @param $messageClass
+     * @param $userDataClass
+     * @param $passwordManagerClass
+     * @param $mailClass
+     */
+    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass){
+        $this->message = $messageClass; // init the message class for any errors
+        $this->userData = $userDataClass; // init the User class
+        $this->mail = $mailClass; // init the Mail class
+        $this->passwordManager = $passwordManagerClass;
+        $this->dbConnect($databaseClass); // init the connect to database function
         $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
     }
 
     /**
      * Initiate the connection to the database
-     *
+     *@param $databaseClass
      */
-    private function dbConnect(){
-        $database = new Database();
-        $this->connection = $database->connection;
+    private function dbConnect($databaseClass){
+        $this->connection = $databaseClass->connection;
     }
 
     /**
@@ -168,23 +174,16 @@ class session {
     /**
      * @param $username
      * @param $email
-     * @param $captcha
      * @return bool
      */
-    function forgetPasswordWithEmail($username, $email, $captcha){
-        if(!$this->passwordManager->forgetPasswordWithEmail($username,$email,$captcha)){
-            $firstInteger = mt_rand(1, 25);
-            $secondInteger = mt_rand(1, 25);
-            $captcha = "What is " . $firstInteger . " + " . $secondInteger;
-            $_SESSION['f_number'] = $firstInteger; // store first integer to the session to print out
-            $_SESSION['s_number'] = $secondInteger; // store the second integer to the session to print out
-            $_SESSION['captcha'] = $firstInteger + $secondInteger;
+    function forgetPasswordWithEmail($username, $email){
+        if(!$this->passwordManager->forgetPasswordWithEmail($username,$email)){
             return false;
         } else { return true;}
     }
 
-    function resetPasswordUsingCodeAndEmail($email, $code,$captcha){
-        return $this->passwordManager->resetPasswordUsingCodeAndEmail($email,$code,$captcha);
+    function resetPasswordUsingCodeAndEmail($email, $code){
+        return $this->passwordManager->resetPasswordUsingCodeAndEmail($email,$code);
     }
 
     public function register(){
@@ -211,6 +210,8 @@ class session {
             unset($_SESSION["user_data"]);
             unset($_COOKIE["user_data"]);
             unset($_COOKIE["user_id"]);
+            setcookie("user_data",null,-1,'/');
+            setcookie("user_id",null,-1,'/');
             return true;
         }
     }
@@ -243,4 +244,4 @@ class session {
     }
 }
 
-$session = new session();   // init the session class
+$session = new session();
