@@ -1,6 +1,6 @@
 <?
 
-// include this file in every single php file you'd life to have access to the script facilities
+// include in the beginning of every single php file
 
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
