@@ -16,23 +16,35 @@ $code = $_POST['code'];
         case "confirm";
             if(isset($_POST['confirm'])) {
                 if ($session->resetPasswordUsingCodeAndEmail($email, $code)) {
-                    header("Location: forgetPass.php?option=createNew&u='$username'&c='$code'");
+                    $newEmail = $database->encryptIt($email);
+                    $newCode = $database->encryptIt($code);
+                    header("Location: forgetPass.php?option=createNew&u='$newEmail'&c='$newCode'");
                 }
             }
-            require "template/confirmPasswordReset.html";
+            require "templates/".TEMPLATE."/confirmPasswordReset.html";
             break;
         case "createNew";
-            echo "pick your new password";
-            break;
-        default;
+            $decryptEmail = $database->decryptIt($database->escapeString($_GET['u']));
+            $decryptCode = $database->decryptIt($database->escapeString($_GET['c']));
+            $password = $database->escapeString($_POST['password']);
+            $password2 = $database->escapeString($_POST['password2']);
 
-            if(isset($_POST['reset'])){
-                if($session->forgetPasswordWithEmail($username,$email)){
-                    echo "A reset code has been sent to " . $email;
-                    die;
+            if(isset($_POST["change"])) {
+                if ($session->pickNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
+
+                    $success = true;
                 }
+               // die($decryptCode . " | " . $decryptEmail);
             }
 
-            require "template/resetPassword.html";
+            require "templates/".TEMPLATE."/newPassword.html";
+            break;
+        default;
+            if(isset($_POST['reset'])){
+                if($session->forgetPasswordWithEmail($username,$email)){
+                    $success = true;
+                }
+            }
+            require "templates/".TEMPLATE."/resetPassword.html";
             break;
     }

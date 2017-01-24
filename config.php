@@ -23,6 +23,7 @@ define("SITENAME" , ""); // Set the site main name
 define("SITEURL" , "localhost/als/"); // Set the script main url ending with '/' (ex : htt://localhost/login/)
 define("SITE_EMAIL" , "administrator@localhost"); // Set the site main email used in Mail class
 define("SITE_KEY" , "k4jhkwhdsf92h234rtjfdslfowruy23yrodjkhl");
+define("TEMPLATE","ubold"); // Set the main script template
 define("COOKIE_AUTH_SECRET" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
 
 /**

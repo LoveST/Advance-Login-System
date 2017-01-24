@@ -6,7 +6,6 @@
  * Time: 12:42 PM
  */
 
-//error_reporting(0);
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
 
@@ -182,8 +181,24 @@ class session {
         } else { return true;}
     }
 
+    /**
+     * @param $email
+     * @param $code
+     * @return mixed
+     */
     function resetPasswordUsingCodeAndEmail($email, $code){
         return $this->passwordManager->resetPasswordUsingCodeAndEmail($email,$code);
+    }
+
+    /**
+     * @param $email
+     * @param $code
+     * @param $password
+     * @param $password2
+     * @return mixed
+     */
+    function pickNewPassword($email,$code,$password,$password2){
+        return $this->passwordManager->confirmNewPassword($email,$code,$password,$password2);
     }
 
     public function register(){

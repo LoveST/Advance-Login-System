@@ -30,7 +30,7 @@ class passwordManager {
 
     /**
      * init the class
-     * @param $connection
+     * @param $database
      * @param $messageClass
      * @param $userDataClass
      * @param $mail
@@ -140,8 +140,70 @@ class passwordManager {
         }
 
         if(mysqli_num_rows($result) < 1){
+            $this->message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
             return false;
         } else { return true; }
+    }
+
+
+    function confirmNewPassword($email, $code, $password, $password2){
+
+        if(empty($email) || empty($code)){
+            $this->message->setError("Email and code values cannot be null !",Message::Error);
+            return false;
+        }
+
+        if(!(filter_var($email, FILTER_VALIDATE_EMAIL))){
+            $this->message->setError("The email used is not a valid one !",Message::Error);
+            return false;
+        }
+
+        if(empty($password) || empty($password2)){
+            $this->message->setError("All fields are required.",Message::Error);
+            return false;
+        }
+
+        // password checks
+        if(strlen($password) < 8 || strlen($password) > 25){
+            $this->message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            return false;
+        }
+
+        $password = md5($password);
+        $password2 = md5($password2);
+
+        if($password != $password2){
+            $this->message->setError("Passwords do not match !",Message::Error);
+            return false;
+        }
+
+        $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_EMAIL."= '". $email . "' AND ".TBL_USERS_RESET_CODE." = '".$code."'";
+        if (!$result = mysqli_query($this->connection,$sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+            return false;
+        }
+
+        if(mysqli_num_rows($result) < 1){
+            $this->message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
+            return false;
+        } else {
+
+            $row = mysqli_fetch_assoc($result);
+            if($password == $row[TBL_USERS_PASSWORD]){
+                $this->message->setError("New password cannot be the same as the old one.",Message::Error);
+                return false;
+            }
+
+            // update database with the new password and return true and make sure the session and the cookies are destroyed
+            $sql = "UPDATE ".TBL_USERS." SET ".TBL_USERS_PASSWORD."= '$password2',".TBL_USERS_RESET_CODE."= '' WHERE ".TBL_USERS_EMAIL."='$email'";
+            if (!$result = mysqli_query($this->connection,$sql)) {
+                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+                return false;
+            }
+
+            return true;
+        }
+
     }
 
     /**
@@ -195,8 +257,8 @@ class passwordManager {
      * @param int $length
      * @return string
      */
-    function generateRandomString($length = 20) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
