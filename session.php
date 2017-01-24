@@ -121,9 +121,11 @@ class session {
         setcookie("user_id", $id, time() + $rememberMe, "/"); // 86400 = 1 day
 
         $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
-        $_SESSION["user_data"]['level'] = $row[TBL_USERS_LEVEL];
+        $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
         $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
         $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
+        $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_SINCE];
+        $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
 
             return true;
     }
@@ -160,10 +162,12 @@ class session {
                     $row = mysqli_fetch_assoc($result);
 
                     // ** Update the current session data ** //
-                    $_SESSION["user_data"]['username'] = $row['username'];
-                    $_SESSION["user_data"]['level'] = $row['level'];
-                    $_SESSION["user_data"]['firstName'] = $row['firstName'];
-                    $_SESSION["user_data"]['lastName'] = $row['lastName'];
+                    $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
+                    $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
+                    $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
+                    $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
+                    $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_SINCE];
+                    $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
                 }
 
             }

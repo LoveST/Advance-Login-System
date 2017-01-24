@@ -51,6 +51,22 @@ class User {
         return $this->userData[$dataType];
     }
 
+    function levelName($level){
+        if($level == 0){
+            return "Guest";
+        } else if ($level == 1){
+            return "User";
+        } else if($level == 100){
+            return "Administrator";
+        }
+    }
+
+}
+
+abstract class userLevel{
+    const Guest = 0;
+    const User = 1;
+    const Administrator = 100;
 }
 
 $user = new User();
