@@ -16,6 +16,7 @@ class session {
     private $userData; // instance of the user class.
     private $passwordManager; // instance of the password manager class
     private $mail; // instance of the mail class.
+    private $settings; // instance of Settings class.
 
     /**
      * session constructor.
@@ -32,11 +33,12 @@ class session {
      * @param $passwordManagerClass
      * @param $mailClass
      */
-    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass){
+    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass, $settings){
         $this->message = $messageClass; // init the message class for any errors
         $this->userData = $userDataClass; // init the User class
         $this->mail = $mailClass; // init the Mail class
         $this->passwordManager = $passwordManagerClass;
+        $this->settings = $settings;
         $this->dbConnect($databaseClass); // init the connect to database function
         $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
     }
@@ -61,6 +63,11 @@ class session {
         $username = $this->escapeString($username);
         $password = $this->escapeString($password);
         $rememberMe = $this->escapeString($rememberMe);
+
+        if(!$this->settings->canLogin()){
+            $this->message->setError("Logging in has been disabled at the moment.", Message::Error);
+            return false;
+        }
 
         if(empty($username) || empty($password)){
             $this->message->setError("Username/Password most not be empty", Message::Error);
@@ -124,8 +131,9 @@ class session {
         $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
         $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
         $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
-        $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_SINCE];
+        $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
         $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
+        $_SESSION["user_data"]['banned'] = $row[TBL_USERS_BANNED];
 
             return true;
     }
@@ -166,8 +174,9 @@ class session {
                     $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
                     $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
                     $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
-                    $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_SINCE];
+                    $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
                     $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
+                    $_SESSION["user_data"]['banned'] = $row[TBL_USERS_BANNED];
                 }
 
             }

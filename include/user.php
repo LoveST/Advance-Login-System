@@ -12,13 +12,14 @@ class User {
 
     private $userData; // declare the required variables for the user data.
     private $message; // instance of the Message class.
-    const First_Name = "firstName";
-    const Last_Name = "lastName";
-    const UserName = "username";
-    const ID = "id";
-    const Date_Joined = "date_joined";
-    const Email = "email";
-    const Level = "level";
+    const First_Name = TBL_USERS_FNAME;
+    const Last_Name = TBL_USERS_LNAME;
+    const UserName = TBL_USERS_USERNAME;
+    const ID = TBL_USERS_ID;
+    const Date_Joined = TBL_USERS_DATE_JOINED;
+    const Email = TBL_USERS_EMAIL;
+    const Level = TBL_USERS_LEVEL;
+    const Banned = TBL_USERS_BANNED;
 
     /**
      * User constructor for PHP4
@@ -31,7 +32,7 @@ class User {
      * User constructor for PHP5.
      */
     function __construct(){
-        $this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
+        //$this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
     }
 
     /**
@@ -40,6 +41,13 @@ class User {
      */
     function init($message){
         $this->message = $message;
+    }
+
+    /**
+     * Re initiate the user data if cookies were to be found after the class init
+     */
+    function initUserData(){
+        $this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
     }
 
     /**

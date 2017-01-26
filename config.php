@@ -17,16 +17,6 @@ define( "DBNAME" , "als"); // Set the database name used to store all the data.
 define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the database ( default : 3306 ).
 
 /**
- * Declare all the site needed information
- */
-define("SITENAME" , ""); // Set the site main name
-define("SITEURL" , "localhost/als/"); // Set the script main url ending with '/' (ex : htt://localhost/login/)
-define("SITE_EMAIL" , "administrator@localhost"); // Set the site main email used in Mail class
-define("SITE_KEY" , "k4jhkwhdsf92h234rtjfdslfowruy23yrodjkhl");
-define("TEMPLATE","ubold"); // Set the main script template
-define("COOKIE_AUTH_SECRET" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
-
-/**
  * Declare all sql tables that's been used in the script
  */
     define("TBL_USERS", "users");
@@ -37,8 +27,19 @@ define("COOKIE_AUTH_SECRET" , "2k3j43hrwefjsdjoczucv9shshl$#@$@jhdfksh2#$@");
     define("TBL_USERS_EMAIL" , "email");
     define("TBL_USERS_LEVEL" , "level");
     define("TBL_USERS_PASSWORD" , "password");
-    define("TBL_USERS_SINCE" , "since");
+    define("TBL_USERS_DATE_JOINED" , "date_joined");
     define("TBL_USERS_EXPIRE" , "expire");
     define("TBL_USERS_TOKEN" , "token");
     define("TBL_USERS_RESET_CODE" , "reset_code");
     define("TBL_USERS_PIN" , "pin");
+    define("TBL_USERS_BANNED" , "banned");
+    define("TBL_SETTINGS","settings");
+    define("TBL_SETTINGS_SITE_NAME","site_name");
+    define("TBL_SETTINGS_SITE_URL","site_url");
+    define("TBL_SETTINGS_SITE_EMAIL","site_email");
+    define("TBL_SETTINGS_SITE_ENABLED","site_enabled");
+    define("TBL_SETTINGS_SITE_THEME","site_theme");
+    define("TBL_SETTINGS_SITE_LANG","site_lang");
+    define("TBL_SETTINGS_SECRET_KEY","secret_key");
+    define("TBL_SETTINGS_LOGIN_ENABLE","login_enable");
+    define("TBL_SETTINGS_REGISTER_ENABLE","register_enable");

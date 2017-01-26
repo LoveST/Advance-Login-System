@@ -140,6 +140,20 @@ class Message {
         return $error;
     }
 
+    /**
+     * kill the script with a custom message
+     * @param $message
+     * @param $file
+     * @param int $line
+     */
+    function kill($message, $file, $line = 0){
+        if($line == 0){
+            die ('<b>Fatal Error : </b>' . $message . ' (<b> '.$file.'</b> )');
+        } else {
+            die ('<b>Fatal Error : </b>' . $message . ' (<b> '.$file.'</b> on Line <b>'.$line.'</b> )');
+        }
+    }
+
 }
 
 $message = new Message();

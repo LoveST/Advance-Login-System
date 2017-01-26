@@ -16,28 +16,26 @@ $code = $_POST['code'];
         case "confirm";
             if(isset($_POST['confirm'])) {
                 if ($session->resetPasswordUsingCodeAndEmail($email, $code)) {
-                    $newEmail = $database->encryptIt($email);
-                    $newCode = $database->encryptIt($code);
+                    $newEmail = $functions->encryptIt($email);
+                    $newCode = $functions->encryptIt($code);
                     header("Location: forgetPass.php?option=createNew&u='$newEmail'&c='$newCode'");
                 }
             }
-            require "templates/".TEMPLATE."/confirmPasswordReset.html";
+            require "templates/". $settings->get(Settings::SITE_THEME) ."/confirmPasswordReset.html";
             break;
         case "createNew";
-            $decryptEmail = $database->decryptIt($database->escapeString($_GET['u']));
-            $decryptCode = $database->decryptIt($database->escapeString($_GET['c']));
+            $decryptEmail = $functions->decryptIt($database->escapeString($_GET['u']));
+            $decryptCode = $functions->decryptIt($database->escapeString($_GET['c']));
             $password = $database->escapeString($_POST['password']);
             $password2 = $database->escapeString($_POST['password2']);
 
             if(isset($_POST["change"])) {
                 if ($session->pickNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
-
                     $success = true;
                 }
-               // die($decryptCode . " | " . $decryptEmail);
             }
 
-            require "templates/".TEMPLATE."/newPassword.html";
+            require "templates/". $settings->get(Settings::SITE_THEME) ."/newPassword.html";
             break;
         default;
             if(isset($_POST['reset'])){
@@ -45,6 +43,6 @@ $code = $_POST['code'];
                     $success = true;
                 }
             }
-            require "templates/".TEMPLATE."/resetPassword.html";
+            require "templates/". $settings->get(Settings::SITE_THEME) ."/resetPassword.html";
             break;
     }

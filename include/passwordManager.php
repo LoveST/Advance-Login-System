@@ -12,6 +12,7 @@ class passwordManager {
     private $database; // instance of the Database class.
     private $message; // instance of the Message class.
     private $userData; // instance of the user class.
+    private $settings; // instance of the settings class.
     private $mail; // instance of the mail class.
 
     /**
@@ -34,13 +35,15 @@ class passwordManager {
      * @param $messageClass
      * @param $userDataClass
      * @param $mail
+     * @param $settings
      */
-    function init($database, $messageClass, $userDataClass,$mail){
+    function init($database, $messageClass, $userDataClass,$mail, $settings){
         $this->database = $database;
         $this->connection = $database->connection;
         $this->message = $messageClass;
         $this->userData = $userDataClass;
         $this->mail = $mail;
+        $this->settings = $settings;
     }
 
     /**
@@ -88,21 +91,21 @@ class passwordManager {
 
         $vars = array(
             '{$username}'       => $username,
-            '{$siteURL}' => SITEURL,
-            '{$siteName}' => SITENAME,
+            '{$siteURL}' => $this->settings->get(Settings::SITE_URL),
+            '{$siteName}' => $this->settings->get(Settings::SITE_NAME),
             '{$resetCode}' => $reset_code,
         );
 
         $to = $email;
-        $subject = "Password reset || " . SITENAME;
+        $subject = "Password reset || " . $this->settings->get(Settings::SITE_NAME);
 
         // check if include a template is checked
         if($includeTemplate){
             $message = strtr($template, $vars);
-            if($this->mail->sendTemplate(SITE_EMAIL, $to, $subject, $message)) {return true; } else { return false;}
+            if($this->mail->sendTemplate($this->settings->get(Settings::SITE_EMAIL), $to, $subject, $message)) {return true; } else { return false;}
         } else {
             $message = strtr($template, $vars);
-            if($this->mail->sendText(SITE_EMAIL, $to, $subject, $message)) {return true; } else { return false;}
+            if($this->mail->sendText($this->settings->get(Settings::SITE_EMAIL), $to, $subject, $message)) {return true; } else { return false;}
         }
     }
 
