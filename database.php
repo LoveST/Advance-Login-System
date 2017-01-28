@@ -43,7 +43,7 @@ class Database
         $this->connection = mysqli_connect(DBURL,DBUSER,DBPASS,DBNAME,DBPORT);
         // Check for any connection errors
         if (mysqli_connect_errno()){
-            $this->message->setError("Connection to the database failed: " . mysqli_connect_error() , Message::Fatal, __FILE__ , __LINE__ -3);
+            $this->message->kill("Connection to the database failed: " . mysqli_connect_error() , Message::Fatal, __FILE__ , __LINE__ -3);
         }
 
     }

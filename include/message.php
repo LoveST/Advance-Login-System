@@ -146,12 +146,20 @@ class Message {
      * @param $file
      * @param int $line
      */
-    function kill($message, $file, $line = 0){
+    function kill($message,$file, $line = 0){
         if($line == 0){
             die ('<b>Fatal Error : </b>' . $message . ' (<b> '.$file.'</b> )');
         } else {
             die ('<b>Fatal Error : </b>' . $message . ' (<b> '.$file.'</b> on Line <b>'.$line.'</b> )');
         }
+    }
+
+    function customKill($title,$message,$theme_url){
+            $_SESSION['theme_url'] = $theme_url;
+            $_SESSION['err_msg'] = $message;
+            $_SESSION['err_title'] = $title;
+            header('location: error.php');
+        die();
     }
 
 }

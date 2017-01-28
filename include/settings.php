@@ -111,12 +111,12 @@ class Settings{
         return $this->settings[TBL_SETTINGS_SITE_URL];
     }
 
-    function siteEMAIL(){
+    function siteEmail(){
         return $this->settings[TBL_SETTINGS_SITE_EMAIL];
     }
 
-    function siteEnabled(){
-        return $this->settings[TBL_SETTINGS_SITE_ENABLED];
+    function siteDisabled(){
+        return !$this->settings[TBL_SETTINGS_SITE_ENABLED];
     }
 
     function siteTheme(){
@@ -125,6 +125,26 @@ class Settings{
 
     function siteLanguage(){
        return $this->settings[TBL_SETTINGS_SITE_LANG];
+    }
+
+    function activationRequired(){
+        return $this->settings[TBL_SETTINGS_ACTIVATION_REQUIRED];
+    }
+
+    function pinRequired(){
+        return $this->settings[TBL_SETTINGS_PIN_REQUIRED];
+    }
+
+    function minimumAgeRequired(){
+        return $this->settings[TBL_SETTINGS_MINIMUM_AGE_REQUIRED];
+    }
+
+    function minimumAge(){
+        return $this->settings[TBL_SETTINGS_MINIMUM_AGE];
+    }
+
+    function canChangeUsername(){
+        return $this->settings[TBL_SETTINGS_USERNAME_CHANGE];
     }
 
 }

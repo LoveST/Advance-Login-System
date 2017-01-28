@@ -14,11 +14,6 @@ if($session->logged_in()){
         if($session->loginWithPassword($_POST["username"],$_POST["password"], $daysToRemember)){
             header("Location: index.php");
         }
-    } else {
-        if(!$this->settings->canLogin()){
-            $this->message->setError("Logging in has been disabled at the moment.", Message::Error);
-            return false;
-        }
     }
 }
 

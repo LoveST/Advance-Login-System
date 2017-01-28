@@ -2,12 +2,8 @@
 
 require "../init.php";
 
-/*********/
-$message->getError();
-/*********/
-
-if(!$settings->siteEnabled()){
-    $message->kill("The Site is disabled at the moment",__FILE__,__LINE__);
+if($settings->siteDisabled()){
+    $message->customKill("Oops!!!","The Site is disabled at the moment", $settings->get(Settings::SITE_THEME));
 }
 
 if(!$settings->get(Settings::Login_Enabled) || !$settings->canLogin()){

@@ -28,11 +28,14 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_USERS_LEVEL" , "level");
     define("TBL_USERS_PASSWORD" , "password");
     define("TBL_USERS_DATE_JOINED" , "date_joined");
+    define("TBL_USERS_LAST_LOGIN" , "last_login");
     define("TBL_USERS_EXPIRE" , "expire");
     define("TBL_USERS_TOKEN" , "token");
     define("TBL_USERS_RESET_CODE" , "reset_code");
-    define("TBL_USERS_PIN" , "pin");
+    define("TBL_USERS_PIN" , "pin_number");
     define("TBL_USERS_BANNED" , "banned");
+    define("TBL_USERS_ACTIVATED" , "activated");
+    define("TBL_USERS_ACTIVATION_CODE" , "activation_code");
     define("TBL_SETTINGS","settings");
     define("TBL_SETTINGS_SITE_NAME","site_name");
     define("TBL_SETTINGS_SITE_URL","site_url");
@@ -43,3 +46,8 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_SETTINGS_SECRET_KEY","secret_key");
     define("TBL_SETTINGS_LOGIN_ENABLE","login_enable");
     define("TBL_SETTINGS_REGISTER_ENABLE","register_enable");
+    define("TBL_SETTINGS_PIN_REQUIRED","pin_required");
+    define("TBL_SETTINGS_ACTIVATION_REQUIRED","activation_required");
+    define("TBL_SETTINGS_MINIMUM_AGE_REQUIRED","minimum_age_required");
+    define("TBL_SETTINGS_MINIMUM_AGE","minimum_age");
+    define("TBL_SETTINGS_USERNAME_CHANGE","username_change");

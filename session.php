@@ -17,6 +17,7 @@ class session {
     private $passwordManager; // instance of the password manager class
     private $mail; // instance of the mail class.
     private $settings; // instance of Settings class.
+    private $functions; // instance of Functions class.
 
     /**
      * session constructor.
@@ -33,12 +34,13 @@ class session {
      * @param $passwordManagerClass
      * @param $mailClass
      */
-    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass, $settings){
+    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass, $settings, $functions){
         $this->message = $messageClass; // init the message class for any errors
         $this->userData = $userDataClass; // init the User class
         $this->mail = $mailClass; // init the Mail class
         $this->passwordManager = $passwordManagerClass;
         $this->settings = $settings;
+        $this->functions = $functions;
         $this->dbConnect($databaseClass); // init the connect to database function
         $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
     }
@@ -214,8 +216,169 @@ class session {
         return $this->passwordManager->confirmNewPassword($email,$code,$password,$password2);
     }
 
-    public function register(){
+    public function register($username,$email,$email2,$password,$password2,$pin,$pin2,$firstName,$lastName,$dataOfBirth){
 
+        // check if registration is enabled
+        if(!$this->settings->canRegister()){
+            $this->message->setError("Registration is disabled at the moment.", Message::Error);
+            return false;
+        }
+
+        // escape all the given strings and integers
+        $username = $this->escapeString($username);
+        $email = $this->escapeString($email);
+        $email2 = $this->escapeString($email2);
+        $password = $this->escapeString($password);
+        $password2 = $this->escapeString($password2);
+        $pin = $this->escapeString($pin);
+        $pin2 = $this->escapeString($pin2);
+        $firstName = $this->escapeString($firstName);
+        $lastName = $this->escapeString($lastName);
+        $dataOfBirth = $this->escapeString($dataOfBirth);
+
+        // check for empty given strings
+        if(empty($username) || empty($email) || empty($email2) || empty($password) || empty($password2) || empty($firstName) || empty($lastName) || empty($dataOfBirth)){
+            $this->message->setError("All fields are required", Message::Error);
+            return false;
+        }
+
+        // check if pin is required and if required check if 0 is given for empty
+        if($this->settings->pinRequired()){
+            if(empty($pin) || empty($pin2)){
+                $this->message->setError("All fields are required", Message::Error);
+                return false;
+            }
+        }
+
+        // Username checks
+        if(preg_match('/[^A-Za-z0-9]/', $username)){
+            $this->message->setError("Username most contain only letters and numbers", Message::Error);
+            return false;
+        }
+
+        if(strlen($username) < 6 || strlen($username) > 25){
+            $this->message->setError("Username length most be between 6 -> 25 characters long", Message::Error);
+            return false;
+        }
+
+        // email checks
+        if($email != $email2){
+            $this->message->setError("Email fields should be the identical", Message::Error);
+            return false;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->message->setError("invalid email syntax has been used", Message::Error);
+            return false;
+        }
+
+        // password checks
+        if(md5($password) != md5($password2)){
+            $this->message->setError("Password fields should be the identical", Message::Error);
+            return false;
+        }
+
+        if(strlen($password) < 8 && strlen($password) > 25){
+            $this->message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            return false;
+        }
+
+        // check if pin is required then check for length and the value being an integer and if they are both the same
+        if($this->settings->pinRequired()) { // check if pin is needed
+            if ($pin != $pin2) {
+                $this->message->setError("Pin number fields should be the identical", Message::Error);
+                return false;
+            }
+
+            if (!is_numeric($pin)) {
+                $this->message->setError("Pin number should only contain numbers", Message::Error);
+                return false;
+            }
+
+            if ($pin[0] == 0) {
+                $this->message->setError("Pin number cannot start with a 0", Message::Error);
+                return false;
+            }
+
+            if (strlen($pin) < 6 && strlen($pin) > 6) {
+                $this->message->setError("Pin number has to be exactly 6 characters long", Message::Error);
+                return false;
+            }
+
+        }
+
+        // date of birth checks
+        if(!is_string($dataOfBirth)){
+            $this->message->setError("Date of birth should be a string", Message::Error);
+            return false;
+        }
+
+        if(!$this->functions->isValidDate($dataOfBirth)){ // $this->functions->isValidDate($dataOfBirth)
+            $this->message->setError("Date of birth should be in the form of (mm/dd/yyyy)", Message::Error);
+            return false;
+        }
+
+        if($this->settings->minimumAgeRequired()){ // check if there is a minimum age restriction for signing up
+            if($this->functions->getAge($dataOfBirth) < $this->settings->minimumAge()){
+                $this->message->setError("You must be at least " . $this->settings->minimumAge() . " years old to sign up", Message::Error);
+                return false;
+            }
+        }
+
+        // check if username exists
+        if($this->functions->userExist($username)){
+            $this->message->setError("Username has been used before", Message::Error);
+            return false;
+        }
+
+        // check if email exists
+        if($this->functions->emailExist($email)){
+            $this->message->setError("Email has been used before", Message::Error);
+            return false;
+        }
+
+        // secure the password and the pin if submitted
+        $password = md5($password);
+        if($this->settings->pinRequired()) { // check if pin is needed
+            $pin = md5($pin);
+        }
+
+        $date = time(); // current time and date to be set as a date of signing up
+        $loginTime = date("Y-m-d H:i:s", time());
+
+        // check if activation is required or not and proceed
+        if($this->settings->activationRequired()){
+            // send the activation code and update the database
+            $activationCode = $this->functions->generateRandomString(20);
+
+            $sql = "INSERT
+                    INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
+                    VALUES ('2','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
+
+            if (!$result = mysqli_query($this->connection, $sql)) {
+                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+                return false;
+            }
+
+            // if successful registration then send an email including the activation code
+            if(!$this->mail->sendText($this->settings->siteEmail(), $email, "activation code", "your account activation code is : " . $activationCode)){
+                $this->message->setError("Registration completed. But field to send the activation code.", Message::Error);
+                return false;
+            }
+
+        } else {
+            // automatically activate the user and update the database
+            $sql = "INSERT
+                    INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
+                    VALUES ('2','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
+
+            if (!$result = mysqli_query($this->connection, $sql)) {
+                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

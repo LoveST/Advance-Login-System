@@ -70,7 +70,7 @@
                     </div>
                     <div class="panel-body">
                         <p>
-                            <? echo $user->get(USER::Date_Joined); ?>
+                            <? echo $functions->calculateTime($user->get(USER::Date_Joined)); ?> ago
                         </p>
                     </div>
                 </div>
