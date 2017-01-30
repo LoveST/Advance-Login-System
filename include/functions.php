@@ -205,4 +205,45 @@ class Functions{
         return implode(", ", $times);
     }
 
+    /**
+     * get a new id for a new user
+     * @return int
+     */
+    function getNewID(){
+        $sql = "SELECT ". TBL_USERS_ID ." FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        $row = mysqli_fetch_assoc($result);
+        return $row['id'] + 1;
+    }
+
+    // count the total number of online users using the script in a 1 minute radius
+    function onlineCounter(){
+        $totalUsers = 0;
+
+        $sql = "SELECT * FROM ". TBL_HEARTBEAT;
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            return 0;
+        }
+
+        if(mysqli_num_rows($result) < 1){
+            return 0;
+        }
+
+        // count the timestamp for each person online atm
+        while($row = mysqli_fetch_assoc($result)){
+            $last_update = new DateTime($row['timestamp']); // last time updated
+            $currentTime = new DateTime(date("Y-m-d H:i:s", time())); // current time
+            $timeDifference = $currentTime->diff($last_update); // count the difference
+            if($timeDifference->i < 1){
+                $totalUsers += 1;
+            }
+        }
+
+        return $totalUsers;
+    }
+
 }

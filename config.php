@@ -51,3 +51,7 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_SETTINGS_MINIMUM_AGE_REQUIRED","minimum_age_required");
     define("TBL_SETTINGS_MINIMUM_AGE","minimum_age");
     define("TBL_SETTINGS_USERNAME_CHANGE","username_change");
+    define("TBL_HEARTBEAT","heartbeat");
+    define("TBL_HEARTBEAT_ID","id");
+    define("TBL_HEARTBEAT_USERNAME","username");
+    define("TBL_HEARTBEAT_TIMESTAMP","timestamp");

@@ -115,7 +115,7 @@ class session {
         $newuserhash = md5($username);
         $userIP = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR']);
         $value = "$userIP|$newtoken|$newuserhash";
-        $value = hash_hmac('md5', $value, COOKIE_AUTH_SECRET);
+        $value = hash_hmac('md5', $value, $this->settings->get(Settings::SECRET_CODE));
         $id = $row[TBL_USERS_ID]; // id of the current user logging in
 
         // ** Update the user Cookie code ** //
@@ -129,6 +129,19 @@ class session {
         setcookie("user_data", $value, time() + $rememberMe, "/"); // 86400 = 1 day
         setcookie("user_id", $id, time() + $rememberMe, "/"); // 86400 = 1 day
 
+        // ** Update the online users counter ** //
+        $currentTime = date("Y-m-d H:i:s", time());
+        $id = $row[TBL_USERS_ID];
+        $username = $row[TBL_USERS_USERNAME];
+
+        $sql2 = "INSERT
+                 INTO ". TBL_HEARTBEAT . " (".TBL_HEARTBEAT_ID.",".TBL_HEARTBEAT_USERNAME.",".TBL_HEARTBEAT_TIMESTAMP.") VALUES ('$id','$username','$currentTime')";
+        if (!$result2 = mysqli_query($this->connection, $sql2)) {
+            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+            return false;
+        }
+
+        $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
         $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
         $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
         $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
@@ -171,7 +184,20 @@ class session {
                 if (mysqli_num_rows($result) > 0) {
                     $row = mysqli_fetch_assoc($result);
 
+                    // ** Update the online users counter ** //
+                    $currentTime = date("Y-m-d H:i:s", time());
+                    $id = $row[TBL_USERS_ID];
+                    $username = $row[TBL_USERS_USERNAME];
+
+                    $sql2 = "INSERT
+                 INTO ". TBL_HEARTBEAT . " (".TBL_HEARTBEAT_ID.",".TBL_HEARTBEAT_USERNAME.",".TBL_HEARTBEAT_TIMESTAMP.") VALUES ('$id','$username','$currentTime')";
+                    if (!$result2 = mysqli_query($this->connection, $sql2)) {
+                        $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                        return false;
+                    }
+
                     // ** Update the current session data ** //
+                    $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
                     $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
                     $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
                     $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
@@ -345,6 +371,8 @@ class session {
 
         $date = time(); // current time and date to be set as a date of signing up
         $loginTime = date("Y-m-d H:i:s", time());
+        // get a new id for the user
+        $id = $this->functions->getNewID();
 
         // check if activation is required or not and proceed
         if($this->settings->activationRequired()){
@@ -353,7 +381,7 @@ class session {
 
             $sql = "INSERT
                     INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
-                    VALUES ('2','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
+                    VALUES ('$id','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
 
             if (!$result = mysqli_query($this->connection, $sql)) {
                 $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
@@ -370,7 +398,7 @@ class session {
             // automatically activate the user and update the database
             $sql = "INSERT
                     INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
-                    VALUES ('2','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
+                    VALUES ('$id','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             if (!$result = mysqli_query($this->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
