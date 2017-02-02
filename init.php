@@ -17,6 +17,7 @@ require "include/mail.php";
 require "include/functions.php";
 require "include/passwordManager.php";
 require "session.php";
+require "include/administrator.php";
 
 /**
  * init Message class
@@ -73,6 +74,13 @@ require "session.php";
     $session = new session();
     $session->init($database,$message,$user,$passwordManager,$mail,$settings,$functions);
     $user->initUserData(); // if cookies were found then re-init the main session
+
+/**
+ * init Administrator class
+ */
+
+    $admin = new Administrator();
+    $admin->init($database,$message,$user,$mail,$settings);
 
  /**
   * Print out all the Fatal errors

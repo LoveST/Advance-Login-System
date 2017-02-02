@@ -51,22 +51,20 @@ class User {
     }
 
     /**
+     * Check if the current user is an admin
+     * @return bool
+     */
+    public function isAdmin(){
+        if($this->userData[TBL_USERS_LEVEL] == 100){ return true; } else { return false; }
+    }
+
+    /**
      * get the required user data as needed by using User::'Data Type'
      * @param $dataType
      * @return mixed
      */
     function get($dataType){
         return $this->userData[$dataType];
-    }
-
-    function levelName($level){
-        if($level == 0){
-            return "Guest";
-        } else if ($level == 1){
-            return "User";
-        } else if($level == 100){
-            return "Administrator";
-        }
     }
 
 }

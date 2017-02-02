@@ -235,7 +235,7 @@ class Functions{
 
         // count the timestamp for each person online atm
         while($row = mysqli_fetch_assoc($result)){
-            $last_update = new DateTime($row['timestamp']); // last time updated
+            $last_update = new DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
             $currentTime = new DateTime(date("Y-m-d H:i:s", time())); // current time
             $timeDifference = $currentTime->diff($last_update); // count the difference
             if($timeDifference->i < 1){
@@ -244,6 +244,25 @@ class Functions{
         }
 
         return $totalUsers;
+    }
+
+    /**
+     * Get the user current level name
+     * @param $level
+     * @return string
+     */
+    function getUserLevelName($level = ""){
+        if(empty($username) && $level == "") {
+            $level = $this->userData->get(User::Level);
+        }
+
+        if($level == 0){
+            return "Guest";
+        } else if ($level == 1){
+            return "User";
+        } else if($level == 100){
+            return "Administrator";
+        }
     }
 
 }

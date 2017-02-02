@@ -143,7 +143,7 @@ class session {
 
         $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
         $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
-        $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
+        $_SESSION["user_data"]['level'] = $row[TBL_USERS_LEVEL];
         $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
         $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
         $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
@@ -199,7 +199,7 @@ class session {
                     // ** Update the current session data ** //
                     $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
                     $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
-                    $_SESSION["user_data"]['level'] = $this->userData->levelName($row[TBL_USERS_LEVEL]);
+                    $_SESSION["user_data"]['level'] = $row[TBL_USERS_LEVEL];
                     $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
                     $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
                     $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
@@ -443,14 +443,6 @@ class session {
         if(isset($_SESSION['user_data']) || $_SESSION['user_data']){
             return true;
         }
-    }
-
-    /**
-     * Check if the current user is an admin
-     * @return bool
-     */
-    public function isAdmin(){
-        if($this->user['level'] == -1){ return true; } else { return false; }
     }
 
     /**
