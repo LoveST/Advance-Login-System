@@ -8,15 +8,15 @@ session_start();
 // Turn off all error reporting
 //error_reporting(1);
 
-require "config.php";
+require "include/config.php";
 require "include/message.php";
-require "database.php";
+require "include/database.php";
 require "include/settings.php";
 require "include/user.php";
 require "include/mail.php";
 require "include/functions.php";
 require "include/passwordManager.php";
-require "session.php";
+require "include/session.php";
 require "include/administrator.php";
 
 /**
