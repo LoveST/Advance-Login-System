@@ -87,9 +87,20 @@ class session {
             return false;
         }
 
+        if(!$this->functions->userExist($username)){
+            $this->message->setError("Wrong username/password has been used", Message::Error);
+            return false;
+        }
+
         // password checks
         if(strlen($password) < 8 && strlen($password) > 25){
             $this->message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            return false;
+        }
+
+        // check if the user account is enabled
+        if(!$this->functions->is_userActivated($username)){
+            $this->message->setError("You need to activate your account before trying to log in.", Message::Error);
             return false;
         }
 
@@ -326,11 +337,12 @@ class session {
                 return false;
             }
 
-            if (strlen($pin) < 6 && strlen($pin) > 6) {
+            if (strlen($pin) < 6 || strlen($pin) > 6) {
                 $this->message->setError("Pin number has to be exactly 6 characters long", Message::Error);
                 return false;
             }
 
+            return true;
         }
 
         // date of birth checks
@@ -405,8 +417,6 @@ class session {
                 return false;
             }
         }
-
-        return true;
     }
 
     /**
@@ -421,7 +431,7 @@ class session {
             // ** Clear the Cookie auth code ** //
             $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->get(User::UserName)."'";
             if (!$result = mysqli_query($this->connection,$sql)) {
-                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+                $this->message->setError("All fields are required", Message::Error);
                 return false;
             }
 
@@ -433,6 +443,59 @@ class session {
             setcookie("user_id",null,-1,'/');
             return true;
         }
+    }
+
+    //activate account
+    public function activateAccount($code, $email){
+
+        // escape the given strings
+        $code = $this->escapeString($code);
+        $email = $this->escapeString($email);
+
+        // start the checks
+        if(empty($code) || empty($email)){
+            $this->message->setError("Code/Email fields most not be empty", Message::Error);
+            return false;
+        }
+
+        // check if email exists
+        if(!$this->functions->emailExist($email)){
+            $this->message->setError("The provided email is not in our database.", Message::Error);
+            return false;
+        }
+
+        // check if the given code matches the required characters
+        if (strlen($code) < 20 || strlen($code) > 20) {
+            $this->message->setError("The given code has to be exactly 20 characters long", Message::Error);
+            return false;
+        }
+
+        // check if account already has been activated
+        if($this->functions->is_userActivated($email, true)){
+            $this->message->setError("The account is already activated", Message::Error);
+            return false;
+        }
+
+        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_EMAIL . " = '". $email . "' AND ". TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
+        if (!$result = mysqli_query($this->connection, $sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            return false;
+        }
+
+        // check if wrong code has been used
+        if(mysqli_num_rows($result) < 1){
+            $this->message->setError("Wrong activation code has been used.", Message::Error);
+            return false;
+        }
+
+        //update the user account with the needed information
+        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_ACTIVATED . " ='1',". TBL_USERS_ACTIVATION_CODE . "='' WHERE ". TBL_USERS_EMAIL . " = '". $email . "' AND ". TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
+        if (!$result = mysqli_query($this->connection, $sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            return false;
+        }
+
+        return true;
     }
 
     /**

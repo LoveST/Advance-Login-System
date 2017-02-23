@@ -217,7 +217,7 @@ class Functions{
         }
 
         $row = mysqli_fetch_assoc($result);
-        return $row['id'] + 1;
+        return $row[TBL_USERS_ID] + 1;
     }
 
     // count the total number of online users using the script in a 1 minute radius
@@ -263,6 +263,30 @@ class Functions{
         } else if($level == 100){
             return "Administrator";
         }
+    }
+
+    /**
+     * Check if given a user's account with the given (username or email) is activated
+     * @param $data
+     * @param $isEmail
+     * @return bool
+     */
+    function is_userActivated($data, $isEmail = false){
+        if($isEmail){
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $data . "'";
+        } else {
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $data . "'";
+        }
+
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        $row = mysqli_fetch_assoc($result);
+        if($row[TBL_USERS_ACTIVATED] == 1){
+            return true;
+        } else { return false; }
     }
 
 }
