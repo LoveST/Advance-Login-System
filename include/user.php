@@ -7,11 +7,14 @@
  * Time: 8:26 PM
  */
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+require "user/xp.php";
 
 class User {
 
     private $userData; // declare the required variables for the user data.
     private $message; // instance of the Message class.
+    private $database; // instance of the database class
+    private $xp; // instance of the XP class
     const First_Name = TBL_USERS_FNAME;
     const Last_Name = TBL_USERS_LNAME;
     const UserName = TBL_USERS_USERNAME;
@@ -33,14 +36,17 @@ class User {
      */
     function __construct(){
         //$this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
+        $this->xp = new xp();
     }
 
     /**
      * init the class
      * @param $message
+     * @param $database
      */
-    function init($message){
+    function init($database, $message){
         $this->message = $message;
+        $this->database = $database;
     }
 
     /**
@@ -48,6 +54,16 @@ class User {
      */
     function initUserData(){
         $this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
+        $this->xp = new xp(); // new instance of the xp class
+        $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
+    }
+
+    /**
+     * return the instance of the xp class
+     * @return xp
+     */
+    function xp(){
+        return $this->xp;
     }
 
     /**

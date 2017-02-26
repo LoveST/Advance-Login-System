@@ -77,7 +77,7 @@ class Settings{
             foreach($row as $key => $value){
                 // check if the field is required and if its empty
                 if(in_array($key,$required) && empty($value)){
-                    $this->message->kill("The sql field " . $key . " most not be empty","Settings");
+                    $this->message->customKill("Settings", "The sql field " . $key . " most not be empty", "default");
                 }
 
                 // check for empty theme field in the sql and set it to 'default'

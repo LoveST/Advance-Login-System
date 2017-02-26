@@ -36,6 +36,8 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_USERS_BANNED" , "banned");
     define("TBL_USERS_ACTIVATED" , "activated");
     define("TBL_USERS_ACTIVATION_CODE" , "activation_code");
+    define("TBL_USERS_XP", "xp");
+    define("TBL_USERS_LOST_XP", "xp_lost");
     define("TBL_SETTINGS","settings");
     define("TBL_SETTINGS_SITE_NAME","site_name");
     define("TBL_SETTINGS_SITE_URL","site_url");

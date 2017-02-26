@@ -8,6 +8,7 @@
 
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
 session_start();
+date_default_timezone_set('UTC');
 
 class session {
 
@@ -145,6 +146,8 @@ class session {
         $id = $row[TBL_USERS_ID];
         $username = $row[TBL_USERS_USERNAME];
 
+        /**
+
         $sql2 = "INSERT
                  INTO ". TBL_HEARTBEAT . " (".TBL_HEARTBEAT_ID.",".TBL_HEARTBEAT_USERNAME.",".TBL_HEARTBEAT_TIMESTAMP.") VALUES ('$id','$username','$currentTime')";
         if (!$result2 = mysqli_query($this->connection, $sql2)) {
@@ -152,14 +155,19 @@ class session {
             return false;
         }
 
-        $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
-        $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
-        $_SESSION["user_data"]['level'] = $row[TBL_USERS_LEVEL];
-        $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
-        $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
-        $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
-        $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
-        $_SESSION["user_data"]['banned'] = $row[TBL_USERS_BANNED];
+         **/
+
+        // ** Update the current session data ** //
+        $_SESSION["user_data"][TBL_USERS_ID] = $row[TBL_USERS_ID];
+        $_SESSION["user_data"][TBL_USERS_USERNAME] = $row[TBL_USERS_USERNAME];
+        $_SESSION["user_data"][TBL_USERS_LEVEL] = $row[TBL_USERS_LEVEL];
+        $_SESSION["user_data"][TBL_USERS_FNAME] = $row[TBL_USERS_FNAME];
+        $_SESSION["user_data"][TBL_USERS_LNAME] = $row[TBL_USERS_LNAME];
+        $_SESSION["user_data"][TBL_USERS_DATE_JOINED] = $row[TBL_USERS_DATE_JOINED];
+        $_SESSION["user_data"][TBL_USERS_EMAIL] = $row[TBL_USERS_EMAIL];
+        $_SESSION["user_data"][TBL_USERS_BANNED] = $row[TBL_USERS_BANNED];
+        $_SESSION["user_data"][TBL_USERS_XP] = $row[TBL_USERS_XP];
+        $_SESSION["user_data"][TBL_USERS_LOST_XP] = $row[TBL_USERS_LOST_XP];
 
             return true;
     }
@@ -200,22 +208,18 @@ class session {
                     $id = $row[TBL_USERS_ID];
                     $username = $row[TBL_USERS_USERNAME];
 
-                    $sql2 = "INSERT
-                 INTO ". TBL_HEARTBEAT . " (".TBL_HEARTBEAT_ID.",".TBL_HEARTBEAT_USERNAME.",".TBL_HEARTBEAT_TIMESTAMP.") VALUES ('$id','$username','$currentTime')";
-                    if (!$result2 = mysqli_query($this->connection, $sql2)) {
-                        $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
-                        return false;
-                    }
-
                     // ** Update the current session data ** //
-                    $_SESSION["user_data"]['id'] = $row[TBL_USERS_ID];
-                    $_SESSION["user_data"]['username'] = $row[TBL_USERS_USERNAME];
-                    $_SESSION["user_data"]['level'] = $row[TBL_USERS_LEVEL];
-                    $_SESSION["user_data"]['firstName'] = $row[TBL_USERS_FNAME];
-                    $_SESSION["user_data"]['lastName'] = $row[TBL_USERS_LNAME];
-                    $_SESSION["user_data"]['date_joined'] = $row[TBL_USERS_DATE_JOINED];
-                    $_SESSION["user_data"]['email'] = $row[TBL_USERS_EMAIL];
-                    $_SESSION["user_data"]['banned'] = $row[TBL_USERS_BANNED];
+                    $_SESSION["user_data"][TBL_USERS_ID] = $row[TBL_USERS_ID];
+                    $_SESSION["user_data"][TBL_USERS_USERNAME] = $row[TBL_USERS_USERNAME];
+                    $_SESSION["user_data"][TBL_USERS_LEVEL] = $row[TBL_USERS_LEVEL];
+                    $_SESSION["user_data"][TBL_USERS_FNAME] = $row[TBL_USERS_FNAME];
+                    $_SESSION["user_data"][TBL_USERS_LNAME] = $row[TBL_USERS_LNAME];
+                    $_SESSION["user_data"][TBL_USERS_DATE_JOINED] = $row[TBL_USERS_DATE_JOINED];
+                    $_SESSION["user_data"][TBL_USERS_EMAIL] = $row[TBL_USERS_EMAIL];
+                    $_SESSION["user_data"][TBL_USERS_BANNED] = $row[TBL_USERS_BANNED];
+                    $_SESSION["user_data"][TBL_USERS_XP] = $row[TBL_USERS_XP];
+                    $_SESSION["user_data"][TBL_USERS_LOST_XP] = $row[TBL_USERS_LOST_XP];
+
                 }
 
             }
@@ -342,7 +346,7 @@ class session {
                 return false;
             }
 
-            return true;
+
         }
 
         // date of birth checks
@@ -406,16 +410,20 @@ class session {
                 return false;
             }
 
+            return true;
+
         } else {
             // automatically activate the user and update the database
             $sql = "INSERT
-                    INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
-                    VALUES ('$id','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
+                    INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_PASSWORD.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_EXPIRE.",".TBL_USERS_TOKEN.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
+                    VALUES ('$id','$username','$firstName','$lastName','$email','1','$password','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             if (!$result = mysqli_query($this->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
                 return false;
             }
+
+            return true;
         }
     }
 

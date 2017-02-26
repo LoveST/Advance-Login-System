@@ -45,7 +45,7 @@ require "include/administrator.php";
  */
 
     $user = new User();
-    $user->init($message);
+    $user->init($database,$message);
 
 /**
  * init Mail class

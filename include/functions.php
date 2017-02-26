@@ -216,6 +216,10 @@ class Functions{
             die;
         }
 
+        if(mysqli_num_rows($result) < 1){
+            return 1;
+        }
+
         $row = mysqli_fetch_assoc($result);
         return $row[TBL_USERS_ID] + 1;
     }
