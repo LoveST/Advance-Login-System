@@ -39,6 +39,7 @@ require "include/administrator.php";
 
     $settings = new Settings();
     $settings->init($message,$database);
+    $settings->checkHTTPS(); // check for SSL encryption
 
 /**
  * init User class

@@ -151,4 +151,29 @@ class Settings{
         return $this->settings[TBL_SETTINGS_USERNAME_CHANGE];
     }
 
+    function isHTTPS(){
+        return $this->settings[TBL_SETTINGS_FORCE_HTTPS];
+    }
+
+    function maxWarnings(){
+        return $this->settings[TBL_SETTINGS_MAX_WARNINGS];
+    }
+
+    function checkHTTPS(){
+        // check if force HTTPS is enabled
+        if($this->isHTTPS()){
+            // check if the page is being loaded without encryption
+            if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on"){
+                header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+                exit();
+            }
+        } else {
+            // check if the page is being loaded with encryption
+            if(!empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] == "on"){
+                header("Location: http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+                exit();
+            }
+        }
+    }
+
 }
