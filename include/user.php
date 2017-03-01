@@ -50,7 +50,7 @@ class User {
     }
 
     /**
-     * init an instance of this class and supply it with the user data and the other classes
+     * init an instance of this class and supply it with the user data ($data) and the other classes Or basically use a username for the variable ($data)
      * @param $data
      * @param $database
      * @param $message
@@ -58,9 +58,37 @@ class User {
     function initInstance($data, $database, $message){
         $this->database = $database;
         $this->message = $message;
-        $this->userData = $data;
+
+        // check if $data is an array or only a username
+        if(is_array($data)) {
+            $this->userData = $data;
+        } else { // if not then loadInstance of the class using a username
+            $this->loadInstance($data);
+        }
         $this->xp = new xp(); // new instance of the xp class
         $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
+    }
+
+    /**
+     * load the instance using a username
+     * @param $username
+     * @return bool
+     */
+    function loadInstance($username){
+        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '". $username ."'";
+        $results = mysqli_query($this->database->connection,$sql);
+
+        // check for empty results
+        if(mysqli_num_rows($results) < 1){
+            return false;
+        }
+
+        // call the results
+        $row = mysqli_fetch_array($results);
+
+        // set the userData
+        $this->userData = $row;
+        return true;
     }
 
     /**
@@ -95,6 +123,62 @@ class User {
      */
     function get($dataType){
         return $this->userData[$dataType];
+    }
+
+    /**
+     * ban the current user
+     * @return bool
+     */
+    function ban(){
+        // check if banned
+        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '". $this->username() ."' AND ". TBL_USERS_BANNED . " = '0'";
+        $results = mysqli_query($this->database->connection,$sql);
+
+        // check for empty results (user is already banned before)
+        if(mysqli_num_rows($results) < 1){
+            $this->message->setError("The user has been banned before", Message::Error);
+            return false;
+        }
+
+        // ban the user
+        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_BANNED . " = '1' WHERE ". TBL_USERS_USERNAME . " = '" . $this->username() . "'";
+        $results = mysqli_query($this->database->connection,$sql);
+
+        // if any errors
+        if(mysqli_num_rows($results) < 1){
+            $this->message->setError("Something went wrong while trying to update the records", Message::Error);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * un-ban the current user
+     * @return bool
+     */
+    function unBan(){
+        // check if banned
+        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '". $this->username() ."' AND ". TBL_USERS_BANNED . " = '1'";
+        $results = mysqli_query($this->database->connection,$sql);
+
+        // check for empty results (user is already banned before)
+        if(mysqli_num_rows($results) < 1){
+            $this->message->setError("The user has been banned before", Message::Error);
+            return false;
+        }
+
+        // unBan the user
+        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_BANNED . " = '0' WHERE ". TBL_USERS_USERNAME . " = '" . $this->username() . "'";
+        $results = mysqli_query($this->database->connection,$sql);
+
+        // if any errors
+        if(mysqli_num_rows($results) < 1){
+            $this->message->setError("Something went wrong while trying to update the records", Message::Error);
+            return false;
+        }
+
+        return true;
     }
 
     function username(){
