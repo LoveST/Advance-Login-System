@@ -9,8 +9,7 @@
 require "../../init.php";
 
 if($user->isAdmin()){
-
-
+    
     $totalUsers = $admin->getUsers();
     $banedUsers = $admin->getBannedUsers();
     $administrator = $admin->getAdmins();

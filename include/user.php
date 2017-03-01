@@ -50,6 +50,20 @@ class User {
     }
 
     /**
+     * init an instance of this class and supply it with the user data and the other classes
+     * @param $data
+     * @param $database
+     * @param $message
+     */
+    function initInstance($data, $database, $message){
+        $this->database = $database;
+        $this->message = $message;
+        $this->userData = $data;
+        $this->xp = new xp(); // new instance of the xp class
+        $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
+    }
+
+    /**
      * Re initiate the user data if cookies were to be found after the class init
      */
     function initUserData(){
@@ -81,6 +95,26 @@ class User {
      */
     function get($dataType){
         return $this->userData[$dataType];
+    }
+
+    function username(){
+        return $this->userData[TBL_USERS_USERNAME];
+    }
+
+    function id(){
+        return $this->userData[TBL_USERS_ID];
+    }
+
+    function email(){
+        return $this->userData[TBL_USERS_EMAIL];
+    }
+
+    function dateJoined(){
+        return $this->userData[TBL_USERS_DATE_JOINED];
+    }
+
+    function level(){
+        return $this->userData[TBL_USERS_LEVEL];
     }
 
 }

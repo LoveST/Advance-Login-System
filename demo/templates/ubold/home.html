@@ -86,6 +86,17 @@
                     </div>
                 </div>
 
+                <div class="panel panel-color panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Current Score</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <? echo $user->xp()->getXP(); ?> XP
+                        </p>
+                    </div>
+                </div>
+
 
 
             </form>
@@ -95,7 +106,7 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <p><a href="logout.php" class="text-primary m-l-5"><b>Logout</b></a></p>
-
+            <? if($user->isAdmin()){ ?> <p><a href="admin/index.php" class="text-primary m-l-5"><b>Admin Panel</b></a></p> <? } ?>
         </div>
     </div>
 

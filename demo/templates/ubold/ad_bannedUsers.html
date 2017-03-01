@@ -8,7 +8,7 @@
     <!-- App Favicon icon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <!-- App Title -->
-    <title><?=$settings->get(Settings::SITE_NAME) . " | "; ?> Users</title>
+    <title><?=$settings->get(Settings::SITE_NAME) . " | "; ?> Banned Users</title>
 
 
     <link href="../templates/<? echo $settings->get(Settings::SITE_THEME); ?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -40,90 +40,7 @@
 
 <div class="wrapper">
     <div class="container">
-
-
-
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box table-responsive">
-                    <h4 class="m-t-0 header-title"><b>Total Users</b></h4>
-
-                    <?  if(!$totalUsers){?>
-                    <h4 class="m-t-0 text-muted text-center"><b>There are no users</b></h4>
-                    <? } else { ?>
-                    <table data-toggle="table"
-                           data-show-columns="true"
-                           data-page-list="[10, 20, 50]"
-                           data-page-size="10"
-                           data-pagination="true" data-show-pagination-switch="true" class="table-bordered ">
-                        <thead>
-                        <tr>
-                            <th data-field="id" data-switchable="true">ID</th>
-                            <th data-field="username">Username</th>
-                            <th data-field="email">Email</th>
-                            <th data-field="date_joined">Date Joined</th>
-                            <th data-field="level">Level</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <? foreach($totalUsers as $key => $value){?>
-                        <tr>
-                            <td><?=$value['id']?></td>
-                            <td><?=$value['username']?></td>
-                            <td><?=$value['email']?></td>
-                            <td><?=$functions->calculateTime($value['date_joined'])?></td>
-                            <td><?=$functions->getUserLevelName($value[TBL_USERS_LEVEL])?></td>
-                        </tr>
-                        <? } ?>
-                        </tbody>
-                    </table>
-                    <? } ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box table-responsive">
-                    <h4 class="m-t-0 header-title"><b>Administrators</b></h4>
-
-                    <?  if(!$administrator){?>
-                    <h4 class="m-t-0 text-muted text-center"><b>There are no administrators</b></h4>
-                    <? } else { ?>
-                    <table data-toggle="table"
-                           data-show-columns="true"
-                           data-page-list="[10, 20, 50]"
-                           data-page-size="10"
-                           data-pagination="true" data-show-pagination-switch="true" class="table-bordered ">
-                        <thead>
-                        <tr>
-                            <th data-field="id" data-switchable="true">ID</th>
-                            <th data-field="username">Username</th>
-                            <th data-field="email">Email</th>
-                            <th data-field="date_joined">Date Joined</th>
-                            <th data-field="level">Level</th>
-                            <th data-field="level">XP</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <? foreach($administrator as $key => $value){?>
-                        <tr>
-                            <td><?=$value['id']?></td>
-                            <td><?=$value['username']?></td>
-                            <td><?=$value['email']?></td>
-                            <td><?=$functions->calculateTime($value['date_joined'])?></td>
-                            <td><?=$functions->getUserLevelName($value[TBL_USERS_LEVEL])?></td>
-                            <td><?=$functions->getUserLevelName($value[TBL_USERS_LEVEL])?></td>
-                        </tr>
-                        <? } ?>
-                        </tbody>
-                    </table>
-                    <? } ?>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box table-responsive">
@@ -144,16 +61,18 @@
                             <th data-field="email">Email</th>
                             <th data-field="date_joined">Date Joined</th>
                             <th data-field="level">Level</th>
+                            <th data-field="xp">XP</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <? foreach($banedUsers as $key => $value){?>
+                        <? foreach($banedUsers as $key => $user){?>
                         <tr>
-                            <td><?=$value['id']?></td>
-                            <td><?=$value['username']?></td>
-                            <td><?=$value['email']?></td>
-                            <td><?=$functions->calculateTime($value['date_joined'])?></td>
-                            <td><?=$functions->getUserLevelName($value[TBL_USERS_LEVEL])?></td>
+                            <td><?=$user->id(); ?></td>
+                            <td><?=$user->username(); ?></td>
+                            <td><?=$user->email(); ?></td>
+                            <td><?=$functions->calculateTime($user->dateJoined()); ?> ago</td>
+                            <td><?=$user->level(); ?></td>
+                            <td><?=$user->xp()->getXP(); ?></td>
                         </tr>
                         <? } ?>
                         </tbody>
@@ -163,6 +82,7 @@
             </div>
         </div>
 
+        <p class="text-center"><a href="#" onclick="history.back();" class="text-primary m-l-5"><b></b>Go Back</a></p>
 
         <!-- Footer -->
         <footer class="footer text-right">

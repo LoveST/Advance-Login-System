@@ -56,7 +56,10 @@ class Administrator{
         }
 
         while($row = mysqli_fetch_assoc($results)){
-            $admins[] = $row;
+            $currentUser = new User();
+            $currentUser->initInstance($row, $this->database, $this->message);
+
+            $admins[] = $currentUser;
         }
         return $admins;
     }
@@ -81,7 +84,10 @@ class Administrator{
         }
 
         while($row = mysqli_fetch_assoc($results)){
-            $users[] = $row;
+            $currentUser = new User();
+            $currentUser->initInstance($row, $this->database, $this->message);
+
+            $users[] = $currentUser;
         }
         return $users;
     }
@@ -106,7 +112,10 @@ class Administrator{
         }
 
         while($row = mysqli_fetch_assoc($results)){
-            $users[] = $row;
+            $currentUser = new User();
+            $currentUser->initInstance($row, $this->database, $this->message);
+
+            $users[] = $currentUser;
         }
         return $users;
     }
