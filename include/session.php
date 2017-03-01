@@ -219,42 +219,10 @@ class session {
                     $_SESSION["user_data"][TBL_USERS_BANNED] = $row[TBL_USERS_BANNED];
                     $_SESSION["user_data"][TBL_USERS_XP] = $row[TBL_USERS_XP];
                     $_SESSION["user_data"][TBL_USERS_LOST_XP] = $row[TBL_USERS_LOST_XP];
-
                 }
-
-            }
-        }
-    }
-
-    /**
-     * @param $username
-     * @param $email
-     * @return bool
-     */
-    function forgetPasswordWithEmail($username, $email){
-        if(!$this->passwordManager->forgetPasswordWithEmail($username,$email)){
-            return false;
-        } else { return true;}
-    }
-
-    /**
-     * @param $email
-     * @param $code
-     * @return mixed
-     */
-    function resetPasswordUsingCodeAndEmail($email, $code){
-        return $this->passwordManager->resetPasswordUsingCodeAndEmail($email,$code);
-    }
-
-    /**
-     * @param $email
-     * @param $code
-     * @param $password
-     * @param $password2
-     * @return mixed
-     */
-    function pickNewPassword($email,$code,$password,$password2){
-        return $this->passwordManager->confirmNewPassword($email,$code,$password,$password2);
+                return true;
+            } else { return false; }
+        } else { return false; }
     }
 
     public function register($username,$email,$email2,$password,$password2,$pin,$pin2,$firstName,$lastName,$dataOfBirth){

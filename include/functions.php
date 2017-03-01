@@ -32,24 +32,37 @@ class Functions{
 
     /**
      * encrypt a string using the site key
-     * @param $q
+     * @param $data
      * @return string
      */
-    function encryptIt( $q ) {
-        $cryptKey  = $this->settings->SECRET_CODE;
-        $qEncoded      = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
-        return( $qEncoded );
+    function encryptIt( $data ) {
+        $encrypt = serialize($data);
+        $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
+        $key = pack('H*', $this->settings->secretKey());
+        $mac = hash_hmac('sha256', $encrypt, substr(bin2hex($key), -32));
+        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $encrypt.$mac, MCRYPT_MODE_CBC, $iv);
+        $encoded = base64_encode($passcrypt).'|'.base64_encode($iv);
+        return $encoded;
     }
 
     /**
      * decrypt a string using the site key
-     * @param $q
+     * @param $data
      * @return string
      */
-    function decryptIt( $q ) {
-        $cryptKey  = $this->settings->SECRET_CODE;
-        $qDecoded      = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
-        return( $qDecoded );
+    function decryptIt( $data ) {
+        $decrypt = explode('|', $data.'|');
+        $decoded = base64_decode($decrypt[0]);
+        $iv = base64_decode($decrypt[1]);
+        if(strlen($iv)!==mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)){ return false; }
+        $key = pack('H*', $this->settings->secretKey());
+        $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $decoded, MCRYPT_MODE_CBC, $iv));
+        $mac = substr($decrypted, -64);
+        $decrypted = substr($decrypted, 0, -64);
+        $calcmac = hash_hmac('sha256', $decrypted, substr(bin2hex($key), -32));
+        if($calcmac!==$mac){ return false; }
+        $decrypted = unserialize($decrypted);
+        return $decrypted;
     }
 
     /**

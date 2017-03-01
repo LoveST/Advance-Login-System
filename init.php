@@ -51,7 +51,7 @@ require "include/administrator.php";
  * init Mail class
  */
 
-    $mail = new Mail();
+    $mail = new mail();
 
 /**
  * init Functions class

@@ -50,10 +50,10 @@ class passwordManager {
      * @param $username
      * @param $email
      * @param bool $includeTemplate
-     * @param string $template
+     * @param string $content
      * @return bool
      */
-    function forgetPasswordWithEmail($username, $email, $includeTemplate = false, $template=""){
+    function forgetPasswordWithEmail($username, $email, $includeTemplate = false, $content=""){
 
         if(empty($username)){
             $this->message->setError("Username cannot be empty !",Message::Error);
@@ -90,23 +90,40 @@ class passwordManager {
         }
 
         $vars = array(
-            '{$username}'       => $username,
-            '{$siteURL}' => $this->settings->get(Settings::SITE_URL),
-            '{$siteName}' => $this->settings->get(Settings::SITE_NAME),
-            '{$resetCode}' => $reset_code,
+            '{:username}'       => $username,
+            '{:siteURL}' => $this->settings->get(Settings::SITE_URL),
+            '{:siteName}' => $this->settings->get(Settings::SITE_NAME),
+            '{:resetCode}' => $reset_code,
         );
 
         $to = $email;
         $subject = "Password reset || " . $this->settings->get(Settings::SITE_NAME);
-
+        // convert variables to actual values
+        $content = strtr($content, $vars);
+        // initiate the mail class to prepare to send the email
+        $mail = new mail();
+        // set the sender email
+        $mail->fromEmail($this->settings->get(Settings::SITE_EMAIL));
+        // set the sender name
+        $mail->fromName("Administration");
+        // set the receiver email
+        $mail->to($to);
+        // set the subject
+        $mail->subject($subject);
         // check if include a template is checked
         if($includeTemplate){
-            $message = strtr($template, $vars);
-            if($this->mail->sendTemplate($this->settings->get(Settings::SITE_EMAIL), $to, $subject, $message)) {return true; } else { return false;}
+            // Set mail to template
+            $mail->isTemplate(true);
+            // set the mail template content
+            $mail->template($content);
         } else {
-            $message = strtr($template, $vars);
-            if($this->mail->sendText($this->settings->get(Settings::SITE_EMAIL), $to, $subject, $message)) {return true; } else { return false;}
+            // Set mail to template
+            $mail->isTemplate(false);
+            // set the mail template content
+            $mail->text($content);
         }
+
+        if($mail->send()){ return true; } else { return false; }
     }
 
     /**

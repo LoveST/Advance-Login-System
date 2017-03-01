@@ -127,6 +127,10 @@ class Settings{
        return $this->settings[TBL_SETTINGS_SITE_LANG];
     }
 
+    function secretKey(){
+        return $this->settings[TBL_SETTINGS_SECRET_KEY];
+    }
+
     function activationRequired(){
         return $this->settings[TBL_SETTINGS_ACTIVATION_REQUIRED];
     }

@@ -15,22 +15,20 @@ $code = $_POST['code'];
     switch($_GET['option']){
         case "confirm";
             if(isset($_POST['confirm'])) {
-                if ($session->resetPasswordUsingCodeAndEmail($email, $code)) {
-                    $newEmail = $functions->encryptIt($email);
-                    $newCode = $functions->encryptIt($code);
-                    header("Location: forgetPass.php?option=createNew&u='$newEmail'&c='$newCode'");
+                if ($passwordManager->resetPasswordUsingCodeAndEmail($email, $code)) {
+                    header("Location: forgetPass.php?option=createNew&u=$email&c=$code");
                 }
             }
             require "templates/". $settings->get(Settings::SITE_THEME) ."/confirmPasswordReset.html";
             break;
         case "createNew";
-            $decryptEmail = $functions->decryptIt($database->escapeString($_GET['u']));
-            $decryptCode = $functions->decryptIt($database->escapeString($_GET['c']));
+            $decryptEmail = $database->escapeString($_GET['u']);
+            $decryptCode = $database->escapeString($_GET['c']);
             $password = $database->escapeString($_POST['password']);
             $password2 = $database->escapeString($_POST['password2']);
 
             if(isset($_POST["change"])) {
-                if ($session->pickNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
+                if ($passwordManager->confirmNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
                     $success = true;
                 }
             }
@@ -39,7 +37,8 @@ $code = $_POST['code'];
             break;
         default;
             if(isset($_POST['reset'])){
-                if($session->forgetPasswordWithEmail($username,$email)){
+				//$template = file_get_contents('demo/templates/ubold/');
+                if($passwordManager->forgetPasswordWithEmail($username, $email, true, file_get_contents('templates/'. $settings->get(Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
                     $success = true;
                 }
             }
