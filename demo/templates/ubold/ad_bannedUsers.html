@@ -67,11 +67,11 @@
                         <tbody>
                         <? foreach($banedUsers as $key => $user){?>
                         <tr>
-                            <td><?=$user->id(); ?></td>
-                            <td><?=$user->username(); ?></td>
-                            <td><?=$user->email(); ?></td>
-                            <td><?=$functions->calculateTime($user->dateJoined()); ?> ago</td>
-                            <td><?=$user->level(); ?></td>
+                            <td><?=$user->getID(); ?></td>
+                            <td><?=$user->getUsername(); ?></td>
+                            <td><?=$user->getEmail(); ?></td>
+                            <td><?=$functions->calculateTime($user->getDateJoined()); ?> ago</td>
+                            <td><?=$user->getLevelName(); ?></td>
                             <td><?=$user->xp()->getXP(); ?></td>
                         </tr>
                         <? } ?>

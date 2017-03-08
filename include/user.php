@@ -39,8 +39,6 @@ class User {
     function __construct(){
         //$this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
         $this->xp = new xp();
-        $this->message = new Message();
-        $this->database = new Database();
     }
 
     /**
@@ -71,6 +69,7 @@ class User {
         }
         $this->xp = new xp(); // new instance of the xp class
         $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
+        $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
     }
 
     /**
@@ -79,7 +78,7 @@ class User {
      * @return bool
      */
     function loadInstance($username){
-        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '%$username%'";
+        $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '" . $username . "'";
         $results = mysqli_query($this->database->connection,$sql);
 
         // check for empty results
@@ -99,6 +98,16 @@ class User {
      */
     function initUserData(){
         $this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
+
+        // check if user has to log in again
+        // check if user has to sign in again with his credentials
+        if($this->userData[TBL_USERS_SIGNIN_AGAIN]){
+            $_SESSION['user_data'] = "";
+            $_SESSION['user_id'] = "";
+            session_destroy();
+            return false;
+        }
+
         $this->xp = new xp(); // new instance of the xp class
         $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
@@ -189,7 +198,7 @@ class User {
      * get the current user's username
      * @return string
      */
-    function username(){
+    function getUsername(){
         return $this->userData[TBL_USERS_USERNAME];
     }
 
@@ -197,7 +206,7 @@ class User {
      * get the current user's id
      * @return int
      */
-    function id(){
+    function getID(){
         return $this->userData[TBL_USERS_ID];
     }
 
@@ -205,7 +214,7 @@ class User {
      * get the current user's email address
      * @return string
      */
-    function email(){
+    function getEmail(){
         return $this->userData[TBL_USERS_EMAIL];
     }
 
@@ -213,7 +222,7 @@ class User {
      * get the date that the user has joined at
      * @return DateTime
      */
-    function dateJoined(){
+    function getDateJoined(){
         return $this->userData[TBL_USERS_DATE_JOINED];
     }
 
@@ -226,10 +235,24 @@ class User {
     }
 
     /**
+     * Check if user has to sign in again
+     * @return boolean
+     */
+    function mustSignInAgain(){
+        return $this->userData[TBL_USERS_SIGNIN_AGAIN];
+    }
+
+    /**
      * get the user current level name
      * @return string
      */
     function getLevelName(){
+        if($this->getLevel() == 100){
+            return "Admin";
+        } else if ($this->getLevel() == 1){
+            return "User";
+        }
+
         return $this->levelData[TBL_LEVELS_NAME];
     }
 
@@ -241,6 +264,17 @@ class User {
         $permissions = explode("|", $this->levelData[TBL_LEVELS_PERMISSIONS]);
         array_map('trim',$permissions);
         return $permissions;
+    }
+
+    /**
+     * Set this function to force the current user to log in again and re-initiate the data
+     */
+    function setMustSignInAgain(){
+        // call the database to store the new session data
+        $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '1' WHERE " . TBL_USERS_ID . " = '" . $this->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
+        }
     }
 
     /**

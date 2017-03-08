@@ -18,10 +18,7 @@ class Administrator{
      * Administrator constructor for PHP5.
      */
     function __construct(){
-        $this->message = new Message();
-        $this->settings = new Settings();
-        $this->userData = new User();
-        $this->mail = new mail();
+
     }
 
     /**

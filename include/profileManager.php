@@ -18,11 +18,7 @@ class profileManager {
      * profileManager constructor for PHP5.
      */
     function __construct(){
-        $this->database = new Database();
-        $this->message = new Message();
-        $this->user = new User();
-        $this->settings = new Settings();
-        $this->functions = new Functions();
+
     }
 
     /**

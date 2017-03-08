@@ -12,6 +12,7 @@ date_default_timezone_set('UTC');
 
 class session {
 
+    private $database; // instance of the database class
     var $connection; // public variable for the database connection
     public $message; // instance of the Message class.
     private $userData; // instance of the user class.
@@ -19,16 +20,6 @@ class session {
     private $mail; // instance of the mail class.
     private $settings; // instance of Settings class.
     private $functions; // instance of Functions class.
-
-    /**
-     * session constructor.
-     */
-    function __construct(){
-        $this->message = new Message();
-        $this->userData = new User();
-        $this->settings = new Settings();
-        $this->functions = new Functions();
-    }
 
     /**
      * init the class
@@ -45,7 +36,9 @@ class session {
         $this->passwordManager = $passwordManagerClass;
         $this->settings = $settings;
         $this->functions = $functions;
+        $this->database = $databaseClass;
         $this->dbConnect($databaseClass); // init the connect to database function
+        $this->loginThrowSession(); // log the user if in a session were to be found
         $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
     }
 
@@ -134,7 +127,7 @@ class session {
         $id = $row[TBL_USERS_ID]; // id of the current user logging in
 
         // ** Update the user Cookie code ** //
-        $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '".$value."' WHERE ". TBL_USERS_USERNAME." = '".$username."'";
+        $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '".$value."', ". TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE ". TBL_USERS_USERNAME." = '".$username."'";
         if (!$result = mysqli_query($this->connection,$sql)) {
             $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
@@ -168,14 +161,51 @@ class session {
             return true;
     }
 
-    /**
-     * Main function to login a guest as a user or admin if needed using a pin number
-     * @param $email
-     * @param $pin
-     * @param int $rememberMe
-     */
-    public function loginWithPin($email, $pin, $rememberMe = 0){
+    function loginThrowSession(){
+        if(isset($_SESSION['user_data'])){
 
+            // update the user_data that was stored in the session
+            $user_data = $_SESSION['user_data'];
+
+            // call the database to store the new session data
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $user_data[TBL_USERS_ID] . "' AND " . TBL_USERS_USERNAME . " = '" . $user_data[TBL_USERS_USERNAME] . "'";
+            if (!$result = mysqli_query($this->connection, $sql)) {
+                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                return false;
+            }
+
+            $row = mysqli_fetch_assoc($result);
+
+            // ** Update the current session data ** //
+            foreach($row As $rowName => $rowValue){
+                $_SESSION["user_data"][$rowName] = $rowValue;
+            }
+
+            // initiate the user data
+            $this->userData->initUserData();
+
+            // check if user has to log in again
+            if($this->userData->mustSignInAgain()){
+
+                // ** Unset the session & cookies ** //
+                unset($_SESSION["user_data"]);
+                unset($_COOKIE["user_data"]);
+                unset($_COOKIE["user_id"]);
+                setcookie("user_data",null,-1,'/');
+                setcookie("user_id",null,-1,'/');
+
+                // update the database so that the user can log in again
+                $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
+                if (!$result = mysqli_query($this->connection, $sql)) {
+                    $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                    return false;
+                }
+                $this->message->setError("You've been logged out for security reasons", Message::Error);
+                return false;
+            }
+
+            return true;
+        } else { return false; }
     }
 
     /**
@@ -185,8 +215,8 @@ class session {
     function loginThrowCookie(){
         if(empty($_SESSION["user_data"])) { // check if the current session is empty
             if (!empty($_COOKIE["user_data"]) && !empty($_COOKIE["user_id"])) { // check if the current cookie is not empty or null
-                $userID = mysqli_real_escape_string($this->connection, $_COOKIE["user_id"]);
-                $cookieValue = mysqli_real_escape_string($this->connection, $_COOKIE["user_data"]);
+                $userID = $this->database->escapeString($_COOKIE["user_id"]);
+                $cookieValue = $this->database->escapeString($_COOKIE["user_data"]);
 
                 // ** Get the needed information from the database ** //
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "' AND " . TBL_USERS_TOKEN . " = '" . $cookieValue . "'";
@@ -199,11 +229,28 @@ class session {
                 if (mysqli_num_rows($result) > 0) {
                     $row = mysqli_fetch_assoc($result);
 
+                    // check if user has to sign in again with his credentials
+                    if($row[TBL_USERS_SIGNIN_AGAIN]){
+                        unset($_COOKIE["user_data"]);
+                        unset($_COOKIE["user_id"]);
+                        setcookie("user_data",null,-1,'/');
+                        setcookie("user_id",null,-1,'/');
+
+                        // update the database so that the user can log in again
+                        $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
+                        if (!$result = mysqli_query($this->connection, $sql)) {
+                            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                            return false;
+                        }
+                        $this->message->setError("You've been logged out for security reasons", Message::Error);
+                        return false;
+                    }
+
                     // ** Update the online users counter ** //
                     $currentTime = date("Y-m-d H:i:s", time());
                     $id = $row[TBL_USERS_ID];
                     $username = $row[TBL_USERS_USERNAME];
-
+                    
                     // ** Update the current session data ** //
                     foreach($row As $rowName => $rowValue){
                         $_SESSION["user_data"][$rowName] = $rowValue;
@@ -215,6 +262,20 @@ class session {
         } else { return false; }
     }
 
+    /**
+     * Main function to register a guest as a new user
+     * @param $username
+     * @param $email
+     * @param $email2
+     * @param $password
+     * @param $password2
+     * @param $pin
+     * @param $pin2
+     * @param $firstName
+     * @param $lastName
+     * @param $dataOfBirth
+     * @return bool
+     */
     public function register($username,$email,$email2,$password,$password2,$pin,$pin2,$firstName,$lastName,$dataOfBirth){
 
         // check if registration is enabled
@@ -363,13 +424,40 @@ class session {
             }
 
             // if successful registration then send an email including the activation code
-            if(!$this->mail->sendText($this->settings->siteEmail(), $email, "activation code", "your account activation code is : " . $activationCode)){
+            $vars = array(
+                '{:username}'       => $username,
+                '{:siteURL}' => $this->settings->get(Settings::SITE_URL),
+                '{:siteName}' => $this->settings->get(Settings::SITE_NAME),
+                '{:activationCode}' => $activationCode,
+            );
+
+            $to = $email;
+            $content = file_get_contents('templates/' . $this->settings->get(Settings::SITE_THEME) . "/activateAccountEmailTemplate.html");
+            $subject = "Password reset || " . $this->settings->get(Settings::SITE_NAME);
+            // convert variables to actual values
+            $content = strtr($content, $vars);
+            // initiate the mail class to prepare to send the email
+            $mail = new mail();
+            // set the sender email
+            $mail->fromEmail($this->settings->get(Settings::SITE_EMAIL));
+            // set the sender name
+            $mail->fromName("Support");
+            // set the receiver email
+            $mail->to($to);
+            // set the subject
+            $mail->subject($subject);
+            // check if include a template is checked
+            // Set mail to template
+            $mail->isTemplate(true);
+            // set the mail template content
+            $mail->template($content);
+
+            if($mail->send()) {
+                return true;
+            } else {
                 $this->message->setError("Registration completed. But field to send the activation code.", Message::Error);
                 return false;
             }
-
-            return true;
-
         } else {
             // automatically activate the user and update the database
             $sql = "INSERT
@@ -411,7 +499,12 @@ class session {
         }
     }
 
-    //activate account
+    /**
+     * Activate an account using code and an email
+     * @param $code
+     * @param $email
+     * @return bool
+     */
     public function activateAccount($code, $email){
 
         // escape the given strings

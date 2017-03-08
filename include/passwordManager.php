@@ -97,7 +97,7 @@ class passwordManager {
         );
 
         $to = $email;
-        $subject = "Password reset || " . $this->settings->get(Settings::SITE_NAME);
+        $subject = "Account activation || " . $this->settings->get(Settings::SITE_NAME);
         // convert variables to actual values
         $content = strtr($content, $vars);
         // initiate the mail class to prepare to send the email
@@ -105,7 +105,7 @@ class passwordManager {
         // set the sender email
         $mail->fromEmail($this->settings->get(Settings::SITE_EMAIL));
         // set the sender name
-        $mail->fromName("Administration");
+        $mail->fromName("Support");
         // set the receiver email
         $mail->to($to);
         // set the subject
@@ -117,9 +117,9 @@ class passwordManager {
             // set the mail template content
             $mail->template($content);
         } else {
-            // Set mail to template
+            // Set mail to text
             $mail->isTemplate(false);
-            // set the mail template content
+            // set the mail text content
             $mail->text($content);
         }
 

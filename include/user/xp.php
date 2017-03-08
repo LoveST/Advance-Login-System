@@ -12,7 +12,6 @@ class xp{
     private $connection; // declare the connection variable for easy connection to sql
     private $user; // instance of the current user class
 
-
     /**
      * Init the class
      * @param $database
@@ -43,7 +42,7 @@ class xp{
         }
 
         // check if double xp then double the amount
-        if($this->is_DoubleXP()){
+        if($this->hasDoubleXP()){
             $amount = $amount * 2;
         }
 
@@ -80,6 +79,7 @@ class xp{
             $newXP = 0;
         }
 
+        // update the current user xp
         $sql = "UPDATE ". TBL_USERS. " SET ". TBL_USERS_XP . " = '". $newXP . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->user[TBL_USERS_USERNAME] . "'";
         if (!$result = mysqli_query($this->connection,$sql)) {
             return false;
@@ -89,9 +89,26 @@ class xp{
         $this->user[TBL_USERS_XP] = $newXP;
         $_SESSION['user_data'][TBL_USERS_XP] = $newXP;
 
+        // get the user's total lost xp
+        $lostXP = $this->getLostXP();
+        $newLostXP = $lostXP + $amount;
+
+        // update the lost xp amount in database
+        $sql = "UPDATE ". TBL_USERS. " SET ". TBL_USERS_LOST_XP . " = '". $newLostXP . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->user[TBL_USERS_USERNAME] . "'";
+        if (!$result = mysqli_query($this->connection,$sql)) {
+            return false;
+        }
+
+        //update the current lost xp for the current session
+        $this->user[TBL_USERS_LOST_XP] = $newLostXP;
+        $_SESSION['user_data'][TBL_USERS_LOST_XP] = $newLostXP;
+
         return true;
     }
 
+    /**
+     * Enable double xp for the current user
+     */
     public function setDoubleXP(){
 
     }
@@ -100,8 +117,8 @@ class xp{
      * Check if double xp is activated for the current user
      * @return bool
      */
-    public function is_DoubleXP(){
-        return false;
+    public function hasDoubleXP(){
+        return $this->user[TBL_USERS_HAS_DOUBLEXP];
     }
 
     /**

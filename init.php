@@ -75,7 +75,6 @@ require "include/profileManager.php";
 
     $session = new session();
     $session->init($database,$message,$user,$passwordManager,$mail,$settings,$functions);
-    $user->initUserData(); // if cookies were found then re-init the main session
 
 /**
  * init Administrator class

@@ -67,11 +67,11 @@
                         <tbody>
                         <? foreach($administrator as $key => $admin){?>
                         <tr>
-                            <td><?=$admin->id(); ?></td>
-                            <td><?=$admin->username(); ?></td>
-                            <td><?=$admin->email(); ?></td>
-                            <td><?=$functions->calculateTime($admin->dateJoined()); ?> ago</td>
-                            <td><?=$admin->level(); ?></td>
+                            <td><?=$admin->getID(); ?></td>
+                            <td><?=$admin->getUsername(); ?></td>
+                            <td><?=$admin->getEmail(); ?></td>
+                            <td><?=$functions->calculateTime($admin->getDateJoined()); ?> ago</td>
+                            <td><?=$admin->getLevelName(); ?></td>
                             <td><?=$admin->xp()->getXP(); ?></td>
                         </tr>
                         <? } ?>
