@@ -24,7 +24,10 @@ class session {
      * session constructor.
      */
     function __construct(){
-
+        $this->message = new Message();
+        $this->userData = new User();
+        $this->settings = new Settings();
+        $this->functions = new Functions();
     }
 
     /**
@@ -142,9 +145,9 @@ class session {
         setcookie("user_id", $id, time() + $rememberMe, "/"); // 86400 = 1 day
 
         // ** Update the online users counter ** //
-        $currentTime = date("Y-m-d H:i:s", time());
-        $id = $row[TBL_USERS_ID];
-        $username = $row[TBL_USERS_USERNAME];
+        //$currentTime = date("Y-m-d H:i:s", time());
+        //$id = $row[TBL_USERS_ID];
+        //$username = $row[TBL_USERS_USERNAME];
 
         /**
 
@@ -158,16 +161,9 @@ class session {
          **/
 
         // ** Update the current session data ** //
-        $_SESSION["user_data"][TBL_USERS_ID] = $row[TBL_USERS_ID];
-        $_SESSION["user_data"][TBL_USERS_USERNAME] = $row[TBL_USERS_USERNAME];
-        $_SESSION["user_data"][TBL_USERS_LEVEL] = $row[TBL_USERS_LEVEL];
-        $_SESSION["user_data"][TBL_USERS_FNAME] = $row[TBL_USERS_FNAME];
-        $_SESSION["user_data"][TBL_USERS_LNAME] = $row[TBL_USERS_LNAME];
-        $_SESSION["user_data"][TBL_USERS_DATE_JOINED] = $row[TBL_USERS_DATE_JOINED];
-        $_SESSION["user_data"][TBL_USERS_EMAIL] = $row[TBL_USERS_EMAIL];
-        $_SESSION["user_data"][TBL_USERS_BANNED] = $row[TBL_USERS_BANNED];
-        $_SESSION["user_data"][TBL_USERS_XP] = $row[TBL_USERS_XP];
-        $_SESSION["user_data"][TBL_USERS_LOST_XP] = $row[TBL_USERS_LOST_XP];
+        foreach($row As $rowName => $rowValue){
+            $_SESSION["user_data"][$rowName] = $rowValue;
+        }
 
             return true;
     }
@@ -209,16 +205,10 @@ class session {
                     $username = $row[TBL_USERS_USERNAME];
 
                     // ** Update the current session data ** //
-                    $_SESSION["user_data"][TBL_USERS_ID] = $row[TBL_USERS_ID];
-                    $_SESSION["user_data"][TBL_USERS_USERNAME] = $row[TBL_USERS_USERNAME];
-                    $_SESSION["user_data"][TBL_USERS_LEVEL] = $row[TBL_USERS_LEVEL];
-                    $_SESSION["user_data"][TBL_USERS_FNAME] = $row[TBL_USERS_FNAME];
-                    $_SESSION["user_data"][TBL_USERS_LNAME] = $row[TBL_USERS_LNAME];
-                    $_SESSION["user_data"][TBL_USERS_DATE_JOINED] = $row[TBL_USERS_DATE_JOINED];
-                    $_SESSION["user_data"][TBL_USERS_EMAIL] = $row[TBL_USERS_EMAIL];
-                    $_SESSION["user_data"][TBL_USERS_BANNED] = $row[TBL_USERS_BANNED];
-                    $_SESSION["user_data"][TBL_USERS_XP] = $row[TBL_USERS_XP];
-                    $_SESSION["user_data"][TBL_USERS_LOST_XP] = $row[TBL_USERS_LOST_XP];
+                    foreach($row As $rowName => $rowValue){
+                        $_SESSION["user_data"][$rowName] = $rowValue;
+                    }
+
                 }
                 return true;
             } else { return false; }
@@ -272,12 +262,12 @@ class session {
 
         // email checks
         if($email != $email2){
-            $this->message->setError("Email fields should be the identical", Message::Error);
+            $this->message->setError("Email fields should be identical", Message::Error);
             return false;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->message->setError("invalid email syntax has been used", Message::Error);
+            $this->message->setError("Invalid email syntax has been used", Message::Error);
             return false;
         }
 
@@ -481,7 +471,7 @@ class session {
     public function logged_in(){
         if(isset($_SESSION['user_data']) || $_SESSION['user_data']){
             return true;
-        }
+        } else { return false; }
     }
 
     /**

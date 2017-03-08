@@ -6,7 +6,7 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 session_start();
 
 // Turn off all error reporting
-//error_reporting(1);
+error_reporting(3);
 
 require "include/config.php";
 require "include/message.php";
@@ -18,6 +18,7 @@ require "include/functions.php";
 require "include/passwordManager.php";
 require "include/session.php";
 require "include/administrator.php";
+require "include/profileManager.php";
 
 /**
  * init Message class
@@ -46,7 +47,7 @@ require "include/administrator.php";
  */
 
     $user = new User();
-    $user->init($database,$message);
+    $user->init($database,$message, $settings);
 
 /**
  * init Mail class
@@ -82,6 +83,13 @@ require "include/administrator.php";
 
     $admin = new Administrator();
     $admin->init($database,$message,$user,$mail,$settings);
+
+/**
+ * init profileManager class
+ */
+
+    $profileManager = new profileManager();
+    $profileManager->init($database, $user, $settings, $functions, $message);
 
  /**
   * Print out all the Fatal errors

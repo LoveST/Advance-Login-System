@@ -23,6 +23,7 @@ class User {
     const Email = TBL_USERS_EMAIL;
     const Level = TBL_USERS_LEVEL;
     const Banned = TBL_USERS_BANNED;
+    const PIN = TBL_USERS_PIN;
 
     /**
      * User constructor for PHP4
@@ -37,6 +38,7 @@ class User {
     function __construct(){
         //$this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
         $this->xp = new xp();
+        $this->message = new Message();
     }
 
     /**
@@ -54,6 +56,7 @@ class User {
      * @param $data
      * @param $database
      * @param $message
+     * @param $settings
      */
     function initInstance($data, $database, $message){
         $this->database = $database;
@@ -82,7 +85,6 @@ class User {
         if(mysqli_num_rows($results) < 1){
             return false;
         }
-
         // call the results
         $row = mysqli_fetch_array($results);
 
@@ -199,6 +201,40 @@ class User {
 
     function level(){
         return $this->userData[TBL_USERS_LEVEL];
+    }
+
+    /**
+     * check if the given pin number (md5) matches the current one stored in the session
+     * @param $pin
+     * @return bool
+     */
+    function is_samePinNumber($pin){
+        if($this->get(User::PIN) == $pin){ return true; } else { return false; }
+    }
+
+    /**
+     * Log the user out from the current session
+     * @return bool
+     */
+    public function logOut(){
+        if(empty($_SESSION["user_data"]) && empty($_COOKIE["user_data"]) && empty($_COOKIE["user_id"])){ // check to see if the user is logged in the session of in the cookies
+            return false;
+        } else {
+
+            // ** Clear the Cookie auth code ** //
+            $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->username()."'";
+            if (!$result = mysqli_query($this->database->connection,$sql)) {
+                return false;
+            }
+
+            // ** Unset the session & cookies ** //
+            unset($_SESSION["user_data"]);
+            unset($_COOKIE["user_data"]);
+            unset($_COOKIE["user_id"]);
+            setcookie("user_data",null,-1,'/');
+            setcookie("user_id",null,-1,'/');
+            return true;
+        }
     }
 
 }

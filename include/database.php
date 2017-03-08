@@ -7,8 +7,6 @@
  * Time: 5:46 PM
  */
 
-error_reporting(3);
-
 class Database
 {
 

@@ -7,9 +7,7 @@ if($settings->siteDisabled()){
 }
 
 if($session->logged_in()){
-
     require "templates/". $settings->get(Settings::SITE_THEME) ."/home.html";
-    
 } else {
     header("Location: login.php");
 }

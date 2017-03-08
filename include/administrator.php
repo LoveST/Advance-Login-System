@@ -15,6 +15,16 @@ class Administrator{
     private $mail; // instance of the mail class.
 
     /**
+     * Administrator constructor for PHP5.
+     */
+    function __construct(){
+        $this->message = new Message();
+        $this->settings = new Settings();
+        $this->userData = new User();
+        $this->mail = new mail();
+    }
+
+    /**
      * init the class
      * @param $database
      * @param $messageClass
@@ -118,6 +128,39 @@ class Administrator{
             $users[] = $currentUser;
         }
         return $users;
+    }
+
+    /**
+     * Enable or Disable for HTTPS on all the script pages
+     * @param $activate
+     * @return bool
+     */
+    function activateHTTPS($activate){
+        if($activate){
+            // check if already activated
+            if ($this->settings->isHTTPS()) {
+                return false;
+            }
+
+            $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '1'";
+            if (!$result = mysqli_query($this->database->connection, $sql)) {
+                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
+                die;
+            }
+            return true;
+        } else {
+            // check if already de-activated
+            if (!$this->settings->isHTTPS()) {
+                return false;
+            }
+
+            $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '0'";
+            if (!$result = mysqli_query($this->database->connection, $sql)) {
+                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
+                die;
+            }
+            return true;
+        }
     }
 
 }
