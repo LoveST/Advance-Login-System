@@ -5,12 +5,12 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 
 # Features
 - Login with Username & password
-- Login with Username & pin
 - Register new users
 - Disable & Enable registeration
 - Disable & Enable automatic user account activation
 - Ban Users
 - Setup diffrent user levels
+- Custom permissions for each level (can be updated and removed anytime if the admin wants)
 - Reset password
 - Disable & Enable the script
 - Disable & Enable logins for users
