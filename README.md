@@ -9,7 +9,7 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 - Disable & Enable registeration
 - Disable & Enable automatic user account activation
 - Ban Users
-- Setup different user levels
+- Setup custom user levels
 - Custom permissions for each level (can be updated and removed anytime if the admin wants)
 - Reset password
 - Disable & Enable the script
