@@ -264,25 +264,6 @@ class Functions{
     }
 
     /**
-     * Get the user current level name
-     * @param $level
-     * @return string
-     */
-    function getUserLevelName($level = ""){
-        if(empty($username) && $level == "") {
-            $level = $this->userData->get(User::Level);
-        }
-
-        if($level == 0){
-            return "Guest";
-        } else if ($level == 1){
-            return "User";
-        } else if($level == 100){
-            return "Administrator";
-        }
-    }
-
-    /**
      * Check if given a user's account with the given (username or email) is activated
      * @param $data
      * @param $isEmail

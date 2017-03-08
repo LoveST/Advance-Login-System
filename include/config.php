@@ -59,3 +59,7 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_HEARTBEAT_ID","id");
     define("TBL_HEARTBEAT_USERNAME","username");
     define("TBL_HEARTBEAT_TIMESTAMP","timestamp");
+    define("TBL_LEVELS", "levels");
+    define("TBL_LEVELS_LEVEL", "level");
+    define("TBL_LEVELS_NAME", "name");
+    define("TBL_LEVELS_PERMISSIONS", "permissions");
