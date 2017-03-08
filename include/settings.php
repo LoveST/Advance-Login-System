@@ -159,20 +159,33 @@ class Settings{
         return $this->settings[TBL_SETTINGS_MAX_WARNINGS];
     }
 
+    function isSecure() {
+        return
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || $_SERVER['SERVER_PORT'] == 443;
+    }
+
+    function getCurrentPageURL() {
+        $pageURL = 'http';
+        if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+        $pageURL .= "://";
+        if ($_SERVER["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+        } else {
+            $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+        }
+        return $pageURL;
+    }
+
     function checkHTTPS(){
         // check if force HTTPS is enabled
         if($this->isHTTPS()){
             // check if the page is being loaded without encryption
-            if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on"){
+            if (!$this->isSecure()){
                 header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-                exit();
+                exit;
             }
-        } else {
-            // check if the page is being loaded with encryption
-            if(!empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] == "on"){
-                header("Location: http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-                exit();
-            }
+
         }
     }
 
