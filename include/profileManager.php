@@ -87,7 +87,7 @@ class profileManager {
                 return false;
             }
 
-            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_USERNAME . " = '" . $username . "' WHERE ". TBL_USERS_USERNAME . " = '" . $this->user->username() . "' AND ". TBL_USERS_PIN . " = '". $pin . "'";
+            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_USERNAME . " = '" . $username . "' WHERE ". TBL_USERS_USERNAME . " = '" . $this->user->getUsername() . "' AND ". TBL_USERS_PIN . " = '". $pin . "'";
             if (!$result = mysqli_query($this->database->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
                 die;
@@ -98,7 +98,7 @@ class profileManager {
             return true;
 
         } else {
-            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_USERNAME . " = '" . $username . "' WHERE ". TBL_USERS_USERNAME . " = '" . $this->user->username() . "'";
+            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_USERNAME . " = '" . $username . "' WHERE ". TBL_USERS_USERNAME . " = '" . $this->user->getUsername() . "'";
             if (!$result = mysqli_query($this->database->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
                 die;
@@ -157,7 +157,7 @@ class profileManager {
                 return false;
             }
 
-            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_EMAIL . " = '" . $email . "' WHERE ". TBL_USERS_EMAIL . " = '" . $this->user->email() . "'";
+            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_EMAIL . " = '" . $email . "' WHERE ". TBL_USERS_EMAIL . " = '" . $this->user->getEmail() . "'";
             if (!$result = mysqli_query($this->database->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
                 die;
@@ -169,7 +169,7 @@ class profileManager {
 
         } else {
 
-            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_EMAIL . " = '" . $email . "' WHERE ". TBL_USERS_EMAIL . " = '" . $this->user->email() . "'";
+            $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_EMAIL . " = '" . $email . "' WHERE ". TBL_USERS_EMAIL . " = '" . $this->user->getEmail() . "'";
             if (!$result = mysqli_query($this->database->connection, $sql)) {
                 $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
                 die;
