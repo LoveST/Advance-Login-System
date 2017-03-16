@@ -23,12 +23,12 @@ class profileManager {
 
     /**
      * Init the class
-     * @param $database
-     * @param $user
-     * @param $settings
-     * @param $functions
      */
-    public function init($database, $user, $settings, $functions, $message){
+    public function init(){
+
+        // define all the global variables
+        global $database, $message, $user, $settings, $functions;
+
         $this->database = $database;
         $this->user = $user;
         $this->settings = $settings;

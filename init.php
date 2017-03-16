@@ -6,7 +6,7 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 session_start();
 
 // Turn off all error reporting
-error_reporting(3);
+error_reporting(0);
 
 require "include/config.php";
 require "include/message.php";
@@ -32,14 +32,14 @@ require "include/profileManager.php";
  */
 
     $database = new Database();
-    $database->init($message);
+    $database->init();
 
 /**
  * init Settings class
  */
 
     $settings = new Settings();
-    $settings->init($message,$database);
+    $settings->init();
     $settings->checkHTTPS(); // check for SSL encryption
 
 /**
@@ -47,7 +47,7 @@ require "include/profileManager.php";
  */
 
     $user = new User();
-    $user->init($database,$message, $settings);
+    $user->init();
 
 /**
  * init Mail class
@@ -60,35 +60,35 @@ require "include/profileManager.php";
  */
 
     $functions = new Functions();
-    $functions->init($database,$message,$user,$mail,$settings);
+    $functions->init();
 
 /**
  * init passwordManager class
  */
 
     $passwordManager = new passwordManager();
-    $passwordManager->init($database,$message,$user,$mail,$settings);
+    $passwordManager->init();
 
 /**
  * init Session class
  */
 
     $session = new session();
-    $session->init($database,$message,$user,$passwordManager,$mail,$settings,$functions);
+    $session->init();
 
 /**
  * init Administrator class
  */
 
     $admin = new Administrator();
-    $admin->init($database,$message,$user,$mail,$settings);
+    $admin->init();
 
 /**
  * init profileManager class
  */
 
     $profileManager = new profileManager();
-    $profileManager->init($database, $user, $settings, $functions, $message);
+    $profileManager->init();
 
  /**
   * Print out all the Fatal errors

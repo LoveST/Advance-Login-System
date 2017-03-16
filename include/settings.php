@@ -35,10 +35,12 @@ class Settings{
 
     /**
      * initiate the class
-     * @param $message
-     * @param $database
      */
-    function init($message, $database){
+    function init(){
+
+        // define all the global variables
+        global $database, $message;
+
         $this->database = $database;
         $this->message = $message;
         $this->callSettings();

@@ -23,16 +23,15 @@ class Administrator{
 
     /**
      * init the class
-     * @param $database
-     * @param $messageClass
-     * @param $userDataClass
-     * @param $mail
-     * @param $settings
      */
-    function init($database, $messageClass, $userDataClass,$mail, $settings){
+    function init(){
+
+        // define all the global variables
+        global $database, $message, $user, $mail, $settings;
+
         $this->database = $database;
-        $this->message = $messageClass;
-        $this->userData = $userDataClass;
+        $this->message = $message;
+        $this->userData = $user;
         $this->mail = $mail;
         $this->settings = $settings;
     }

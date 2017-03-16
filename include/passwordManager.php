@@ -16,13 +16,6 @@ class passwordManager {
     private $mail; // instance of the mail class.
 
     /**
-     * passwordManager constructor for PHP4
-     */
-    function passwordManager(){
-        $this->__construct();
-    }
-
-    /**
      * passwordManager constructor for PHP5.
      */
     function __construct(){
@@ -31,17 +24,16 @@ class passwordManager {
 
     /**
      * init the class
-     * @param $database
-     * @param $messageClass
-     * @param $userDataClass
-     * @param $mail
-     * @param $settings
      */
-    function init($database, $messageClass, $userDataClass,$mail, $settings){
+    function init(){
+
+        // define all the global variables
+        global $database, $message, $user, $mail, $settings;
+
         $this->database = $database;
         $this->connection = $database->connection;
-        $this->message = $messageClass;
-        $this->userData = $userDataClass;
+        $this->message = $message;
+        $this->userData = $user;
         $this->mail = $mail;
         $this->settings = $settings;
     }
@@ -123,7 +115,11 @@ class passwordManager {
             $mail->text($content);
         }
 
-        if($mail->send()){ return true; } else { return false; }
+
+        if($mail->send()){
+            $this->message->setSuccess("A new reset code has been sent to " . $email);
+            return true;
+        } else { return false; }
     }
 
     /**
@@ -221,6 +217,7 @@ class passwordManager {
                 return false;
             }
 
+            $this->message->setSuccess("A new password has been set for your account");
             return true;
         }
 
@@ -288,5 +285,3 @@ class passwordManager {
     }
 
 }
-
-$passwordManager = new passwordManager();

@@ -41,6 +41,7 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_USERS_HAS_DOUBLEXP", "has_doubleXP");
     define("TBL_USERS_DOUBLEXP_UNTIL", "doubleXP_until");
     define("TBL_USERS_SIGNIN_AGAIN", "must_signin_again");
+	define("TBL_USERS_HEARTBEAT","heartbeat");
     define("TBL_SETTINGS","settings");
     define("TBL_SETTINGS_SITE_NAME","site_name");
     define("TBL_SETTINGS_SITE_URL","site_url");
@@ -58,6 +59,9 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_SETTINGS_USERNAME_CHANGE","username_change");
     define("TBL_SETTINGS_FORCE_HTTPS","force_https");
     define("TBL_SETTINGS_MAX_WARNINGS", "max_warnings");
+	/**
+	 * To-Do remove the heartbeat from the database 
+	 */
     define("TBL_HEARTBEAT","heartbeat");
     define("TBL_HEARTBEAT_ID","id");
     define("TBL_HEARTBEAT_USERNAME","username");

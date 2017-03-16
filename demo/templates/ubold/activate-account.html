@@ -47,9 +47,9 @@
                 </div>
                 <? } ?>
 
-                <? if($success){ ?>
+                <? if($message->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
-                    Your account has been activated successfully !<br>
+                    <?=$message->getSuccess();?>
                 </div>
                 <? } ?>
 

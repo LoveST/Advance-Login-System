@@ -7,24 +7,19 @@
  * Time: 5:46 PM
  */
 
-class Database
-{
+class Database {
 
     var $connection; // public variable for the database connection
-    private $message;
-
-    /**
-     * Database constructor for PHP4
-     */
-    function Database(){
-        $this->__construct();
-    }
+    private $message; // instance of the message class
 
     /**
      * init the class
-     * @param $message
      */
-    function init($message){
+    function init(){
+
+        // define all the global variables
+        global $message;
+
         $this->message = $message;
         $this->connect();
     }
@@ -58,5 +53,3 @@ class Database
     }
 
 }
-
-$database = new Database();

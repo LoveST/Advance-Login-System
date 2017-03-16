@@ -12,33 +12,25 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 class Message {
 
     var $msg; // store the error text and type
+    private $success; // store the success message
     const __default = self::Warning; // set the default error type to a warning.
     const Fatal = 1; // the error message is a fatal error.
     const Warning = 2; // the error message is just a warning.
     const Error = 3; // the error message is for the client instead of the administration
 
     /**
-     * Message constructor for PHP4
-     */
-    function Message(){
-        $this->__construct();
-    }
-
-    /**
-     * Message constructor for PHP5.
-     */
-    function __construct(){
-
-    }
-
-    /**
      * init the class
      */
     function init(){
         // check if any error has been posted to the session and if true then pull it and clear the session.
-        if($_SESSION["error"] != ""){
+        if(!empty($_SESSION["error"])){
             $this->msg = $_SESSION["error"];
             unset($_SESSION["error"]);
+        }
+
+        if(!empty($_SESSION['success'])){
+            $this->success = $_SESSION["success"];
+            unset($_SESSION["success"]);
         }
     }
 
@@ -51,7 +43,7 @@ class Message {
      */
     function setError($msg, $type, $fileName="", $lineNumber=0){
         if(!empty($msg)){ // check if the message is not empty
-            if($type == 3){ // check if it's a user error
+            if($type == 3 || $type == 4) { // check if it's a user error
                 $array = array(
                     "msg" => $msg,
                     "type" => $type,
@@ -73,10 +65,50 @@ class Message {
     }
 
     /**
+     * set the success message
+     * @param $msg
+     */
+    function setSuccess($msg){
+
+        // check for empty string
+        if(empty($msg)){
+            return;
+        }
+
+        // create the array object
+        $array = array(
+            "msg" => $msg,
+        );
+
+        // store the current message string to session
+        $this->success = $array;
+        $_SESSION['success'][] = $array;
+    }
+
+    function getSuccess(){
+
+        // set the current success array to object
+        $data = $_SESSION["success"];
+
+        foreach($data as $key => $value){
+            if($key != 0) echo "<br>";
+            echo $value['msg'];
+        }
+    }
+
+    /**
      * check to see if any error has occurred
      */
     function anyError(){
         return !empty($this->msg) && $this->msg["msg"] != "";
+    }
+
+    /**
+     * check if any success message were to be found
+     * @return bool
+     */
+    function is_success(){
+        return !empty($this->success) && $this->success["msg"] != "";
     }
 
     /**
@@ -85,7 +117,7 @@ class Message {
      */
     function getError($type=0){
         $data = $_SESSION["error"];
-        if(empty($data) || $data[0]['msg'] == "") return "";
+        if(empty($data) || $data[0]['msg'] == "") echo "";
 
         if($type == 0){ // get all the errors
             foreach($data as $key => $value){

@@ -7,7 +7,6 @@
  */
 
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
-session_start();
 date_default_timezone_set('UTC');
 
 class session {
@@ -29,25 +28,20 @@ class session {
      * @param $passwordManagerClass
      * @param $mailClass
      */
-    function init($databaseClass, $messageClass, $userDataClass, $passwordManagerClass, $mailClass, $settings, $functions){
-        $this->message = $messageClass; // init the message class for any errors
-        $this->userData = $userDataClass; // init the User class
-        $this->mail = $mailClass; // init the Mail class
-        $this->passwordManager = $passwordManagerClass;
+    function init(){
+
+        // define all the global variables
+        global $database, $message, $user, $passwordManager, $mail, $settings, $functions;
+
+        $this->message = $message; // init the message class for any errors
+        $this->userData = $user; // init the User class
+        $this->mail = $mail; // init the Mail class
+        $this->passwordManager = $passwordManager;
         $this->settings = $settings;
         $this->functions = $functions;
-        $this->database = $databaseClass;
-        $this->dbConnect($databaseClass); // init the connect to database function
+        $this->database = $database;
         $this->loginThrowSession(); // log the user if in a session were to be found
         $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
-    }
-
-    /**
-     * Initiate the connection to the database
-     *@param $databaseClass
-     */
-    private function dbConnect($databaseClass){
-        $this->connection = $databaseClass->connection;
     }
 
     /**
@@ -105,8 +99,8 @@ class session {
 
         $sql = ("SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_USERNAME." = '". $username ."' AND ".TBL_USERS_PASSWORD." = '". $password . "'");
 
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($this->database->connection,$sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
@@ -128,8 +122,8 @@ class session {
 
         // ** Update the user Cookie code ** //
         $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '".$value."', ". TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE ". TBL_USERS_USERNAME." = '".$username."'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($this->database->connection,$sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
@@ -146,8 +140,8 @@ class session {
 
         $sql2 = "INSERT
                  INTO ". TBL_HEARTBEAT . " (".TBL_HEARTBEAT_ID.",".TBL_HEARTBEAT_USERNAME.",".TBL_HEARTBEAT_TIMESTAMP.") VALUES ('$id','$username','$currentTime')";
-        if (!$result2 = mysqli_query($this->connection, $sql2)) {
-            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$result2 = mysqli_query($this->database->connection, $sql2)) {
+            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
             return false;
         }
 
@@ -169,8 +163,13 @@ class session {
 
             // call the database to store the new session data
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $user_data[TBL_USERS_ID] . "' AND " . TBL_USERS_USERNAME . " = '" . $user_data[TBL_USERS_USERNAME] . "'";
-            if (!$result = mysqli_query($this->connection, $sql)) {
-                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+            if (!$result = mysqli_query($this->database->connection, $sql)) {
+                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
+                return false;
+            }
+
+            // check if the user exists
+            if(mysqli_num_rows($result) < 1){
                 return false;
             }
 
@@ -196,8 +195,8 @@ class session {
 
                 // update the database so that the user can log in again
                 $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
-                if (!$result = mysqli_query($this->connection, $sql)) {
-                    $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                if (!$result = mysqli_query($this->database->connection, $sql)) {
+                    $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
                     return false;
                 }
                 $this->message->setError("You've been logged out for security reasons", Message::Error);
@@ -220,8 +219,8 @@ class session {
 
                 // ** Get the needed information from the database ** //
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "' AND " . TBL_USERS_TOKEN . " = '" . $cookieValue . "'";
-                if (!$result = mysqli_query($this->connection, $sql)) {
-                    $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                if (!$result = mysqli_query($this->database->connection, $sql)) {
+                    $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
                     return false;
                 }
 
@@ -238,8 +237,8 @@ class session {
 
                         // update the database so that the user can log in again
                         $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
-                        if (!$result = mysqli_query($this->connection, $sql)) {
-                            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+                        if (!$result = mysqli_query($this->database->connection, $sql)) {
+                            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
                             return false;
                         }
                         $this->message->setError("You've been logged out for security reasons", Message::Error);
@@ -418,8 +417,8 @@ class session {
                     INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_PASSWORD.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_TOKEN.",".TBL_USERS_EXPIRE.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
                     VALUES ('$id','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
 
-            if (!$result = mysqli_query($this->connection, $sql)) {
-                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            if (!$result = mysqli_query($this->database->connection, $sql)) {
+                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
                 return false;
             }
 
@@ -464,8 +463,8 @@ class session {
                     INTO ".TBL_USERS." (".TBL_USERS_ID.",".TBL_USERS_USERNAME.",".TBL_USERS_FNAME.",".TBL_USERS_LNAME.",".TBL_USERS_EMAIL.",".TBL_USERS_LEVEL.",".TBL_USERS_PASSWORD.",".TBL_USERS_DATE_JOINED.",".TBL_USERS_LAST_LOGIN.",".TBL_USERS_EXPIRE.",".TBL_USERS_TOKEN.",".TBL_USERS_RESET_CODE.",".TBL_USERS_PIN.",".TBL_USERS_BANNED.",".TBL_USERS_ACTIVATED.",".TBL_USERS_ACTIVATION_CODE.")
                     VALUES ('$id','$username','$firstName','$lastName','$email','1','$password','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
-            if (!$result = mysqli_query($this->connection, $sql)) {
-                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            if (!$result = mysqli_query($this->database->connection, $sql)) {
+                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
                 return false;
             }
 
@@ -484,7 +483,7 @@ class session {
 
             // ** Clear the Cookie auth code ** //
             $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->get(User::UserName)."'";
-            if (!$result = mysqli_query($this->connection,$sql)) {
+            if (!$result = mysqli_query($this->database->connection,$sql)) {
                 $this->message->setError("All fields are required", Message::Error);
                 return false;
             }
@@ -536,8 +535,8 @@ class session {
         }
 
         $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_EMAIL . " = '". $email . "' AND ". TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
-        if (!$result = mysqli_query($this->connection, $sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
             return false;
         }
 
@@ -549,11 +548,12 @@ class session {
 
         //update the user account with the needed information
         $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_ACTIVATED . " ='1',". TBL_USERS_ACTIVATION_CODE . "='' WHERE ". TBL_USERS_EMAIL . " = '". $email . "' AND ". TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
-        if (!$result = mysqli_query($this->connection, $sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($this->database->connection, $sql)) {
+            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
             return false;
         }
 
+        $this->message->setSuccess("Your account has been activated successfully !");
         return true;
     }
 
@@ -573,8 +573,25 @@ class session {
      * @return string
      */
     function escapeString($string){
-        return mysqli_real_escape_string($this->connection, $string);
+        return mysqli_real_escape_string($this->database->connection, $string);
     }
+	
+	/**
+     * load a user account and all the needed data from the class User
+     * @param $username
+     * @return User
+     */
+	function loadUser($username){
+		
+		// escape the username string
+		$username = $this->database->escapeString($username);
+		// create a new instance of the User class
+		$loadUser = new User();
+		// initiate the instance with the requested username
+		if(!($found = $loadUser->initInstance($username))){
+            return false;
+        }
+		// return the loaded user
+		return $loadUser;
+	}
 }
-
-$session = new session();
