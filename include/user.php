@@ -344,6 +344,36 @@ class User {
         // load the permissions for the current user
         $permissions = $this->getPermissions();
 
+        // loop throw the permissions and check if any * is to be found that matches the current requested permission
+        foreach($permissions As $perm){
+
+            // only loop if * is found
+            if(strpos($perm, '*')) {
+
+                // split the permission every '_'
+                $permArgs = explode("_", $perm);
+                $permissionArgs = explode("_", $permission);
+
+                // check if first args matches the permission args
+                if($permArgs[0] == $permissionArgs[0]){
+
+                    // loop throw the rest of permArgs
+                    for($i = 1; $i < count($permArgs); $i++){
+
+                        if($permArgs[$i] == $permissionArgs[$i]){
+                            continue;
+                        } else {
+                            if($permArgs[$i] = "*"){
+                                return true;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+
         if(in_array($permission, $permissions))
         { return true; } else { return false; }
     }

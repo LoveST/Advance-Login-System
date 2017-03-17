@@ -63,6 +63,14 @@ require "include/profileManager.php";
     $passwordManager->init();
 
 /**
+ * init Functions class
+ */
+
+    $functions = new Functions();
+    $functions->init();
+
+
+/**
  * init Session class
  */
 
@@ -82,13 +90,6 @@ require "include/profileManager.php";
 
     $profileManager = new profileManager();
     $profileManager->init();
-
-/**
- * init Functions class
- */
-
-    $functions = new Functions();
-    $functions->init();
 
  /**
   * Print out all the Fatal errors
