@@ -14,7 +14,7 @@ class session {
     private $database; // instance of the database class
     var $connection; // public variable for the database connection
     public $message; // instance of the Message class.
-    private $userData; // instance of the user class.
+    private $user; // instance of the user class.
     private $passwordManager; // instance of the password manager class
     private $mail; // instance of the mail class.
     private $settings; // instance of Settings class.
@@ -34,14 +34,15 @@ class session {
         global $database, $message, $user, $passwordManager, $mail, $settings, $functions;
 
         $this->message = $message; // init the message class for any errors
-        $this->userData = $user; // init the User class
+        $this->user = $user; // init the User class
         $this->mail = $mail; // init the Mail class
         $this->passwordManager = $passwordManager;
         $this->settings = $settings;
         $this->functions = $functions;
         $this->database = $database;
-        $this->loginThrowSession(); // log the user if in a session were to be found
-        $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
+        if(!$this->loginThrowSession()){
+            $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
+        }
     }
 
     /**
@@ -156,7 +157,7 @@ class session {
     }
 
     function loginThrowSession(){
-        if(isset($_SESSION['user_data'])){
+        if(isset($_SESSION['user_data']) || !empty($_SESSION['user_data'])){
 
             // update the user_data that was stored in the session
             $user_data = $_SESSION['user_data'];
@@ -181,10 +182,10 @@ class session {
             }
 
             // initiate the user data
-            $this->userData->initUserData();
+            $this->user->initUserData();
 
             // check if user has to log in again
-            if($this->userData->mustSignInAgain()){
+            if($this->user->mustSignInAgain()){
 
                 // ** Unset the session & cookies ** //
                 unset($_SESSION["user_data"]);
@@ -194,7 +195,7 @@ class session {
                 setcookie("user_id",null,-1,'/');
 
                 // update the database so that the user can log in again
-                $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
+                $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->user->getUsername() . "'";
                 if (!$result = mysqli_query($this->database->connection, $sql)) {
                     $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
                     return false;
@@ -236,7 +237,7 @@ class session {
                         setcookie("user_id",null,-1,'/');
 
                         // update the database so that the user can log in again
-                        $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->userData->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->userData->getUsername() . "'";
+                        $sql = "UPDATE " . TBL_USERS . " SET ".TBL_USERS_SIGNIN_AGAIN. " = '0' WHERE " . TBL_USERS_ID . " = '" . $this->user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->user->getUsername() . "'";
                         if (!$result = mysqli_query($this->database->connection, $sql)) {
                             $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__);
                             return false;
@@ -254,6 +255,9 @@ class session {
                     foreach($row As $rowName => $rowValue){
                         $_SESSION["user_data"][$rowName] = $rowValue;
                     }
+
+                    // initiate the user data
+                    $this->user->initUserData();
 
                 }
                 return true;
@@ -482,7 +486,7 @@ class session {
         } else {
 
             // ** Clear the Cookie auth code ** //
-            $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->userData->get(User::UserName)."'";
+            $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_TOKEN." = '' WHERE ". TBL_USERS_USERNAME." = '".$this->user->get(User::UserName)."'";
             if (!$result = mysqli_query($this->database->connection,$sql)) {
                 $this->message->setError("All fields are required", Message::Error);
                 return false;

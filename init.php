@@ -56,13 +56,6 @@ require "include/profileManager.php";
     $mail = new mail();
 
 /**
- * init Functions class
- */
-
-    $functions = new Functions();
-    $functions->init();
-
-/**
  * init passwordManager class
  */
 
@@ -89,6 +82,13 @@ require "include/profileManager.php";
 
     $profileManager = new profileManager();
     $profileManager->init();
+
+/**
+ * init Functions class
+ */
+
+    $functions = new Functions();
+    $functions->init();
 
  /**
   * Print out all the Fatal errors

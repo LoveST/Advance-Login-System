@@ -132,6 +132,13 @@ class Message {
                     echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
                 }
             }
+        } else if($type == 1){ // get all the errors with a type value of 2
+            foreach($data as $key => $value){
+                if($value['type'] == 1) {
+                    if ($key != 0) echo "<br>";
+                    echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
+                }
+            }
         } else if($type == 3){ // get all the errors with a type value of 3
             foreach($data as $key => $value){
                 if($value['type'] == 3) {

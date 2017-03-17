@@ -10,7 +10,7 @@ class Functions{
 
     private $database; // instance of the Database class.
     private $message; // instance of the Message class.
-    private $userData; // instance of the user class.
+    private $user; // instance of the user class.
     private $settings; // instance of the settings class.
     private $mail; // instance of the mail class.
 
@@ -24,7 +24,7 @@ class Functions{
 
         $this->database = $database;
         $this->message = $message;
-        $this->userData = $user;
+        $this->user = $user;
         $this->mail = $mail;
         $this->settings = $settings;
     }
@@ -296,6 +296,97 @@ class Functions{
             $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
         }
         return $pageURL;
+    }
+
+    function addXP($username, $amount){
+
+        // check if current user has the required permission
+        if(!$this->user->hasPermission("user_xp_add")){
+            $this->message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // escape the given strings
+        $username = $this->database->escapeString($username);
+        $amount = $this->database->escapeString($amount);
+
+        // check for empty username or amount
+        if(empty($username) || empty($amount)){
+            $this->message->setError("Both fields are required", Message::Error);
+            return false;
+        }
+
+        // check if amount is a number
+        if(!is_numeric($amount)){
+            $this->message->setError("Only numbers are allowed for the amount", Message::Error);
+            return false;
+        }
+
+        // check if user exists
+        if(!$this->userExist($username)){
+            $this->message->setError("Username not found", Message::Error);
+            return false;
+        }
+
+        // initiate the user class
+        $getUser = new User();
+        // load the user data
+        $getUser->initInstance($username);
+        // add the new amount to the user xp
+        if($getUser->addXP($amount)) {
+            $this->message->setSuccess("You have successfully added " . $amount . " XP to " . $getUser->getUsername() . "'s account");
+            $this->message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            return true;
+        } else {
+            $this->message->setError("An error has occurred", Message::Error);
+            return false;
+        }
+    }
+
+    function subtractXP($username, $amount){
+
+        // check if current user has the required permission
+        if(!$this->user->hasPermission("user_xp_remove")){
+            $this->message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // escape the given strings
+        $username = $this->database->escapeString($username);
+        $amount = $this->database->escapeString($amount);
+
+        // check for empty username or amount
+        if(empty($username) || empty($amount)){
+            $this->message->setError("Both fields are required", Message::Error);
+            return false;
+        }
+
+        // check if amount is a number
+        if(!is_numeric($amount)){
+            $this->message->setError("Only numbers are allowed for the amount", Message::Error);
+            return false;
+        }
+
+        // check if user exists
+        if(!$this->userExist($username)){
+            $this->message->setError("Username not found", Message::Error);
+            return false;
+        }
+
+        // initiate the user class
+        $getUser = new User();
+        // load the user data
+        $getUser->initInstance($username);
+
+        // subtract the new amount from the user xp
+        if($getUser->subtractXP($amount)) {
+            $this->message->setSuccess("You have successfully subtracted " . $amount . " XP from " . $getUser->getUsername() . "'s account");
+            $this->message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            return true;
+        } else {
+            $this->message->setError("An error has occurred", Message::Error);
+            return false;
+        }
     }
 
 }

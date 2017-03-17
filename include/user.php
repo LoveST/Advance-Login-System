@@ -7,7 +7,6 @@
  * Time: 8:26 PM
  */
 if(count(get_included_files()) ==1) exit("You don't have the permission to access this file."); // disable direct access to the file.
-require "user/xp.php";
 
 class User {
 
@@ -15,7 +14,6 @@ class User {
     private $levelData; // declare the required variables for the level data.
     private $message; // instance of the Message class.
     private $database; // instance of the database class
-    private $xp; // instance of the XP class
     const First_Name = TBL_USERS_FNAME;
     const Last_Name = TBL_USERS_LNAME;
     const UserName = TBL_USERS_USERNAME;
@@ -25,14 +23,6 @@ class User {
     const Level = TBL_USERS_LEVEL;
     const Banned = TBL_USERS_BANNED;
     const PIN = TBL_USERS_PIN;
-
-    /**
-     * User constructor for PHP5.
-     */
-    function __construct(){
-        //$this->userData = $_SESSION["user_data"]; // pull put the needed information for the session if available.
-        $this->xp = new xp();
-    }
 
     /**
      * init the class
@@ -70,9 +60,7 @@ class User {
                     return false;
                 }
         }
-		
-        $this->xp = new xp(); // new instance of the xp class
-        $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
+
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
 		return true;
     }
@@ -117,17 +105,8 @@ class User {
             return false;
         }
 
-        $this->xp = new xp(); // new instance of the xp class
-        $this->xp->init($this->database, $this->userData); // init the XP class (after all the user data is been loaded)
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
-    }
-
-    /**
-     * return the instance of the xp class
-     * @return xp
-     */
-    function xp(){
-        return $this->xp;
+        return true;
     }
 
     /**
@@ -463,6 +442,111 @@ class User {
             setcookie("user_id",null,-1,'/');
             return true;
         }
+    }
+
+    /**
+     * get the users current xp amount
+     * @return int
+     */
+    public function getXP(){
+        return $this->userData[TBL_USERS_XP];
+    }
+
+    /**
+     * Add x amount of xp to the user
+     * @param $amount
+     * @return bool
+     */
+    public function addXP($amount){
+        if(!is_numeric($amount)){
+            return false;
+        }
+
+        // check if double xp then double the amount
+        if($this->hasDoubleXP()){
+            $amount = $amount * 2;
+        }
+
+        // add the old user xp to the new one
+        $newXP = $this->getXP() + $amount;
+
+        $sql = "UPDATE ". TBL_USERS. " SET ". TBL_USERS_XP . " = '". $newXP . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->getUsername() . "'";
+        if (!$result = mysqli_query($this->database->connection,$sql)) {
+            $this->message->setError("Error while updating data in the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__,__LINE__ - 2);
+            return false;
+        }
+
+        // update the current xp level that the user has
+        $this->userData[TBL_USERS_XP] = $newXP;
+
+        return true;
+    }
+
+    /**
+     * Subtract x amount of xp from the user
+     * @param $amount
+     * @return bool
+     */
+    public function subtractXP($amount){
+        if(!is_numeric($amount)){
+            return false;
+        }
+
+        // add the old user xp to the new one
+        $newXP = $this->getXP() - $amount;
+
+        // check if newXP is less than 0 then set it to 0
+        if($newXP < 0){
+            $newXP = 0;
+        }
+
+        // update the current user xp
+        $sql = "UPDATE ". TBL_USERS. " SET ". TBL_USERS_XP . " = '". $newXP . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->userData[TBL_USERS_USERNAME] . "'";
+        if (!$result = mysqli_query($this->database->connection,$sql)) {
+            $this->message->setError("Error while updating data in the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__,__LINE__ - 2);
+            return false;
+        }
+
+        // update the current xp level that the user has
+        $this->userData[TBL_USERS_XP] = $newXP;
+
+        // get the user's total lost xp
+        $lostXP = $this->getLostXP();
+        $newLostXP = $lostXP + $amount;
+
+        // update the lost xp amount in database
+        $sql = "UPDATE ". TBL_USERS. " SET ". TBL_USERS_LOST_XP . " = '". $newLostXP . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->userData[TBL_USERS_USERNAME] . "'";
+        if (!$result = mysqli_query($this->database->connection,$sql)) {
+            return false;
+        }
+
+        //update the current lost xp for the current session
+        $this->userData[TBL_USERS_LOST_XP] = $newLostXP;
+
+        return true;
+    }
+
+    /**
+     * Enable double xp for the current user
+     */
+    public function setDoubleXP(){
+
+    }
+
+    /**
+     * Check if double xp is activated for the current user
+     * @return bool
+     */
+    public function hasDoubleXP(){
+        return $this->userData[TBL_USERS_HAS_DOUBLEXP];
+    }
+
+    /**
+     * Get the total amount of xp lost since join
+     * @return int
+     */
+    public function getLostXP(){
+        return $this->userData[TBL_USERS_LOST_XP];
     }
 
 }

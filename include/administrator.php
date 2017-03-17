@@ -15,13 +15,6 @@ class Administrator{
     private $mail; // instance of the mail class.
 
     /**
-     * Administrator constructor for PHP5.
-     */
-    function __construct(){
-
-    }
-
-    /**
      * init the class
      */
     function init(){
