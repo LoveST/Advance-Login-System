@@ -9,17 +9,12 @@
 class passwordManager {
 
     var $connection; // public variable for the database connection
-    private $database; // instance of the Database class.
-    private $message; // instance of the Message class.
-    private $userData; // instance of the user class.
-    private $settings; // instance of the settings class.
-    private $mail; // instance of the mail class.
 
     /**
      * passwordManager constructor for PHP5.
      */
     function __construct(){
-
+        $this->init(); // init the required functions to run the class
     }
 
     /**
@@ -27,15 +22,6 @@ class passwordManager {
      */
     function init(){
 
-        // define all the global variables
-        global $database, $message, $user, $mail, $settings;
-
-        $this->database = $database;
-        $this->connection = $database->connection;
-        $this->message = $message;
-        $this->userData = $user;
-        $this->mail = $mail;
-        $this->settings = $settings;
     }
 
     /**
@@ -43,32 +29,50 @@ class passwordManager {
      * @param $email
      * @param bool $includeTemplate
      * @param string $content
+     * @param string $userCaptcha
      * @return bool
      */
-    function forgetPasswordWithEmail($username, $email, $includeTemplate = false, $content=""){
+    function forgetPasswordWithEmail($username, $email, $userCaptcha, $includeTemplate = false, $content=""){
+
+        // define all the global variables
+        global $database, $message, $mail, $settings, $captcha;
+
+        // escape strings
+        $username = $database->escapeString($username);
+        $email = $database->escapeString($email);
+        $userCaptcha = $database->escapeString($userCaptcha);
 
         if(empty($username)){
-            $this->message->setError("Username cannot be empty !",Message::Error);
+            $message->setError("Username cannot be empty !",Message::Error);
             return false;
         }
 
         if(empty($email)){
-            $this->message->setError("Email field cannot be empty !",Message::Error);
+            $message->setError("Email field cannot be empty !",Message::Error);
             return false;
         }
 
         if(!(filter_var($email, FILTER_VALIDATE_EMAIL))){
-            $this->message->setError("The email used is not a valid one !",Message::Error);
+            $message->setError("The email used is not a valid one !",Message::Error);
             return false;
         }
 
         if(!($this->checkUserExists($username))){
-            $this->message->setError("The requested user does not exist !",Message::Error);
+            $message->setError("The requested user does not exist !",Message::Error);
             return false;
         }
 
         if(!$this->checkUserEmail($username,$email)){
-            $this->message->setError("Email not found in database",Message::Error);
+            $message->setError("Email not found in database",Message::Error);
+            return false;
+        }
+
+        // send the captcha request for validation
+        $captcha->sendRequest($userCaptcha);
+
+        // check if captcha was a success
+        if (!$captcha->success()) {
+            $message->setError("Wrong captcha has been used", Message::Error);
             return false;
         }
 
@@ -76,26 +80,26 @@ class passwordManager {
 
         // ** Update the database with the new reset code ** //
         $sql = "UPDATE ".TBL_USERS." SET " . TBL_USERS_RESET_CODE." = '".$reset_code."' WHERE ". TBL_USERS_USERNAME." = '".$username."'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($database->connection,$sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
         $vars = array(
             '{:username}'       => $username,
-            '{:siteURL}' => $this->settings->get(Settings::SITE_URL),
-            '{:siteName}' => $this->settings->get(Settings::SITE_NAME),
+            '{:siteURL}' => $settings->get(Settings::SITE_URL),
+            '{:siteName}' => $settings->get(Settings::SITE_NAME),
             '{:resetCode}' => $reset_code,
         );
 
         $to = $email;
-        $subject = "Account activation || " . $this->settings->get(Settings::SITE_NAME);
+        $subject = "Account activation || " . $settings->get(Settings::SITE_NAME);
         // convert variables to actual values
         $content = strtr($content, $vars);
         // initiate the mail class to prepare to send the email
         $mail = new mail();
         // set the sender email
-        $mail->fromEmail($this->settings->get(Settings::SITE_EMAIL));
+        $mail->fromEmail($settings->get(Settings::SITE_EMAIL));
         // set the sender name
         $mail->fromName("Support");
         // set the receiver email
@@ -117,7 +121,7 @@ class passwordManager {
 
 
         if($mail->send()){
-            $this->message->setSuccess("A new reset code has been sent to " . $email);
+            $message->setSuccess("A new reset code has been sent to " . $email);
             return true;
         } else { return false; }
     }
@@ -130,33 +134,36 @@ class passwordManager {
      */
     function resetPasswordUsingCodeAndEmail($email, $code){
 
+        // define all the global variables
+        global $database, $message;
+
         // escape the given strings
-        $email = $this->database->escapeString($email);
-        $code = $this->database->escapeString($code);
+        $email = $database->escapeString($email);
+        $code = $database->escapeString($code);
 
         if(empty($email)){
-            $this->message->setError("Email field cannot be empty !",Message::Error);
+            $message->setError("Email field cannot be empty !",Message::Error);
             return false;
         }
 
         if(empty($code)){
-            $this->message->setError("Code field cannot be empty !",Message::Error);
+            $message->setError("Code field cannot be empty !",Message::Error);
             return false;
         }
 
         if(!(filter_var($email, FILTER_VALIDATE_EMAIL))){
-            $this->message->setError("The email used is not a valid one !",Message::Error);
+            $message->setError("The email used is not a valid one !",Message::Error);
             return false;
         }
 
         $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_EMAIL." = '". $email . "' AND ".TBL_USERS_RESET_CODE." = '".$code."'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($database->connection,$sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
         if(mysqli_num_rows($result) < 1){
-            $this->message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
+            $message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
             return false;
         } else { return true; }
     }
@@ -164,24 +171,27 @@ class passwordManager {
 
     function confirmNewPassword($email, $code, $password, $password2){
 
+        // define all the global variables
+        global $database, $message;
+
         if(empty($email) || empty($code)){
-            $this->message->setError("Email and code values cannot be null !",Message::Error);
+            $message->setError("Email and code values cannot be null !",Message::Error);
             return false;
         }
 
         if(!(filter_var($email, FILTER_VALIDATE_EMAIL))){
-            $this->message->setError("The email used is not a valid one !",Message::Error);
+            $message->setError("The email used is not a valid one !",Message::Error);
             return false;
         }
 
         if(empty($password) || empty($password2)){
-            $this->message->setError("All fields are required.",Message::Error);
+            $message->setError("All fields are required.",Message::Error);
             return false;
         }
 
         // password checks
         if(strlen($password) < 8 || strlen($password) > 25){
-            $this->message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            $message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
             return false;
         }
 
@@ -189,35 +199,35 @@ class passwordManager {
         $password2 = md5($password2);
 
         if($password != $password2){
-            $this->message->setError("Passwords do not match !",Message::Error);
+            $message->setError("Passwords do not match !",Message::Error);
             return false;
         }
 
         $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_EMAIL."= '". $email . "' AND ".TBL_USERS_RESET_CODE." = '".$code."'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($database->connection,$sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
         if(mysqli_num_rows($result) < 1){
-            $this->message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
+            $message->setError("Failed to locate the reset code. Expired or not found.",Message::Error);
             return false;
         } else {
 
             $row = mysqli_fetch_assoc($result);
             if($password == $row[TBL_USERS_PASSWORD]){
-                $this->message->setError("New password cannot be the same as the old one.",Message::Error);
+                $message->setError("New password cannot be the same as the old one.",Message::Error);
                 return false;
             }
 
             // update database with the new password and return true and make sure the session and the cookies are destroyed
             $sql = "UPDATE ".TBL_USERS." SET ".TBL_USERS_PASSWORD."= '$password2',".TBL_USERS_RESET_CODE."= '' WHERE ".TBL_USERS_EMAIL."='$email'";
-            if (!$result = mysqli_query($this->connection,$sql)) {
-                $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+            if (!$result = mysqli_query($database->connection,$sql)) {
+                $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
                 return false;
             }
 
-            $this->message->setSuccess("A new password has been set for your account");
+            $message->setSuccess("A new password has been set for your account");
             return true;
         }
 
@@ -229,13 +239,17 @@ class passwordManager {
      * @return bool
      */
     function checkUserExists($username){
+
+        // define all the global variables
+        global $database, $message;
+
         if(empty($username)){
             die($this->printError("Username and Authentication key most not be empty"));
         }
 
         $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_USERNAME." = '". $username . "'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($database->connection,$sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 
@@ -251,14 +265,18 @@ class passwordManager {
      * @return bool
      */
     function checkUserEmail($username, $email){
+
+        // define all the global variables
+        global $database, $message;
+
         if(empty($email) || empty($username)){
-            $this->message->setError("Username and Email most not be empty",Message::Warning);
+            $message->setError("Username and Email most not be empty",Message::Warning);
             return false;
         }
 
         $sql = "SELECT * FROM ".TBL_USERS." WHERE ".TBL_USERS_USERNAME." = '". $username . "'";
-        if (!$result = mysqli_query($this->connection,$sql)) {
-            $this->message->setError("Error while pulling data from the database : " . mysqli_error($this->connection), Message::Fatal, __FILE__,__LINE__);
+        if (!$result = mysqli_query($database->connection,$sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__,__LINE__);
             return false;
         }
 

@@ -75,7 +75,7 @@
                             <td><?=$user->getEmail(); ?></td>
                             <td><?=$functions->calculateTime($user->getDateJoined()); ?> ago</td>
                             <td><?=$user->getLevelName(); ?></td>
-                            <td><?=$user->xp()->getXP(); ?></td>
+                            <td><?=$user->getXP(); ?></td>
                         </tr>
                         <? } ?>
                         </tbody>

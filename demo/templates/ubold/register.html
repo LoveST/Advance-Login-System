@@ -33,6 +33,7 @@
     <![endif]-->
 
     <script src="templates/<? echo $settings->get(Settings::SITE_THEME); ?>/assets/js/modernizr.min.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body>
@@ -142,6 +143,12 @@
                     <div class="form-group">
                         <div class="col-xs-12">
                             <input type="text" class="form-control" value="<? echo $_POST['dateOfBirth']; ?>" placeholder="Date of birth (mm/dd/yyyy)" name="dateOfBirth" data-mask="99/99/9999">
+                        </div><!-- input-group -->
+                    </div>
+					
+					<div class="form-group">
+                        <div class="col-xs-12 text-center">
+                            <div class="g-recaptcha" data-sitekey="<?=$captcha->getSiteKey();?>"></div>
                         </div><!-- input-group -->
                     </div>
 

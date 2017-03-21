@@ -12,6 +12,7 @@ require "include/config.php";
 require "include/message.php";
 require "include/database.php";
 require "include/settings.php";
+require "include/captcha.php";
 require "include/user.php";
 require "include/mail.php";
 require "include/functions.php";
@@ -32,16 +33,19 @@ require "include/profileManager.php";
  */
 
     $database = new Database();
-    $database->init();
 
 /**
  * init Settings class
  */
 
     $settings = new Settings();
-    $settings->init();
-    $settings->checkHTTPS(); // check for SSL encryption
 
+/**
+ * init Captcha class
+ */
+ 
+	$captcha = new Captcha();
+	
 /**
  * init User class
  */
@@ -60,7 +64,6 @@ require "include/profileManager.php";
  */
 
     $passwordManager = new passwordManager();
-    $passwordManager->init();
 
 /**
  * init Functions class

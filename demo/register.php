@@ -26,10 +26,11 @@ if($session->logged_in()){
         $firstName = $_POST['first_name'];
         $lastName = $_POST['last_name'];
         $dataOfBirth = $_POST['dateOfBirth'];
+		$userCaptcha = $_POST['g-recaptcha-response'];
 
         //die($pin);
 
-        if($session->register($username,$email,$email2,$password,$password2,$pin,$pin2,$firstName,$lastName,$dataOfBirth)){
+        if($session->register($username,$email,$email2,$password,$password2,$pin,$pin2,$firstName,$lastName,$dataOfBirth, $userCaptcha)){
             $success = true;
         }
 

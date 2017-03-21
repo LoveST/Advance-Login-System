@@ -8,25 +8,11 @@
  */
 class Functions{
 
-    private $database; // instance of the Database class.
-    private $message; // instance of the Message class.
-    private $user; // instance of the user class.
-    private $settings; // instance of the settings class.
-    private $mail; // instance of the mail class.
-
     /**
      * init the class
      */
     function init(){
 
-        // define all the global variables
-        global $database, $message, $user, $mail, $settings;
-
-        $this->database = $database;
-        $this->message = $message;
-        $this->user = $user;
-        $this->mail = $mail;
-        $this->settings = $settings;
     }
 
     /**
@@ -35,9 +21,13 @@ class Functions{
      * @return string
      */
     function encryptIt( $data ) {
+
+        // define all the global variables
+        global $settings;
+
         $encrypt = serialize($data);
         $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
-        $key = pack('H*', $this->settings->secretKey());
+        $key = pack('H*', $settings->secretKey());
         $mac = hash_hmac('sha256', $encrypt, substr(bin2hex($key), -32));
         $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $encrypt.$mac, MCRYPT_MODE_CBC, $iv);
         $encoded = base64_encode($passcrypt).'|'.base64_encode($iv);
@@ -50,11 +40,15 @@ class Functions{
      * @return string
      */
     function decryptIt( $data ) {
+
+        // define all the global variables
+        global $settings;
+
         $decrypt = explode('|', $data.'|');
         $decoded = base64_decode($decrypt[0]);
         $iv = base64_decode($decrypt[1]);
         if(strlen($iv)!==mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)){ return false; }
-        $key = pack('H*', $this->settings->secretKey());
+        $key = pack('H*', $settings->secretKey());
         $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $decoded, MCRYPT_MODE_CBC, $iv));
         $mac = substr($decrypted, -64);
         $decrypted = substr($decrypted, 0, -64);
@@ -115,9 +109,13 @@ class Functions{
      * @return bool
      */
     function userExist($username){
+
+        // define all the global variables
+        global $database, $message;
+
         $sql = "SELECT * FROM ". TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$result = mysqli_query($this->database->connection, $sql)) {
-            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
@@ -132,9 +130,13 @@ class Functions{
      * @return bool
      */
     function emailExist($email){
+
+        // define all the global variables
+        global $database, $message;
+
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "'";
-        if (!$result = mysqli_query($this->database->connection, $sql)) {
-            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
@@ -222,9 +224,13 @@ class Functions{
      * @return int
      */
     function getNewID(){
+
+        // define all the global variables
+        global $database, $message;
+
         $sql = "SELECT ". TBL_USERS_ID ." FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
-        if (!$result = mysqli_query($this->database->connection, $sql)) {
-            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
@@ -238,10 +244,14 @@ class Functions{
 
     // count the total number of online users using the script in a 1 minute radius
     function onlineCounter(){
+
+        // define all the global variables
+        global $database;
+
         $totalUsers = 0;
 
         $sql = "SELECT * FROM ". TBL_HEARTBEAT;
-        if (!$result = mysqli_query($this->database->connection, $sql)) {
+        if (!$result = mysqli_query($database->connection, $sql)) {
             return 0;
         }
 
@@ -269,14 +279,18 @@ class Functions{
      * @return bool
      */
     function is_userActivated($data, $isEmail = false){
+
+        // define all the global variables
+        global $database, $message;
+
         if($isEmail){
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $data . "'";
         } else {
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $data . "'";
         }
 
-        if (!$result = mysqli_query($this->database->connection, $sql)) {
-            $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
@@ -300,31 +314,34 @@ class Functions{
 
     function addXP($username, $amount){
 
+        // define all the global variables
+        global $database, $message, $user;
+
         // check if current user has the required permission
-        if(!$this->user->hasPermission("user_xp_add")){
-            $this->message->setError("You don't have the permission to perform this action", Message::Error);
+        if(!$user->hasPermission("user_xp_add")){
+            $message->setError("You don't have the permission to perform this action", Message::Error);
             return false;
         }
 
         // escape the given strings
-        $username = $this->database->escapeString($username);
-        $amount = $this->database->escapeString($amount);
+        $username = $database->escapeString($username);
+        $amount = $database->escapeString($amount);
 
         // check for empty username or amount
         if(empty($username) || empty($amount)){
-            $this->message->setError("Both fields are required", Message::Error);
+            $message->setError("Both fields are required", Message::Error);
             return false;
         }
 
         // check if amount is a number
         if(!is_numeric($amount)){
-            $this->message->setError("Only numbers are allowed for the amount", Message::Error);
+            $message->setError("Only numbers are allowed for the amount", Message::Error);
             return false;
         }
 
         // check if user exists
         if(!$this->userExist($username)){
-            $this->message->setError("Username not found", Message::Error);
+            $message->setError("Username not found", Message::Error);
             return false;
         }
 
@@ -334,42 +351,45 @@ class Functions{
         $getUser->initInstance($username);
         // add the new amount to the user xp
         if($getUser->addXP($amount)) {
-            $this->message->setSuccess("You have successfully added " . $amount . " XP to " . $getUser->getUsername() . "'s account");
-            $this->message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            $message->setSuccess("You have successfully added " . $amount . " XP to " . $getUser->getUsername() . "'s account");
+            $message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
             return true;
         } else {
-            $this->message->setError("An error has occurred", Message::Error);
+            $message->setError("An error has occurred", Message::Error);
             return false;
         }
     }
 
     function subtractXP($username, $amount){
 
+        // define all the global variables
+        global $database, $message, $user;
+
         // check if current user has the required permission
-        if(!$this->user->hasPermission("user_xp_remove")){
-            $this->message->setError("You don't have the permission to perform this action", Message::Error);
+        if(!$user->hasPermission("user_xp_remove")){
+            $message->setError("You don't have the permission to perform this action", Message::Error);
             return false;
         }
 
         // escape the given strings
-        $username = $this->database->escapeString($username);
-        $amount = $this->database->escapeString($amount);
+        $username = $database->escapeString($username);
+        $amount = $database->escapeString($amount);
 
         // check for empty username or amount
         if(empty($username) || empty($amount)){
-            $this->message->setError("Both fields are required", Message::Error);
+            $message->setError("Both fields are required", Message::Error);
             return false;
         }
 
         // check if amount is a number
         if(!is_numeric($amount)){
-            $this->message->setError("Only numbers are allowed for the amount", Message::Error);
+            $message->setError("Only numbers are allowed for the amount", Message::Error);
             return false;
         }
 
         // check if user exists
         if(!$this->userExist($username)){
-            $this->message->setError("Username not found", Message::Error);
+            $message->setError("Username not found", Message::Error);
             return false;
         }
 
@@ -380,11 +400,11 @@ class Functions{
 
         // subtract the new amount from the user xp
         if($getUser->subtractXP($amount)) {
-            $this->message->setSuccess("You have successfully subtracted " . $amount . " XP from " . $getUser->getUsername() . "'s account");
-            $this->message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            $message->setSuccess("You have successfully subtracted " . $amount . " XP from " . $getUser->getUsername() . "'s account");
+            $message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
             return true;
         } else {
-            $this->message->setError("An error has occurred", Message::Error);
+            $message->setError("An error has occurred", Message::Error);
             return false;
         }
     }

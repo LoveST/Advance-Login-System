@@ -59,6 +59,8 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_SETTINGS_USERNAME_CHANGE","username_change");
     define("TBL_SETTINGS_FORCE_HTTPS","force_https");
     define("TBL_SETTINGS_MAX_WARNINGS", "max_warnings");
+    define("TBL_SETTINGS_CAPTCHA_KEY", "captcha_key");
+    define("TBL_SETTINGS_CAPTCHA_SECRET", "captcha_secret");
 	/**
 	 * To-Do remove the heartbeat from the database 
 	 */

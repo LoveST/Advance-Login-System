@@ -8,8 +8,6 @@
  */
 class Settings{
 
-    private $message; // instance of the Message class.
-    private $database; // instance of the Database class.
     private $settings; // store all the database settings (array)
     const Login_Enabled = TBL_SETTINGS_LOGIN_ENABLE;
     const SITE_NAME = TBL_SETTINGS_SITE_NAME;
@@ -30,20 +28,15 @@ class Settings{
      * Settings constructor for PHP5.
      */
     function __construct(){
-
+        $this->init();
     }
 
     /**
      * initiate the class
      */
     function init(){
-
-        // define all the global variables
-        global $database, $message;
-
-        $this->database = $database;
-        $this->message = $message;
-        $this->callSettings();
+        $this->callSettings(); // store all the site settings
+        $this->checkHTTPS(); // check if HTTPS is enabled
     }
 
     /**
@@ -59,16 +52,20 @@ class Settings{
      * call the database and store the settings table with its values in the settings array
      */
     private function callSettings(){
+
+        // define all the global variables
+        global $database, $message;
+
         // connect to the database and pull the settings table
         $sql = "SELECT * FROM ". TBL_SETTINGS;
 
         // try pulling the required data
-        if(!$result = mysqli_query($this->database->connection,$sql)){
-            $this->message->setError("Error while trying to pull the required data from the database." , Message::Fatal, __FILE__ , __LINE__ - 1);
+        if(!$result = mysqli_query($database->connection,$sql)){
+            $message->setError("Error while trying to pull the required data from the database." , Message::Fatal, __FILE__ , __LINE__ - 1);
         }
 
         if(mysqli_num_rows($result) <1){
-            $this->message->setError("Settings table doesn't contain any values for the script to run." , Message::Fatal, __FILE__ , __LINE__ - 1);
+            $message->setError("Settings table doesn't contain any values for the script to run." , Message::Fatal, __FILE__ , __LINE__ - 1);
         }
 
         // must not be empty fields
@@ -79,7 +76,7 @@ class Settings{
             foreach($row as $key => $value){
                 // check if the field is required and if its empty
                 if(in_array($key,$required) && empty($value)){
-                    $this->message->customKill("Settings", "The sql field " . $key . " most not be empty", "default");
+                    $message->customKill("Settings", "The sql field " . $key . " most not be empty", "default");
                 }
 
                 // check for empty theme field in the sql and set it to 'default'

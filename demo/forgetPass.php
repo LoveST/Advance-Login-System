@@ -11,6 +11,7 @@ $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $username = $_POST['username'];
 $email = $_POST['email'];
 $code = $_POST['code'];
+$captcha = $_POST[''];
 
     switch($_GET['option']){
         case "confirm";
