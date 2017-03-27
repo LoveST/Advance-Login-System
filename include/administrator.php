@@ -8,30 +8,20 @@
  */
 class Administrator{
 
-    private $database; // instance of the Database class.
-    private $message; // instance of the Message class.
-    private $userData; // instance of the user class.
-    private $settings; // instance of the settings class.
-    private $mail; // instance of the mail class.
-
     /**
      * init the class
      */
     function init(){
 
-        // define all the global variables
-        global $database, $message, $user, $mail, $settings;
-
-        $this->database = $database;
-        $this->message = $message;
-        $this->userData = $user;
-        $this->mail = $mail;
-        $this->settings = $settings;
     }
 
     function getTotalUsers(){
+
+        // define all the global variables
+        global $database;
+
         $sql = "SELECT count(*) FROM ". TBL_USERS;
-        $result = mysqli_query($this->database->connection,$sql);
+        $result = mysqli_query($database->connection,$sql);
         $num = mysqli_fetch_row($result);
         return $num[0];
     }
@@ -42,13 +32,17 @@ class Administrator{
      * @return array|bool
      */
     function getAdmins($limit = 0){
+
+        // define all the global variables
+        global $database;
+
         if($limit == 0){
             $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_LEVEL . "='100'";
         } else {
             $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_LEVEL . "='100' LIMIT ". $limit;
         }
         $admins = "";
-        $results = mysqli_query($this->database->connection,$sql);
+        $results = mysqli_query($database->connection,$sql);
 
         if(mysqli_num_rows($results) < 1){
             return false;
@@ -56,7 +50,7 @@ class Administrator{
 
         while($row = mysqli_fetch_assoc($results)){
             $currentUser = new User();
-            $currentUser->initInstance($row, $this->database, $this->message);
+            $currentUser->initInstance($row);
 
             $admins[] = $currentUser;
         }
@@ -69,13 +63,17 @@ class Administrator{
      * @return array|bool
      */
     function getUsers($limit = 0){
+
+        // define all the global variables
+        global $database;
+
         if($limit == 0){
             $sql = "SELECT * FROM ". TBL_USERS;
         } else {
             $sql = "SELECT * FROM ". TBL_USERS. " LIMIT ". $limit;
         }
 
-        $results = mysqli_query($this->database->connection,$sql);
+        $results = mysqli_query($database->connection,$sql);
         $users = "";
 
         if(mysqli_num_rows($results) < 1){
@@ -84,7 +82,7 @@ class Administrator{
 
         while($row = mysqli_fetch_assoc($results)){
             $currentUser = new User();
-            $currentUser->initInstance($row, $this->database, $this->message);
+            $currentUser->initInstance($row);
 
             $users[] = $currentUser;
         }
@@ -94,16 +92,20 @@ class Administrator{
     /**
      * get the total users that are banned from the database
      * @param int $limit
-     * @return array|bool|string
+     * @return integer
      */
     function getBannedUsers($limit = 0){
+
+        // define all the global variables
+        global $database;
+
         if($limit == 0){
             $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_BANNED . "='1'";
         } else {
             $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_BANNED . "='1' LIMIT ". $limit;
         }
 
-        $results = mysqli_query($this->database->connection,$sql);
+        $results = mysqli_query($database->connection,$sql);
         $users = "";
 
         if(mysqli_num_rows($results) < 1){
@@ -112,7 +114,7 @@ class Administrator{
 
         while($row = mysqli_fetch_assoc($results)){
             $currentUser = new User();
-            $currentUser->initInstance($row, $this->database, $this->message);
+            $currentUser->initInstance($row);
 
             $users[] = $currentUser;
         }
@@ -125,27 +127,31 @@ class Administrator{
      * @return bool
      */
     function activateHTTPS($activate){
+
+        // define all the global variables
+        global $database, $message, $settings;
+
         if($activate){
             // check if already activated
-            if ($this->settings->isHTTPS()) {
+            if ($settings->isHTTPS()) {
                 return false;
             }
 
             $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '1'";
-            if (!$result = mysqli_query($this->database->connection, $sql)) {
-                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
+            if (!$result = mysqli_query($database->connection, $sql)) {
+                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
                 die;
             }
             return true;
         } else {
             // check if already de-activated
-            if (!$this->settings->isHTTPS()) {
+            if (!$settings->isHTTPS()) {
                 return false;
             }
 
             $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '0'";
-            if (!$result = mysqli_query($this->database->connection, $sql)) {
-                $this->message->kill("Error while pulling data from the database : " . mysqli_error($this->database->connection), __FILE__, __LINE__ - 2);
+            if (!$result = mysqli_query($database->connection, $sql)) {
+                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
                 die;
             }
             return true;

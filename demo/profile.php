@@ -25,6 +25,11 @@ switch($action){
 
         require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_change_username.html";
         break;
+    case "verified_devices";
+        $devices = $user->devices()->getDevices();
+
+        require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_verified_devices.html";
+        break;
     case "change_information";
         echo "hello";
         break;

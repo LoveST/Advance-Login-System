@@ -8,8 +8,6 @@
  */
 class Captcha {
 
-    private $database; // instance of the Database class.
-    private $settings; // instance of the settings class.
     private $siteKey; // site captcha key
     private $secretKey; // the secret code for the captcha
     private $respondArray; // store the incoming data from google re-captcha
@@ -29,12 +27,9 @@ class Captcha {
         // define all the global variables
         global $database, $settings;
 
-        $this->database = $database;
-        $this->settings = $settings;
-
         // define the used codes for the captcha
-        $this->siteKey = $this->settings->get(TBL_SETTINGS_CAPTCHA_KEY);
-        $this->secretKey = $this->settings->get(TBL_SETTINGS_CAPTCHA_SECRET);
+        $this->siteKey = $settings->get(TBL_SETTINGS_CAPTCHA_KEY);
+        $this->secretKey = $settings->get(TBL_SETTINGS_CAPTCHA_SECRET);
     }
 
     /**

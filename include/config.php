@@ -42,6 +42,7 @@ define( "DBPORT" , "3306"); // Set the sql port that is used to connect to the d
     define("TBL_USERS_DOUBLEXP_UNTIL", "doubleXP_until");
     define("TBL_USERS_SIGNIN_AGAIN", "must_signin_again");
 	define("TBL_USERS_HEARTBEAT","heartbeat");
+    define("TBL_USERS_DEVICES","devices");
     define("TBL_SETTINGS","settings");
     define("TBL_SETTINGS_SITE_NAME","site_name");
     define("TBL_SETTINGS_SITE_URL","site_url");

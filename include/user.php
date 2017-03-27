@@ -12,6 +12,7 @@ class User {
 
     private $userData; // declare the required variables for the user data.
     private $levelData; // declare the required variables for the level data.
+    private $devices; // instance of the devices class of the current user
     const First_Name = TBL_USERS_FNAME;
     const Last_Name = TBL_USERS_LNAME;
     const UserName = TBL_USERS_USERNAME;
@@ -21,6 +22,10 @@ class User {
     const Level = TBL_USERS_LEVEL;
     const Banned = TBL_USERS_BANNED;
     const PIN = TBL_USERS_PIN;
+
+    function __construct(){
+        $this->devices = new Devices();
+    }
 
     /**
      * init the class
@@ -37,7 +42,7 @@ class User {
     function initInstance($data){
 
         // define all the global variables
-        global $database, $message;
+        global $message;
 
         // check if $data is an array or only a username
         if(is_array($data)) {
@@ -50,7 +55,13 @@ class User {
         }
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
+        $this->devices = new Devices(); // create the unique logs class for the current user
+
 		return true;
+    }
+
+    function devices(){
+        return $this->devices;
     }
 
     /**
@@ -61,7 +72,7 @@ class User {
     private function loadInstance($username){
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 		
 		// pull the requested user $username information from the database
         $sql = "SELECT * FROM ". TBL_USERS . " WHERE ". TBL_USERS_USERNAME . " = '" . $username . "'";
@@ -83,9 +94,6 @@ class User {
      * Re initiate the user data if cookies were to be found after the class init
      */
     function initUserData(){
-
-        // define all the global variables
-        global $database, $message;
 		
 		// pull put the needed information for the session if available.
         $this->userData = $_SESSION["user_data"];
@@ -100,6 +108,8 @@ class User {
         }
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
+        $this->devices->init($this->userData);
+
         return true;
     }
 

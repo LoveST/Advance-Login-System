@@ -6,14 +6,17 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 session_start();
 
 // Turn off all error reporting
-error_reporting(0);
+error_reporting(1);
 
 require "include/config.php";
 require "include/message.php";
 require "include/database.php";
 require "include/settings.php";
+require "include/user/device.php";
+require "include/browser.php";
 require "include/captcha.php";
 require "include/user.php";
+require "include/user/devices.php";
 require "include/mail.php";
 require "include/functions.php";
 require "include/passwordManager.php";
@@ -39,6 +42,12 @@ require "include/profileManager.php";
  */
 
     $settings = new Settings();
+
+/**
+ * init the Browser class
+ */
+
+    $browser = new Browser();
 
 /**
  * init Captcha class
@@ -93,6 +102,8 @@ require "include/profileManager.php";
 
     $profileManager = new profileManager();
     $profileManager->init();
+
+
 
  /**
   * Print out all the Fatal errors

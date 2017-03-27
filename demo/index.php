@@ -6,7 +6,7 @@ if($settings->siteDisabled()){
     $message->customKill("Oops!!!","The Site is disabled at the moment", $settings->get(Settings::SITE_THEME));
 }
 
-if($session->logged_in()){
+if($session->logged_in() && $user->devices()->canAccess()){
     require "templates/". $settings->get(Settings::SITE_THEME) ."/home.html";
 } else {
     header("Location: login.php");

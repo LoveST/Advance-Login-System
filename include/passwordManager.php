@@ -7,9 +7,7 @@
  * Time: 2:21 PM
  */
 class passwordManager {
-
-    var $connection; // public variable for the database connection
-
+    
     /**
      * passwordManager constructor for PHP5.
      */

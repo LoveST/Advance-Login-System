@@ -2,8 +2,10 @@
 
 require "../init.php";
 
-if($session->logged_in()){
+if($session->logged_in() && $user->devices()->canAccess()) {
     header("Location: index.php");
+}else if(!$user->devices()->canAccess() && $session->logged_in()){
+    die("your computer has to be verified first by entering your pin number");
 } else {
 
     $page = $_GET['ac'];

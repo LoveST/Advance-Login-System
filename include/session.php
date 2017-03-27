@@ -118,6 +118,10 @@ class session {
             return true;
     }
 
+    /**
+     * Check if session exists and if then log the user back in
+     * @return bool
+     */
     function loginThrowSession(){
 
         // define all the global variables
@@ -169,6 +173,9 @@ class session {
                 $message->setError("You've been logged out for security reasons", Message::Error);
                 return false;
             }
+
+            // initiate the user data
+            $user->initUserData();
 
             return true;
         } else { return false; }
