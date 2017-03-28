@@ -377,12 +377,12 @@ class session {
             $message->setError("Email has been used before", Message::Error);
             return false;
         }
-		
-		// send the captcha request for validation
-		$captcha->sendRequest($userCaptcha);
+
+        // send the captcha request for validation
+        $captcha->sendRequest($userCaptcha);
 		
 		// check if captcha was a success
-		if (!$captcha->success()) {
+        if (!$captcha->success()) {
             $message->setError("Wrong captcha has been used", Message::Error);
             return false;
         }
@@ -395,8 +395,7 @@ class session {
             $pin = md5($pin);
         }
 
-        $date = time(); // current time and date to be set as a date of signing up
-        $loginTime = date("Y-m-d H:i:s", time());
+        $loginTime = date("Y-m-d H:i:s", time()); // current time and date to be set as a date of signing up
         // get a new id for the user
         $id = $functions->getNewID();
 
@@ -561,7 +560,7 @@ class session {
      * @return bool
      */
     public function logged_in(){
-        if(isset($_SESSION['user_data']) || $_SESSION['user_data']){
+        if(isset($_SESSION['user_data'])){
             return true;
         } else { return false; }
     }
@@ -600,4 +599,84 @@ class session {
 		// return the loaded user
 		return $loadUser;
 	}
+
+    /**
+     * verify the users current device
+     * @param $pin
+     * @return boolean
+     */
+    function verifyDevice($pin){
+
+        // define all the global variables
+        global $database, $user, $message;
+
+        // escape string
+        $pin = $database->escapeString($pin);
+
+        // pin number checks
+        if (!is_numeric($pin)) {
+            $message->setError("Pin number should only contain numbers", Message::Error);
+            return false;
+        }
+
+        if ($pin[0] == 0) {
+            $message->setError("Pin number cannot start with a 0", Message::Error);
+            return false;
+        }
+
+        if (strlen($pin) < 6 || strlen($pin) > 6) {
+            $message->setError("Pin number has to be exactly 6 characters long", Message::Error);
+            return false;
+        }
+        
+        // check if pin number matches the users pin
+        if(!$user->matchPin($pin)){
+            $message->setError("Wrong pin number has been used", Message::Error);
+            return false;
+        }
+
+        // add the new device and check for any errors
+        if(!$user->devices()->addDevice()){
+            $message->setError("Oops, something went wrong while verifying your new device", Message::Error);
+            return false;
+        }
+
+        // if no errors then return a success message
+        $message->setSuccess("This device has been verified successfully");
+        return true;
+    }
+
+    /**
+     * check the users current status from :
+     * if the user is logged in
+     * if the user's current device is verified
+     * if the site is enabled to view
+     */
+    function statusCheck(){
+
+        // define all the global variables
+        global $user, $settings, $message;
+
+        // check if the site is disabled
+        if($settings->siteDisabled()){
+            // check if the user is an admin then do and exception
+            if($user->isAdmin()){ return true; }
+            $message->customKill("Site disabled", "We are currently working on better things, sorry for any inconvenient", $settings->get(Settings::SITE_THEME));
+            return false;
+        }
+
+        // check if the user has already logged in
+        if(!$this->logged_in()){
+            header("Location: login.php");
+            return false;
+        }
+
+        // check if the current user's device is verified
+        if(!$user->devices()->canAccess()){
+            header("Location: login.php");
+            return false;
+        }
+
+    }
+
 }

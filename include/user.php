@@ -283,7 +283,7 @@ class User {
 
     /**
      * check if the given pin number (md5) matches the current one stored in the session
-     * @param $pin
+     * @param String $pin
      * @return bool
      */
     function is_samePinNumber($pin){
@@ -624,6 +624,15 @@ class User {
      */
     public function getLostXP(){
         return $this->userData[TBL_USERS_LOST_XP];
+    }
+
+    /**
+     * Check if the given pin number matches the user's pin
+     * @param int $pin
+     * @return boolean
+     */
+    public function matchPin($pin){
+        return (md5($pin) == $this->get(TBL_USERS_PIN));
     }
 
 }

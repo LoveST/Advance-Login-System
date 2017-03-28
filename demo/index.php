@@ -2,12 +2,8 @@
 
 require "../init.php";
 
-if($settings->siteDisabled()){
-    $message->customKill("Oops!!!","The Site is disabled at the moment", $settings->get(Settings::SITE_THEME));
-}
+/** Check user & site status **/
+$session->statusCheck();
+/** End check user & site status**/
 
-if($session->logged_in() && $user->devices()->canAccess()){
-    require "templates/". $settings->get(Settings::SITE_THEME) ."/home.html";
-} else {
-    header("Location: login.php");
-}
+require "templates/". $settings->get(Settings::SITE_THEME) ."/home.html";

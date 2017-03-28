@@ -6,7 +6,7 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 session_start();
 
 // Turn off all error reporting
-error_reporting(1);
+error_reporting(0);
 
 require "include/config.php";
 require "include/message.php";
@@ -53,7 +53,7 @@ require "include/profileManager.php";
  * init Captcha class
  */
  
-	$captcha = new Captcha();
+    $captcha = new Captcha();
 	
 /**
  * init User class
@@ -102,8 +102,6 @@ require "include/profileManager.php";
 
     $profileManager = new profileManager();
     $profileManager->init();
-
-
 
  /**
   * Print out all the Fatal errors

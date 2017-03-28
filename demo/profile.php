@@ -8,9 +8,10 @@
 
 require "../init.php";
 
-if(!$session->logged_in()){
-    header("Location: login.php");
-}
+/** Check user & site status **/
+$session->statusCheck();
+/** End check user & site status**/
+
 
 $action = $_GET['ac'];
 

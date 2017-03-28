@@ -5,7 +5,14 @@ require "../init.php";
 if($session->logged_in() && $user->devices()->canAccess()) {
     header("Location: index.php");
 }else if(!$user->devices()->canAccess() && $session->logged_in()){
-    die("your computer has to be verified first by entering your pin number");
+
+    if(isset($_POST['verify'])){
+        if($session->verifyDevice($_POST['pin'])){
+            header("Location: index.php");
+        }
+    }
+
+    require "templates/". $settings->get(Settings::SITE_THEME) ."/verify_device.html";
 } else {
 
     $page = $_GET['ac'];
