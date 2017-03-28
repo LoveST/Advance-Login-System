@@ -61,37 +61,45 @@ class Settings{
 
         // try pulling the required data
         if(!$result = mysqli_query($database->connection,$sql)){
-            $message->setError("Error while trying to pull the required data from the database." , Message::Fatal, __FILE__ , __LINE__ - 1);
+            $message->customKill("Fatal Error", "Error while trying to pull the required data from the database.", "default");
         }
 
         if(mysqli_num_rows($result) <1){
-            $message->setError("Settings table doesn't contain any values for the script to run." , Message::Fatal, __FILE__ , __LINE__ - 1);
+            $message->customKill("Fatal Error", "Settings table doesn't contain any values for the script to run.", "default");
         }
-
-        // must not be empty fields
-        $required = [TBL_SETTINGS_SITE_NAME,TBL_SETTINGS_SITE_URL,TBL_SETTINGS_SITE_EMAIL,TBL_SETTINGS_SECRET_KEY];
 
         // store the data in the settings array to complete the function
         while($row = mysqli_fetch_assoc($result)){
-            foreach($row as $key => $value){
-                // check if the field is required and if its empty
-                if(in_array($key,$required) && empty($value)){
-                    $message->customKill("Settings", "The sql field " . $key . " most not be empty", "default");
-                }
 
-                // check for empty theme field in the sql and set it to 'default'
-                if($key == TBL_SETTINGS_SITE_THEME && empty($value)){
-                    $this->settings[$key] = "default";
-                    continue;
-                }
-                // check for empty language field in the sql and set it to 'us-eng'
-                if($key == TBL_SETTINGS_SITE_LANG && empty($value)){
-                    $this->settings[$key] = "us-eng";
-                    continue;
-                }
-                $this->settings[$key] = $value;
+            // store the needed variables
+            $fieldName = $row['field'];
+            $fieldValue = $row['value'];
+
+            // add the rows to the array
+            $this->settings[$fieldName] = $fieldValue;
+
+        }
+
+        // check for the required values that has to be set for the script to run
+        // must not be empty fields
+        $required = [TBL_SETTINGS_SITE_NAME,TBL_SETTINGS_SITE_URL,TBL_SETTINGS_SITE_EMAIL,TBL_SETTINGS_SECRET_KEY];
+        foreach ($required as $requiredField){
+            if($this->settings[$requiredField] == "" || is_null($this->settings[$requiredField])){
+                $message->customKill("Settings", "The sql field " . $requiredField . " most not be empty", "default");
             }
         }
+
+
+        // check for empty theme field in the sql and set it to 'default'
+        if($this->settings[TBL_SETTINGS_SITE_THEME] == ""){
+            $this->settings[TBL_SETTINGS_SITE_THEME] = "default";
+        }
+
+        // check for empty language field in the sql and set it to 'us-eng'
+        if($this->settings[TBL_SETTINGS_SITE_LANG] == ""){
+            $this->settings[TBL_SETTINGS_SITE_LANG] = "us-eng";
+        }
+
     }
 
     function canLogin(){

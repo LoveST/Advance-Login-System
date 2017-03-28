@@ -137,11 +137,14 @@ class Administrator{
                 return false;
             }
 
-            $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '1'";
+            $sql = "UPDATE ". TBL_SETTINGS . " SET value = '1' WHERE field = '". TBL_SETTINGS_FORCE_HTTPS . "'";
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
                 die;
             }
+
+            //if no error then set the success message
+            $message->setSuccess("You have activated ssl across your script");
             return true;
         } else {
             // check if already de-activated
@@ -149,11 +152,14 @@ class Administrator{
                 return false;
             }
 
-            $sql = "UPDATE ". TBL_SETTINGS . " SET ". TBL_SETTINGS_FORCE_HTTPS . " = '0'";
+            $sql = "UPDATE ". TBL_SETTINGS . " SET value = '0' WHERE field = '". TBL_SETTINGS_FORCE_HTTPS . "'";
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
                 die;
             }
+
+            //if no error then set the success message
+            $message->setSuccess("You have de-activated ssl across your script");
             return true;
         }
     }

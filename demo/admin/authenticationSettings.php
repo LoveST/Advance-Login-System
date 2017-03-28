@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: masis
  * Date: 2/28/2017
- * Time: 4:54 PM
+ * Time: 4:55 PM
  */
 
 /** Check user & site status **/
@@ -12,4 +12,4 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_securitySettings.html";
+require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_authenticationSettings.html";

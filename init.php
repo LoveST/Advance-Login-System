@@ -6,7 +6,7 @@ if(count(get_included_files()) ==1) exit("You don't have the permission to acces
 session_start();
 
 // Turn off all error reporting
-error_reporting(0);
+error_reporting(2);
 
 require "include/config.php";
 require "include/message.php";

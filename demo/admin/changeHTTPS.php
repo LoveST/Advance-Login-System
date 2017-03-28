@@ -6,7 +6,10 @@
  * Time: 4:34 PM
  */
 
+/** Check user & site status **/
 require "../../init.php";
+$session->statusCheck();
+/** End check user & site status**/
 
 if(!$user->isAdmin()){
     $message->customKill("Invalid Privileges","You do not have the permission to access this page",$settings->siteTheme());

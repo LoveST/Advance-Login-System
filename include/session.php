@@ -677,6 +677,26 @@ class session {
             return false;
         }
 
+        return true;
+    }
+
+    /**
+     * check if the current user has an admin level
+     * and if he does not then kill the script and print
+     * a custom error message
+     * @return bool
+     */
+    function adminCheck(){
+
+        // define all the global variables
+        global $user, $message, $settings;
+
+        // check if the user is admin
+        if($user->isAdmin()){ return true; }
+
+        // if not then print a custom error message
+        $message->customKill("Invalid Privileges", "You do not have the permission to access this page", $settings->siteTheme());
+        return false;
     }
 
 }

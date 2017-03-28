@@ -6,9 +6,9 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="assets/images/favicon_1.ico">
+    <link rel="shortcut icon" href="../templates/<? echo $settings->get(Settings::SITE_THEME); ?>/assets/images/favicon_1.ico">
 
-    <title><?=$settings->get(Settings::SITE_NAME) . " | "; ?> Enable/Disable HTTPS</title>
+    <title><?=$settings->get(Settings::SITE_NAME) . " | "; ?>Authentication Settings</title>
 
     <link href="../templates/<? echo $settings->get(Settings::SITE_THEME); ?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="../templates/<? echo $settings->get(Settings::SITE_THEME); ?>/assets/css/core.css" rel="stylesheet" type="text/css" />
@@ -33,13 +33,16 @@
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class=" card-box">
-        <div class="panel-heading">
-            <h3 class="text-center"> Enable/Disable HTTPS </h3>
-        </div>
 
         <div class="panel-body">
 
+            <div class="panel-heading">
+                <h3 class="text-center"> Authentication settings </h3>
+            </div>
+
             <form action="" class="form-horizontal m-t-20" method="post">
+
+
 
                 <? if($message->anyError()){ ?>
                 <div class="alert alert-danger">
@@ -53,36 +56,82 @@
                 </div>
                 <? } ?>
 
-
-                <? if( !$settings->isHTTPS() ) { ?>
-
-                <div class="form-group text-center m-t-40">
+                <h4 class="text-center"> Login enabled </h4>
+                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
+                <div class="form-group">
                     <div class="col-xs-12">
-                        <button name="enable" class="btn btn-pink btn-block text-uppercase waves-effect waves-light" type="submit">Enable</button>
+                        <input class="form-control" type="text" value="<? if($settings->canLogin()){ echo 1;} else { echo 0;} ?>" name="login_enabled" required="true" placeholder="Login enabled">
                     </div>
                 </div>
 
-                <? } else { ?>
+                <br><hr>
 
-                <div class="form-group text-center m-t-40">
+                <h4 class="text-center"> Register enabled </h4>
+                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
+                <div class="form-group">
                     <div class="col-xs-12">
-                        <button name="disable" class="btn btn-pink btn-block text-uppercase waves-effect waves-light" type="submit">Disable</button>
+                        <input class="form-control" type="text" value="<? if($settings->canRegister()){ echo 1;} else { echo 0;} ?>" name="register_enabled" required="true" placeholder="Register enabled">
                     </div>
                 </div>
 
-                <? } ?>
+                <br><hr>
 
-                <h4 class="text-muted">Make sure the site supports ssl. Otherwise, you won't have access to the script.</h4>
+                <h4 class="text-center"> Pin required </h4>
+                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" value="<? if($settings->pinRequired()){ echo 1;} else { echo 0;} ?>" name="pin_required" required="true" placeholder="Pin required">
+                    </div>
+                </div>
 
+                <br><hr>
+
+                <h4 class="text-center"> Activation required </h4>
+                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" value="<? if($settings->activationRequired()){ echo 1;} else { echo 0;} ?>" name="activation_required" required="true" placeholder="Activation required">
+                    </div>
+                </div>
+
+                <br><hr>
+
+                <h4 class="text-center"> Minimum Age required </h4>
+                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" value="<? if($settings->minimumAgeRequired()){ echo 1;} else { echo 0;} ?>" name="minimum_age_required" required="true" placeholder="Minimum age required">
+                    </div>
+                </div>
+
+                <br><hr>
+
+                <h4 class="text-center"> Minimum Age </h4>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" value="<?=$settings->minimumAge()?>" name="minimum_age" required="true" placeholder="Minimum age">
+                    </div>
+                </div>
+
+                <br><hr>
+
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-xs-12">
+                        <button name="subtractXP" class="btn btn-danger btn-block text-uppercase waves-effect waves-light" type="submit">Update</button>
+                    </div>
+                </div>
             </form>
 
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-12 text-center">
             <p><a href="#" onclick="history.back();" class="text-primary m-l-5"><b></b>Go Back</a></p>
         </div>
     </div>
+
 </div>
 
 <script>

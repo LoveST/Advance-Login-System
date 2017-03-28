@@ -1,8 +1,7 @@
 <?php
 
-require "../init.php";
-
 /** Check user & site status **/
+require "../init.php";
 $session->statusCheck();
 /** End check user & site status**/
 

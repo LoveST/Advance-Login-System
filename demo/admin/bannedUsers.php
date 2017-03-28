@@ -6,7 +6,10 @@
  * Time: 4:54 PM
  */
 
+/** Check user & site status **/
 require "../../init.php";
+$session->statusCheck();
+/** End check user & site status**/
 
 if($user->isAdmin()){
 
