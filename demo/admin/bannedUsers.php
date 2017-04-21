@@ -9,13 +9,8 @@
 /** Check user & site status **/
 require "../../init.php";
 $session->statusCheck();
+$session->adminCheck();
 /** End check user & site status**/
-
-if($user->isAdmin()){
 
     $banedUsers = $admin->getBannedUsers();
     require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_bannedUsers.html";
-
-} else {
-    $message->customKill("Invalid Privileges","You do not have the permission to access this page",$settings->siteTheme());
-}

@@ -12,4 +12,15 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
+if(isset($_POST['update'])){
+
+    $siteSecretKey = $_POST['site_secret'];
+    $captchaKey = $_POST['captcha_key'];
+    $captchaSecretKey = $_POST['captcha_secret'];
+
+    // call the update security settings method
+    $admin->updateSecuritySettings($siteSecretKey, $captchaKey, $captchaSecretKey);
+
+}
+
 require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_securitySettings.html";

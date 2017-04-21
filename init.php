@@ -1,12 +1,12 @@
 <?
 
 // include in the beginning of every single php file
-if(count(get_included_files()) ==1) exit("You don't have the permission to access this file.");
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 // Start the session
 session_start();
 
 // Turn off all error reporting
-error_reporting(2);
+error_reporting(3);
 
 require "include/config.php";
 require "include/message.php";
@@ -28,83 +28,83 @@ require "include/profileManager.php";
  * init Message class
  */
 
-    $message = new Message();
-    $message->init();
+$message = new Message();
+$message->init();
 
 /**
  * init Database class
  */
 
-    $database = new Database();
+$database = new Database();
 
 /**
  * init Settings class
  */
 
-    $settings = new Settings();
+$settings = new Settings();
 
 /**
  * init the Browser class
  */
 
-    $browser = new Browser();
+$browser = new Browser();
 
 /**
  * init Captcha class
  */
- 
-    $captcha = new Captcha();
-	
+
+$captcha = new Captcha();
+
 /**
  * init User class
  */
 
-    $user = new User();
-    $user->init();
+$user = new User();
+$user->init();
 
 /**
  * init Mail class
  */
 
-    $mail = new mail();
+$mail = new mail();
 
 /**
  * init passwordManager class
  */
 
-    $passwordManager = new passwordManager();
+$passwordManager = new passwordManager();
 
 /**
  * init Functions class
  */
 
-    $functions = new Functions();
-    $functions->init();
+$functions = new Functions();
+$functions->init();
 
 
 /**
  * init Session class
  */
 
-    $session = new session();
-    $session->init();
+$session = new session();
+$session->init();
 
 /**
  * init Administrator class
  */
 
-    $admin = new Administrator();
-    $admin->init();
+$admin = new Administrator();
+$admin->init();
 
 /**
  * init profileManager class
  */
 
-    $profileManager = new profileManager();
-    $profileManager->init();
+$profileManager = new profileManager();
+$profileManager->init();
 
- /**
-  * Print out all the Fatal errors
-  */
+/**
+ * Print out all the Fatal errors
+ */
 
-    echo $message->getError(1);
+echo $message->getError(1);

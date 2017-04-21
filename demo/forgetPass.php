@@ -11,7 +11,7 @@ $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $username = $_POST['username'];
 $email = $_POST['email'];
 $code = $_POST['code'];
-$captcha = $_POST[''];
+$captchaInput = $_POST['g-recaptcha-response'];
 
     switch($_GET['option']){
         case "confirm";
@@ -39,7 +39,7 @@ $captcha = $_POST[''];
         default;
             if(isset($_POST['reset'])){
 				//$template = file_get_contents('demo/templates/ubold/');
-                if($passwordManager->forgetPasswordWithEmail($username, $email, true, file_get_contents('templates/'. $settings->get(Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
+                if($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/'. $settings->get(Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
                     $success = true;
                 }
             }

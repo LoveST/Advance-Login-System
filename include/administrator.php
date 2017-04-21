@@ -164,4 +164,185 @@ class Administrator{
         }
     }
 
+    /**
+     * add an x amount of xp to a x user
+     * @param $username
+     * @param int $amount
+     * @return bool
+     */
+    function addXP($username, $amount){
+
+        // define all the global variables
+        global $database, $message, $user, $functions;
+
+        // check if current user has the required permission
+        if(!$user->hasPermission("manage_xp_add")){
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // escape the given strings
+        $username = $database->escapeString($username);
+        $amount = $database->escapeString($amount);
+
+        // check for empty username or amount
+        if(empty($username) || empty($amount)){
+            $message->setError("Both fields are required", Message::Error);
+            return false;
+        }
+
+        // check if amount is a number
+        if(!is_numeric($amount)){
+            $message->setError("Only numbers are allowed for the amount", Message::Error);
+            return false;
+        }
+
+        // check if user exists
+        if(!$functions->userExist($username)){
+            $message->setError("Username not found", Message::Error);
+            return false;
+        }
+
+        // initiate the user class
+        $getUser = new User();
+        // load the user data
+        $getUser->initInstance($username);
+        // add the new amount to the user xp
+        if($getUser->addXP($amount)) {
+            $message->setSuccess("You have successfully added " . $amount . " XP to " . $getUser->getUsername() . "'s account");
+            $message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            return true;
+        } else {
+            $message->setError("An error has occurred", Message::Error);
+            return false;
+        }
+    }
+
+    /**
+     * subtract an x amount of xp from a x user
+     * @param $username
+     * @param int $amount
+     * @return bool
+     */
+    function subtractXP($username, $amount){
+
+        // define all the global variables
+        global $database, $message, $user, $functions;
+
+        // check if current user has the required permission
+        if(!$user->hasPermission("manage_xp_subtract")){
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // escape the given strings
+        $username = $database->escapeString($username);
+        $amount = $database->escapeString($amount);
+
+        // check for empty username or amount
+        if(empty($username) || empty($amount)){
+            $message->setError("Both fields are required", Message::Error);
+            return false;
+        }
+
+        // check if amount is a number
+        if(!is_numeric($amount)){
+            $message->setError("Only numbers are allowed for the amount", Message::Error);
+            return false;
+        }
+
+        // check if user exists
+        if(!$functions->userExist($username)){
+            $message->setError("Username not found", Message::Error);
+            return false;
+        }
+
+        // initiate the user class
+        $getUser = new User();
+        // load the user data
+        $getUser->initInstance($username);
+
+        // subtract the new amount from the user xp
+        if($getUser->subtractXP($amount)) {
+            $message->setSuccess("You have successfully subtracted " . $amount . " XP from " . $getUser->getUsername() . "'s account");
+            $message->setSuccess("Now, he has " . $getUser->getXP() . " XP");
+            return true;
+        } else {
+            $message->setError("An error has occurred", Message::Error);
+            return false;
+        }
+    }
+
+    /**
+     * update the site security settings
+     * @param $siteSecretKey
+     * @param $captchaKey
+     * @param $captchaSecretKey
+     * @return bool
+     */
+    function updateSecuritySettings($siteSecretKey, $captchaKey, $captchaSecretKey){
+
+        // define all the global variables
+        global $database, $message, $settings, $user, $captcha;
+
+        // escape strings
+        $siteSecretKey = $database->escapeString($siteSecretKey);
+        $captchaKey = $database->escapeString($captchaKey);
+        $captchaSecretKey = $database->escapeString($captchaSecretKey);
+
+        // check if current user has the required permission
+        if(!$user->hasPermission("update_site_settings")){
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // check if any fields are empty then return an error
+        if(empty($siteSecretKey) || empty($captchaKey) || empty($captchaSecretKey)){
+            $message->setError("All fields are required to be filled", Message::Error);
+            return false;
+        }
+
+        // check if site secret consists of 32 characters
+        if(strlen($siteSecretKey) != 32){
+            $message->setError("Secret code most be 32 characters long only", Message::Error);
+            return false;
+        }
+
+        // check if site secret key consists of a hex32 string
+        if(!ctype_xdigit($siteSecretKey)){
+            $message->setError("Only a Hex32 string is allowed for the site secret key", Message::Error);
+            return false;
+        }
+
+        // check if the site secret is the same
+        // update the site secret
+        if($settings->secretKey() != $siteSecretKey) {
+            $settings->setSiteSecret($siteSecretKey);
+            $settings->setSetting(Settings::SECRET_KEY, $siteSecretKey);
+        }
+
+        // check if the current captcha key is the same
+        // update the captcha key
+        if($captcha->getSiteKey() != $captchaKey) {
+            $settings->setCaptchaKey($captchaKey);
+            $settings->setSetting(Settings::CAPTCHA_KEY, $captchaKey);
+        }
+
+        // check if the current captcha secret key is the same
+        // update the captcha secret key
+        if($captcha->getSecretKey() != $captchaSecretKey) {
+            $settings->setSetting(Settings::CAPTCHA_SECRET_KEY, $captchaSecretKey);
+        }
+
+        // check if the site secret is the same
+        // check for any errors then return false
+        if($message->anyError()){
+            return false;
+        }
+
+        //set the success message
+        $message->setSuccess("Things might have happened");
+        return true;
+    }
+
 }

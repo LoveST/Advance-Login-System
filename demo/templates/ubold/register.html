@@ -58,7 +58,7 @@
                 <? if($success){ ?>
                 <div class="alert alert alert-success text-center">
                     Your account has been successfully created<br>
-                    <a href="../../login.php">Login</a>
+                    <a href="login.php">Login</a>
                 </div>
                 <? } ?>
 
@@ -148,7 +148,7 @@
 					
 					<div class="form-group">
                         <div class="col-xs-12 text-center">
-                            <div class="g-recaptcha" data-sitekey="<?=$captcha->getSiteKey();?>"></div>
+                            <div class="g-recaptcha" data-theme="dark" data-sitekey="<?=$captcha->getSiteKey();?>"></div>
                         </div><!-- input-group -->
                     </div>
 
@@ -167,7 +167,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p>Already have an account? <a href="../../login.php" class="text-primary m-l-5"><b>Login</b></a></p>
+            <p>Already have an account? <a href="login.php" class="text-primary m-l-5"><b>Login</b></a></p>
 
         </div>
     </div>
