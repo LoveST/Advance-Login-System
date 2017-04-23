@@ -1,12 +1,11 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: LoveMST
  * Date: 8/10/2016
  * Time: 5:46 PM
  */
-
+namespace ALS;
 class Database {
 
     var $connection; // public variable for the database connection
@@ -15,14 +14,7 @@ class Database {
      * Database constructor for PHP5.
      */
     function __construct(){
-        $this->init(); // init the connection to the database
-    }
-
-    /**
-     * init the class
-     */
-    private function init(){
-        $this->connect();
+        $this->connect(); // init the connection to the database
     }
 
     /**
@@ -36,7 +28,7 @@ class Database {
         $this->connection = mysqli_connect(DBURL,DBUSER,DBPASS,DBNAME,DBPORT);
         // Check for any connection errors
         if (mysqli_connect_errno()){
-            $message->customKill("Database Connection Error", "Connection to the database failed: " . mysqli_connect_error() , "ubold");
+            $message->customKill("Database Connection Error", "Connection to the database failed: " . mysqli_connect_error() , "default");
         }
 
     }

@@ -32,4 +32,4 @@ if(isset($_POST['activate'])){
 
 }
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_activateUser.html";
+require "../". TEMPLATE_PATH ."/ad_activateUser.html";

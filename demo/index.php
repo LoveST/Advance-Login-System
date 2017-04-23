@@ -5,4 +5,4 @@ require "../init.php";
 $session->statusCheck();
 /** End check user & site status**/
 
-require "templates/". $settings->get(Settings::SITE_THEME) ."/home.html";
+require TEMPLATE_PATH ."/home.html";

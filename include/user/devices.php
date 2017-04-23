@@ -6,6 +6,7 @@
  * Date: 3/21/2017
  * Time: 11:31 PM
  */
+namespace ALS\User;
 class Devices{
 
     var $computers; // store all the computers that the user is being logged from
@@ -24,7 +25,7 @@ class Devices{
     function addDevice(){
 
         // init the global variables
-        global $database, $message;
+        global $database, $message, $settings;
 
         // check if class is instance of a live user
         if(!$this->isActiveUser()){
@@ -40,6 +41,12 @@ class Devices{
         // check if the current device is already been added before
         if($this->canAccess()){
             return false;
+        }
+
+        // check if max verified devices limit has been reached
+        // if-so then remove the first device in the array
+        if(count($devices) + 1 > $settings->maxVerifiedDevices()){
+            unset($devices[0]);
         }
 
         // push the current device info to the array
@@ -180,7 +187,7 @@ class Devices{
     }
 
     /**
-     * get the current users id
+     * get the current users ip address
      * @return string
      */
     function getUserIP(){

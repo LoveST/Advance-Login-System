@@ -6,6 +6,7 @@
  * Date: 1/12/2017
  * Time: 2:21 PM
  */
+namespace ALS;
 class passwordManager
 {
 
@@ -14,15 +15,6 @@ class passwordManager
      */
     function __construct()
     {
-        $this->init(); // init the required functions to run the class
-    }
-
-    /**
-     * init the class
-     */
-    function init()
-    {
-
     }
 
     /**

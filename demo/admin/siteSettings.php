@@ -12,5 +12,5 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_siteSettings.html";
+require "../". TEMPLATE_PATH ."/ad_siteSettings.html";
 

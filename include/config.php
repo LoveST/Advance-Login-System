@@ -5,6 +5,7 @@
  * Date: 5/12/2016
  * Time: 12:35 PM
  */
+namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
 /**
@@ -64,6 +65,8 @@ define("TBL_SETTINGS_FORCE_HTTPS", "force_https");
 define("TBL_SETTINGS_MAX_WARNINGS", "max_warnings");
 define("TBL_SETTINGS_CAPTCHA_KEY", "captcha_key");
 define("TBL_SETTINGS_CAPTCHA_SECRET", "captcha_secret");
+define("TBL_SETTINGS_SAME_IP_LOGIN", "same_ip_login");
+define("TBL_SETTINGS_MAX_VERIFIED_DEVICES", "max_verified_devices");
 define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");

@@ -6,6 +6,7 @@
  * Date: 1/26/2017
  * Time: 1:11 PM
  */
+namespace ALS;
 class Settings
 {
 
@@ -27,6 +28,7 @@ class Settings
     const FORCE_HTTPS = TBL_SETTINGS_FORCE_HTTPS;
     const CAPTCHA_KEY = TBL_SETTINGS_CAPTCHA_KEY;
     const CAPTCHA_SECRET_KEY = TBL_SETTINGS_CAPTCHA_SECRET;
+    const SAME_IP_LOGIN = TBL_SETTINGS_SAME_IP_LOGIN;
 
     /**
      * Settings constructor for PHP4
@@ -51,6 +53,7 @@ class Settings
     {
         $this->callSettings(); // store all the site settings
         $this->checkHTTPS(); // check if HTTPS is enabled
+        $this->initRequiredFields(); // define the required fields for the script
     }
 
     /**
@@ -61,6 +64,15 @@ class Settings
     function get($dataType)
     {
         return $this->settings[$dataType];
+    }
+
+    /**
+     * Define the required fields for the script to run smoothly
+     */
+    function initRequiredFields()
+    {
+        define("TEMPLATE_PATH", "templates/" . $this->get(Settings::SITE_THEME) . "/");
+        define("SITE_NAME", $this->get(Settings::SITE_NAME));
     }
 
     /**
@@ -196,6 +208,16 @@ class Settings
     function maxWarnings()
     {
         return $this->settings[TBL_SETTINGS_MAX_WARNINGS];
+    }
+
+    function sameIpLogin()
+    {
+        return $this->settings[TBL_SETTINGS_SAME_IP_LOGIN];
+    }
+
+    function maxVerifiedDevices()
+    {
+        return $this->settings[TBL_SETTINGS_MAX_VERIFIED_DEVICES];
     }
 
     /**

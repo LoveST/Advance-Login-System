@@ -6,7 +6,8 @@
  * Date: 4/28/2016
  * Time: 1:40 AM
  */
-class mail
+namespace ALS;
+class Mail
 {
 
     private $to = "";
@@ -138,7 +139,7 @@ class mail
             return $sender;
 
 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $message->setError($ex->getMessage(), Message::Error);
             return false;
         }

@@ -36,4 +36,4 @@ if($session->logged_in()){
 
     }
 
-    require "templates/". $settings->get(Settings::SITE_THEME) ."/register.html";
+    require TEMPLATE_PATH ."/register.html";

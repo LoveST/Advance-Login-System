@@ -6,6 +6,7 @@
  * Date: 3/7/2017
  * Time: 3:22 PM
  */
+namespace ALS;
 class profileManager
 {
 
@@ -14,15 +15,6 @@ class profileManager
      */
     function __construct()
     {
-
-    }
-
-    /**
-     * Init the class
-     */
-    public function init()
-    {
-
     }
 
     public function setNewUsername($username, $pin)

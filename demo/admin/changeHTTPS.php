@@ -18,4 +18,4 @@ if(isset($_POST['enable'])){
     $admin->activateHTTPS(false);
 }
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_setHTTPS.html";
+require "../". TEMPLATE_PATH ."/ad_setHTTPS.html";

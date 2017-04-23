@@ -13,5 +13,5 @@ $session->adminCheck();
 /** End check user & site status**/
 
     $administrator = $admin->getAdmins();
-    require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_administrators.html";
+    require "../". TEMPLATE_PATH ."/ad_administrators.html";
 

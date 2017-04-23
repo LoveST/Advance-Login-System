@@ -6,6 +6,7 @@
  * Date: 1/11/2017
  * Time: 8:26 PM
  */
+namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class User
@@ -26,7 +27,7 @@ class User
 
     function __construct()
     {
-        $this->devices = new Devices();
+        $this->devices = new User\Devices();
     }
 
     /**
@@ -59,7 +60,7 @@ class User
         }
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
-        $this->devices = new Devices(); // create the unique logs class for the current user
+        $this->devices = new User\Devices(); // create the unique logs class for the current user
 
         return true;
     }
@@ -219,6 +220,24 @@ class User
     }
 
     /**
+     * get the current user's first name
+     * @return string
+     */
+    function getFirstName()
+    {
+        return $this->userData[TBL_USERS_FNAME];
+    }
+
+    /**
+     * get the current user's last name
+     * @return string
+     */
+    function getLastName()
+    {
+        return $this->userData[TBL_USERS_LNAME];
+    }
+
+    /**
      * get the current user's id
      * @return int
      */
@@ -238,7 +257,7 @@ class User
 
     /**
      * get the date that the user has joined at
-     * @return DateTime
+     * @return \DateTime
      */
     function getDateJoined()
     {
@@ -374,6 +393,7 @@ class User
     }
 
     /**
+     * get the permissions of a certain level as an array
      * @param $level
      * @return array
      */

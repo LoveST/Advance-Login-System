@@ -6,7 +6,7 @@
  * Date: 1/11/2017
  * Time: 7:38 PM
  */
-
+namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class Message

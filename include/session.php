@@ -5,11 +5,11 @@
  * Date: 5/12/2016
  * Time: 12:42 PM
  */
-
+namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 date_default_timezone_set('UTC');
 
-class session
+class Session
 {
 
     /**
@@ -27,7 +27,7 @@ class session
      * @param $username
      * @param $password
      * @param int $rememberMe
-     * @return true|false
+     * @return boolean
      */
     public function loginWithPassword($username, $password, $rememberMe = 1)
     {
@@ -104,6 +104,7 @@ class session
             $user_dataArray = array(
                 'token' => $newToken,
                 'time' => time(),
+                'ip' => $functions->getUserIP(),
                 'browser_name' => $browser->getBrowser(),
                 'browser_platform' => $browser->getPlatform()
             );
@@ -206,7 +207,7 @@ class session
     {
 
         // define all the global variables
-        global $database, $message, $user, $functions, $browser;
+        global $database, $message, $user, $settings , $functions, $browser;
 
         if (empty($_SESSION["user_data"])) { // check if the current session is empty
             if (!empty($_COOKIE["user_data"]) && !empty($_COOKIE["user_id"])) { // check if the current cookie is not empty or null
@@ -235,6 +236,14 @@ class session
                     // check if the cookie was first created on the same device
                     if ($tokenArray['browser_platform'] != $browser->getPlatform()) {
                         return false;
+                    }
+
+                    // check if same ip login is disabled
+                    // then check if the stored ip matches the current device ip address
+                    if(!$settings->sameIpLogin()){
+                        if($tokenArray['ip'] != $functions->getUserIP()){
+                            return false;
+                        }
                     }
 
                     // check if user has to sign in again with his credentials

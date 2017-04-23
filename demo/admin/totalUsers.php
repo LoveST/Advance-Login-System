@@ -13,4 +13,4 @@ $session->adminCheck();
 /** End check user & site status**/
 
     $totalUsers = $admin->getUsers();
-    require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_totalUsers.html";
+    require "../". TEMPLATE_PATH ."/ad_totalUsers.html";

@@ -24,12 +24,12 @@ switch($action){
             }
         }
 
-        require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_change_username.html";
+        require TEMPLATE_PATH .  "/profile_change_username.html";
         break;
     case "verified_devices";
         $devices = $user->devices()->getDevices();
 
-        require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_verified_devices.html";
+        require TEMPLATE_PATH .  "/profile_verified_devices.html";
         break;
     case "change_information";
         echo "hello";
@@ -42,7 +42,7 @@ switch($action){
             }
         }
 
-        require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_change_email.html";
+        require TEMPLATE_PATH .  "/profile_change_email.html";
         break;
     case "change_password";
         echo "hello";
@@ -51,6 +51,6 @@ switch($action){
         echo "hello";
         break;
     default;
-        require "templates/" . $settings->get(Settings::SITE_THEME) .  "/profile_main.html";
+        require TEMPLATE_PATH .  "/profile_main.html";
         break;
 }

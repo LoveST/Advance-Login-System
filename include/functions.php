@@ -6,6 +6,7 @@
  * Date: 1/26/2017
  * Time: 2:51 PM
  */
+namespace ALS;
 class Functions{
 
     /**
@@ -64,7 +65,7 @@ class Functions{
      * @return bool
     */
     function isValidDate($date){
-        if( DateTime::createFromFormat('m/d/Y',$date)->format('m/d/Y') == $date ) {
+        if( \DateTime::createFromFormat('m/d/Y',$date)->format('m/d/Y') == $date ) {
             return true;
         } else {
             return false;
@@ -77,8 +78,8 @@ class Functions{
      * @return int
      */
     function getAge($birthday){
-        $birthday = new DateTime($birthday);
-        $interval = $birthday->diff(new DateTime);
+        $birthday = new \DateTime($birthday);
+        $interval = $birthday->diff(new \DateTime);
         return $interval->y;
     }
 
@@ -261,8 +262,8 @@ class Functions{
 
         // count the timestamp for each person online atm
         while($row = mysqli_fetch_assoc($result)){
-            $last_update = new DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
-            $currentTime = new DateTime(date("Y-m-d H:i:s", time())); // current time
+            $last_update = new \DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
+            $currentTime = new \DateTime(date("Y-m-d H:i:s", time())); // current time
             $timeDifference = $currentTime->diff($last_update); // count the difference
             if($timeDifference->i < 1){
                 $totalUsers += 1;
@@ -310,6 +311,14 @@ class Functions{
             $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
         }
         return $pageURL;
+    }
+
+    /**
+     * get the current users ip address
+     * @return string
+     */
+    function getUserIP(){
+        return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
 
 }

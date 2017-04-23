@@ -6,6 +6,7 @@
  * Date: 3/20/2017
  * Time: 12:30 AM
  */
+namespace ALS;
 class Captcha {
 
     private $siteKey; // site captcha key

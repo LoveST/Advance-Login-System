@@ -20,7 +20,7 @@ $captchaInput = $_POST['g-recaptcha-response'];
                     header("Location: forgetPass.php?option=createNew&u=$email&c=$code");
                 }
             }
-            require "templates/". $settings->get(Settings::SITE_THEME) ."/confirmPasswordReset.html";
+            require TEMPLATE_PATH ."/confirmPasswordReset.html";
             break;
         case "createNew";
             $decryptEmail = $database->escapeString($_GET['u']);
@@ -34,15 +34,15 @@ $captchaInput = $_POST['g-recaptcha-response'];
                 }
             }
 
-            require "templates/". $settings->get(Settings::SITE_THEME) ."/newPassword.html";
+            require TEMPLATE_PATH ."/newPassword.html";
             break;
         default;
             if(isset($_POST['reset'])){
 				//$template = file_get_contents('demo/templates/ubold/');
-                if($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/'. $settings->get(Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
+                if($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/'. $settings->get(ALS\Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
                     $success = true;
                 }
             }
-            require "templates/". $settings->get(Settings::SITE_THEME) ."/resetPassword.html";
+            require TEMPLATE_PATH ."/resetPassword.html";
             break;
     }

@@ -1,5 +1,4 @@
 <?
-
 // include in the beginning of every single php file
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 // Start the session
@@ -28,6 +27,7 @@ require "include/profileManager.php";
  * init Message class
  */
 
+use ALS\Message;
 $message = new Message();
 $message->init();
 
@@ -35,30 +35,35 @@ $message->init();
  * init Database class
  */
 
+use ALS\Database;
 $database = new Database();
 
 /**
  * init Settings class
  */
 
+use ALS\Settings;
 $settings = new Settings();
 
 /**
  * init the Browser class
  */
 
+use ALS\Browser;
 $browser = new Browser();
 
 /**
  * init Captcha class
  */
 
+use ALS\Captcha;
 $captcha = new Captcha();
 
 /**
  * init User class
  */
 
+use ALS\User;
 $user = new User();
 $user->init();
 
@@ -66,18 +71,21 @@ $user->init();
  * init Mail class
  */
 
-$mail = new mail();
+use ALS\Mail;
+$mail = new Mail();
 
 /**
  * init passwordManager class
  */
 
+use ALS\passwordManager;
 $passwordManager = new passwordManager();
 
 /**
  * init Functions class
  */
 
+use ALS\Functions;
 $functions = new Functions();
 $functions->init();
 
@@ -86,22 +94,23 @@ $functions->init();
  * init Session class
  */
 
-$session = new session();
+use ALS\Session;
+$session = new Session();
 $session->init();
 
 /**
  * init Administrator class
  */
 
+use ALS\Administrator;
 $admin = new Administrator();
-$admin->init();
 
 /**
  * init profileManager class
  */
 
+use ALS\profileManager;
 $profileManager = new profileManager();
-$profileManager->init();
 
 /**
  * Print out all the Fatal errors

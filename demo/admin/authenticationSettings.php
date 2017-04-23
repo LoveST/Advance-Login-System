@@ -12,4 +12,4 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_authenticationSettings.html";
+require "../". TEMPLATE_PATH ."/ad_authenticationSettings.html";

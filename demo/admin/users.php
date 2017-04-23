@@ -16,4 +16,4 @@ $session->adminCheck();
     $banedUsers = $admin->getBannedUsers();
     $administrator = $admin->getAdmins();
 
-    require "../templates/". $settings->get(Settings::SITE_THEME) ."/users_info.html";
+    require "../". TEMPLATE_PATH ."/users_info.html";

@@ -12,7 +12,7 @@ if($session->logged_in() && $user->devices()->canAccess()) {
         }
     }
 
-    require "templates/". $settings->get(Settings::SITE_THEME) ."/verify_device.html";
+    require TEMPLATE_PATH ."/verify_device.html";
 } else {
 
     $page = $_GET['ac'];
@@ -27,7 +27,7 @@ if($session->logged_in() && $user->devices()->canAccess()) {
                 //break;
             }
 
-            require "templates/". $settings->get(Settings::SITE_THEME) ."/activate-account.html";
+            require TEMPLATE_PATH ."/activate-account.html";
             break;
         default;
 
@@ -42,7 +42,7 @@ if($session->logged_in() && $user->devices()->canAccess()) {
                 }
             }
 
-            require "templates/". $settings->get(Settings::SITE_THEME) ."/login.html";
+            require TEMPLATE_PATH ."/login.html";
             break;
     }
 

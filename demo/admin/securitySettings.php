@@ -23,4 +23,4 @@ if(isset($_POST['update'])){
 
 }
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_securitySettings.html";
+require "../". TEMPLATE_PATH ."/ad_securitySettings.html";

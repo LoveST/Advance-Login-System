@@ -13,4 +13,4 @@ $session->adminCheck();
 /** End check user & site status**/
 
     $banedUsers = $admin->getBannedUsers();
-    require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_bannedUsers.html";
+    require "../". TEMPLATE_PATH ."/ad_bannedUsers.html";

@@ -8,7 +8,7 @@
 
 require "../../init.php";
 if($user->isAdmin()) {
-    require "../templates/" . $settings->get(Settings::SITE_THEME) . "/ad_main_panel.html";
+    require "../". TEMPLATE_PATH . "/ad_main_panel.html";
 } else {
     $message->customKill("Invalid Privileges","You do not have the permission to access this page",$settings->siteTheme());
 }

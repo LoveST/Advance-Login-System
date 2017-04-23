@@ -18,4 +18,4 @@ $admin->addXP($_POST['username'], $_POST['amount']);
     $admin->subtractXP($_POST['username'], $_POST['amount']);
 }
 
-require "../templates/". $settings->get(Settings::SITE_THEME) ."/ad_manageXP.html";
+require "../". TEMPLATE_PATH ."/ad_manageXP.html";
