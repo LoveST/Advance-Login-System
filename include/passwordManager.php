@@ -7,6 +7,11 @@
  * Time: 2:21 PM
  */
 namespace ALS;
+
+use ALS\Message\Message;
+use ALS\Settings\Settings;
+use ALS\Mail\Mail;
+
 class passwordManager
 {
 
@@ -91,7 +96,7 @@ class passwordManager
         // convert variables to actual values
         $content = strtr($content, $vars);
         // initiate the mail class to prepare to send the email
-        $mail = new mail();
+        $mail = new Mail();
         // set the sender email
         $mail->fromEmail($settings->get(Settings::SITE_EMAIL));
         // set the sender name

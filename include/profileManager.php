@@ -7,6 +7,9 @@
  * Time: 3:22 PM
  */
 namespace ALS;
+
+use ALS\Message\Message;
+
 class profileManager
 {
 

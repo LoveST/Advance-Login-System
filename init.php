@@ -27,7 +27,8 @@ require "include/profileManager.php";
  * init Message class
  */
 
-use ALS\Message;
+use ALS\Message\Message;
+
 $message = new Message();
 $message->init();
 
@@ -35,35 +36,40 @@ $message->init();
  * init Database class
  */
 
-use ALS\Database;
+use ALS\Database\Database;
+
 $database = new Database();
 
 /**
  * init Settings class
  */
 
-use ALS\Settings;
+use ALS\Settings\Settings;
+
 $settings = new Settings();
 
 /**
  * init the Browser class
  */
 
-use ALS\Browser;
+use ALS\Browser\Browser;
+
 $browser = new Browser();
 
 /**
  * init Captcha class
  */
 
-use ALS\Captcha;
+use ALS\Captcha\Captcha;
+
 $captcha = new Captcha();
 
 /**
  * init User class
  */
 
-use ALS\User;
+use ALS\User\User;
+
 $user = new User();
 $user->init();
 
@@ -71,7 +77,8 @@ $user->init();
  * init Mail class
  */
 
-use ALS\Mail;
+use ALS\Mail\Mail;
+
 $mail = new Mail();
 
 /**
@@ -79,13 +86,15 @@ $mail = new Mail();
  */
 
 use ALS\passwordManager;
+
 $passwordManager = new passwordManager();
 
 /**
  * init Functions class
  */
 
-use ALS\Functions;
+use ALS\Functions\Functions;
+
 $functions = new Functions();
 $functions->init();
 
@@ -94,7 +103,8 @@ $functions->init();
  * init Session class
  */
 
-use ALS\Session;
+use ALS\Session\Session;
+
 $session = new Session();
 $session->init();
 
@@ -102,7 +112,8 @@ $session->init();
  * init Administrator class
  */
 
-use ALS\Administrator;
+use ALS\Administrator\Administrator;
+
 $admin = new Administrator();
 
 /**
@@ -110,6 +121,7 @@ $admin = new Administrator();
  */
 
 use ALS\profileManager;
+
 $profileManager = new profileManager();
 
 /**

@@ -12,6 +12,6 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-    $administrator = $admin->getAdmins();
-    require "../". TEMPLATE_PATH ."/ad_administrators.html";
+$administrator = $admin->getAdmins();
+require "../" . TEMPLATE_PATH . "/ad_administrators.html";
 

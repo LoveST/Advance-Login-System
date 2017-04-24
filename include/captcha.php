@@ -6,8 +6,9 @@
  * Date: 3/20/2017
  * Time: 12:30 AM
  */
-namespace ALS;
-class Captcha {
+namespace ALS\Captcha;
+class Captcha
+{
 
     private $siteKey; // site captcha key
     private $secretKey; // the secret code for the captcha
@@ -16,17 +17,19 @@ class Captcha {
     /**
      * Captcha constructor.
      */
-    function __construct(){
+    function __construct()
+    {
         $this->init();
     }
 
     /**
      * init the class
      */
-    private function init(){
+    private function init()
+    {
 
         // define all the global variables
-        global $database, $settings;
+        global $settings;
 
         // define the used codes for the captcha
         $this->siteKey = $settings->get(TBL_SETTINGS_CAPTCHA_KEY);
@@ -37,7 +40,8 @@ class Captcha {
      * Send the requested captcha to google servers and check for responds
      * @param $userRespond
      */
-    function sendRequest($userRespond){
+    function sendRequest($userRespond)
+    {
 
         // get the user ip
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -52,7 +56,8 @@ class Captcha {
      * Check if the user has passed the captcha check
      * @return boolean
      */
-    function success(){
+    function success()
+    {
         return $this->respondArray["success"];
     }
 
@@ -60,7 +65,8 @@ class Captcha {
      * Get the site key to use in templates
      * @return string
      */
-    function getSiteKey(){
+    function getSiteKey()
+    {
         return $this->siteKey;
     }
 
@@ -68,7 +74,8 @@ class Captcha {
      * Get the site secret key to authenticate with google servers
      * @return string
      */
-    function getSecretKey(){
+    function getSecretKey()
+    {
         return $this->secretKey;
     }
 

@@ -6,7 +6,7 @@
  * Date: 3/24/2017
  * Time: 12:45 PM
  */
-namespace ALS\User;
+namespace ALS\User\Device;
 class Device {
 
     private $data; // to hold all the data for a certain device

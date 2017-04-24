@@ -6,7 +6,10 @@
  * Date: 2/1/2017
  * Time: 7:22 PM
  */
-namespace ALS;
+namespace ALS\Administrator;
+use ALS\User\User;
+use ALS\Message\Message;
+use ALS\Settings\Settings;
 class Administrator
 {
 

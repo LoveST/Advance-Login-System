@@ -5,7 +5,11 @@
  * Date: 5/12/2016
  * Time: 12:42 PM
  */
-namespace ALS;
+namespace ALS\Session;
+use ALS\Message\Message;
+use ALS\Settings\Settings;
+use ALS\Mail\Mail;
+use ALS\User\User;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 date_default_timezone_set('UTC');
 
@@ -64,7 +68,6 @@ class Session
             $message->setError("Wrong username/password has been used", Message::Error);
             return false;
         }
-
         // password checks
         if (strlen($password) < 8 && strlen($password) > 25) {
             $message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
@@ -92,7 +95,6 @@ class Session
         }
 
         $row = mysqli_fetch_assoc($result);
-
         // ** login successful process ** //
         $rememberMe = (86400 * $rememberMe); // one day as default
         $newToken = md5(uniqid(rand(), false));
@@ -472,7 +474,7 @@ class Session
             // convert variables to actual values
             $content = strtr($content, $vars);
             // initiate the mail class to prepare to send the email
-            $mail = new mail();
+            $mail = new Mail();
             // set the sender email
             $mail->fromEmail($settings->get(Settings::SITE_EMAIL));
             // set the sender name
@@ -500,7 +502,7 @@ class Session
                     VALUES ('$id','$username','$firstName','$lastName','$email','1','$password','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
                 return false;
             }
 
@@ -523,7 +525,7 @@ class Session
         } else {
 
             // ** Clear the Cookie auth code ** //
-            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $user->get(User::UserName) . "'";
+            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->setError("All fields are required", Message::Error);
                 return false;

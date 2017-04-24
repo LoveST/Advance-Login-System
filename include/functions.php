@@ -6,13 +6,16 @@
  * Date: 1/26/2017
  * Time: 2:51 PM
  */
-namespace ALS;
-class Functions{
+namespace ALS\Functions;
+
+class Functions
+{
 
     /**
      * init the class
      */
-    function init(){
+    function init()
+    {
 
     }
 
@@ -21,7 +24,8 @@ class Functions{
      * @param $data
      * @return string
      */
-    function encryptIt( $data ) {
+    function encryptIt($data)
+    {
 
         // define all the global variables
         global $settings;
@@ -30,8 +34,8 @@ class Functions{
         $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
         $key = pack('H*', $settings->secretKey());
         $mac = hash_hmac('sha256', $encrypt, substr(bin2hex($key), -32));
-        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $encrypt.$mac, MCRYPT_MODE_CBC, $iv);
-        $encoded = base64_encode($passcrypt).'|'.base64_encode($iv);
+        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $encrypt . $mac, MCRYPT_MODE_CBC, $iv);
+        $encoded = base64_encode($passcrypt) . '|' . base64_encode($iv);
         return $encoded;
     }
 
@@ -40,21 +44,26 @@ class Functions{
      * @param $data
      * @return string
      */
-    function decryptIt( $data ) {
+    function decryptIt($data)
+    {
 
         // define all the global variables
         global $settings;
 
-        $decrypt = explode('|', $data.'|');
+        $decrypt = explode('|', $data . '|');
         $decoded = base64_decode($decrypt[0]);
         $iv = base64_decode($decrypt[1]);
-        if(strlen($iv)!==mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)){ return false; }
+        if (strlen($iv) !== mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)) {
+            return false;
+        }
         $key = pack('H*', $settings->secretKey());
         $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $decoded, MCRYPT_MODE_CBC, $iv));
         $mac = substr($decrypted, -64);
         $decrypted = substr($decrypted, 0, -64);
         $calcmac = hash_hmac('sha256', $decrypted, substr(bin2hex($key), -32));
-        if($calcmac!==$mac){ return false; }
+        if ($calcmac !== $mac) {
+            return false;
+        }
         $decrypted = unserialize($decrypted);
         return $decrypted;
     }
@@ -63,9 +72,10 @@ class Functions{
      * check if the given date is a valid one matching the format m/d/y
      * @param $date
      * @return bool
-    */
-    function isValidDate($date){
-        if( \DateTime::createFromFormat('m/d/Y',$date)->format('m/d/Y') == $date ) {
+     */
+    function isValidDate($date)
+    {
+        if (\DateTime::createFromFormat('m/d/Y', $date)->format('m/d/Y') == $date) {
             return true;
         } else {
             return false;
@@ -77,7 +87,8 @@ class Functions{
      * @param $birthday
      * @return int
      */
-    function getAge($birthday){
+    function getAge($birthday)
+    {
         $birthday = new \DateTime($birthday);
         $interval = $birthday->diff(new \DateTime);
         return $interval->y;
@@ -89,15 +100,16 @@ class Functions{
      * @param int $age
      * @return bool
      */
-    function validateAge($birthday, $age = 18){
+    function validateAge($birthday, $age = 18)
+    {
         // $birthday can be UNIX_TIMESTAMP or just a string-date.
-        if(is_string($birthday)) {
+        if (is_string($birthday)) {
             $birthday = strtotime($birthday);
         }
 
         // check
         // 31536000 is the number of seconds in a 365 days year.
-        if(time() - $birthday < $age * 31536000)  {
+        if (time() - $birthday < $age * 31536000) {
             return false;
         }
 
@@ -109,20 +121,23 @@ class Functions{
      * @param $username
      * @return bool
      */
-    function userExist($username){
+    function userExist($username)
+    {
 
         // define all the global variables
         global $database, $message;
 
-        $sql = "SELECT * FROM ". TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
-        if(mysqli_num_rows($result) > 0){
+        if (mysqli_num_rows($result) > 0) {
             return true;
-        } else { return false;}
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -130,7 +145,8 @@ class Functions{
      * @param $email
      * @return bool
      */
-    function emailExist($email){
+    function emailExist($email)
+    {
 
         // define all the global variables
         global $database, $message;
@@ -141,9 +157,11 @@ class Functions{
             die;
         }
 
-        if(mysqli_num_rows($result) > 0){
+        if (mysqli_num_rows($result) > 0) {
             return true;
-        } else { return false;}
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -151,7 +169,8 @@ class Functions{
      * @param int $length
      * @return string
      */
-    function generateRandomString($length = 10) {
+    function generateRandomString($length = 10)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -166,7 +185,8 @@ class Functions{
      * @param $time2
      * @return string
      */
-    function calculateTime($time2){
+    function calculateTime($time2)
+    {
         $precision = 1;
         $time1 = time();
         // If not numeric then convert timestamps
@@ -224,18 +244,19 @@ class Functions{
      * get a new id for a new user
      * @return int
      */
-    function getNewID(){
+    function getNewID()
+    {
 
         // define all the global variables
         global $database, $message;
 
-        $sql = "SELECT ". TBL_USERS_ID ." FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
+        $sql = "SELECT " . TBL_USERS_ID . " FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
         }
 
-        if(mysqli_num_rows($result) < 1){
+        if (mysqli_num_rows($result) < 1) {
             return 1;
         }
 
@@ -244,28 +265,29 @@ class Functions{
     }
 
     // count the total number of online users using the script in a 1 minute radius
-    function onlineCounter(){
+    function onlineCounter()
+    {
 
         // define all the global variables
         global $database;
 
         $totalUsers = 0;
 
-        $sql = "SELECT * FROM ". TBL_HEARTBEAT;
+        $sql = "SELECT * FROM " . TBL_HEARTBEAT;
         if (!$result = mysqli_query($database->connection, $sql)) {
             return 0;
         }
 
-        if(mysqli_num_rows($result) < 1){
+        if (mysqli_num_rows($result) < 1) {
             return 0;
         }
 
         // count the timestamp for each person online atm
-        while($row = mysqli_fetch_assoc($result)){
+        while ($row = mysqli_fetch_assoc($result)) {
             $last_update = new \DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
             $currentTime = new \DateTime(date("Y-m-d H:i:s", time())); // current time
             $timeDifference = $currentTime->diff($last_update); // count the difference
-            if($timeDifference->i < 1){
+            if ($timeDifference->i < 1) {
                 $totalUsers += 1;
             }
         }
@@ -279,12 +301,13 @@ class Functions{
      * @param $isEmail
      * @return bool
      */
-    function is_userActivated($data, $isEmail = false){
+    function is_userActivated($data, $isEmail = false)
+    {
 
         // define all the global variables
         global $database, $message;
 
-        if($isEmail){
+        if ($isEmail) {
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $data . "'";
         } else {
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $data . "'";
@@ -296,19 +319,24 @@ class Functions{
         }
 
         $row = mysqli_fetch_assoc($result);
-        if($row[TBL_USERS_ACTIVATED] == 1){
+        if ($row[TBL_USERS_ACTIVATED] == 1) {
             return true;
-        } else { return false; }
+        } else {
+            return false;
+        }
     }
 
-    function getCurrentPageURL() {
+    function getCurrentPageURL()
+    {
         $pageURL = 'http';
-        if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+        if ($_SERVER["HTTPS"] == "on") {
+            $pageURL .= "s";
+        }
         $pageURL .= "://";
         if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
         } else {
-            $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+            $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
         return $pageURL;
     }
@@ -317,7 +345,8 @@ class Functions{
      * get the current users ip address
      * @return string
      */
-    function getUserIP(){
+    function getUserIP()
+    {
         return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
 

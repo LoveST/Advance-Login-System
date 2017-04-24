@@ -6,8 +6,12 @@
  * Date: 3/21/2017
  * Time: 11:31 PM
  */
-namespace ALS\User;
-class Devices{
+namespace ALS\User\Devices;
+
+use ALS\User\Device\Device;
+
+class Devices
+{
 
     var $computers; // store all the computers that the user is being logged from
     private $userData; // store the loaded user data
@@ -16,19 +20,21 @@ class Devices{
      * init the class
      * @param array $userData
      */
-    function init($userData){
+    function init($userData)
+    {
 
         // store the current userData in the userData variable
         $this->userData = $userData;
     }
 
-    function addDevice(){
+    function addDevice()
+    {
 
         // init the global variables
         global $database, $message, $settings;
 
         // check if class is instance of a live user
-        if(!$this->isActiveUser()){
+        if (!$this->isActiveUser()) {
             return false;
         }
 
@@ -39,13 +45,13 @@ class Devices{
         $currentDevice = $this->deviceToArray($this->getCurrentDevice());
 
         // check if the current device is already been added before
-        if($this->canAccess()){
+        if ($this->canAccess()) {
             return false;
         }
 
         // check if max verified devices limit has been reached
         // if-so then remove the first device in the array
-        if(count($devices) + 1 > $settings->maxVerifiedDevices()){
+        if (count($devices) + 1 > $settings->maxVerifiedDevices()) {
             unset($devices[0]);
         }
 
@@ -56,9 +62,9 @@ class Devices{
         $devices = serialize($devices);
 
         // update the devices record in the database
-        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_DEVICES . " = '". $devices . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection,$sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__,__LINE__ - 2);
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devices . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             return false;
         }
 
@@ -71,7 +77,8 @@ class Devices{
      * @param int $id
      * @return bool
      */
-    function removeDevice($id){
+    function removeDevice($id)
+    {
 
         // init the global variables
         global $database, $message;
@@ -89,7 +96,7 @@ class Devices{
         $devicesArray = Array();
 
         // convert the current device classes to array of devices
-        foreach ($devices as $key => $device){
+        foreach ($devices as $key => $device) {
             array_push($devicesArray, $this->deviceToArray($device));
         }
 
@@ -100,9 +107,9 @@ class Devices{
         $devicesArray = serialize($devicesArray);
 
         // update the devices record in the database
-        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_DEVICES . " = '". $devicesArray . "' WHERE ". TBL_USERS_USERNAME . " = '". $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection,$sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__,__LINE__);
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devicesArray . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__);
             return false;
         }
 
@@ -116,32 +123,42 @@ class Devices{
      * @param Device $device
      * @return bool
      */
-    function isVerified($device){
-            return in_array($device, $this->getDevices());
+    function isVerified($device)
+    {
+        return in_array($device, $this->getDevices());
     }
 
     /**
      * check if the class has been initiated by a live user
      * @return bool
      */
-    private function isActiveUser(){
-        if($this->getUsername() == "" || $this->getUsername() == NULL){
+    private function isActiveUser()
+    {
+        if ($this->getUsername() == "" || $this->getUsername() == NULL) {
             return false;
-        } else { return true; }
+        } else {
+            return true;
+        }
     }
 
     /**
      * Check if the current browser and ip is allowed to log in from
      */
-    function canAccess(){
-        if(in_array($this->deviceToArray($this->getCurrentDevice()), $this->getDevicesArray())) { return true; } else { return false; }
+    function canAccess()
+    {
+        if (in_array($this->deviceToArray($this->getCurrentDevice()), $this->getDevicesArray())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * get the current user's username
      * @return string
      */
-    function getUsername(){
+    function getUsername()
+    {
         return $this->userData[TBL_USERS_USERNAME];
     }
 
@@ -150,7 +167,8 @@ class Devices{
      * @param Device $device
      * @return array
      */
-    function deviceToArray($device){
+    function deviceToArray($device)
+    {
 
         // init the required array
         $deviceArray = Array(
@@ -168,7 +186,8 @@ class Devices{
      * get the current device Class
      * @return Device
      */
-    function getCurrentDevice(){
+    function getCurrentDevice()
+    {
 
         // init the global variables
         global $browser;
@@ -190,20 +209,22 @@ class Devices{
      * get the current users ip address
      * @return string
      */
-    function getUserIP(){
+    function getUserIP()
+    {
         return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
 
     /**
      * get the current user's logged in devices as an array
      */
-    function getDevicesArray(){
+    function getDevicesArray()
+    {
 
         // get the devices array
         $devices = $this->userData[TBL_USERS_DEVICES];
 
         // check for empty string or array
-        if(empty($devices)){
+        if (empty($devices)) {
             return Array();
         }
 
@@ -217,13 +238,14 @@ class Devices{
     /**
      * get the current user's logged in devices class
      */
-    public function getDevices(){
+    public function getDevices()
+    {
 
         // get the devices array
         $devices = $this->userData[TBL_USERS_DEVICES];
 
         // check if empty array or null
-        if($devices == null || empty($devices)){
+        if ($devices == null || empty($devices)) {
             return Array();
         }
 
@@ -234,7 +256,7 @@ class Devices{
         $deviceClasses = Array();
 
         // loop throw each one and create a class for every single one
-        foreach ($devices AS $key => $device){
+        foreach ($devices AS $key => $device) {
 
             // create instance of the device class
             $device = new Device($device);

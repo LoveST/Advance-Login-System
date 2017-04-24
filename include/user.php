@@ -6,7 +6,11 @@
  * Date: 1/11/2017
  * Time: 8:26 PM
  */
-namespace ALS;
+namespace ALS\User;
+
+use ALS\User\Devices\Devices;
+use ALS\Message\Message;
+
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class User
@@ -27,7 +31,7 @@ class User
 
     function __construct()
     {
-        $this->devices = new User\Devices();
+        $this->devices = new Devices();
     }
 
     /**
@@ -60,7 +64,7 @@ class User
         }
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
-        $this->devices = new User\Devices(); // create the unique logs class for the current user
+        $this->devices = new Devices(); // create the unique logs class for the current user
 
         return true;
     }
@@ -562,7 +566,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 
         // check if the user is already not logged in and return true
         if (empty($_SESSION["user_data"]) && empty($_COOKIE["user_data"]) && empty($_COOKIE["user_id"])) {
