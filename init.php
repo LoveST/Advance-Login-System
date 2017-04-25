@@ -5,7 +5,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 session_start();
 
 // Turn off all error reporting
-error_reporting(3);
+error_reporting(-1);
 
 require "include/config.php";
 require "include/message.php";
@@ -22,6 +22,7 @@ require "include/passwordManager.php";
 require "include/session.php";
 require "include/administrator.php";
 require "include/profileManager.php";
+require "include/auth/Twilio.php";
 
 /**
  * init Message class

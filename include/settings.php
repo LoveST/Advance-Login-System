@@ -7,7 +7,9 @@
  * Time: 1:11 PM
  */
 namespace ALS\Settings;
+
 use ALS\Message\Message;
+
 class Settings
 {
 
@@ -219,6 +221,21 @@ class Settings
     function maxVerifiedDevices()
     {
         return $this->settings[TBL_SETTINGS_MAX_VERIFIED_DEVICES];
+    }
+
+    function twilioAccountSid()
+    {
+        return $this->settings[TBL_SETTINGS_TWILIO_ACCOUNT_SID];
+    }
+
+    function twilioAuthToken()
+    {
+        return $this->settings[TBL_SETTINGS_TWILIO_AUTH_TOKEN];
+    }
+
+    function twilioPhoneNumber()
+    {
+        return $this->settings[TBL_SETTINGS_TWILIO_PHONE_NUMBER];
     }
 
     /**
