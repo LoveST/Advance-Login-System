@@ -5,7 +5,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 session_start();
 
 // Turn off all error reporting
-error_reporting(-1);
+error_reporting(0);
 
 require "include/config.php";
 require "include/message.php";
@@ -124,6 +124,12 @@ $admin = new Administrator();
 use ALS\profileManager;
 
 $profileManager = new profileManager();
+
+/**
+ * TO-ADD all the needed extra classes
+ */
+
+/***********************************/
 
 /**
  * Print out all the Fatal errors

@@ -11,7 +11,6 @@ use ALS\Settings\Settings;
 use ALS\Mail\Mail;
 use ALS\User\User;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
-date_default_timezone_set('UTC');
 
 class Session
 {

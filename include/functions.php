@@ -350,4 +350,20 @@ class Functions
         return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
 
+    /**
+     * get the total amount of users signed up this month
+     */
+    function getCurrentMonthsSignups(){
+
+        // define all the global variables
+        global $admin;
+
+        $firstDatOfMonth =  date("Y-m") . "-01";
+        $time = strtotime(date("Y-m-d") . ' +1 days');
+        $todaysDate = date("Y-m-d", $time);
+
+        // return the results
+        return $admin->countTotalRegisteredUsersInBetween($firstDatOfMonth, $todaysDate);
+    }
+
 }

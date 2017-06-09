@@ -7,9 +7,11 @@
  * Time: 7:22 PM
  */
 namespace ALS\Administrator;
-use ALS\User\User;
+
 use ALS\Message\Message;
 use ALS\Settings\Settings;
+use ALS\User\User;
+
 class Administrator
 {
 
@@ -349,6 +351,286 @@ class Administrator
         //set the success message
         $message->setSuccess("Things might have happened");
         return true;
+    }
+
+    /**
+     * @param int $since -> the amount of days passed for the users that has signed up
+     * @return array
+     */
+    function getTotalRegisteredUsers($since)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("admin_analytics_registeredUsers")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return 0;
+        }
+
+        // call the database and get the results back
+        $query = "SELECT COUNT(*) FROM  " . TBL_USERS . " WHERE  " . TBL_USERS_DATE_JOINED . " > NOW() - INTERVAL $since DAY";
+        if (!$result = mysqli_query($database->connection, $query)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        $row = mysqli_fetch_array($result);
+
+        // return the array
+        return $row[0];
+    }
+
+    /**
+     * get all the users between the specified dates and choose if the data must
+     * be limited to save resources or just pass on a value for both the offsets
+     * @param $startDate
+     * @param $endDate
+     * @param $limit
+     * @param $offsetStart
+     * @param $offsetEnd
+     * @return User[]
+     */
+    function getTotalRegisteredUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("analytics_registeredUsersInBetween")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return 0;
+        }
+
+        // Set the required parameters
+        $users = "";
+
+        // check if any limits are set
+        if ($limit != 0) {
+            $limitArgs = " LIMIT " . $limit;
+        } else {
+            $limitArgs = "";
+        }
+
+        // check if any offsets has been used
+        if ($offsetEnd != 0 && $offsetEnd >= $offsetStart) {
+            $limitArgs = " LIMIT " . $offsetStart . "," . $offsetEnd;
+        }
+
+        // call the database and get the results back
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE
+        " . TBL_USERS_DATE_JOINED . " >= '$startDate' AND 
+        " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
+
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $currentUser = new User();
+            $currentUser->initInstance($row);
+
+            $users[] = $currentUser;
+        }
+
+        return $users;
+    }
+
+    /**
+     * count the number of signed up users in between the specified dates and choose if the data must
+     * be limited to save resources or just pass on a value for both the offsets
+     * @param $startDate
+     * @param $endDate
+     * @param $limit
+     * @param $offsetStart
+     * @param $offsetEnd
+     * @return User[]
+     */
+    function countTotalRegisteredUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("analytics_countRegisteredUsersInBetween")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return 0;
+        }
+
+        // check if any limits are set
+        if ($limit != 0) {
+            $limitArgs = " LIMIT " . $limit;
+        } else {
+            $limitArgs = "";
+        }
+
+        // check if any offsets has been used
+        if ($offsetEnd != 0 && $offsetEnd >= $offsetStart) {
+            $limitArgs = " LIMIT " . $offsetStart . "," . $offsetEnd;
+        }
+
+        // call the database and get the results back
+        $sql = "SELECT COUNT(*) FROM " . TBL_USERS . " WHERE
+        " . TBL_USERS_DATE_JOINED . " >= '$startDate' AND 
+        " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
+
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        $row = mysqli_fetch_array($result);
+
+
+        return $row[0];
+    }
+
+    /**
+     * Add a new user level to the main script
+     * @param String $name
+     * @param int $level
+     * @param String[] $permissions
+     * @return bool
+     */
+    function addNewLevel($name, $level, $permissions){
+
+        // define all the global variables
+        global $database, $message;
+
+        // escape strings
+        $name = $database->escapeString($name);
+        $level = $database->escapeString($level);
+        //$permissions = $database->escapeString($permissions);
+
+        // check for any empty fields
+        if($name == "" || $level == "" || $permissions == ""){
+            $message->setError("All fields are required to be filled", Message::Error);
+            return false;
+        }
+
+        // check if level name exists
+        if($this->isLevelNameAvailable($name)){
+            $message->setError("Level name already exists", Message::Error);
+            return false;
+        }
+
+        // check if level exists
+        if($this->isLevelAvailable($level)){
+            $message->setError("Level already exists", Message::Error);
+            return false;
+        }
+
+        // check if array of permissions has been supplied and its not an empty array
+        if (!is_array($permissions)){
+            $message->setError("An array of strings must be supplied for the permissions", Message::Error);
+            return false;
+        }
+
+        if(empty($permissions)){
+            $message->setError("At least 1 permission is required", Message::Error);
+            return false;
+        }
+
+        // split the permissions array and store it in a string with a '|' separator
+        $permissionsString = "";
+        $i = 0;
+        foreach ($permissions as $permission){
+
+            // check if permissions only has * inside, then refuse it and don't add it
+            if($permission == "*"){
+                continue;
+            }
+
+            // check if string has no spaces in it then don't add it
+            if ( preg_match('/\s/',$permission) ){
+                continue;
+            }
+
+            // add the permission to the string array
+            $permissionsString .= $permission;
+
+            // check if not last, then add a separator
+            if(($i + 1) < count($permissions)){
+                $permissionsString .= "|";
+            }
+
+            $i++;
+        }
+
+        // update the database with the new results
+        $sql = "INSERT INTO ". TBL_LEVELS . " (".TBL_LEVELS_LEVEL.",".TBL_LEVELS_NAME.",".TBL_LEVELS_PERMISSIONS.") VALUES
+        ('$level','$name','$permissionsString')";
+
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+            return false;
+        }
+
+        // if not errors then return a success message
+        $message->setSuccess("Level " . $name . "(" . $level . "), has been successfully created");
+        return true;
+    }
+
+    /**
+     * check if the given level name exists
+     * @param String $levelName
+     * @return boolean
+     */
+    function isLevelNameAvailable($levelName){
+
+        // define all the global variables
+        global $database, $message;
+
+        // check for empty object given
+        if($levelName == ""){
+            return false;
+        }
+
+        // check in database if exists
+        $sql = "SELECT COUNT(*) FROM ". TBL_LEVELS . " WHERE ". TBL_LEVELS_NAME . " = '$levelName'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        // grab the results
+        $row = mysqli_fetch_array($result);
+
+        // check if any values has been returned
+        if($row[0] > 0){ return true;} else { return false; }
+    }
+
+    /**
+     * check if the given level exists
+     * @param Int $level
+     * @return boolean
+     */
+    function isLevelAvailable($level){
+
+        // define all the global variables
+        global $database, $message;
+
+        // check for empty object given
+        if($level == ""){
+            return false;
+        }
+
+        // check in database if exists
+        $sql = "SELECT COUNT(*) FROM ". TBL_LEVELS . " WHERE ". TBL_LEVELS_LEVEL . " = '$level'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        // grab the results
+        $row = mysqli_fetch_array($result);
+
+        // check if any values has been returned
+        if($row[0] > 0){ return true;} else { return false; }
     }
 
 }

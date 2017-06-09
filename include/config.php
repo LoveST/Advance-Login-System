@@ -53,6 +53,7 @@ define("TBL_SETTINGS_SITE_EMAIL", "site_email");
 define("TBL_SETTINGS_SITE_ENABLED", "site_enabled");
 define("TBL_SETTINGS_SITE_THEME", "site_theme");
 define("TBL_SETTINGS_SITE_LANG", "site_lang");
+define("TBL_SETTINGS_SITE_TIMEZONE", "site_timezone");
 define("TBL_SETTINGS_SECRET_KEY", "secret_key");
 define("TBL_SETTINGS_LOGIN_ENABLE", "login_enable");
 define("TBL_SETTINGS_REGISTER_ENABLE", "register_enable");

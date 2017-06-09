@@ -13,7 +13,7 @@ $session->statusCheck();
 /** End check user & site status**/
 
 
-$action = $_GET['ac'];
+$action = array_key_exists('ac', $_GET) ? $_GET['ac'] : null;
 
 switch($action){
     case "change_username";

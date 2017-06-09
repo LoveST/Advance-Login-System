@@ -120,6 +120,8 @@ class Settings
             }
         }
 
+        // set the site timezone
+        $this->setSiteTimeZone();
 
         // check for empty theme field in the sql and set it to 'default'
         if ($this->settings[TBL_SETTINGS_SITE_THEME] == "") {
@@ -171,6 +173,10 @@ class Settings
     function siteLanguage()
     {
         return $this->settings[TBL_SETTINGS_SITE_LANG];
+    }
+
+    function siteTimeZone(){
+        return $this->settings[TBL_SETTINGS_SITE_TIMEZONE];
     }
 
     function secretKey()
@@ -247,6 +253,16 @@ class Settings
         return
             (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || $_SERVER['SERVER_PORT'] == 443;
+    }
+
+    /**
+     * Set the whole site time zone
+     */
+    private function setSiteTimeZone()
+    {
+        if($this->siteTimeZone() == ""){ date_default_timezone_set('America/Los_Angeles'); }else{
+            date_default_timezone_set($this->siteTimeZone());
+        }
     }
 
     function getCurrentPageURL()

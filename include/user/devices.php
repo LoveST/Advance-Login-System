@@ -211,6 +211,7 @@ class Devices
      */
     function getUserIP()
     {
+        if(!isset($_SERVER['HTTP_X_FORWARDED_FOR'])){ return $_SERVER['REMOTE_ADDR'];}
         return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
 
