@@ -333,7 +333,7 @@ class User
     /**
      * Set this function to force the current user to log in again and re-initiate the data
      */
-    function setMustSignInAgain()
+    function forceSignInAgain()
     {
 
         // define all the global variables
@@ -354,6 +354,19 @@ class User
     function is_samePinNumber($pin)
     {
         if ($this->get(User::PIN) == $pin) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * check if the given password matches the current user's one
+     * @param string $password
+     * @return bool
+     */
+    function is_samePassword($password){
+        if ($this->get(TBL_USERS_PASSWORD) == $password) {
             return true;
         } else {
             return false;

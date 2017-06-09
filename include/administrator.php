@@ -540,6 +540,9 @@ class Administrator
         $i = 0;
         foreach ($permissions as $permission){
 
+            // escape the string for db protection
+            $permission = $database->escapeString($permission);
+
             // check if permissions only has * inside, then refuse it and don't add it
             if($permission == "*"){
                 continue;

@@ -45,7 +45,14 @@ switch($action){
         require TEMPLATE_PATH .  "/profile_change_email.html";
         break;
     case "change_password";
-        echo "hello";
+
+        if(isset($_POST['update'])){
+            if($profileManager->setNewPassword($_POST['oldPass'], $_POST['pinNumber'], $_POST['newPass'], $_POST['confirmNewPass'])){
+                header("Location: login.php");
+            }
+        }
+
+        require TEMPLATE_PATH .  "/profile_change_password.html";
         break;
     case "change_pin";
         echo "hello";

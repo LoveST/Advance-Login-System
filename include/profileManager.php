@@ -175,4 +175,66 @@ class profileManager
 
     }
 
+    /**
+     * set a new password for the current user session
+     * @param $oldPass
+     * @param $pinNumber
+     * @param $newPass
+     * @param $confirmNewPass
+     * @return bool
+     */
+    function setNewPassword($oldPass, $pinNumber, $newPass, $confirmNewPass){
+
+        // define all the global variables
+        global $database, $message, $user;
+
+        // secure the strings
+        $oldPass = $database->escapeString($oldPass);
+        $pinNumber = $database->escapeString($pinNumber);
+        $newPass = $database->escapeString($newPass);
+        $confirmNewPass = $database->escapeString($confirmNewPass);
+
+        // check if any of the field are empty
+        if($oldPass == "" || $pinNumber == "" || $newPass == "" || $confirmNewPass == ""){
+            $message->setError("All the required fields must be filled", Message::Error);
+            return false;
+        }
+
+        // new password validations
+        if (strlen($newPass) < 8 && strlen($newPass) > 25) {
+            $message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            return false;
+        }
+
+        // check if both password fields match each other
+        if($newPass != $confirmNewPass){
+            $message->setError("Both password field has to match", Message::Error);
+            return false;
+        }
+
+        // check if old password matches the current one
+        if(!$user->is_samePassword(md5($oldPass))){
+            $message->setError("Wrong account password has been used", Message::Error);
+            return false;
+        }
+
+        // check if pin number matches
+        if(!$user->is_samePinNumber(md5($pinNumber))){
+            $message->setError("Wrong pin number has been used", Message::Error);
+            return false;
+        }
+
+        // after validating, update the sql with the needed information
+        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_PASSWORD . " = '" . md5($newPass) . "' WHERE ". TBL_USERS_USERNAME. " = '".$user->getUsername()."'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            die;
+        }
+
+        // after no errors then return a success message and log the user out
+        $message->setSuccess("You have successfully updated your password !");
+        $user->forceSignInAgain();
+        return true;
+    }
+
 }
