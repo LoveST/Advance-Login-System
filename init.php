@@ -22,6 +22,7 @@ require "include/passwordManager.php";
 require "include/session.php";
 require "include/administrator.php";
 require "include/profileManager.php";
+require "include/MailTemplates.php";
 require "include/auth/Twilio.php";
 
 /**
@@ -66,6 +67,14 @@ use ALS\Captcha\Captcha;
 $captcha = new Captcha();
 
 /**
+ * init Mail class
+ */
+
+use ALS\Mail\Mail;
+
+$mail = new Mail();
+
+/**
  * init User class
  */
 
@@ -75,18 +84,10 @@ $user = new User();
 $user->init();
 
 /**
- * init Mail class
- */
-
-use ALS\Mail\Mail;
-
-$mail = new Mail();
-
-/**
  * init passwordManager class
  */
 
-use ALS\passwordManager;
+use ALS\passwordManager\passwordManager;
 
 $passwordManager = new passwordManager();
 
@@ -121,9 +122,16 @@ $admin = new Administrator();
  * init profileManager class
  */
 
-use ALS\profileManager;
+use ALS\profileManager\profileManager;
 
 $profileManager = new profileManager();
+
+/**
+ * init the MailTemplates class
+ */
+
+use ALS\MailTemplates\MailTemplates;
+$mailTemplates = new MailTemplates();
 
 /**
  * TO-ADD all the needed extra classes
@@ -132,7 +140,7 @@ $profileManager = new profileManager();
 /***********************************/
 
 /**
- * Print out all the Fatal errors
+ * Print out all the needed errors
  */
 
 echo $message->getError(1);

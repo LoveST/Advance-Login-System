@@ -6,7 +6,7 @@
  * Date: 3/7/2017
  * Time: 3:22 PM
  */
-namespace ALS;
+namespace ALS\profileManager;
 
 use ALS\Message\Message;
 
@@ -27,8 +27,8 @@ class profileManager
         global $database, $message, $user, $settings, $functions;
 
         // secure the strings
-        $username = $database->escapeString($username);
-        $pin = $database->escapeString($pin);
+        $username = $database->secureInput($username);
+        $pin = $database->secureInput($pin);
 
         // check if can change username
         if (!$settings->canChangeUsername()) {
@@ -106,9 +106,9 @@ class profileManager
         global $database, $message, $user, $settings, $functions;
 
         // secure the strings
-        $email = $database->escapeString($email);
-        $email2 = $database->escapeString($email2);
-        $pin = $database->escapeString($pin);
+        $email = $database->secureInput($email);
+        $email2 = $database->secureInput($email2);
+        $pin = $database->secureInput($pin);
 
         // check if empty $email | $email2
         if (empty($email) || empty($email2)) {
@@ -183,19 +183,20 @@ class profileManager
      * @param $confirmNewPass
      * @return bool
      */
-    function setNewPassword($oldPass, $pinNumber, $newPass, $confirmNewPass){
+    function setNewPassword($oldPass, $pinNumber, $newPass, $confirmNewPass)
+    {
 
         // define all the global variables
         global $database, $message, $user;
 
         // secure the strings
-        $oldPass = $database->escapeString($oldPass);
-        $pinNumber = $database->escapeString($pinNumber);
-        $newPass = $database->escapeString($newPass);
-        $confirmNewPass = $database->escapeString($confirmNewPass);
+        $oldPass = $database->secureInput($oldPass);
+        $pinNumber = $database->secureInput($pinNumber);
+        $newPass = $database->secureInput($newPass);
+        $confirmNewPass = $database->secureInput($confirmNewPass);
 
         // check if any of the field are empty
-        if($oldPass == "" || $pinNumber == "" || $newPass == "" || $confirmNewPass == ""){
+        if ($oldPass == "" || $pinNumber == "" || $newPass == "" || $confirmNewPass == "") {
             $message->setError("All the required fields must be filled", Message::Error);
             return false;
         }
@@ -207,25 +208,28 @@ class profileManager
         }
 
         // check if both password fields match each other
-        if($newPass != $confirmNewPass){
+        if ($newPass != $confirmNewPass) {
             $message->setError("Both password field has to match", Message::Error);
             return false;
         }
 
         // check if old password matches the current one
-        if(!$user->is_samePassword(md5($oldPass))){
+        if (!$user->is_samePassword($oldPass)) {
             $message->setError("Wrong account password has been used", Message::Error);
             return false;
         }
 
         // check if pin number matches
-        if(!$user->is_samePinNumber(md5($pinNumber))){
+        if (!$user->is_samePinNumber(md5($pinNumber))) {
             $message->setError("Wrong pin number has been used", Message::Error);
             return false;
         }
 
+        // hash the new password
+        $newPass = password_hash($newPass, PASSWORD_DEFAULT, ['cost' => 12]);
+
         // after validating, update the sql with the needed information
-        $sql = "UPDATE ". TBL_USERS . " SET ". TBL_USERS_PASSWORD . " = '" . md5($newPass) . "' WHERE ". TBL_USERS_USERNAME. " = '".$user->getUsername()."'";
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . " = '" . $newPass . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;

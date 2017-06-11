@@ -6,11 +6,12 @@
  * Date: 1/12/2017
  * Time: 2:21 PM
  */
-namespace ALS;
+namespace ALS\passwordManager;
 
 use ALS\Message\Message;
 use ALS\Settings\Settings;
 use ALS\Mail\Mail;
+
 
 class passwordManager
 {
@@ -37,9 +38,9 @@ class passwordManager
         global $database, $message, $mail, $settings, $captcha;
 
         // escape strings
-        $username = $database->escapeString($username);
-        $email = $database->escapeString($email);
-        $userCaptcha = $database->escapeString($userCaptcha);
+        $username = $database->secureInput($username);
+        $email = $database->secureInput($email);
+        $userCaptcha = $database->secureInput($userCaptcha);
 
         if (empty($username)) {
             $message->setError("Username cannot be empty !", Message::Error);
@@ -97,14 +98,8 @@ class passwordManager
         $content = strtr($content, $vars);
         // initiate the mail class to prepare to send the email
         $mail = new Mail();
-        // set the sender email
-        $mail->fromEmail($settings->get(Settings::SITE_EMAIL));
-        // set the sender name
-        $mail->fromName("Support");
-        // set the receiver email
-        $mail->to($to);
-        // set the subject
-        $mail->subject($subject);
+        // set the required parameters for the email
+        $mail->fromEmail($settings->siteEmail())->fromName("Support")->to($to)->subject($subject);
         // check if include a template is checked
         if ($includeTemplate) {
             // Set mail to template
@@ -140,8 +135,8 @@ class passwordManager
         global $database, $message;
 
         // escape the given strings
-        $email = $database->escapeString($email);
-        $code = $database->escapeString($code);
+        $email = $database->secureInput($email);
+        $code = $database->secureInput($code);
 
         if (empty($email)) {
             $message->setError("Email field cannot be empty !", Message::Error);
@@ -200,9 +195,6 @@ class passwordManager
             return false;
         }
 
-        $password = md5($password);
-        $password2 = md5($password2);
-
         if ($password != $password2) {
             $message->setError("Passwords do not match !", Message::Error);
             return false;
@@ -225,8 +217,11 @@ class passwordManager
                 return false;
             }
 
+            // hash the new password
+            $hashPassword = $database->hashPassword($password2);
+
             // update database with the new password and return true and make sure the session and the cookies are destroyed
-            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . "= '$password2'," . TBL_USERS_RESET_CODE . "= '' WHERE " . TBL_USERS_EMAIL . "='$email'";
+            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . "= '$hashPassword'," . TBL_USERS_RESET_CODE . "= '' WHERE " . TBL_USERS_EMAIL . "='$email'";
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
                 return false;
@@ -250,7 +245,7 @@ class passwordManager
         global $database, $message;
 
         if (empty($username)) {
-            die($this->printError("Username and Authentication key most not be empty"));
+            die($message->printError("Username and Authentication key most not be empty"));
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";

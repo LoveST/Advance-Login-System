@@ -74,8 +74,8 @@ class Settings
      */
     function initRequiredFields()
     {
-        define("TEMPLATE_PATH", "templates/" . $this->get(Settings::SITE_THEME) . "/");
-        define("SITE_NAME", $this->get(Settings::SITE_NAME));
+        define("TEMPLATE_PATH", "templates/" . $this->siteTheme() . "/");
+        define("SITE_NAME", $this->siteName());
     }
 
     /**
@@ -155,6 +155,11 @@ class Settings
         return $this->settings[TBL_SETTINGS_SITE_URL];
     }
 
+    function sitePath()
+    {
+        return $this->settings[TBL_SETTINGS_SITE_PATH];
+    }
+
     function siteEmail()
     {
         return $this->settings[TBL_SETTINGS_SITE_EMAIL];
@@ -175,13 +180,14 @@ class Settings
         return $this->settings[TBL_SETTINGS_SITE_LANG];
     }
 
-    function siteTimeZone(){
+    function siteTimeZone()
+    {
         return $this->settings[TBL_SETTINGS_SITE_TIMEZONE];
     }
 
     function secretKey()
     {
-        return $this->settings[TBL_SETTINGS_SECRET_KEY];
+        return SITE_SECRET;
     }
 
     function activationRequired()
@@ -244,6 +250,11 @@ class Settings
         return $this->settings[TBL_SETTINGS_TWILIO_PHONE_NUMBER];
     }
 
+    function templatesFolder()
+    {
+        return $this->settings[TBL_SETTINGS_TEMPLATES_FOLDER];
+    }
+
     /**
      * check if https is enabled in the settings
      * @return bool
@@ -260,7 +271,9 @@ class Settings
      */
     private function setSiteTimeZone()
     {
-        if($this->siteTimeZone() == ""){ date_default_timezone_set('America/Los_Angeles'); }else{
+        if ($this->siteTimeZone() == "") {
+            date_default_timezone_set('America/Los_Angeles');
+        } else {
             date_default_timezone_set($this->siteTimeZone());
         }
     }
@@ -278,6 +291,26 @@ class Settings
             $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
         return $pageURL;
+    }
+
+    /**
+     * get the site templates path
+     * @return string
+     */
+    function getTemplatesPath(){
+
+        $sub = "";
+
+        // check the servers current OS
+        if(PHP_OS == "Linux"){
+            $sub = "/";
+        } else { $sub = "\\"; }
+
+        // start building the path
+        $path = $this->sitePath() . $sub . $this->templatesFolder() . $sub . $this->siteTheme() . $sub;
+
+        // return the path
+        return $path;
     }
 
     /**

@@ -188,8 +188,8 @@ class Administrator
         }
 
         // escape the given strings
-        $username = $database->escapeString($username);
-        $amount = $database->escapeString($amount);
+        $username = $database->secureInput($username);
+        $amount = $database->secureInput($amount);
 
         // check for empty username or amount
         if (empty($username) || empty($amount)) {
@@ -243,8 +243,8 @@ class Administrator
         }
 
         // escape the given strings
-        $username = $database->escapeString($username);
-        $amount = $database->escapeString($amount);
+        $username = $database->secureInput($username);
+        $amount = $database->secureInput($amount);
 
         // check for empty username or amount
         if (empty($username) || empty($amount)) {
@@ -294,9 +294,9 @@ class Administrator
         global $database, $message, $settings, $user, $captcha;
 
         // escape strings
-        $siteSecretKey = $database->escapeString($siteSecretKey);
-        $captchaKey = $database->escapeString($captchaKey);
-        $captchaSecretKey = $database->escapeString($captchaSecretKey);
+        $siteSecretKey = $database->secureInput($siteSecretKey);
+        $captchaKey = $database->secureInput($captchaKey);
+        $captchaSecretKey = $database->secureInput($captchaSecretKey);
 
         // check if current user has the required permission
         if (!$user->hasPermission("update_site_settings")) {
@@ -496,41 +496,42 @@ class Administrator
      * @param String[] $permissions
      * @return bool
      */
-    function addNewLevel($name, $level, $permissions){
+    function addNewLevel($name, $level, $permissions)
+    {
 
         // define all the global variables
         global $database, $message;
 
         // escape strings
-        $name = $database->escapeString($name);
-        $level = $database->escapeString($level);
-        //$permissions = $database->escapeString($permissions);
+        $name = $database->secureInput($name);
+        $level = $database->secureInput($level);
+        //$permissions = $database->secureInput($permissions);
 
         // check for any empty fields
-        if($name == "" || $level == "" || $permissions == ""){
+        if ($name == "" || $level == "" || $permissions == "") {
             $message->setError("All fields are required to be filled", Message::Error);
             return false;
         }
 
         // check if level name exists
-        if($this->isLevelNameAvailable($name)){
+        if ($this->isLevelNameAvailable($name)) {
             $message->setError("Level name already exists", Message::Error);
             return false;
         }
 
         // check if level exists
-        if($this->isLevelAvailable($level)){
+        if ($this->isLevelAvailable($level)) {
             $message->setError("Level already exists", Message::Error);
             return false;
         }
 
         // check if array of permissions has been supplied and its not an empty array
-        if (!is_array($permissions)){
+        if (!is_array($permissions)) {
             $message->setError("An array of strings must be supplied for the permissions", Message::Error);
             return false;
         }
 
-        if(empty($permissions)){
+        if (empty($permissions)) {
             $message->setError("At least 1 permission is required", Message::Error);
             return false;
         }
@@ -538,18 +539,18 @@ class Administrator
         // split the permissions array and store it in a string with a '|' separator
         $permissionsString = "";
         $i = 0;
-        foreach ($permissions as $permission){
+        foreach ($permissions as $permission) {
 
             // escape the string for db protection
-            $permission = $database->escapeString($permission);
+            $permission = $database->secureInput($permission);
 
             // check if permissions only has * inside, then refuse it and don't add it
-            if($permission == "*"){
+            if ($permission == "*") {
                 continue;
             }
 
             // check if string has no spaces in it then don't add it
-            if ( preg_match('/\s/',$permission) ){
+            if (preg_match('/\s/', $permission)) {
                 continue;
             }
 
@@ -557,7 +558,7 @@ class Administrator
             $permissionsString .= $permission;
 
             // check if not last, then add a separator
-            if(($i + 1) < count($permissions)){
+            if (($i + 1) < count($permissions)) {
                 $permissionsString .= "|";
             }
 
@@ -565,7 +566,7 @@ class Administrator
         }
 
         // update the database with the new results
-        $sql = "INSERT INTO ". TBL_LEVELS . " (".TBL_LEVELS_LEVEL.",".TBL_LEVELS_NAME.",".TBL_LEVELS_PERMISSIONS.") VALUES
+        $sql = "INSERT INTO " . TBL_LEVELS . " (" . TBL_LEVELS_LEVEL . "," . TBL_LEVELS_NAME . "," . TBL_LEVELS_PERMISSIONS . ") VALUES
         ('$level','$name','$permissionsString')";
 
         if (!$result = mysqli_query($database->connection, $sql)) {
@@ -583,18 +584,19 @@ class Administrator
      * @param String $levelName
      * @return boolean
      */
-    function isLevelNameAvailable($levelName){
+    function isLevelNameAvailable($levelName)
+    {
 
         // define all the global variables
         global $database, $message;
 
         // check for empty object given
-        if($levelName == ""){
+        if ($levelName == "") {
             return false;
         }
 
         // check in database if exists
-        $sql = "SELECT COUNT(*) FROM ". TBL_LEVELS . " WHERE ". TBL_LEVELS_NAME . " = '$levelName'";
+        $sql = "SELECT COUNT(*) FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_NAME . " = '$levelName'";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
@@ -604,7 +606,11 @@ class Administrator
         $row = mysqli_fetch_array($result);
 
         // check if any values has been returned
-        if($row[0] > 0){ return true;} else { return false; }
+        if ($row[0] > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -612,18 +618,19 @@ class Administrator
      * @param Int $level
      * @return boolean
      */
-    function isLevelAvailable($level){
+    function isLevelAvailable($level)
+    {
 
         // define all the global variables
         global $database, $message;
 
         // check for empty object given
-        if($level == ""){
+        if ($level == "") {
             return false;
         }
 
         // check in database if exists
-        $sql = "SELECT COUNT(*) FROM ". TBL_LEVELS . " WHERE ". TBL_LEVELS_LEVEL . " = '$level'";
+        $sql = "SELECT COUNT(*) FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '$level'";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
             die;
@@ -633,7 +640,11 @@ class Administrator
         $row = mysqli_fetch_array($result);
 
         // check if any values has been returned
-        if($row[0] > 0){ return true;} else { return false; }
+        if ($row[0] > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

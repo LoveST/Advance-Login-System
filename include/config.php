@@ -18,6 +18,13 @@ define("DBNAME", "als"); // Set the database name used to store all the data.
 define("DBPORT", "3306"); // Set the sql port that is used to connect to the database ( default : 3306 ).
 
 /**
+ * The Site Main Secret Key
+ * * Make sure nobody have access to this variable at all times
+ */
+
+define("SITE_SECRET", md5("This is Just An ExaMple123"));
+
+/**
  * Declare all sql tables that's been used in the script
  */
 define("TBL_USERS", "users");
@@ -46,9 +53,11 @@ define("TBL_USERS_HEARTBEAT", "heartbeat");
 define("TBL_USERS_DEVICES", "devices");
 define("TBL_USERS_TWOFACTOR_ENABLED", "twoFactor_enabled");
 define("TBL_USERS_VERIFICATION_CODE", "verification_code");
+define("TBL_USERS_LASTLOGIN_IP", "lastLogin_ip");
 define("TBL_SETTINGS", "settings");
 define("TBL_SETTINGS_SITE_NAME", "site_name");
 define("TBL_SETTINGS_SITE_URL", "site_url");
+define("TBL_SETTINGS_SITE_PATH", "site_path");
 define("TBL_SETTINGS_SITE_EMAIL", "site_email");
 define("TBL_SETTINGS_SITE_ENABLED", "site_enabled");
 define("TBL_SETTINGS_SITE_THEME", "site_theme");
@@ -71,6 +80,7 @@ define("TBL_SETTINGS_MAX_VERIFIED_DEVICES", "max_verified_devices");
 define("TBL_SETTINGS_TWILIO_ACCOUNT_SID", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_AUTH_TOKEN", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_PHONE_NUMBER", "twilio_phone_number");
+define("TBL_SETTINGS_TEMPLATES_FOLDER", "templates_folder");
 define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");

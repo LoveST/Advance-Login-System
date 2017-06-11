@@ -38,9 +38,9 @@ class Session
         // define all the global variables
         global $database, $message, $settings, $functions, $browser;
 
-        $username = $this->escapeString($username);
-        $password = $this->escapeString($password);
-        $rememberMe = $this->escapeString($rememberMe);
+        $username = $this->secureInput($username);
+        $password = $this->secureInput($password);
+        $rememberMe = $this->secureInput($rememberMe);
 
         if (!$settings->canLogin()) {
             $message->setError("Logging in has been disabled at the moment.", Message::Error);
@@ -79,9 +79,7 @@ class Session
             return false;
         }
 
-        $password = md5($password); // hash the password
-
-        $sql = ("SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "' AND " . TBL_USERS_PASSWORD . " = '" . $password . "'");
+        $sql = ("SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username."'");
 
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
@@ -93,7 +91,15 @@ class Session
             return false;
         }
 
+        // grab the database results
         $row = mysqli_fetch_assoc($result);
+
+        // check if password fields match and if not then discard all changes
+        if(!password_verify($password, $row[TBL_USERS_PASSWORD])){
+            $message->setError("Wrong username/password has been used", Message::Error);
+            return false;
+        }
+
         // ** login successful process ** //
         $rememberMe = (86400 * $rememberMe); // one day as default
         $newToken = md5(uniqid(rand(), false));
@@ -212,8 +218,8 @@ class Session
 
         if (empty($_SESSION["user_data"])) { // check if the current session is empty
             if (!empty($_COOKIE["user_data"]) && !empty($_COOKIE["user_id"])) { // check if the current cookie is not empty or null
-                $userID = $database->escapeString($_COOKIE["user_id"]);
-                $cookieValue = $database->escapeString($_COOKIE["user_data"]);
+                $userID = $database->secureInput($_COOKIE["user_id"]);
+                $cookieValue = $database->secureInput($_COOKIE["user_data"]);
 
                 // ** Get the needed information from the database ** //
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
@@ -310,17 +316,17 @@ class Session
         }
 
         // escape all the given strings and integers
-        $username = $database->escapeString($username);
-        $email = $database->escapeString($email);
-        $email2 = $database->escapeString($email2);
-        $password = $database->escapeString($password);
-        $password2 = $database->escapeString($password2);
-        $pin = $database->escapeString($pin);
-        $pin2 = $database->escapeString($pin2);
-        $firstName = $database->escapeString($firstName);
-        $lastName = $database->escapeString($lastName);
-        $dataOfBirth = $database->escapeString($dataOfBirth);
-        $userCaptcha = $database->escapeString($userCaptcha);
+        $username = $database->secureInput($username);
+        $email = $database->secureInput($email);
+        $email2 = $database->secureInput($email2);
+        $password = $database->secureInput($password);
+        $password2 = $database->secureInput($password2);
+        $pin = $database->secureInput($pin);
+        $pin2 = $database->secureInput($pin2);
+        $firstName = $database->secureInput($firstName);
+        $lastName = $database->secureInput($lastName);
+        $dataOfBirth = $database->secureInput($dataOfBirth);
+        $userCaptcha = $database->secureInput($userCaptcha);
 
         // check for empty given strings
         if (empty($username) || empty($email) || empty($email2) || empty($password) || empty($password2) || empty($firstName) || empty($lastName) || empty($dataOfBirth)) {
@@ -358,8 +364,12 @@ class Session
             return false;
         }
 
+        // hash and secure the password
+        $hashPassword = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+        $hashPassword2 = password_hash($password2, PASSWORD_DEFAULT, ['cost' => 12]);
+
         // password checks
-        if (md5($password) != md5($password2)) {
+        if ($hashPassword != $hashPassword2) {
             $message->setError("Password fields should be the identical", Message::Error);
             return false;
         }
@@ -452,7 +462,7 @@ class Session
 
             $sql = "INSERT
                     INTO " . TBL_USERS . " (" . TBL_USERS_ID . "," . TBL_USERS_USERNAME . "," . TBL_USERS_PASSWORD . "," . TBL_USERS_FNAME . "," . TBL_USERS_LNAME . "," . TBL_USERS_EMAIL . "," . TBL_USERS_LEVEL . "," . TBL_USERS_DATE_JOINED . "," . TBL_USERS_LAST_LOGIN . "," . TBL_USERS_TOKEN . "," . TBL_USERS_EXPIRE . "," . TBL_USERS_RESET_CODE . "," . TBL_USERS_PIN . "," . TBL_USERS_BANNED . "," . TBL_USERS_ACTIVATED . "," . TBL_USERS_ACTIVATION_CODE . ")
-                    VALUES ('$id','$username','$password','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
+                    VALUES ('$id','$username','$hashPassword','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
 
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
@@ -498,7 +508,7 @@ class Session
             // automatically activate the user and update the database
             $sql = "INSERT
                     INTO " . TBL_USERS . " (" . TBL_USERS_ID . "," . TBL_USERS_USERNAME . "," . TBL_USERS_FNAME . "," . TBL_USERS_LNAME . "," . TBL_USERS_EMAIL . "," . TBL_USERS_LEVEL . "," . TBL_USERS_PASSWORD . "," . TBL_USERS_DATE_JOINED . "," . TBL_USERS_LAST_LOGIN . "," . TBL_USERS_EXPIRE . "," . TBL_USERS_TOKEN . "," . TBL_USERS_RESET_CODE . "," . TBL_USERS_PIN . "," . TBL_USERS_BANNED . "," . TBL_USERS_ACTIVATED . "," . TBL_USERS_ACTIVATION_CODE . ")
-                    VALUES ('$id','$username','$firstName','$lastName','$email','1','$password','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
+                    VALUES ('$id','$username','$firstName','$lastName','$email','1','$hashPassword','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
@@ -553,8 +563,8 @@ class Session
         global $database, $message, $functions;
 
         // escape the given strings
-        $code = $this->escapeString($code);
-        $email = $this->escapeString($email);
+        $code = $this->secureInput($code);
+        $email = $this->secureInput($email);
 
         // start the checks
         if (empty($code) || empty($email)) {
@@ -621,7 +631,7 @@ class Session
      * @param $string
      * @return string
      */
-    function escapeString($string)
+    function secureInput($string)
     {
 
         // define all the global variables
@@ -642,7 +652,7 @@ class Session
         global $database;
 
         // escape the username string
-        $username = $database->escapeString($username);
+        $username = $database->secureInput($username);
         // create a new instance of the User class
         $loadUser = new User();
         // initiate the instance with the requested username
@@ -665,7 +675,7 @@ class Session
         global $database, $user, $message;
 
         // escape string
-        $pin = $database->escapeString($pin);
+        $pin = $database->secureInput($pin);
 
         // pin number checks
         if (!is_numeric($pin)) {

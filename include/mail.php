@@ -35,63 +35,77 @@ class Mail
     /**
      * set the email address whom the message will be send
      * @param $sendTo
+     * @return Mail
      */
     public function to($sendTo)
     {
         $this->to = $sendTo;
+        return $this;
     }
 
     /**
      * set the email address whom the message is being sent from
      * @param $sentFrom
+     * @return Mail
      */
     public function fromEmail($sentFrom)
     {
         $this->from = $sentFrom;
+        return $this;
     }
 
     /**
      * set the name of the email sender
      * @param $sentFrom
+     * @return Mail
      */
     public function fromName($sentFrom)
     {
         $this->fromName = $sentFrom;
+        return $this;
     }
 
     /**
      * set the subject of the email
      * @param $subject
+     * @return Mail
      */
     public function subject($subject)
     {
         $this->subject = $subject;
+        return $this;
     }
 
     /**
      * choose if you want to send a template or just a text
      * @param $isTemplate
+     * @return Mail
      */
     public function isTemplate($isTemplate)
     {
         $this->isTemplate = $isTemplate;
+        return $this;
     }
 
     /**
      * @param $templateContent
+     * @return Mail
      */
     public function template($templateContent)
     {
         $this->template = $templateContent;
+        return $this;
     }
 
     /**
      * set the message text if not a template
      * @param $msgText
+     * @return Mail
      */
     public function text($msgText)
     {
         $this->text = $msgText;
+        return $this;
     }
 
     /**

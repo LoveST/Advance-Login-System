@@ -11,6 +11,7 @@ $arr = Array();
 switch($_POST['method']){
 	case 'encrypt':
 		$text = $_POST['keyword'];
+		$text = $database->secureInput($text);
 
 		// encrypt it
 		$encryptedText = $functions->encryptIt($text);
@@ -21,6 +22,7 @@ switch($_POST['method']){
 		break;
 	case 'decrypt':
 		$text = $_POST['keyword'];
+		$text = $database->secureInput($text);
 
 		// decrypt it
 		$decryptedText = $functions->decryptIt($text);

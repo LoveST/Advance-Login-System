@@ -46,4 +46,18 @@ class Database
         return mysqli_real_escape_string($this->connection, $string);
     }
 
+    /**
+     * Protect your input from all kinds of injections like HTML,JS,SQL
+     * @param $input
+     * @return string
+     */
+    function secureInput($input)
+    {
+        return $this->escapeString(trim(strip_tags(addslashes($input))));
+    }
+
+    function hashPassword($text){
+        return password_hash($text, PASSWORD_DEFAULT, ['cost' => 12]);
+    }
+
 }

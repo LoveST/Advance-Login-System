@@ -8,6 +8,7 @@
  */
 namespace ALS\User;
 
+use ALS\MailTemplates\MailTemplates;
 use ALS\User\Devices\Devices;
 use ALS\Message\Message;
 
@@ -19,6 +20,7 @@ class User
     private $userData; // declare the required variables for the user data.
     private $levelData; // declare the required variables for the level data.
     private $devices; // instance of the devices class of the current user
+    private $newLogin = false;
     const First_Name = TBL_USERS_FNAME;
     const Last_Name = TBL_USERS_LNAME;
     const UserName = TBL_USERS_USERNAME;
@@ -121,7 +123,38 @@ class User
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
         $this->devices->init($this->userData);
+        $this->updateLastLoginIP(); // update the user's logged in IP address
 
+        return true;
+    }
+
+    /**
+     * update the users latest login ip address for security purposes
+     */
+    private function updateLastLoginIP()
+    {
+
+        // define all the global variables
+        global $database, $message;
+
+        // check if device has already been active, then skip
+        if ($this->devices()->canAccess()) {
+            return false;
+        }
+
+        // if they don't match then update the database with the current results
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LASTLOGIN_IP . " = '" . md5($this->devices()->getUserIP()) . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
+        if (!$result = mysqli_query($database->connection, $sql)) {
+            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+            return false;
+        }
+
+        // send a message to the current user's email address to verify the login session
+        $this->newLogin = true;
+        $mailTemplates = new MailTemplates();
+        $mailTemplates->newSignIn();
+
+        // if everything goes right just return true
         return true;
     }
 
@@ -305,6 +338,15 @@ class User
     }
 
     /**
+     * get the user's last login ip address
+     * @return string
+     */
+    function getLastLoginIP()
+    {
+        return $this->userData[TBL_USERS_LASTLOGIN_IP];
+    }
+
+    /**
      * get the user current level name
      * @return string
      */
@@ -365,8 +407,9 @@ class User
      * @param string $password
      * @return bool
      */
-    function is_samePassword($password){
-        if ($this->get(TBL_USERS_PASSWORD) == $password) {
+    function is_samePassword($password)
+    {
+        if(password_verify($password, $this->get(TBL_USERS_PASSWORD))){
             return true;
         } else {
             return false;
@@ -386,6 +429,15 @@ class User
         } else {
             return false;
         }
+    }
+
+    /**
+     * check if the current user is logging in from a new device
+     * @return bool
+     */
+    public function is_loggedFromNewDevice()
+    {
+        return $this->newLogin;
     }
 
     /**

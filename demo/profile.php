@@ -15,49 +15,49 @@ $session->statusCheck();
 
 $action = array_key_exists('ac', $_GET) ? $_GET['ac'] : null;
 
-switch($action){
+switch ($action) {
     case "change_username";
 
-        if(isset($_POST['update'])){
-            if($profileManager->setNewUsername($_POST['username'], $_POST['pin'])){
+        if (isset($_POST['update'])) {
+            if ($profileManager->setNewUsername($_POST['username'], $_POST['pin'])) {
                 header("Location: login.php");
             }
         }
 
-        require TEMPLATE_PATH .  "/profile_change_username.html";
+        require TEMPLATE_PATH . "/profile_change_username.html";
         break;
     case "verified_devices";
         $devices = $user->devices()->getDevices();
 
-        require TEMPLATE_PATH .  "/profile_verified_devices.html";
+        require TEMPLATE_PATH . "/profile_verified_devices.html";
         break;
     case "change_information";
         echo "hello";
         break;
     case "change_email";
 
-        if(isset($_POST['update'])){
-            if($profileManager->setNewEmail($_POST['email'], $_POST['email2'], $_POST['pin'])){
+        if (isset($_POST['update'])) {
+            if ($profileManager->setNewEmail($_POST['email'], $_POST['email2'], $_POST['pin'])) {
                 header("Location: login.php");
             }
         }
 
-        require TEMPLATE_PATH .  "/profile_change_email.html";
+        require TEMPLATE_PATH . "/profile_change_email.html";
         break;
     case "change_password";
 
-        if(isset($_POST['update'])){
-            if($profileManager->setNewPassword($_POST['oldPass'], $_POST['pinNumber'], $_POST['newPass'], $_POST['confirmNewPass'])){
+        if (isset($_POST['update'])) {
+            if ($profileManager->setNewPassword($_POST['oldPass'], $_POST['pinNumber'], $_POST['newPass'], $_POST['confirmNewPass'])) {
                 header("Location: login.php");
             }
         }
 
-        require TEMPLATE_PATH .  "/profile_change_password.html";
+        require TEMPLATE_PATH . "/profile_change_password.html";
         break;
     case "change_pin";
         echo "hello";
         break;
     default;
-        require TEMPLATE_PATH .  "/profile_main.html";
+        require TEMPLATE_PATH . "/profile_main.html";
         break;
 }
