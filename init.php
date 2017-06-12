@@ -24,6 +24,7 @@ require "include/administrator.php";
 require "include/profileManager.php";
 require "include/MailTemplates.php";
 require "include/auth/Twilio.php";
+require "include/ViewController.php";
 
 /**
  * init Message class
@@ -131,7 +132,16 @@ $profileManager = new profileManager();
  */
 
 use ALS\MailTemplates\MailTemplates;
+
 $mailTemplates = new MailTemplates();
+
+/**
+ * init the View Controller Class
+ */
+
+use ALS\ViewController\ViewController;
+
+$viewController = new ViewController();
 
 /**
  * TO-ADD all the needed extra classes

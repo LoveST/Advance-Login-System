@@ -12,4 +12,4 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-require "../". TEMPLATE_PATH ."/ad_authenticationSettings.html";
+$viewController->loadView("ad_authenticationSettings.html");

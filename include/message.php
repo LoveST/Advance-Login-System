@@ -101,6 +101,18 @@ class Message
         }
     }
 
+    function printSuccess()
+    {
+
+        // set the current success array to object
+        $data = $_SESSION["success"];
+
+        foreach ($data as $key => $value) {
+            if ($key != 0) echo "<br>";
+            echo $value['msg'];
+        }
+    }
+
     /**
      * check to see if any error has occurred
      */

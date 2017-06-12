@@ -18,4 +18,4 @@ if(isset($_POST['enable'])){
     $admin->activateHTTPS(false);
 }
 
-require "../". TEMPLATE_PATH ."/ad_setHTTPS.html";
+$viewController->loadView("ad_setHTTPS.html");

@@ -12,5 +12,5 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-require "../". TEMPLATE_PATH ."/ad_siteSettings.html";
+$viewController->loadView("ad_siteSettings.html");
 

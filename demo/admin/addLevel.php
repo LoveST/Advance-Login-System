@@ -28,4 +28,4 @@ if(isset($_POST['add'])){
 
 }
 
-require "../" . TEMPLATE_PATH . "/ad_addLevel.html";
+$viewController->loadView("ad_addLevel.html");

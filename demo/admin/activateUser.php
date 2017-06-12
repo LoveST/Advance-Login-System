@@ -32,4 +32,4 @@ if(isset($_POST['activate'])){
 
 }
 
-require "../". TEMPLATE_PATH ."/ad_activateUser.html";
+$viewController->loadView("ad_activateUser.html");

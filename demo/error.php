@@ -14,8 +14,7 @@ $msg = $_SESSION['err_msg'];
 $theme = $_SESSION['theme_url'];
 
 if($theme == "" || $msg == "" || $title == ""){
-    echo "empty string";
-    die;
+    header("Location: index.php");
 }
 
 require "templates/". $theme ."/error.html";

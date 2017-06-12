@@ -12,5 +12,5 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-    $totalUsers = $admin->getUsers();
-    require "../". TEMPLATE_PATH ."/ad_totalUsers.html";
+$totalUsers = $admin->getUsers();
+$viewController->loadView("ad_totalUsers.html");

@@ -49,4 +49,4 @@ switch ($m) {
         break;
 }
 
-require "../" . TEMPLATE_PATH . "/ad_registeredUsers.html";
+$viewController->loadView("ad_registeredUsers.html");

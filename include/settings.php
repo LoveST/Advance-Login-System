@@ -294,20 +294,59 @@ class Settings
     }
 
     /**
-     * get the site templates path
-     * @return string
+     * get the site templates cache folder path
      */
-    function getTemplatesPath(){
+    function getTemplatesCachePath()
+    {
 
         $sub = "";
 
         // check the servers current OS
-        if(PHP_OS == "Linux"){
+        if (PHP_OS == "Linux") {
             $sub = "/";
-        } else { $sub = "\\"; }
+        } else {
+            $sub = "\\";
+        }
+
+        // start building the path
+        $path = $this->sitePath() . $sub . $this->templatesFolder() . $sub . $this->siteTheme() . $sub . "cache" . $sub;
+
+        // return the path
+        return $path;
+    }
+
+    /**
+     * get the site templates path
+     * @return string
+     */
+    function getTemplatesPath()
+    {
+
+        $sub = "";
+
+        // check the servers current OS
+        if (PHP_OS == "Linux") {
+            $sub = "/";
+        } else {
+            $sub = "\\";
+        }
 
         // start building the path
         $path = $this->sitePath() . $sub . $this->templatesFolder() . $sub . $this->siteTheme() . $sub;
+
+        // return the path
+        return $path;
+    }
+
+    /**
+     * get the site templates url
+     * @return string
+     */
+    function getTemplatesURL()
+    {
+
+        // start building the path
+        $path = "http://" . $this->siteURL() . $this->templatesFolder() . "/" . $this->siteTheme() . "/";
 
         // return the path
         return $path;

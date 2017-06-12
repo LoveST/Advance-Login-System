@@ -23,13 +23,13 @@ switch ($action) {
                 header("Location: login.php");
             }
         }
-
-        require TEMPLATE_PATH . "/profile_change_username.html";
+        
+        $viewController->loadView("profile_change_username.html");
         break;
     case "verified_devices";
         $devices = $user->devices()->getDevices();
 
-        require TEMPLATE_PATH . "/profile_verified_devices.html";
+        $viewController->loadView("profile_verified_devices.html");
         break;
     case "change_information";
         echo "hello";
@@ -42,7 +42,7 @@ switch ($action) {
             }
         }
 
-        require TEMPLATE_PATH . "/profile_change_email.html";
+        $viewController->loadView("profile_change_email.html");
         break;
     case "change_password";
 
@@ -52,12 +52,12 @@ switch ($action) {
             }
         }
 
-        require TEMPLATE_PATH . "/profile_change_password.html";
+        $viewController->loadView("profile_change_password.html");
         break;
     case "change_pin";
         echo "hello";
         break;
     default;
-        require TEMPLATE_PATH . "/profile_main.html";
+        $viewController->loadView("profile_main.html");
         break;
 }

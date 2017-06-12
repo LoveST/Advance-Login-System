@@ -7,8 +7,8 @@
  */
 
 require "../../init.php";
-if($user->isAdmin()) {
-    require "../". TEMPLATE_PATH . "/ad_main_panel.html";
+if ($user->isAdmin()) {
+    $viewController->loadView("ad_main_panel.html");
 } else {
-    $message->customKill("Invalid Privileges","You do not have the permission to access this page",$settings->siteTheme());
+    $message->customKill("Invalid Privileges", "You do not have the permission to access this page", $settings->siteTheme());
 }

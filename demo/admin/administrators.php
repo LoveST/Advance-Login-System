@@ -13,5 +13,5 @@ $session->adminCheck();
 /** End check user & site status**/
 
 $administrator = $admin->getAdmins();
-require "../" . TEMPLATE_PATH . "/ad_administrators.html";
+$viewController->loadView("ad_administrators.html");
 

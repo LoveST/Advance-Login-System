@@ -12,5 +12,5 @@ $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-    $banedUsers = $admin->getBannedUsers();
-    require "../". TEMPLATE_PATH ."/ad_bannedUsers.html";
+$banedUsers = $admin->getBannedUsers();
+$viewController->loadView("ad_bannedUsers.html");

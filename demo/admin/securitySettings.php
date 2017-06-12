@@ -23,4 +23,4 @@ if(isset($_POST['update'])){
 
 }
 
-require "../". TEMPLATE_PATH ."/ad_securitySettings.html";
+$viewController->loadView("ad_securitySettings.html");

@@ -5,4 +5,4 @@ require "../init.php";
 $session->statusCheck();
 /** End check user & site status**/
 
-require TEMPLATE_PATH ."/home.html";
+$viewController->loadView("home.html");
