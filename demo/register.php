@@ -28,8 +28,6 @@ if (isset($_POST['register'])) {
     $dataOfBirth = $_POST['dateOfBirth'];
     $userCaptcha = $_POST['g-recaptcha-response'];
 
-    //die($pin);
-
     if ($session->register($username, $email, $email2, $password, $password2, $pin, $pin2, $firstName, $lastName, $dataOfBirth, $userCaptcha)) {
         $success = true;
     }

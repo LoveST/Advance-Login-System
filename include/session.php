@@ -100,6 +100,12 @@ class Session
             return false;
         }
 
+        // check if banned
+        if($row[TBL_USERS_BANNED] == 1){
+            $message->setError("Your account has been banned", Message::Error);
+            return false;
+        }
+
         // ** login successful process ** //
         $rememberMe = (86400 * $rememberMe); // one day as default
         $newToken = md5(uniqid(rand(), false));
@@ -119,8 +125,11 @@ class Session
             // serialize the array
             $sArray = serialize($user_dataArray);
 
+            // get the current time
+            $loginTime = date("Y-m-d H:i:s", time());
+
             // ** Update the user Cookie code ** //
-            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '" . $sArray . "', " . TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
+            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '" . $sArray . "', " . TBL_USERS_SIGNIN_AGAIN . " = '0', ". TBL_USERS_LAST_LOGIN ." = '$loginTime' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
                 return false;
@@ -173,9 +182,6 @@ class Session
             foreach ($row As $rowName => $rowValue) {
                 $_SESSION["user_data"][$rowName] = $rowValue;
             }
-
-            // initiate the user data
-            $user->initUserData();
 
             // check if user has to log in again
             if ($user->mustSignInAgain()) {
@@ -461,8 +467,8 @@ class Session
             $activationCode = $functions->generateRandomString(20);
 
             $sql = "INSERT
-                    INTO " . TBL_USERS . " (" . TBL_USERS_ID . "," . TBL_USERS_USERNAME . "," . TBL_USERS_PASSWORD . "," . TBL_USERS_FNAME . "," . TBL_USERS_LNAME . "," . TBL_USERS_EMAIL . "," . TBL_USERS_LEVEL . "," . TBL_USERS_DATE_JOINED . "," . TBL_USERS_LAST_LOGIN . "," . TBL_USERS_TOKEN . "," . TBL_USERS_EXPIRE . "," . TBL_USERS_RESET_CODE . "," . TBL_USERS_PIN . "," . TBL_USERS_BANNED . "," . TBL_USERS_ACTIVATED . "," . TBL_USERS_ACTIVATION_CODE . ")
-                    VALUES ('$id','$username','$hashPassword','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode')";
+                    INTO " . TBL_USERS . " (" . TBL_USERS_ID . "," . TBL_USERS_USERNAME . "," . TBL_USERS_PASSWORD . "," . TBL_USERS_FNAME . "," . TBL_USERS_LNAME . "," . TBL_USERS_EMAIL . "," . TBL_USERS_LEVEL . "," . TBL_USERS_DATE_JOINED . "," . TBL_USERS_LAST_LOGIN . "," . TBL_USERS_TOKEN . "," . TBL_USERS_EXPIRE . "," . TBL_USERS_RESET_CODE . "," . TBL_USERS_PIN . "," . TBL_USERS_BANNED . "," . TBL_USERS_ACTIVATED . "," . TBL_USERS_ACTIVATION_CODE . "," . TBL_USERS_BIRTH_DATE . ")
+                    VALUES ('$id','$username','$hashPassword','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode','$dataOfBirth')";
 
             if (!$result = mysqli_query($database->connection, $sql)) {
                 $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);

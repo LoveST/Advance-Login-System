@@ -46,7 +46,7 @@
                 <div class="card-box table-responsive">
                     <h4 class="m-t-0 header-title"><b>Banned Users</b></h4>
 
-                    <?  if(!$banedUsers){?>
+                    <? global $banedUsers;  if(!$banedUsers){?>
                     <h4 class="m-t-0 text-muted text-center"><b>There are no banned users</b></h4>
                     <? } else { ?>
                     <table data-toggle="table"

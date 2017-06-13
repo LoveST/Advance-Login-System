@@ -192,7 +192,7 @@ class User
         global $database, $message;
 
         // check if banned
-        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->username() . "' AND " . TBL_USERS_BANNED . " = '0'";
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '0'";
         $results = mysqli_query($database->connection, $sql);
 
         // check for empty results (user is already banned before)
@@ -202,14 +202,16 @@ class User
         }
 
         // ban the user
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->username() . "'";
-        $results = mysqli_query($database->connection, $sql);
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // if any errors
-        if (mysqli_num_rows($results) < 1) {
+        if (!$result = mysqli_query($database->connection, $sql)) {
             $message->setError("Something went wrong while trying to update the records", Message::Error);
             return false;
         }
+
+        // make sure to sign the user off
+        $this->forceSignInAgain();
 
         return true;
     }
@@ -225,21 +227,20 @@ class User
         global $database, $message;
 
         // check if banned
-        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->username() . "' AND " . TBL_USERS_BANNED . " = '1'";
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '1'";
         $results = mysqli_query($database->connection, $sql);
 
         // check for empty results (user is already banned before)
         if (mysqli_num_rows($results) < 1) {
-            $message->setError("The user has been banned before", Message::Error);
+            $message->setError("The requested user account is not banned", Message::Error);
             return false;
         }
 
         // unBan the user
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->username() . "'";
-        $results = mysqli_query($database->connection, $sql);
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // if any errors
-        if (mysqli_num_rows($results) < 1) {
+        if (!$result = mysqli_query($database->connection, $sql)) {
             $message->setError("Something went wrong while trying to update the records", Message::Error);
             return false;
         }
@@ -299,6 +300,44 @@ class User
     function getDateJoined()
     {
         return $this->userData[TBL_USERS_DATE_JOINED];
+    }
+
+    /**
+     * get the users last login time
+     * @return \DateTime
+     */
+    function getLastLoginTime()
+    {
+        return $this->userData[TBL_USERS_LAST_LOGIN];
+    }
+
+    /**
+     * get the users last login time in text format
+     * @return string
+     */
+    function getLastLoginText()
+    {
+        global $functions;
+        return $functions->calculateTime($this->getLastLoginTime());
+    }
+
+    /**
+     * get the user birth date
+     * @return string
+     */
+    function getBirthDate()
+    {
+        return $this->userData[TBL_USERS_BIRTH_DATE];
+    }
+
+    /**
+     * get the user's age
+     * @return int
+     */
+    function getAge()
+    {
+        global $functions;
+        return $functions->getAge($this->getBirthDate());
     }
 
     /**
@@ -389,6 +428,19 @@ class User
     }
 
     /**
+     * check if the user's account is banned
+     * @return bool
+     */
+    function is_banned()
+    {
+        if ($this->userData[TBL_USERS_BANNED] == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * check if the given pin number (md5) matches the current one stored in the session
      * @param String $pin
      * @return bool
@@ -409,7 +461,7 @@ class User
      */
     function is_samePassword($password)
     {
-        if(password_verify($password, $this->get(TBL_USERS_PASSWORD))){
+        if (password_verify($password, $this->get(TBL_USERS_PASSWORD))) {
             return true;
         } else {
             return false;
