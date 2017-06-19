@@ -6,6 +6,9 @@
  * Time: 5:46 PM
  */
 namespace ALS\Database;
+
+use ALS\Message\Message;
+
 class Database
 {
 
@@ -56,8 +59,30 @@ class Database
         return $this->escapeString(trim(strip_tags(addslashes($input))));
     }
 
-    function hashPassword($text){
+    function hashPassword($text)
+    {
         return password_hash($text, PASSWORD_DEFAULT, ['cost' => 12]);
+    }
+
+    /**
+     * get the results from an sql query
+     * @param $sqlRequest
+     * @return bool|\mysqli_result
+     */
+    function getQueryResults($sqlRequest)
+    {
+
+        // define all the global variables
+        global $message;
+
+        // check for any errors
+        if (!$result = mysqli_query($this->connection, $sqlRequest)) {
+            $message->setError("SQL query error : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+            return false;
+        }
+
+        // if no error then return the results
+        return $result;
     }
 
 }

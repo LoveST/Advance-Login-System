@@ -82,7 +82,6 @@ $mail = new Mail();
 use ALS\User\User;
 
 $user = new User();
-$user->init();
 
 /**
  * init passwordManager class
@@ -99,7 +98,6 @@ $passwordManager = new passwordManager();
 use ALS\Functions\Functions;
 
 $functions = new Functions();
-$functions->init();
 
 
 /**

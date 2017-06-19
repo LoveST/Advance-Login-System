@@ -1,0 +1,10 @@
+Main Script Functionality =>
+	- implement the new ViewController feature in all the HTML files.
+	- implement a new function in the User class to change the required user's level with the needed parameters.
+
+Statistics =>
+	- implement Login's Tracking.
+
+Redirects =>
+	- implement a redirect function that gets passed by the site URL, and directs the script to the required path after a successful run.
+	

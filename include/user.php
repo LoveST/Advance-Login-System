@@ -37,14 +37,6 @@ class User
     }
 
     /**
-     * init the class
-     */
-    function init()
-    {
-
-    }
-
-    /**
      * init an instance of this class and supply it with the user data ($data) and the other classes Or basically use a username for the variable ($data)
      * @param $data
      * @return bool
@@ -142,12 +134,30 @@ class User
             return false;
         }
 
+        // check if session is already in progress the return false
+        if(isset($_SESSION['new_device_check'])) {
+            if ($_SESSION['new_device_check'] == 1) {
+                return false;
+            }
+        }
+
+        // check if sessions is timed-out
+        if(isset($_SESSION['new_device_check_timeout'])) {
+            if ($_SESSION['new_device_check_timeout'] + 4 * 60 * 60 >= time()) { // 4 hours for the session to expire
+                return false;
+            }
+        }
+
         // if they don't match then update the database with the current results
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LASTLOGIN_IP . " = '" . md5($this->devices()->getUserIP()) . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
         if (!$result = mysqli_query($database->connection, $sql)) {
             $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
             return false;
         }
+
+        // create a new session to hold the needed variable
+        $_SESSION['new_device_check'] = 1;
+        $_SESSION['new_device_check_timeout'] = time();
 
         // send a message to the current user's email address to verify the login session
         $this->newLogin = true;

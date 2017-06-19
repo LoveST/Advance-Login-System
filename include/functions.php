@@ -12,14 +12,6 @@ class Functions
 {
 
     /**
-     * init the class
-     */
-    function init()
-    {
-
-    }
-
-    /**
      * encrypt a string using the site key
      * @param $data
      * @return string

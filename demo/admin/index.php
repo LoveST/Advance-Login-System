@@ -6,9 +6,10 @@
  * Time: 4:28 PM
  */
 
+/** Check user & site status **/
 require "../../init.php";
-if ($user->isAdmin()) {
-    $viewController->loadView("ad_main_panel.html");
-} else {
-    $message->customKill("Invalid Privileges", "You do not have the permission to access this page", $settings->siteTheme());
-}
+$session->statusCheck();
+$session->adminCheck();
+/** End check user & site status**/
+
+$viewController->loadView("ad_main_panel.html");
