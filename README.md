@@ -20,6 +20,9 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 
 #### And many more features to come
 
+# Requirements
+- PHP Version : ``` 5.4 or greater ```
+
 # Permissions
 Make sure the ``` cache ``` file inside the desired template has a ``` CHMOD 777 ```
 
