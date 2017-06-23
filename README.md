@@ -20,6 +20,8 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 
 #### And many more features to come
 
+# Permissions
+Make sure the ```php cache ``` file inside the desired template has a ```php CHMOD 777 ```
 
 # To-Begin
 Just include the init.php file to your desired script files.
