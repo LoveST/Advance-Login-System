@@ -6,6 +6,7 @@
  * Date: 2/1/2017
  * Time: 7:22 PM
  */
+
 namespace ALS\Administrator;
 
 use ALS\Message\Message;
@@ -109,7 +110,11 @@ class Administrator
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_BANNED . "='1' LIMIT " . $limit;
         }
 
-        $results = mysqli_query($database->connection, $sql);
+        // get the sql results
+        if(!$results = $database->getQueryResults($sql)) {
+            return false;
+        }
+
         $users = "";
 
         if (mysqli_num_rows($results) < 1) {
@@ -143,9 +148,10 @@ class Administrator
             }
 
             $sql = "UPDATE " . TBL_SETTINGS . " SET value = '1' WHERE field = '" . TBL_SETTINGS_FORCE_HTTPS . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-                die;
+
+            // get the sql results
+            if (!$result = $database->getQueryResults($sql)) {
+                return false;
             }
 
             //if no error then set the success message
@@ -158,9 +164,10 @@ class Administrator
             }
 
             $sql = "UPDATE " . TBL_SETTINGS . " SET value = '0' WHERE field = '" . TBL_SETTINGS_FORCE_HTTPS . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-                die;
+
+            // get the sql results
+            if (!$result = $database->getQueryResults($sql)) {
+                return false;
             }
 
             //if no error then set the success message
@@ -355,7 +362,7 @@ class Administrator
 
     /**
      * @param int $since -> the amount of days passed for the users that has signed up
-     * @return array
+     * @return array|bool
      */
     function getTotalRegisteredUsers($since)
     {
@@ -366,14 +373,45 @@ class Administrator
         // check if current user has the required permission
         if (!$user->hasPermission("admin_analytics_registeredUsers")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
-            return 0;
+            return false;
         }
 
         // call the database and get the results back
         $query = "SELECT COUNT(*) FROM  " . TBL_USERS . " WHERE  " . TBL_USERS_DATE_JOINED . " > NOW() - INTERVAL $since DAY";
-        if (!$result = mysqli_query($database->connection, $query)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($query)) {
+            return false;
+        }
+
+        $row = mysqli_fetch_array($result);
+
+        // return the array
+        return $row[0];
+    }
+
+    /**
+     * @param $since
+     * @return bool|array
+     */
+    function getTotalLoggedUsers($since)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("admin_analytics_loggedUsers")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return 0;
+        }
+
+        // call the database and get the results back
+        $query = "SELECT COUNT(*) FROM  " . TBL_USERS . " WHERE  " . TBL_USERS_LAST_LOGIN . " > NOW() - INTERVAL $since DAY";
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($query)) {
+            return false;
         }
 
         $row = mysqli_fetch_array($result);
@@ -390,7 +428,7 @@ class Administrator
      * @param $limit
      * @param $offsetStart
      * @param $offsetEnd
-     * @return User[]
+     * @return User[]|bool
      */
     function getTotalRegisteredUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
     {
@@ -401,7 +439,7 @@ class Administrator
         // check if current user has the required permission
         if (!$user->hasPermission("analytics_registeredUsersInBetween")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
-            return 0;
+            return false;
         }
 
         // Set the required parameters
@@ -424,9 +462,66 @@ class Administrator
         " . TBL_USERS_DATE_JOINED . " >= '$startDate' AND 
         " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
 
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
+        }
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $currentUser = new User();
+            $currentUser->initInstance($row);
+
+            $users[] = $currentUser;
+        }
+
+        return $users;
+    }
+
+    /**
+     * get all the logged in users between the specified dates and choose if the data must
+     * be limited to save resources or just pass on a value for both the offsets
+     * @param $startDate
+     * @param $endDate
+     * @param $limit
+     * @param $offsetStart
+     * @param $offsetEnd
+     * @return User[]|bool
+     */
+    function getTotalLoggedUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("analytics_loggedUsersInBetween")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // Set the required parameters
+        $users = "";
+
+        // check if any limits are set
+        if ($limit != 0) {
+            $limitArgs = " LIMIT " . $limit;
+        } else {
+            $limitArgs = "";
+        }
+
+        // check if any offsets has been used
+        if ($offsetEnd != 0 && $offsetEnd >= $offsetStart) {
+            $limitArgs = " LIMIT " . $offsetStart . "," . $offsetEnd;
+        }
+
+        // call the database and get the results back
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE
+        " . TBL_USERS_LAST_LOGIN . " >= '$startDate' AND 
+        " . TBL_USERS_LAST_LOGIN . " <= '$endDate'" . $limitArgs;
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
         }
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -447,7 +542,7 @@ class Administrator
      * @param $limit
      * @param $offsetStart
      * @param $offsetEnd
-     * @return User[]
+     * @return User[]|bool
      */
     function countTotalRegisteredUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
     {
@@ -458,7 +553,7 @@ class Administrator
         // check if current user has the required permission
         if (!$user->hasPermission("analytics_countRegisteredUsersInBetween")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
-            return 0;
+            return false;
         }
 
         // check if any limits are set
@@ -478,9 +573,59 @@ class Administrator
         " . TBL_USERS_DATE_JOINED . " >= '$startDate' AND 
         " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
 
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
+        }
+
+        $row = mysqli_fetch_array($result);
+
+
+        return $row[0];
+    }
+
+    /**
+     * count the number of logged in users in between the specified dates and choose if the data must
+     * be limited to save resources or just pass on a value for both the offsets
+     * @param $startDate
+     * @param $endDate
+     * @param $limit
+     * @param $offsetStart
+     * @param $offsetEnd
+     * @return User[]|bool
+     */
+    function countTotalLoggedUsersInBetween($startDate, $endDate, $limit = 0, $offsetStart = 0, $offsetEnd = 0)
+    {
+
+        // define all the global variables
+        global $database, $message, $settings, $user;
+
+        // check if current user has the required permission
+        if (!$user->hasPermission("analytics_countLoggedUsersInBetween")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // check if any limits are set
+        if ($limit != 0) {
+            $limitArgs = " LIMIT " . $limit;
+        } else {
+            $limitArgs = "";
+        }
+
+        // check if any offsets has been used
+        if ($offsetEnd != 0 && $offsetEnd >= $offsetStart) {
+            $limitArgs = " LIMIT " . $offsetStart . "," . $offsetEnd;
+        }
+
+        // call the database and get the results back
+        $sql = "SELECT COUNT(*) FROM " . TBL_USERS . " WHERE
+        " . TBL_USERS_LAST_LOGIN . " >= '$startDate' AND 
+        " . TBL_USERS_LAST_LOGIN . " <= '$endDate'" . $limitArgs;
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
         }
 
         $row = mysqli_fetch_array($result);
@@ -569,8 +714,8 @@ class Administrator
         $sql = "INSERT INTO " . TBL_LEVELS . " (" . TBL_LEVELS_LEVEL . "," . TBL_LEVELS_NAME . "," . TBL_LEVELS_PERMISSIONS . ") VALUES
         ('$level','$name','$permissionsString')";
 
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -597,9 +742,10 @@ class Administrator
 
         // check in database if exists
         $sql = "SELECT COUNT(*) FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_NAME . " = '$levelName'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
         }
 
         // grab the results
@@ -631,9 +777,10 @@ class Administrator
 
         // check in database if exists
         $sql = "SELECT COUNT(*) FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '$level'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+
+        // get the sql results
+        if (!$result = $database->getQueryResults($sql)) {
+            return false;
         }
 
         // grab the results

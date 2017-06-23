@@ -661,7 +661,7 @@ class Session
     /**
      * load a user account and all the needed data from the class User
      * @param $username
-     * @return User
+     * @return User|bool
      */
     function loadUser($username)
     {

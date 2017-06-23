@@ -81,7 +81,11 @@ class User
 
         // pull the requested user $username information from the database
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        $results = mysqli_query($database->connection, $sql);
+
+        // get the sql results
+        if(!$results = $database->getQueryResults($sql)) {
+            return false;
+        }
 
         // check for empty results
         if (mysqli_num_rows($results) < 1) {
@@ -150,8 +154,9 @@ class User
 
         // if they don't match then update the database with the current results
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LASTLOGIN_IP . " = '" . md5($this->devices()->getUserIP()) . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -203,7 +208,11 @@ class User
 
         // check if banned
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '0'";
-        $results = mysqli_query($database->connection, $sql);
+
+        // get the sql results
+        if(!$results = $database->getQueryResults($sql)) {
+            return false;
+        }
 
         // check for empty results (user is already banned before)
         if (mysqli_num_rows($results) < 1) {
@@ -215,8 +224,8 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // if any errors
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Something went wrong while trying to update the records", Message::Error);
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -238,7 +247,11 @@ class User
 
         // check if banned
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '1'";
-        $results = mysqli_query($database->connection, $sql);
+
+        // get the sql results
+        if(!$results = $database->getQueryResults($sql)) {
+            return false;
+        }
 
         // check for empty results (user is already banned before)
         if (mysqli_num_rows($results) < 1) {
@@ -250,8 +263,8 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // if any errors
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Something went wrong while trying to update the records", Message::Error);
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -423,6 +436,7 @@ class User
 
     /**
      * Set this function to force the current user to log in again and re-initiate the data
+     * @return bool
      */
     function forceSignInAgain()
     {
@@ -432,9 +446,13 @@ class User
 
         // call the database to store the new session data
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '1' WHERE " . TBL_USERS_ID . " = '" . $this->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -505,7 +523,7 @@ class User
     /**
      * Get a certain level information
      * @param $level
-     * @return array
+     * @return array|bool
      */
     function loadLevel($level)
     {
@@ -515,10 +533,12 @@ class User
 
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
         $result = mysqli_query($database->connection, $sql);
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
+            return false;
         }
+
         $row = mysqli_fetch_array($result);
         return $row;
     }
@@ -526,7 +546,7 @@ class User
     /**
      * get the permissions of a certain level as an array
      * @param $level
-     * @return array
+     * @return array|bool
      */
     function loadLevelPermissions($level)
     {
@@ -536,14 +556,15 @@ class User
 
         // load the current user permissions
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
-        $result = mysqli_query($database->connection, $sql);
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
+            return false;
         }
+
         $row = mysqli_fetch_array($result);
 
-        // seperate every single permission after a | sign and store it in an array and return it
+        // separate every single permission after a | sign and store it in an array and return it
         $permissions = explode("|", $row[TBL_LEVELS_PERMISSIONS]);
         return $permissions;
     }
@@ -620,8 +641,9 @@ class User
 
         // update the timestamp in the database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_HEARTBEAT . " = '" . $time . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while updating data in the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -647,8 +669,9 @@ class User
 
         // if account is not activated then update the sql records
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while updating data in the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -675,8 +698,9 @@ class User
 
         // if account is activated then update the sql records
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while updating data in the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -702,7 +726,9 @@ class User
 
             // ** Clear the Cookie auth code ** //
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
+
+            // get the sql results
+            if(!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -755,8 +781,9 @@ class User
         $newXP = $this->getXP() + $amount;
 
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while updating data in the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -791,8 +818,9 @@ class User
 
         // update the current user xp
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while updating data in the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__ - 2);
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -805,7 +833,9 @@ class User
 
         // update the lost xp amount in database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LOST_XP . " = '" . $newLostXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
+
+        // get the sql results
+        if(!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
