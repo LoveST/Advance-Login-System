@@ -1,6 +1,7 @@
 <?
 // include in the beginning of every single php file
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
+
 // Start the session
 session_start();
 

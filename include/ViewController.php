@@ -8,6 +8,9 @@
 
 namespace ALS\ViewController;
 
+use ALS\Translator\Translator;
+
+require "Translator.php";
 
 class ViewController
 {
@@ -15,6 +18,15 @@ class ViewController
     private $requiredTemplate = "";
     private $customVariables = null;
     private $uniqueID;
+    private $translator;
+
+    public function __construct()
+    {
+
+        // init the Translator class
+        $this->translator = new Translator();
+
+    }
 
     /**
      * load a template to the view controller
@@ -24,7 +36,7 @@ class ViewController
     {
 
         // init the required global variables
-        global $browser, $config, $captcha , $passwordManager ,$message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
+        global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
 
         // check if view is accessible
         if (!$this->isViewAccessible($templateName)) {
@@ -44,6 +56,9 @@ class ViewController
         // replace any special reserved characters
         $file = $this->replaceReservedCharacters($file);
 
+        // translate the TEMPLATE file
+        $file = $this->getTranslator()->translateFile($file);
+
         // save the file to the temporary cache folder
         $fp = fopen($settings->getTemplatesCachePath() . $this->requiredTemplate, "wb");
         fwrite($fp, $file);
@@ -52,7 +67,7 @@ class ViewController
         // load the html file
         try {
             require_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             $this->deleteFile($this->requiredTemplate);
             $this->killViewer("Error while loading the template");
         }
@@ -150,7 +165,8 @@ class ViewController
 
     }
 
-    private function deleteFile($file){
+    private function deleteFile($file)
+    {
 
         // init the required global variables
         global $settings;
@@ -158,6 +174,25 @@ class ViewController
         if (!unlink($settings->getTemplatesCachePath() . $file)) {
             $this->killViewer("Error handling the cached template");
         }
+    }
+
+    /**
+     * get the translator class
+     * @return Translator
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
+    }
+
+    /**
+     * translate a text from the actual INI file
+     * @param $text
+     * @return string
+     */
+    public function translateText($text)
+    {
+        return $this->getTranslator()->translateText($text);
     }
 
 }

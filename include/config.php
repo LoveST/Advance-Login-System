@@ -55,6 +55,7 @@ define("TBL_USERS_TWOFACTOR_ENABLED", "twoFactor_enabled");
 define("TBL_USERS_VERIFICATION_CODE", "verification_code");
 define("TBL_USERS_LASTLOGIN_IP", "lastLogin_ip");
 define("TBL_USERS_BIRTH_DATE", "birth_date");
+define("TBL_USERS_PREFERRED_LANGUAGE", "preferred_language");
 define("TBL_SETTINGS", "settings");
 define("TBL_SETTINGS_SITE_NAME", "site_name");
 define("TBL_SETTINGS_SITE_URL", "site_url");

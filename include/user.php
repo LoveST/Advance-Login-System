@@ -6,6 +6,7 @@
  * Date: 1/11/2017
  * Time: 8:26 PM
  */
+
 namespace ALS\User;
 
 use ALS\MailTemplates\MailTemplates;
@@ -83,7 +84,7 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
 
         // get the sql results
-        if(!$results = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -139,14 +140,14 @@ class User
         }
 
         // check if session is already in progress the return false
-        if(isset($_SESSION['new_device_check'])) {
+        if (isset($_SESSION['new_device_check'])) {
             if ($_SESSION['new_device_check'] == 1) {
                 return false;
             }
         }
 
         // check if sessions is timed-out
-        if(isset($_SESSION['new_device_check_timeout'])) {
+        if (isset($_SESSION['new_device_check_timeout'])) {
             if ($_SESSION['new_device_check_timeout'] + 4 * 60 * 60 >= time()) { // 4 hours for the session to expire
                 return false;
             }
@@ -156,7 +157,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LASTLOGIN_IP . " = '" . md5($this->devices()->getUserIP()) . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -210,7 +211,7 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '0'";
 
         // get the sql results
-        if(!$results = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -225,7 +226,7 @@ class User
 
         // if any errors
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -249,7 +250,7 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '1'";
 
         // get the sql results
-        if(!$results = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -264,7 +265,7 @@ class User
 
         // if any errors
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -373,6 +374,15 @@ class User
     }
 
     /**
+     * get the users preferred language
+     * @return string
+     */
+    function getPreferredLanguage()
+    {
+        return $this->userData[TBL_USERS_PREFERRED_LANGUAGE];
+    }
+
+    /**
      * Check if user has to sign in again
      * @return boolean
      */
@@ -448,7 +458,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '1' WHERE " . TBL_USERS_ID . " = '" . $this->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -535,7 +545,7 @@ class User
         $result = mysqli_query($database->connection, $sql);
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -558,7 +568,7 @@ class User
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -643,7 +653,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_HEARTBEAT . " = '" . $time . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -671,7 +681,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -700,7 +710,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -728,7 +738,7 @@ class User
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -783,7 +793,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -820,7 +830,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -835,7 +845,7 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LOST_XP . " = '" . $newLostXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 

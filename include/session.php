@@ -5,6 +5,7 @@
  * Date: 5/12/2016
  * Time: 12:42 PM
  */
+
 namespace ALS\Session;
 
 use ALS\Message\Message;
@@ -84,7 +85,7 @@ class Session
         $sql = ("SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'");
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -134,7 +135,7 @@ class Session
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '" . $sArray . "', " . TBL_USERS_SIGNIN_AGAIN . " = '0', " . TBL_USERS_LAST_LOGIN . " = '$loginTime' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -171,7 +172,7 @@ class Session
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $user_data[TBL_USERS_ID] . "' AND " . TBL_USERS_USERNAME . " = '" . $user_data[TBL_USERS_USERNAME] . "'";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -201,7 +202,7 @@ class Session
                 $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE " . TBL_USERS_ID . " = '" . $user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
                 // get the sql results
-                if(!$result = $database->getQueryResults($sql)) {
+                if (!$result = $database->getQueryResults($sql)) {
                     return false;
                 }
 
@@ -237,7 +238,7 @@ class Session
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
 
                 // get the sql results
-                if(!$result = $database->getQueryResults($sql)) {
+                if (!$result = $database->getQueryResults($sql)) {
                     return false;
                 }
 
@@ -277,7 +278,7 @@ class Session
                         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE " . TBL_USERS_ID . " = '" . $user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
                         // get the sql results
-                        if(!$result = $database->getQueryResults($sql)) {
+                        if (!$result = $database->getQueryResults($sql)) {
                             return false;
                         }
 
@@ -480,7 +481,7 @@ class Session
                     VALUES ('$id','$username','$hashPassword','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode','$dataOfBirth')";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -526,7 +527,7 @@ class Session
                     VALUES ('$id','$username','$firstName','$lastName','$email','1','$hashPassword','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -552,7 +553,7 @@ class Session
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
             // get the sql results
-            if(!$result = $database->getQueryResults($sql)) {
+            if (!$result = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -609,7 +610,7 @@ class Session
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -623,7 +624,7 @@ class Session
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " ='1'," . TBL_USERS_ACTIVATION_CODE . "='' WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
 
         // get the sql results
-        if(!$result = $database->getQueryResults($sql)) {
+        if (!$result = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -785,6 +786,40 @@ class Session
         // if not then print a custom error message
         $message->customKill("Invalid Privileges", "You do not have the permission to access this page", $settings->siteTheme());
         return false;
+    }
+
+    /**
+     * get the current session's preferred language to be used
+     * Cookie : language
+     * @return bool|string
+     */
+    function getSessionLanguage()
+    {
+
+        // define all the global variables
+        global $user;
+
+        $language = "";
+
+        // check if its a user or guest session
+        if ($this->logged_in()) { // user session
+
+            // grab the users preferred language
+            $language = $user->getPreferredLanguage();
+
+        } else { // guest session
+
+            // check if any cookies were to be found for a custom language
+            $language = $_COOKIE['language'];
+
+        }
+
+        // check if $language has been initialized or not
+        if (is_string($language) && $language != "") {
+            return $language; // if no errors then return the language string
+        } else {
+            return false; // if no language, then just return false
+        }
     }
 
 }

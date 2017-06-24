@@ -111,7 +111,7 @@ class Administrator
         }
 
         // get the sql results
-        if(!$results = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 

@@ -463,4 +463,21 @@ class Settings
         return true;
     }
 
+    /**
+     * get the required sub line for the current server's os
+     * @return string
+     */
+    function getSubLine(){
+        $sub = "";
+
+        // check the servers current OS
+        if (PHP_OS == "Linux") {
+            $sub = "/";
+        } else {
+            $sub = "\\";
+        }
+
+        return $sub;
+    }
+
 }
