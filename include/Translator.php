@@ -107,6 +107,40 @@ class Translator
     }
 
     /**
+     * add a secondary language file besides the the main script one
+     * @param string $filePath
+     * @return bool
+     */
+    function addSecondLanguageFile($filePath)
+    {
+
+        // check if file is null
+        if ($filePath == null) {
+            return false;
+        }
+
+        // check if file is readable
+        if (!is_readable($filePath)) {
+            return false;
+        }
+
+        // check if the file has an INI extension
+        if (pathinfo($filePath, PATHINFO_EXTENSION) != "ini") {
+            return false;
+        }
+
+        // try to parse the ini file
+        if (!$file = parse_ini_file($filePath)) {
+            return false;
+        }
+
+        // merge both arrays (the main one and this one)
+        array_merge($this->langFile, $file);
+
+        return true;
+    }
+
+    /**
      * Replaces the tags in a string using the provided replacement values.
      * @author https://stackoverflow.com/users/4265352/axiac (Axiac)
      * @param string $ldelim the string used to mark the start of a tag (e.g. '{{')

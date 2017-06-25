@@ -83,6 +83,7 @@ define("TBL_SETTINGS_TWILIO_ACCOUNT_SID", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_AUTH_TOKEN", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_PHONE_NUMBER", "twilio_phone_number");
 define("TBL_SETTINGS_TEMPLATES_FOLDER", "templates_folder");
+define("TBL_SETTINGS_LOADING_TIMESTAMP", "loading_timestamp");
 define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");

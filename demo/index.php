@@ -6,4 +6,3 @@ $session->statusCheck();
 /** End check user & site status**/
 
 $viewController->loadView("home.html");
-echo "Time Elapsed: ".(microtime(true) - $time)."s";

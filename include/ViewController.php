@@ -48,7 +48,7 @@ class ViewController
         $fileExtension = $ext = pathinfo($templateName, PATHINFO_EXTENSION);
 
         // update the required template
-        $this->requiredTemplate = $this->uniqueID . "." . $fileExtension;
+        $this->requiredTemplate = $this->uniqueID . "." . "php";
 
         // grab the file content
         $file = file_get_contents($settings->getTemplatesPath() . $templateName);
@@ -66,7 +66,7 @@ class ViewController
 
         // load the html file
         try {
-            require_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
+            include_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
         } catch (\Exception $ex) {
             $this->deleteFile($this->requiredTemplate);
             $this->killViewer("Error while loading the template");
@@ -74,6 +74,11 @@ class ViewController
 
         // delete the temporary template file
         $this->deleteFile($this->requiredTemplate);
+
+        // print the timestamp if enabled
+        if($settings->siteLoadingTimestamp()){
+            echo 'Page generated in ' . $settings->initTimeStamp() . ' seconds.';
+        }
 
     }
 

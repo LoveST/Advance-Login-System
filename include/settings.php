@@ -6,6 +6,7 @@
  * Date: 1/26/2017
  * Time: 1:11 PM
  */
+
 namespace ALS\Settings;
 
 use ALS\Message\Message;
@@ -57,6 +58,7 @@ class Settings
         $this->callSettings(); // store all the site settings
         $this->checkHTTPS(); // check if HTTPS is enabled
         $this->initRequiredFields(); // define the required fields for the script
+        $this->initTimeStamp(); // check is loading timestamp is enabled
     }
 
     /**
@@ -131,6 +133,28 @@ class Settings
         // check for empty language field in the sql and set it to 'us-eng'
         if ($this->settings[TBL_SETTINGS_SITE_LANG] == "") {
             $this->settings[TBL_SETTINGS_SITE_LANG] = "us-eng";
+        }
+
+    }
+
+    function initTimeStamp(){
+
+        // check if timestamp is been enabled
+        if(!$this->siteLoadingTimestamp()){
+            return false;
+        }
+
+        static $start;
+
+        if (is_null($start))
+        {
+            $start = microtime(true);
+        }
+        else
+        {
+            $diff = round((microtime(true) - $start), 4);
+            $start = null;
+            return $diff;
         }
 
     }
@@ -253,6 +277,11 @@ class Settings
     function templatesFolder()
     {
         return $this->settings[TBL_SETTINGS_TEMPLATES_FOLDER];
+    }
+
+    function siteLoadingTimestamp()
+    {
+        return $this->settings[TBL_SETTINGS_LOADING_TIMESTAMP];
     }
 
     /**
@@ -467,7 +496,8 @@ class Settings
      * get the required sub line for the current server's os
      * @return string
      */
-    function getSubLine(){
+    function getSubLine()
+    {
         $sub = "";
 
         // check the servers current OS
