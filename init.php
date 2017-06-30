@@ -111,6 +111,14 @@ $session = new Session();
 $session->init();
 
 /**
+ * init the View Controller Class
+ */
+
+use ALS\ViewController\ViewController;
+
+$viewController = new ViewController();
+
+/**
  * init Administrator class
  */
 
@@ -133,14 +141,6 @@ $profileManager = new profileManager();
 use ALS\MailTemplates\MailTemplates;
 
 $mailTemplates = new MailTemplates();
-
-/**
- * init the View Controller Class
- */
-
-use ALS\ViewController\ViewController;
-
-$viewController = new ViewController();
 
 /**
  * TO-ADD all the needed extra classes

@@ -31,21 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tests.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo/tests.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="en_us.ini" pinned="false" current-in-tab="false">
+      <file leaf-file-name="en_us.ini" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/include/languages/en_us.ini">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+            <state relative-caret-position="323">
+              <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -54,19 +44,44 @@
       <file leaf-file-name="Translator.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/Translator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1082">
-              <caret line="89" column="19" lean-forward="false" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
+            <state relative-caret-position="187">
+              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViewController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/ViewController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="40" column="38" lean-forward="true" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
-              <folding />
+            <state relative-caret-position="128">
+              <caret line="91" column="46" lean-forward="true" selection-start-line="91" selection-start-column="46" selection-end-line="91" selection-end-column="46" />
+              <folding>
+                <element signature="e#122#146#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/user.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="479">
+              <caret line="347" column="7" lean-forward="true" selection-start-line="347" selection-start-column="7" selection-end-line="347" selection-end-column="7" />
+              <folding>
+                <element signature="e#21807#23270#0#PHP" expanded="false" />
+                <element signature="e#21938#22001#0#PHP" expanded="false" />
+                <element signature="e#22159#22210#0#PHP" expanded="false" />
+                <element signature="e#22458#22544#0#PHP" expanded="false" />
+                <element signature="e#23037#23123#0#PHP" expanded="false" />
+                <marker date="1498277798372" expanded="true" signature="2373:2459" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="6125:6193" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="6125:6257" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="7266:7334" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="7266:7398" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="13970:14052" ph="..." />
+                <marker date="1498277798372" expanded="true" signature="14627:14709" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -74,8 +89,8 @@
       <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/templates/ubold/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="107" column="75" lean-forward="false" selection-start-line="107" selection-start-column="75" selection-end-line="107" selection-end-column="75" />
+            <state relative-caret-position="204">
+              <caret line="36" column="45" lean-forward="false" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -84,7 +99,7 @@
       <file leaf-file-name="settings.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/settings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
+            <state relative-caret-position="-4267">
               <caret line="143" column="25" lean-forward="false" selection-start-line="143" selection-start-column="25" selection-end-line="143" selection-end-column="25" />
               <folding>
                 <marker date="1498422417546" expanded="true" signature="2574:2588" ph="SELECT * FRO... ${TBL_SETTINGS}" />
@@ -96,8 +111,8 @@
       <file leaf-file-name="init.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/init.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="52" column="24" lean-forward="false" selection-start-line="52" selection-start-column="24" selection-end-line="52" selection-end-column="24" />
+            <state relative-caret-position="11">
+              <caret line="88" column="3" lean-forward="true" selection-start-line="88" selection-start-column="3" selection-end-line="88" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -107,7 +122,7 @@
         <entry file="file://$PROJECT_DIR$/include/config.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="164">
-              <caret line="52" column="39" lean-forward="true" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+              <caret line="52" column="39" lean-forward="false" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -116,8 +131,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="119">
+              <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -131,6 +146,14 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>{:templateURL}</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>{:settings_templateURL}</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -180,15 +203,15 @@
         <option value="$PROJECT_DIR$/include/administrator.php" />
         <option value="$PROJECT_DIR$/include/user.php" />
         <option value="$PROJECT_DIR$/include/session.php" />
-        <option value="$PROJECT_DIR$/include/languages/en_us.ini" />
-        <option value="$PROJECT_DIR$/demo/templates/ubold/home.html" />
-        <option value="$PROJECT_DIR$/demo/index.php" />
-        <option value="$PROJECT_DIR$/init.php" />
         <option value="$PROJECT_DIR$/include/config.php" />
         <option value="$PROJECT_DIR$/include/Translator.php" />
-        <option value="$PROJECT_DIR$/demo/tests.php" />
         <option value="$PROJECT_DIR$/include/settings.php" />
+        <option value="$PROJECT_DIR$/demo/index.php" />
+        <option value="$PROJECT_DIR$/demo/tests.php" />
         <option value="$PROJECT_DIR$/include/ViewController.php" />
+        <option value="$PROJECT_DIR$/init.php" />
+        <option value="$PROJECT_DIR$/include/languages/en_us.ini" />
+        <option value="$PROJECT_DIR$/demo/templates/ubold/home.html" />
       </list>
     </option>
   </component>
@@ -203,10 +226,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 5.6" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -226,6 +248,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -287,7 +310,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -473,17 +495,18 @@
       <workItem from="1498283575604" duration="1989000" />
       <workItem from="1498331322914" duration="4091000" />
       <workItem from="1498420601537" duration="3080000" />
+      <workItem from="1498793547136" duration="4008000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="254629000" />
+    <option name="totallyTimeSpent" value="258637000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28496867" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32870865" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -725,20 +748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/functions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-839">
-          <caret line="264" column="0" lean-forward="false" selection-start-line="264" selection-start-column="0" selection-end-line="264" selection-end-column="0" />
-          <folding>
-            <marker date="1497384304195" expanded="true" signature="3159:3245" ph="..." />
-            <marker date="1497384304195" expanded="true" signature="3835:3915" ph="..." />
-            <marker date="1497384304195" expanded="true" signature="7734:7748" ph="..." />
-            <marker date="1497384304195" expanded="true" signature="8813:8892" ph="..." />
-            <marker date="1497384304195" expanded="true" signature="8932:9014" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1122">
@@ -796,28 +805,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="7" lean-forward="false" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6188">
-          <caret line="371" column="5" lean-forward="false" selection-start-line="371" selection-start-column="5" selection-end-line="371" selection-end-column="5" />
-          <folding>
-            <element signature="e#21807#23270#0#PHP" expanded="false" />
-            <element signature="e#21938#22001#0#PHP" expanded="false" />
-            <element signature="e#22159#22210#0#PHP" expanded="false" />
-            <element signature="e#22458#22544#0#PHP" expanded="false" />
-            <element signature="e#23037#23123#0#PHP" expanded="false" />
-            <marker date="1498277798372" expanded="true" signature="2373:2459" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="6125:6193" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="6125:6257" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="7266:7334" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="7266:7398" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="13970:14052" ph="..." />
-            <marker date="1498277798372" expanded="true" signature="14627:14709" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -882,65 +869,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/languages/en_us.ini">
+    <entry file="file://$PROJECT_DIR$/include/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        <state relative-caret-position="164">
+          <caret line="52" column="39" lean-forward="false" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="119">
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/templates/ubold/home.html">
+    <entry file="file://$PROJECT_DIR$/include/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="107" column="75" lean-forward="false" selection-start-line="107" selection-start-column="75" selection-end-line="107" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/init.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="52" column="24" lean-forward="false" selection-start-line="52" selection-start-column="24" selection-end-line="52" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="52" column="39" lean-forward="true" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Translator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1082">
-          <caret line="89" column="19" lean-forward="false" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/tests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-799">
+          <caret line="264" column="0" lean-forward="false" selection-start-line="264" selection-start-column="0" selection-end-line="264" selection-end-column="0" />
+          <folding>
+            <marker date="1497384304195" expanded="true" signature="3159:3245" ph="..." />
+            <marker date="1497384304195" expanded="true" signature="3835:3915" ph="..." />
+            <marker date="1497384304195" expanded="true" signature="7734:7748" ph="..." />
+            <marker date="1497384304195" expanded="true" signature="8813:8892" ph="..." />
+            <marker date="1497384304195" expanded="true" signature="8932:9014" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/settings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
+        <state relative-caret-position="-4267">
           <caret line="143" column="25" lean-forward="false" selection-start-line="143" selection-start-column="25" selection-end-line="143" selection-end-column="25" />
           <folding>
             <marker date="1498422417546" expanded="true" signature="2574:2588" ph="SELECT * FRO... ${TBL_SETTINGS}" />
@@ -948,10 +909,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/include/user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="347" column="7" lean-forward="true" selection-start-line="347" selection-start-column="7" selection-end-line="347" selection-end-column="7" />
+          <folding>
+            <element signature="e#21807#23270#0#PHP" expanded="false" />
+            <element signature="e#21938#22001#0#PHP" expanded="false" />
+            <element signature="e#22159#22210#0#PHP" expanded="false" />
+            <element signature="e#22458#22544#0#PHP" expanded="false" />
+            <element signature="e#23037#23123#0#PHP" expanded="false" />
+            <marker date="1498277798372" expanded="true" signature="2373:2459" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="6125:6193" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="6125:6257" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="7266:7334" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="7266:7398" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="13970:14052" ph="..." />
+            <marker date="1498277798372" expanded="true" signature="14627:14709" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11">
+          <caret line="88" column="3" lean-forward="true" selection-start-line="88" selection-start-column="3" selection-end-line="88" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Translator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/tests.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="26" lean-forward="true" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/include/ViewController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="40" column="38" lean-forward="true" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
+        <state relative-caret-position="128">
+          <caret line="91" column="46" lean-forward="true" selection-start-line="91" selection-start-column="46" selection-end-line="91" selection-end-column="46" />
+          <folding>
+            <element signature="e#122#146#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="36" column="45" lean-forward="false" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/languages/en_us.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
           <folding />
         </state>
       </provider>

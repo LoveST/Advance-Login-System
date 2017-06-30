@@ -8,6 +8,7 @@
 
 namespace ALS\ViewController;
 
+use ALS\Message\Message;
 use ALS\Translator\Translator;
 
 require "Translator.php";
@@ -31,6 +32,7 @@ class ViewController
     /**
      * load a template to the view controller
      * @param string $templateName
+     * @return bool
      */
     public function loadView($templateName)
     {
@@ -38,9 +40,19 @@ class ViewController
         // init the required global variables
         global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
 
+        // check if empty string is supplied
+        if($templateName == ""){
+            $this->killViewer($this->getTranslator()->translateText("templatePathNeeded"));
+        }
+
+        // check if the cache directory exists
+        if(!file_exists($settings->getTemplatesCachePath())){
+            mkdir($settings->getTemplatesCachePath(), 0777);
+        }
+
         // check if view is accessible
         if (!$this->isViewAccessible($templateName)) {
-            $this->killViewer("the required template does not exist, or it's not readable.");
+            $this->killViewer($this->getTranslator()->translateText("templateDoNotExists"));
         }
 
         // generate a unique id for the file
@@ -69,7 +81,7 @@ class ViewController
             include_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
         } catch (\Exception $ex) {
             $this->deleteFile($this->requiredTemplate);
-            $this->killViewer("Error while loading the template");
+            $this->killViewer($this->getTranslator()->translateText("errorLoadingTemplate"));
         }
 
         // delete the temporary template file
@@ -80,6 +92,54 @@ class ViewController
             echo 'Page generated in ' . $settings->initTimeStamp() . ' seconds.';
         }
 
+        return true;
+    }
+
+    /**
+     * pre load a template
+     * @param $templateName
+     * @return bool|string
+     */
+    public function preLoadView($templateName){
+
+        // init the required global variables
+        global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
+
+        // check if empty string is supplied
+        if($templateName == ""){
+            $message->setError($this->getTranslator()->translateText("templatePathNeeded"), Message::Error);
+            return false;
+        }
+
+        // check if the cache directory exists
+        if(!file_exists($settings->getTemplatesCachePath())){
+            mkdir($settings->getTemplatesCachePath(), 0777);
+        }
+
+        // check if view is accessible
+        if (!$this->isViewAccessible($templateName)) {
+            $message->setError($this->getTranslator()->translateText("templateDoNotExists"), Message::Error);
+            return false;
+        }
+
+        // generate a unique id for the file
+        $uniqueID = md5(uniqid(rand(), true));
+        $fileExtension = $ext = pathinfo($templateName, PATHINFO_EXTENSION);
+
+        // update the required template
+        $this->requiredTemplate = $uniqueID . "." . "php";
+
+        // grab the file content
+        $file = file_get_contents($settings->getTemplatesPath() . $templateName);
+
+        // replace any special reserved characters
+        $file = $this->replaceReservedCharacters($file);
+
+        // translate the TEMPLATE file
+        $file = $this->getTranslator()->translateFile($file);
+
+        // return the needed translated file
+        return $file;
     }
 
     /**
@@ -112,15 +172,27 @@ class ViewController
         global $settings, $user, $functions, $message;
 
         $vars = array(
-            '{:username}' => $user->getUsername(),
-            '{:user_id}' => $user->getID(),
-            '{:user_email}' => $user->getEmail(),
-            '{:user_firstName}' => $user->getFirstName(),
-            '{:user_lastName}' => $user->getLastName(),
-            '{:siteURL}' => $settings->siteURL(),
-            '{:siteName}' => $settings->siteName(),
-            '{:siteEmail}' => $settings->siteEmail(),
-            '{:templateURL}' => $settings->getTemplatesURL(),
+            'user_username' => $user->getUsername(),
+            'user_id' => $user->getID(),
+            'user_email' => $user->getEmail(),
+            'user_firstName' => $user->getFirstName(),
+            'user_lastName' => $user->getLastName(),
+            'user_dateJoined' => $user->getDateJoined(),
+            'user_daysSinceJoined' => $functions->calculateTime($user->getDateJoined()),
+            'user_levelName' => $user->getLevelName(),
+            'user_XP' => $user->getXP(),
+            'user_lostXP' => $user->getLostXP(),
+            'user_lastLogin' => $user->getLastLoginTime(),
+            'user_lastLoginText' => $user->getLastLoginText(),
+            'user_age' => $user->getAge(),
+            'user_birthday' => $user->getBirthDate(),
+            'settings_siteName' => $settings->siteName(),
+            'settings_siteURL' => $settings->siteURL(),
+            'settings_siteEmail' => $settings->siteEmail(),
+            'settings_theme' => $settings->siteTheme(),
+            'settings_siteLanguage' => $settings->siteLanguage(),
+            'settings_minimumAge' => $settings->minimumAge(),
+            'settings_templateURL' => $settings->getTemplatesURL(),
         );
 
         // check if any custom arrays has been supplied, then apply it to the current array
@@ -129,7 +201,7 @@ class ViewController
         }
 
         // convert variables to actual values
-        $newFile = strtr($file, $vars);
+        $newFile = $this->getTranslator()->replaceTags("{:", "}", $file, $vars);
 
         // return the new file
         return $newFile;
@@ -147,7 +219,7 @@ class ViewController
 
         // check if array has been supplied
         if (!is_array($varArray)) {
-            $this->killViewer("Incorrect information has been supplied to the viewer");
+            $this->killViewer($this->getTranslator()->translateText("incorrectViewerInformation"));
         }
 
         // set the current custom variables to this array
@@ -177,7 +249,7 @@ class ViewController
         global $settings;
 
         if (!unlink($settings->getTemplatesCachePath() . $file)) {
-            $this->killViewer("Error handling the cached template");
+            $this->killViewer($this->getTranslator()->translateText("cachedFileError"));
         }
     }
 
