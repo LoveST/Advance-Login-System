@@ -23,9 +23,16 @@ class Session
      */
     function init()
     {
+
+        global $translator;
+
         if (!$this->loginThrowSession()) {
             $this->loginThrowCookie(); // log the user in if he has the right cookie for his account
         }
+
+        // init the user preferred language if any were to be found
+        $translator->initSessionLanguage();
+
     }
 
     /**
