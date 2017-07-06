@@ -53,6 +53,15 @@ use ALS\Settings\Settings;
 $settings = new Settings();
 
 /**
+ * init the View Controller Class
+ */
+
+use ALS\ViewController\ViewController;
+
+$viewController = new ViewController();
+$translator = $viewController->getTranslator();
+
+/**
  * init the Browser class
  */
 
@@ -109,14 +118,6 @@ use ALS\Session\Session;
 
 $session = new Session();
 $session->init();
-
-/**
- * init the View Controller Class
- */
-
-use ALS\ViewController\ViewController;
-
-$viewController = new ViewController();
 
 /**
  * init Administrator class

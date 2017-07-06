@@ -21,20 +21,10 @@ class Translator
     {
 
         // define all the global variables
-        global $settings, $session;
+        global $settings;
 
-        // check if session has any preferred language
-        if (!$sessionLanguage = $session->getSessionLanguage()) {
-
-            // set the default site language
-            $this->setLanguage($settings->siteLanguage());
-
-        } else {
-
-            // set the session's preferred language
-            $this->setLanguage($sessionLanguage);
-
-        }
+        // set the default site language
+        $this->setLanguage($settings->siteLanguage());
 
         // define the new language
         define("LANGUAGE", $this->lang);
@@ -48,6 +38,21 @@ class Translator
         // read and parse the INI language file
         $this->langFile = $this->readLanguageFile();
 
+    }
+
+    public function initSessionLanguage()
+    {
+
+        // define all the global variables
+        global $session;
+
+        // check if session has any preferred language
+        if ($sessionLanguage = $session->getSessionLanguage()) {
+
+            // set the session's preferred language
+            $this->setLanguage($sessionLanguage);
+
+        }
     }
 
     /**

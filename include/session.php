@@ -39,46 +39,46 @@ class Session
     {
 
         // define all the global variables
-        global $database, $message, $settings, $functions, $browser;
+        global $database, $message, $settings, $functions, $browser, $translator;
 
         $username = $this->secureInput($username);
         $password = $this->secureInput($password);
         $rememberMe = $this->secureInput($rememberMe);
 
         if (!$settings->canLogin()) {
-            $message->setError("Logging in has been disabled at the moment.", Message::Error);
+            $message->setError($translator->translateText("loginsDisabled"), Message::Error);
             return false;
         }
 
         if (empty($username) || empty($password)) {
-            $message->setError("Username/Password most not be empty", Message::Error);
+            $message->setError($translator->translateText("allFieldsRequired"), Message::Error);
             return false;
         }
 
         // Username checks
         if (preg_match('/[^A-Za-z0-9]/', $username)) {
-            $message->setError("Username most contain only letters and numbers", Message::Error);
+            $message->setError($translator->translateText("usernameContentError"), Message::Error);
             return false;
         }
 
         if (strlen($username) < 6 || strlen($username) > 25) {
-            $message->setError("Username length most be between 6 -> 25 characters long", Message::Error);
+            $message->setError($translator->translateText("usernameLengthError"), Message::Error);
             return false;
         }
 
         if (!$functions->userExist($username)) {
-            $message->setError("Wrong username/password has been used", Message::Error);
+            $message->setError($translator->translateText("wrongLoginInfo"), Message::Error);
             return false;
         }
         // password checks
         if (strlen($password) < 8 && strlen($password) > 25) {
-            $message->setError("Password length most be between 8 -> 25 characters long", Message::Error);
+            $message->setError($translator->translateText("passwordLengthError"), Message::Error);
             return false;
         }
 
         // check if the user account is enabled
         if (!$functions->is_userActivated($username)) {
-            $message->setError("You need to activate your account before trying to log in.", Message::Error);
+            $message->setError($translator->translateText("activateAccountBeforeLogin"), Message::Error);
             return false;
         }
 
@@ -90,7 +90,7 @@ class Session
         }
 
         if (mysqli_num_rows($result) < 1) {
-            $message->setError("Wrong username/password has been used", Message::Error);
+            $message->setError($translator->translateText("wrongLoginInfo"), Message::Error);
             return false;
         }
 
@@ -99,13 +99,13 @@ class Session
 
         // check if password fields match and if not then discard all changes
         if (!password_verify($password, $row[TBL_USERS_PASSWORD])) {
-            $message->setError("Wrong username/password has been used", Message::Error);
+            $message->setError($translator->translateText("wrongLoginInfo"), Message::Error);
             return false;
         }
 
         // check if banned
         if ($row[TBL_USERS_BANNED] == 1) {
-            $message->setError("Your account has been banned", Message::Error);
+            $message->setError($translator->translateText("accountGotBanned"), Message::Error);
             return false;
         }
 

@@ -41,12 +41,12 @@ class ViewController
         global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
 
         // check if empty string is supplied
-        if($templateName == ""){
+        if ($templateName == "") {
             $this->killViewer($this->getTranslator()->translateText("templatePathNeeded"));
         }
 
         // check if the cache directory exists
-        if(!file_exists($settings->getTemplatesCachePath())){
+        if (!file_exists($settings->getTemplatesCachePath())) {
             mkdir($settings->getTemplatesCachePath(), 0777);
         }
 
@@ -88,7 +88,7 @@ class ViewController
         $this->deleteFile($this->requiredTemplate);
 
         // print the timestamp if enabled
-        if($settings->siteLoadingTimestamp()){
+        if ($settings->siteLoadingTimestamp()) {
             echo 'Page generated in ' . $settings->initTimeStamp() . ' seconds.';
         }
 
@@ -100,19 +100,20 @@ class ViewController
      * @param $templateName
      * @return bool|string
      */
-    public function preLoadView($templateName){
+    public function preLoadView($templateName)
+    {
 
         // init the required global variables
         global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
 
         // check if empty string is supplied
-        if($templateName == ""){
+        if ($templateName == "") {
             $message->setError($this->getTranslator()->translateText("templatePathNeeded"), Message::Error);
             return false;
         }
 
         // check if the cache directory exists
-        if(!file_exists($settings->getTemplatesCachePath())){
+        if (!file_exists($settings->getTemplatesCachePath())) {
             mkdir($settings->getTemplatesCachePath(), 0777);
         }
 
