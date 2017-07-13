@@ -6,6 +6,25 @@
  * Time: 12:27 AM
  */
 
-require "../init.php";
+require "../include/auth/Google.php";
 
-var_dump($translator->translateText("HELLO"));
+$secret = 'MASISMEMOMASISMEMO';
+$time = floor(time() / 30);
+$code = "665714";
+
+$g = new \ALS\AUTH\Google\Google();
+print "Current Code is: ";
+print $g->getCode($secret);
+print "<br>";
+print "Check if $code is valid: ";
+
+if ($g->checkCode($secret,$code)) {
+    print "YES \n<br>";   
+} else {
+    print "NO \n<br>";
+}
+
+$qr = $g->getQRLink("lovemst", "lovemst.com", $secret);
+print_r($secret);
+print "$qr\n<br>";
+echo "<img src=\"$qr\">";

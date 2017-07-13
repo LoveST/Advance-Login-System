@@ -6,9 +6,10 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 session_start();
 
 // Turn off all error reporting
-error_reporting(0);
+error_reporting(-1);
 
 require "include/config.php";
+require "include/auth/Google.php";
 require "include/message.php";
 require "include/database.php";
 require "include/settings.php";

@@ -319,7 +319,7 @@ class User
 
     /**
      * get the date that the user has joined at
-     * @return \DateTime
+     * @return \DateTime|string
      */
     function getDateJoined()
     {
@@ -889,6 +889,14 @@ class User
     public function matchPin($pin)
     {
         return (md5($pin) == $this->get(TBL_USERS_PIN));
+    }
+
+    public function generateUniqueSecret(){
+
+        // create a unique secret
+        $secret = md5(uniqid(self::getUsername(). self::getDateJoined(). rand(), false));
+
+        return str_replace(array(9,8), rand(0,7), $secret);
     }
 
 }
