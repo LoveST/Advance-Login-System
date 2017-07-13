@@ -3,12 +3,18 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 06, 2017 at 06:49 AM
+-- Generation Time: Jul 13, 2017 at 04:21 AM
 -- Server version: 5.7.17-log
 -- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `als`
@@ -74,7 +80,7 @@ INSERT INTO `settings` (`field`, `value`) VALUES
 ('twilio_phone_number', '+18183346907'),
 ('site_timezone', 'America/Los_Angeles'),
 ('templates_folder', 'templates'),
-('site_path', 'D:\\AppServ\\www\\ALS\\demo'),
+('site_path', 'C:\\AppServ\\www\\ALS\\demo'),
 ('loading_timestamp', '1');
 
 -- --------------------------------------------------------
@@ -110,13 +116,18 @@ CREATE TABLE `users` (
   `verification_code` text NOT NULL,
   `lastLogin_ip` text NOT NULL,
   `birth_date` text NOT NULL,
-  `preferred_language` text NOT NULL
+  `preferred_language` text NOT NULL,
+  `secret` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `firstName`, `lastName`, `email`, `level`, `password`, `date_joined`, `last_login`, `expire`, `token`, `reset_code`, `pin_number`, `banned`, `activated`, `activation_code`, `xp`, `xp_lost`, `has_doubleXP`, `doubleXP_until`, `must_signin_again`, `devices`, `twoFactor_enabled`, `verification_code`, `lastLogin_ip`, `birth_date`, `preferred_language`) VALUES
-(1, 'lovemst', 'Masis', 'Bajaqejian', 'mstbchakgyan@gmail.com', 100, '$2y$12$zlEc4R36XZ/heIzLtyAGveKFZZ8iSAPQki5V5Sc2FNow3jlQLjJhK', '2017-02-25 22:38:30', '2017-06-29 21:06:37', 0, 'a:5:{s:5:\"token\";s:32:\"aa7ee6d8a1368f1d4b23e130953d48b4\";s:4:\"time\";i:1498795597;s:2:\"ip\";s:3:\"::1\";s:12:\"browser_name\";s:6:\"Chrome\";s:16:\"browser_platform\";s:7:\"Windows\";}', '', '1f5940a5270e13c43b2a366afba14a85', 0, 1, '0', 750, 900000, 0, '', 0, 'a:6:{i:0;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:12:\"56.0.2924.87\";s:2:\"os\";s:7:\"Windows\";}i:1;a:4:{s:2:\"ip\";s:11:\"192.168.1.3\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:12:\"56.0.2924.87\";s:2:\"os\";s:7:\"Android\";}i:2;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"57.0.2987.133\";s:2:\"os\";s:7:\"Windows\";}i:3;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"58.0.3029.110\";s:2:\"os\";s:7:\"Windows\";}i:4;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:7:\"Firefox\";s:7:\"version\";s:4:\"53.0\";s:2:\"os\";s:7:\"Windows\";}i:5;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"59.0.3071.115\";s:2:\"os\";s:7:\"Windows\";}}', 0, '', '837ec5754f503cfaaee0929fd48974e7', '09/13/1996', 'en_us'),
-(2, 'masis96', 'Masis', 'Bajaqejian', 'masisbchakgyan1@gmail.com', 10, '98cca24fec032041db6ce7abcdc6427f', '2017-03-08 04:05:54', '2017-03-08 04:05:54', 0, '', '0', '1f5940a5270e13c43b2a366afba14a85', 0, 1, '0', 405, NULL, 0, '', 0, '', 0, '', '', '', '');
+INSERT INTO `users` (`id`, `username`, `firstName`, `lastName`, `email`, `level`, `password`, `date_joined`, `last_login`, `expire`, `token`, `reset_code`, `pin_number`, `banned`, `activated`, `activation_code`, `xp`, `xp_lost`, `has_doubleXP`, `doubleXP_until`, `must_signin_again`, `devices`, `twoFactor_enabled`, `verification_code`, `lastLogin_ip`, `birth_date`, `preferred_language`, `secret`) VALUES
+(1, 'lovemst', 'Masis', 'Bajaqejian', 'mstbchakgyan@gmail.com', 100, '$2y$12$zlEc4R36XZ/heIzLtyAGveKFZZ8iSAPQki5V5Sc2FNow3jlQLjJhK', '2017-02-25 22:38:30', '2017-06-23 14:08:49', 0, '', '', '1f5940a5270e13c43b2a366afba14a85', 0, 1, '0', 750, 900000, 0, '', 0, 'a:6:{i:0;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:12:\"56.0.2924.87\";s:2:\"os\";s:7:\"Windows\";}i:1;a:4:{s:2:\"ip\";s:11:\"192.168.1.3\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:12:\"56.0.2924.87\";s:2:\"os\";s:7:\"Android\";}i:2;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"57.0.2987.133\";s:2:\"os\";s:7:\"Windows\";}i:3;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"58.0.3029.110\";s:2:\"os\";s:7:\"Windows\";}i:4;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:7:\"Firefox\";s:7:\"version\";s:4:\"53.0\";s:2:\"os\";s:7:\"Windows\";}i:5;a:4:{s:2:\"ip\";s:3:\"::1\";s:7:\"browser\";s:6:\"Chrome\";s:7:\"version\";s:13:\"59.0.3071.115\";s:2:\"os\";s:7:\"Windows\";}}', 1, '', '837ec5754f503cfaaee0929fd48974e7', '09/13/1996', 'en_us', 'JGG5ZVPGRUEB2H6E'),
+(2, 'masis96', 'Masis', 'Bajaqejian', 'masisbchakgyan1@gmail.com', 10, '98cca24fec032041db6ce7abcdc6427f', '2017-03-08 04:05:54', '2017-03-08 04:05:54', 0, '', '0', '1f5940a5270e13c43b2a366afba14a85', 0, 1, '0', 405, NULL, 0, '', 0, '', 0, '', '', '', '', '');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -17,7 +17,7 @@ class Google extends \GoogleAuthenticator
     {
         $url = 'https://chart.googleapis.com/chart?cht=qr&chs='.$width.'x'.$height.'&chl=';
 
-        $qrCode = 'otpauth://totp/'.$username.'@'.$hostname.'?secret='.$secretKey;
+        $qrCode = 'otpauth://totp/'.$username.' ( '.$hostname.' )?secret='.$secretKey;
 
         $url = $url.$qrCode;
 

@@ -24,7 +24,7 @@ if ($g->checkCode($secret,$code)) {
     print "NO \n<br>";
 }
 
-$qr = $g->getQRLink("lovemst", "lovemst.com", $secret);
+$qr = $g->getQRLink("lovemst", "lovemst.com", $secret, "300", "300");
 print_r($secret);
 print "$qr\n<br>";
 echo "<img src=\"$qr\">";

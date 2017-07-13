@@ -419,6 +419,15 @@ class User
     }
 
     /**
+     * get the user secret
+     * @return string
+     */
+    function getSecret()
+    {
+        return $this->userData[TBL_USERS_SECRET];
+    }
+
+    /**
      * get the user current level name
      * @return string
      */
@@ -891,12 +900,19 @@ class User
         return (md5($pin) == $this->get(TBL_USERS_PIN));
     }
 
-    public function generateUniqueSecret(){
+    public function generateUniqueSecret()
+    {
 
         // create a unique secret
-        $secret = md5(uniqid(self::getUsername(). self::getDateJoined(). rand(), false));
+        $secret = md5(uniqid(self::getUsername() . self::getDateJoined() . rand(), false));
 
-        return str_replace(array(9,8), rand(0,7), $secret);
+        // replace any illegal characters
+        $secret = str_replace(array(9, 8), rand(0, 7), $secret);
+
+        // grab the first half of the secret
+        $secret = $first400 = substr($secret, 0, 10);
+
+        return $secret;
     }
 
 }

@@ -746,7 +746,7 @@ class Session
     {
 
         // define all the global variables
-        global $user, $settings, $message;
+        global $user, $settings, $message, $translator;
 
         // check if the site is disabled
         if ($settings->siteDisabled()) {
@@ -754,23 +754,26 @@ class Session
             if ($user->isAdmin()) {
                 return true;
             }
-            $message->customKill("Site disabled", "We are currently working on better things, sorry for any inconvenient", $settings->get(Settings::SITE_THEME));
+            $message->customKill($translator->translateText("siteDisabled"), $translator->translateText("siteDisabledMSG"), $settings->get(Settings::SITE_THEME));
             return false;
         }
 
         // check if the user has already logged in
         if (!$this->logged_in()) {
-            header("Location: login.php");
-            return false;
+            return LoginStatus::NeedToLogin;
         }
 
         // check if the current user's device is verified
         if (!$user->devices()->canAccess()) {
-            header("Location: login.php");
-            return false;
+            return LoginStatus::VerifyDevice;
         }
 
-        return true;
+        // check if session is authenticated
+        if ($this->authenticationNeeded()) {
+            return LoginStatus::AuthenticationNeeded;
+        }
+
+        return LoginStatus::GoodToGo;
     }
 
     /**
@@ -783,7 +786,7 @@ class Session
     {
 
         // define all the global variables
-        global $user, $message, $settings;
+        global $user, $message, $settings, $translator;
 
         // check if the user is admin
         if ($user->isAdmin()) {
@@ -791,7 +794,7 @@ class Session
         }
 
         // if not then print a custom error message
-        $message->customKill("Invalid Privileges", "You do not have the permission to access this page", $settings->siteTheme());
+        $message->customKill($translator->translateText("invalidPrivileges"), $translator->translateText("invalidPrivilegesMSG"), $settings->siteTheme());
         return false;
     }
 
@@ -828,5 +831,78 @@ class Session
             return false; // if no language, then just return false
         }
     }
+
+    /**
+     * check if the current session user needs authentication
+     * @return bool
+     */
+    function authenticationNeeded()
+    {
+
+        // define all the global variables
+        global $user;
+
+        // check if user has 2-factor authentication enabled
+        if (!$user->twoFactorEnabled()) {
+            return false;
+        }
+
+        // check if secret key has been setup
+        if ($user->getSecret() == "") {
+            return false;
+        }
+
+        // check if current session has been authenticated
+        if ($_SESSION["authenticated"] == 1) {
+            return false;
+        }
+
+        // if no errors then ask for authentication
+        return true;
+    }
+
+    function authenticateUser($authCode)
+    {
+
+        // define all global variables
+        global $user, $database, $message, $translator, $googleAuth;
+
+        // secure the string
+        $authCode = $database->secureInput($authCode);
+
+        // check if empty string
+        if ($authCode == "") {
+            $message->setError($translator->translateText("allFieldsRequired"), Message::Error);
+            return false;
+        }
+
+        // check if string length is 6
+        if (strlen($authCode) != 6) {
+            $message->setError($translator->translateText("authCodeLength"), Message::Error);
+            return false;
+        }
+
+        // check if codes match
+        if (!$googleAuth->checkCode($user->getSecret(), $authCode)) {
+            $message->setError($translator->translateText("wrongAuthCode"), Message::Error);
+            return false;
+        }
+
+        // if no errors then authenticate the session and return true
+        $_SESSION["authenticated"] = 1;
+        return true;
+    }
+
+}
+
+abstract class LoginStatus
+{
+
+    const RedirectToLogin = 2;
+    const VerifyDevice = 3;
+    const MustSignInAgain = 4;
+    const AuthenticationNeeded = 5;
+    const NeedToLogin = 6;
+    const GoodToGo = 1;
 
 }

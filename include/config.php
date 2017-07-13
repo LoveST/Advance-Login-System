@@ -5,6 +5,7 @@
  * Date: 5/12/2016
  * Time: 12:35 PM
  */
+
 namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
@@ -56,6 +57,7 @@ define("TBL_USERS_VERIFICATION_CODE", "verification_code");
 define("TBL_USERS_LASTLOGIN_IP", "lastLogin_ip");
 define("TBL_USERS_BIRTH_DATE", "birth_date");
 define("TBL_USERS_PREFERRED_LANGUAGE", "preferred_language");
+define("TBL_USERS_SECRET", "secret");
 define("TBL_SETTINGS", "settings");
 define("TBL_SETTINGS_SITE_NAME", "site_name");
 define("TBL_SETTINGS_SITE_URL", "site_url");

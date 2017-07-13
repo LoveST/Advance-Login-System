@@ -1,18 +1,10 @@
 <?
 
 require "../init.php";
+use ALS\Session\LoginStatus;
 
-if ($session->logged_in() && $user->devices()->canAccess()) {
+if ($session->statusCheck() == LoginStatus::GoodToGo) {
     header("Location: index.php");
-} else if (!$user->devices()->canAccess() && $session->logged_in()) {
-
-    if (isset($_POST['verify'])) {
-        if ($session->verifyDevice($_POST['pin'])) {
-            header("Location: index.php");
-        }
-    }
-
-    $viewController->loadView("verify_device.html");
 } else {
 
     $page = $_GET['ac'];
