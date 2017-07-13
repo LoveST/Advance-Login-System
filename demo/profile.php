@@ -6,8 +6,6 @@
  * Time: 1:47 PM
  */
 
-require "../init.php";
-
 /** Check user & site status **/
 require "../init.php";
 $status = $session->statusCheck();
