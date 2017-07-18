@@ -1,6 +1,4 @@
 <?php
 require "../init.php";
-
-if (!$user->twoFactorEnabled()) {
-    echo "not e nabled;";
-}
+$group = $user->getGroup();
+var_dump($group->getName());

@@ -13,6 +13,7 @@ require "include/auth/Google.php";
 require "include/message.php";
 require "include/database.php";
 require "include/settings.php";
+require "include/Groups.php";
 require "include/user/device.php";
 require "include/browser.php";
 require "include/captcha.php";
@@ -52,6 +53,14 @@ $database = new Database();
 use ALS\Settings\Settings;
 
 $settings = new Settings();
+
+/**
+ * init the Groups class
+ */
+
+use ALS\Groups\Groups;
+
+$groups = new Groups();
 
 /**
  * init the View Controller Class

@@ -12,6 +12,7 @@ namespace ALS\User;
 use ALS\MailTemplates\MailTemplates;
 use ALS\User\Devices\Devices;
 use ALS\Message\Message;
+use ALS\User\Group\Group;
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
@@ -20,6 +21,7 @@ class User
 
     private $userData; // declare the required variables for the user data.
     private $levelData; // declare the required variables for the level data.
+    private $group;
     private $devices; // instance of the devices class of the current user
     private $newLogin = false;
     const First_Name = TBL_USERS_FNAME;
@@ -106,6 +108,9 @@ class User
     function initUserData()
     {
 
+        // define global variables
+        global $groups;
+
         // pull put the needed information for the session if available.
         $this->userData = $_SESSION["user_data"];
 
@@ -120,7 +125,9 @@ class User
 
         $this->levelData = $this->loadLevel($this->getLevel()); // load all the current level information and store it in the database
         $this->devices->init($this->userData);
+        $this->group = $groups->loadGroup($this->getLevel());
         $this->updateLastLoginIP(); // update the user's logged in IP address
+        $this->sendHeartBeat();
 
         return true;
     }
@@ -154,10 +161,7 @@ class User
         }
 
         // if they don't match then update the database with the current results
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LASTLOGIN_IP . " = '" . md5($this->devices()->getUserIP()) . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_LASTLOGIN_IP, md5($this->devices()->getUserIP()))) {
             return false;
         }
 
@@ -198,6 +202,15 @@ class User
     }
 
     /**
+     * get the user current group
+     * @return Group
+     */
+    function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
      * ban the current user
      * @return bool
      */
@@ -222,11 +235,7 @@ class User
         }
 
         // ban the user
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // if any errors
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_BANNED, '1')) {
             return false;
         }
 
@@ -261,11 +270,7 @@ class User
         }
 
         // unBan the user
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_BANNED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // if any errors
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_BANNED, '0')) {
             return false;
         }
 
@@ -437,6 +442,8 @@ class User
             return "Admin";
         } else if ($this->getLevel() == 1) {
             return "User";
+        } else if (empty($this->levelData[TBL_LEVELS_NAME])) {
+            return "Undefined";
         }
 
         return $this->levelData[TBL_LEVELS_NAME];
@@ -460,14 +467,8 @@ class User
     function forceSignInAgain()
     {
 
-        // define all the global variables
-        global $database, $message;
-
         // call the database to store the new session data
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '1' WHERE " . TBL_USERS_ID . " = '" . $this->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_SIGNIN_AGAIN, '1')) {
             return false;
         }
 
@@ -551,7 +552,6 @@ class User
         global $database, $message;
 
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
-        $result = mysqli_query($database->connection, $sql);
 
         // get the sql results
         if (!$result = $database->getQueryResults($sql)) {
@@ -652,17 +652,11 @@ class User
     function sendHeartBeat()
     {
 
-        // define all the global variables
-        global $database, $message;
-
         // get the current time
-        $time = date("Y-m-d H:i:s", time());
+        $currentTime = date("Y-m-d H:i:s", time());
 
-        // update the timestamp in the database
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_HEARTBEAT . " = '" . $time . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        // update the records
+        if (!$this->updateUserRecord(TBL_USERS_LAST_LOGIN, $currentTime)) {
             return false;
         }
 
@@ -678,7 +672,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $message;
 
         // check if account is already activated then just return true
         if ($this->is_accountActivated()) {
@@ -687,10 +681,7 @@ class User
         }
 
         // if account is not activated then update the sql records
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '1' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_ACTIVATED, '1')) {
             return false;
         }
 
@@ -707,7 +698,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $message;
 
         // check if account is not activated then just return true
         if (!$this->is_accountActivated()) {
@@ -716,10 +707,7 @@ class User
         }
 
         // if account is activated then update the sql records
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " = '0' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_ACTIVATED, '0')) {
             return false;
         }
 
@@ -744,10 +732,7 @@ class User
         } else {
 
             // ** Clear the Cookie auth code ** //
-            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-            // get the sql results
-            if (!$result = $database->getQueryResults($sql)) {
+            if (!$this->updateUserRecord(TBL_USERS_TOKEN, '')) {
                 return false;
             }
 
@@ -755,6 +740,7 @@ class User
             unset($_SESSION["user_data"]);
             unset($_COOKIE["user_data"]);
             unset($_COOKIE["user_id"]);
+            unset($_SESSION['authenticated']);
             setcookie("user_data", null, -1, '/');
             setcookie("user_id", null, -1, '/');
             return true;
@@ -799,10 +785,7 @@ class User
         // add the old user xp to the new one
         $newXP = $this->getXP() + $amount;
 
-        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-
-        // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$this->updateUserRecord(TBL_USERS_XP, $newXP)) {
             return false;
         }
 
@@ -900,19 +883,67 @@ class User
         return (md5($pin) == $this->get(TBL_USERS_PIN));
     }
 
-    public function generateUniqueSecret()
+    /**
+     * Update the required user record in the sql database
+     * High Risk !! No checks is being performed at this point
+     * you have to make sure all the data is being submitted in
+     * the right intended way
+     * @param string|array $data
+     * @param mixed|null $value
+     * @return bool
+     */
+    public function updateUserRecord($data, $value = null)
     {
 
-        // create a unique secret
-        $secret = md5(uniqid(self::getUsername() . self::getDateJoined() . rand(), false));
+        // define all the global variables
+        global $database;
 
-        // replace any illegal characters
-        $secret = str_replace(array(9, 8), rand(0, 7), $secret);
+        // secure the data
+        $field = $database->secureInput($data);
+        $value = $database->secureInput($value);
 
-        // grab the first half of the secret
-        $secret = $first400 = substr($secret, 0, 10);
+        // setup the initial sql query content
+        $content = "";
 
-        return $secret;
+        // check if arrays has been submitted
+        if (is_array($field)) {
+
+            // get the length of the array of fields
+            $length = count($field);
+            $i = 1;
+
+            // loop throw the array and add each record
+            foreach ($field as $currentField => $currentValue) {
+
+                // add the elements to the query string content
+                $content .= $currentField . " = '" . $currentValue . "'";
+
+                // check if not last then add a comma
+                if ($i < $length) {
+                    $content .= ", ";
+                    $i++;
+                }
+            }
+        } else {
+
+            // check if value is empty
+            if ($value == null) {
+                return false;
+            }
+
+            // setup the default mysql 1 time update
+            $content .= $field . " = '" . $value . "'";
+        }
+
+        // setup and complete the sql query
+        $sql = "UPDATE " . TBL_USERS . " SET " . $content . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_ID . " = '" . $this->getID() . "'";
+
+        // query and check for errors
+        if (!$database->getQueryResults($sql)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

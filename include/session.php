@@ -853,7 +853,7 @@ class Session
         }
 
         // check if current session has been authenticated
-        if ($_SESSION["authenticated"] == 1) {
+        if ($_SESSION["authenticated"] == true) {
             return false;
         }
 

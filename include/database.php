@@ -52,10 +52,16 @@ class Database
     /**
      * Protect your input from all kinds of injections like HTML,JS,SQL
      * @param $input
-     * @return string
+     * @return mixed
      */
     function secureInput($input)
     {
+
+        // check if array has been given
+        if(is_array($input)){
+            return $input;
+        }
+
         return $this->escapeString(trim(strip_tags(addslashes($input))));
     }
 

@@ -229,7 +229,9 @@ class Functions
             }
         }
         // Return string with times
-        return implode(", ", $times);
+        if(($time = implode(", ", $times)) == ""){
+            return "1 second";
+        } else { return $time;}
     }
 
     /**
