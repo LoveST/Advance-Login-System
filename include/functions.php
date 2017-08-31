@@ -6,6 +6,7 @@
  * Date: 1/26/2017
  * Time: 2:51 PM
  */
+
 namespace ALS\Functions;
 
 class Functions
@@ -229,9 +230,11 @@ class Functions
             }
         }
         // Return string with times
-        if(($time = implode(", ", $times)) == ""){
+        if (($time = implode(", ", $times)) == "") {
             return "1 second";
-        } else { return $time;}
+        } else {
+            return $time;
+        }
     }
 
     /**
@@ -347,17 +350,32 @@ class Functions
     /**
      * get the total amount of users signed up this month
      */
-    function getCurrentMonthsSignups(){
+    function getCurrentMonthsSignups()
+    {
 
         // define all the global variables
         global $admin;
 
-        $firstDatOfMonth =  date("Y-m") . "-01";
+        $firstDatOfMonth = date("Y-m") . "-01";
         $time = strtotime(date("Y-m-d") . ' +1 days');
         $todaysDate = date("Y-m-d", $time);
 
         // return the results
         return $admin->countTotalRegisteredUsersInBetween($firstDatOfMonth, $todaysDate);
+    }
+
+    /**
+     * check if a certain time zone is valid
+     * @param $timeZone
+     * @return bool
+     */
+    function isValidTimeZone($timeZone)
+    {
+        if (in_array($timeZone, timezone_identifiers_list())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

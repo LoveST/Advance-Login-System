@@ -96,13 +96,13 @@ class Session
             return false;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($result, true) < 1) {
             $message->setError($translator->translateText("wrongLoginInfo"), Message::Error);
             return false;
         }
 
         // grab the database results
-        $row = mysqli_fetch_assoc($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // check if password fields match and if not then discard all changes
         if (!password_verify($password, $row[TBL_USERS_PASSWORD])) {
@@ -184,11 +184,11 @@ class Session
             }
 
             // check if the user exists
-            if (mysqli_num_rows($result) < 1) {
+            if ($database->getQueryNumRows($result, true) < 1) {
                 return false;
             }
 
-            $row = mysqli_fetch_assoc($result);
+            $row = $database->getQueryEffectedRow($result, true);
 
             // ** Update the current session data ** //
             foreach ($row As $rowName => $rowValue) {
@@ -250,8 +250,8 @@ class Session
                 }
 
                 // ** Check if such a user exists ** //
-                if (mysqli_num_rows($result) > 0) {
-                    $row = mysqli_fetch_assoc($result);
+                if ($database->getQueryNumRows($result, true) > 0) {
+                    $row = $database->getQueryEffectedRow($result, true);
 
                     // un-serialize the token array
                     $tokenArray = unserialize($row[TBL_USERS_TOKEN]);

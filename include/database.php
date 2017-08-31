@@ -5,6 +5,7 @@
  * Date: 8/10/2016
  * Time: 5:46 PM
  */
+
 namespace ALS\Database;
 
 use ALS\Message\Message;
@@ -58,13 +59,18 @@ class Database
     {
 
         // check if array has been given
-        if(is_array($input)){
+        if (is_array($input)) {
             return $input;
         }
 
         return $this->escapeString(trim(strip_tags(addslashes($input))));
     }
 
+    /**
+     * hash a text for ultimate security
+     * @param $text
+     * @return bool|string
+     */
     function hashPassword($text)
     {
         return password_hash($text, PASSWORD_DEFAULT, ['cost' => 12]);
@@ -89,6 +95,91 @@ class Database
 
         // if no error then return the results
         return $result;
+    }
+
+    /**
+     * execute a direct MySQLi function to get the total
+     * number of rows effected in a single query
+     * @param string $sqlRequest
+     * @param bool $isSqlRespond
+     * @return int
+     */
+    function getQueryNumRows($sqlRequest, $isSqlRespond = false)
+    {
+
+        // run the sql query and get the results
+        if(!$isSqlRespond) {
+            $results = $this->getQueryResults($sqlRequest);
+        } else {
+            $results = $sqlRequest;
+        }
+
+        // get the total rows effected
+        $numRows = mysqli_num_rows($results);
+
+        // return the total number of effected rows
+        return $numRows;
+    }
+
+    /**
+     * get a query results after submitting an sql request
+     * @param string $sqlRequest
+     * @param bool $isSqlRespond
+     * @return bool|array
+     */
+    function getQueryEffectedRow($sqlRequest, $isSqlRespond = false)
+    {
+
+        // run the sql query and get the results
+        if(!$isSqlRespond) {
+            $results = $this->getQueryResults($sqlRequest);
+        } else {
+            $results = $sqlRequest;
+        }
+
+        // check if results is not empty
+        if (!$results) {
+            return false;
+        }
+
+        // get the effected rows
+        $row = mysqli_fetch_assoc($results);
+
+        // return the effected rows
+        return $row;
+    }
+
+    /**
+     * get a query results after submitting an sql request
+     * @param string $sqlRequest
+     * @param bool $isSqlRespond
+     * @return bool|array
+     */
+    function getQueryEffectedRows($sqlRequest, $isSqlRespond = false)
+    {
+
+        // run the sql query and get the results
+        if(!$isSqlRespond) {
+            $results = $this->getQueryResults($sqlRequest);
+        } else {
+            $results = $sqlRequest;
+        }
+
+        // check if results is not empty
+        if (!$results) {
+            return false;
+        }
+
+        // init the array to hold the effected rows
+        $rows = [];
+
+        // get the effected rows
+        while ($row = mysqli_fetch_array($results)) {
+            $rows[] = $row;
+        }
+
+        // return the effected rows
+        return $rows;
     }
 
 }
