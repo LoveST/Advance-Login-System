@@ -7,7 +7,6 @@
  * Time: 11:14 AM
  */
 namespace ALS\AUTH\Twilio;
-require "Twilio/autoload.php";
 
 use ALS\Message\Message;
 use Twilio\Rest\Client;

@@ -26,7 +26,6 @@ require "include/session.php";
 require "include/administrator.php";
 require "include/profileManager.php";
 require "include/MailTemplates.php";
-require "include/auth/Twilio.php";
 require "include/ViewController.php";
 
 /**
