@@ -34,7 +34,7 @@
 <div class="wrapper-page">
     <div class=" card-box">
         <div class="panel-heading">
-            <h3 class="text-center"> Hello <strong class="text-custom"><? echo $user->getFirstName(); ?></strong></h3>
+            <h3 class="text-center"> Hello <strong class="text-custom"><? echo {:$$user}->getFirstName(); ?></strong></h3>
             <h5 class="text-center">Your account has 2-factor authentication enabled, so you'r required to supply a code
                 from the Google Authentication App</h5>
         </div>
@@ -43,13 +43,13 @@
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($message->is_success()){ ?>
+                <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
                     <?=$message->getSuccess();?>
                 </div>

@@ -6,7 +6,7 @@
  * Date: 3/20/2017
  * Time: 12:30 AM
  */
-namespace ALS\Captcha;
+namespace ALS;
 class Captcha
 {
 

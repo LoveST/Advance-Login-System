@@ -1,4 +1,3 @@
-<? global $administrator; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +46,7 @@
                 <div class="card-box table-responsive">
                     <h4 class="m-t-0 header-title"><b>Administrators</b></h4>
 
-                    <? if(!$administrator){?>
+                    <? if(!{:$$administrator}){?>
                     <h4 class="m-t-0 text-muted text-center"><b>There are no administrators</b></h4>
                     <? } else { ?>
                     <table data-toggle="table"
@@ -66,12 +65,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <? foreach($administrator as $key => $admin){?>
+                        <? foreach({:$$administrator} as $key => $admin){?>
                         <tr>
                             <td><?=$admin->getID(); ?></td>
                             <td><?=$admin->getUsername(); ?></td>
                             <td><?=$admin->getEmail(); ?></td>
-                            <td><?=$functions->calculateTime($admin->getDateJoined()); ?> ago</td>
+                            <td><?={:$$functions}->calculateTime($admin->getDateJoined()); ?> ago</td>
                             <td><?=$admin->getLevelName(); ?></td>
                             <td><?=$admin->getXP(); ?></td>
                         </tr>

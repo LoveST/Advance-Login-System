@@ -32,7 +32,7 @@ require "include/ViewController.php";
  * init Message class
  */
 
-use ALS\Message\Message;
+use ALS\Message;
 
 $message = new Message();
 $message->init();
@@ -41,7 +41,7 @@ $message->init();
  * init Database class
  */
 
-use ALS\Database\Database;
+use ALS\Database;
 
 $database = new Database();
 
@@ -49,7 +49,7 @@ $database = new Database();
  * init Settings class
  */
 
-use ALS\Settings\Settings;
+use ALS\Settings;
 
 $settings = new Settings();
 
@@ -57,7 +57,7 @@ $settings = new Settings();
  * init the Groups class
  */
 
-use ALS\Groups\Groups;
+use ALS\Groups;
 
 $groups = new Groups();
 
@@ -65,7 +65,7 @@ $groups = new Groups();
  * init the View Controller Class
  */
 
-use ALS\ViewController\ViewController;
+use ALS\ViewController;
 
 $viewController = new ViewController();
 $translator = $viewController->getTranslator();
@@ -74,7 +74,7 @@ $translator = $viewController->getTranslator();
  * init the Browser class
  */
 
-use ALS\Browser\Browser;
+use ALS\Browser;
 
 $browser = new Browser();
 
@@ -82,7 +82,7 @@ $browser = new Browser();
  * init Captcha class
  */
 
-use ALS\Captcha\Captcha;
+use ALS\Captcha;
 
 $captcha = new Captcha();
 
@@ -90,7 +90,7 @@ $captcha = new Captcha();
  * init Mail class
  */
 
-use ALS\Mail\Mail;
+use ALS\Mail;
 
 $mail = new Mail();
 
@@ -98,7 +98,7 @@ $mail = new Mail();
  * init User class
  */
 
-use ALS\User\User;
+use ALS\User;
 
 $user = new User();
 
@@ -106,7 +106,7 @@ $user = new User();
  * init passwordManager class
  */
 
-use ALS\passwordManager\passwordManager;
+use ALS\passwordManager;
 
 $passwordManager = new passwordManager();
 
@@ -114,7 +114,7 @@ $passwordManager = new passwordManager();
  * init Functions class
  */
 
-use ALS\Functions\Functions;
+use ALS\Functions;
 
 $functions = new Functions();
 
@@ -123,7 +123,7 @@ $functions = new Functions();
  * init Session class
  */
 
-use ALS\Session\Session;
+use ALS\Session;
 
 $session = new Session();
 $session->init();
@@ -132,7 +132,7 @@ $session->init();
  * init Administrator class
  */
 
-use ALS\Administrator\Administrator;
+use ALS\Administrator;
 
 $admin = new Administrator();
 
@@ -140,7 +140,7 @@ $admin = new Administrator();
  * init profileManager class
  */
 
-use ALS\profileManager\profileManager;
+use ALS\profileManager;
 
 $profileManager = new profileManager();
 
@@ -148,7 +148,7 @@ $profileManager = new profileManager();
  * init the MailTemplates class
  */
 
-use ALS\MailTemplates\MailTemplates;
+use ALS\MailTemplates;
 
 $mailTemplates = new MailTemplates();
 

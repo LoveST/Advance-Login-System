@@ -44,13 +44,13 @@
 
 
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($message->is_success()){ ?>
+                <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
                     <?=$message->getSuccess();?>
                 </div>
@@ -59,7 +59,7 @@
                 <h4 class="text-center"> Name </h4>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->siteName();?>" name="site_name" required="true" placeholder="Site name">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteName();?>" name="site_name" required="true" placeholder="Site name">
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
                 <h4 class="text-center"> URL </h4>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->siteURL();?>" name="site_url" required="true" placeholder="Site URL">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteURL();?>" name="site_url" required="true" placeholder="Site URL">
                     </div>
                 </div>
 
@@ -77,7 +77,7 @@
                 <h4 class="text-center"> Email </h4>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->siteEmail();?>" name="site_email" required="true" placeholder="Site email">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteEmail();?>" name="site_email" required="true" placeholder="Site email">
                     </div>
                 </div>
 
@@ -87,7 +87,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if(!$settings->siteDisabled()){ echo 1;} else { echo 0;} ?>" name="site_enabled" required="true" placeholder="Script status">
+                        <input class="form-control" type="text" value="<? if(!{:$$settings}->siteDisabled()){ echo 1;} else { echo 0;} ?>" name="site_enabled" required="true" placeholder="Script status">
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@
                 <h5 class="text-center"> ( standard theme = "default" ) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->siteTheme();?>" name="site_theme" required="true" placeholder="Site theme">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteTheme();?>" name="site_theme" required="true" placeholder="Site theme">
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@
                 <h4 class="text-center"> Language </h4>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->siteLanguage();?>" name="site_language" required="true" placeholder="Site language">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteLanguage();?>" name="site_language" required="true" placeholder="Site language">
                     </div>
                 </div>
 

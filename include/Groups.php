@@ -6,9 +6,9 @@
  * Time: 4:42 PM
  */
 
-namespace ALS\Groups;
+namespace ALS;
 
-use ALS\User\Group\Group;
+use ALS\User\Group;
 
 require_once "user/Group.php";
 
@@ -38,7 +38,7 @@ class Groups
         }
 
         // translate the results to data
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // if no errors then return a new instance
         // of the Group class

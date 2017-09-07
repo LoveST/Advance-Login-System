@@ -6,10 +6,7 @@
  * Time: 9:44 AM
  */
 
-namespace ALS\MailTemplates;
-
-use ALS\Mail\Mail;
-use ALS\Settings\Settings;
+namespace ALS;
 
 class MailTemplates
 {

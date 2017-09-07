@@ -3,7 +3,7 @@
 /** Check user & site status **/
 require "../init.php";
 $status = $session->statusCheck();
-use ALS\Session\LoginStatus;
+use ALS\LoginStatus;
 
 if ($status == LoginStatus::NeedToLogin) {
     header("Location: login.php");

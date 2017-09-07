@@ -34,7 +34,7 @@
  * http://apptools.com/phptools/browser/
  *
  */
-namespace ALS\Browser;
+namespace ALS;
 class Browser
 {
     private $_agent = '';

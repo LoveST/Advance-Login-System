@@ -7,7 +7,7 @@
  * Time: 7:38 PM
  */
 
-namespace ALS\Message;
+namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class Message
@@ -38,6 +38,109 @@ class Message
     }
 
     /**
+     * @param string $msg
+     * @param array $tracer
+     */
+    private function fatalKill($msg, $tracer)
+    {
+
+        // clear any headers that have been set
+        if (!headers_sent()) {
+            foreach (headers_list() as $header)
+                header_remove($header);
+        }
+
+        // kill the script with a custom message
+        echo '<b>' . $this->readErrorType(1) . ': </b>' . $msg . '<br/><br/>';
+
+        // print the backtrace
+        echo "<b>Back-Trace</b><br /><hr />";
+        $first = true;
+        foreach ($tracer as $value => $trace) {
+
+            // check if first then skip
+            if ($first) {
+                $first = false;
+                continue;
+            }
+
+            // check if error has been called from this class then avoid it
+            $file = basename($trace['caller']);
+            if ($file = "message.php" && $trace['function'] == "backtrace") {
+                continue;
+            }
+
+            // print the error
+            echo '<b>File:</b> ' . $trace['file'] . ' - line ' . $trace['line'] . '<br />';
+            echo '<b>Class:</b> ' . $trace['caller'] . "<br />";
+            echo '<b>Type:</b> ' . $trace['type'] . "<br />";
+            echo '<b>Type:</b> ' . $trace['function'] . "<br />";
+            echo "<hr>";
+        }
+
+        die();
+    }
+
+    private function backtrace()
+    {
+        $backtrace = debug_backtrace();
+
+        $output = '';
+        $outputArray = [];
+        $i = 0;
+        foreach ($backtrace as $bt) {
+            $args = '';
+            foreach ($bt['args'] as $a) {
+                if (!empty($args)) {
+                    $args .= ', ';
+                }
+                switch (gettype($a)) {
+                    case 'integer':
+                    case 'double':
+                        $args .= $a;
+                        break;
+                    case 'string':
+                        //$a = htmlspecialchars(substr(, 0, 64)).((strlen($a) > 64) ? '...' : '');
+                        $args .= "\"$a\"";
+                        break;
+                    case 'array':
+                        $args .= 'Array(' . count($a) . ')';
+                        break;
+                    case 'object':
+                        $args .= 'Object(' . get_class($a) . ')';
+                        break;
+                    case 'resource':
+                        $args .= 'Resource(' . strstr($a, '#') . ')';
+                        break;
+                    case 'boolean':
+                        $args .= $a ? 'TRUE' : 'FALSE';
+                        break;
+                    case 'NULL':
+                        $args .= 'Null';
+                        break;
+                    default:
+                        $args .= 'Unknown';
+                }
+            }
+
+            // add the results to the array
+            $outputArray[$i] = Array(
+                "file" => @$bt['file'],
+                "line" => @$bt['line'],
+                "caller" => @$bt['class'],
+                "type" => @$bt['type'],
+                "function" => @$bt['function'],
+                "args" => $args
+            );
+            $output .= '<br />';
+            $output .= '<b>file:</b> ' . @$bt['file'] . ' - line ' . @$bt['line'] . '<br />';
+            $output .= '<b>call:</b> ' . @$bt['class'] . @$bt['type'] . @$bt['function'] . '(' . $args . ')<br />';
+            $i++;
+        }
+        return $outputArray;
+    }
+
+    /**
      * Set an error message to be displayed to the user
      * @param $msg
      * @param $type
@@ -55,6 +158,9 @@ class Message
                 $this->msg = $array;
                 $_SESSION["error"][] = $array;
                 return;
+            } else if ($type == 1) { // if FATAL error, then kill the script instantly
+                $tracer = $this->backtrace();
+                $this->fatalKill($msg, $tracer);
             } else {
                 $array = array(
                     "msg" => $msg,

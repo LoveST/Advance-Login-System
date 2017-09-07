@@ -1,4 +1,5 @@
 <?php
 require "../init.php";
-$group = $user->getGroup();
-var_dump($group->getName());
+
+$admins = $admin->getAdmins();
+var_dump($admin->getTotalUsers());

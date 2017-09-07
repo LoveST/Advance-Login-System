@@ -6,9 +6,8 @@
  * Date: 4/28/2016
  * Time: 1:40 AM
  */
-namespace ALS\Mail;
 
-use ALS\Message\Message;
+namespace ALS;
 
 class Mail
 {

@@ -7,11 +7,7 @@
  * Time: 7:22 PM
  */
 
-namespace ALS\Administrator;
-
-use ALS\Message\Message;
-use ALS\Settings\Settings;
-use ALS\User\User;
+namespace ALS;
 
 class Administrator
 {
@@ -22,10 +18,14 @@ class Administrator
         // define all the global variables
         global $database;
 
-        $sql = "SELECT count(*) FROM " . TBL_USERS;
-        $result = mysqli_query($database->connection, $sql);
-        $num = mysqli_fetch_row($result);
-        return $num[0];
+        $sql = "SELECT * FROM " . TBL_USERS;
+
+        // get the sql results
+        if (!$results = $database->getQueryResults($sql)) {
+            return false;
+        }
+
+        return $database->getQueryNumRows($results, true);
     }
 
     /**
@@ -45,13 +45,17 @@ class Administrator
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_LEVEL . "='100' LIMIT " . $limit;
         }
         $admins = "";
-        $results = mysqli_query($database->connection, $sql);
 
-        if (mysqli_num_rows($results) < 1) {
+        // get the sql results
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        while ($row = mysqli_fetch_assoc($results)) {
+        if ($database->getQueryNumRows($results, true) < 1) {
+            return false;
+        }
+
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $currentUser = new User();
             $currentUser->initInstance($row);
 
@@ -77,14 +81,18 @@ class Administrator
             $sql = "SELECT * FROM " . TBL_USERS . " LIMIT " . $limit;
         }
 
-        $results = mysqli_query($database->connection, $sql);
-        $users = "";
-
-        if (mysqli_num_rows($results) < 1) {
+        // get the sql results
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        while ($row = mysqli_fetch_assoc($results)) {
+        $users = "";
+
+        if ($database->getQueryNumRows($results, true) < 1) {
+            return false;
+        }
+
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $currentUser = new User();
             $currentUser->initInstance($row);
 
@@ -117,11 +125,11 @@ class Administrator
 
         $users = "";
 
-        if (mysqli_num_rows($results) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             return false;
         }
 
-        while ($row = mysqli_fetch_assoc($results)) {
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $currentUser = new User();
             $currentUser->initInstance($row);
 
@@ -384,7 +392,7 @@ class Administrator
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // return the array
         return $row[0];
@@ -414,7 +422,7 @@ class Administrator
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // return the array
         return $row[0];
@@ -463,11 +471,11 @@ class Administrator
         " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        while ($row = mysqli_fetch_assoc($result)) {
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $currentUser = new User();
             $currentUser->initInstance($row);
 
@@ -520,11 +528,11 @@ class Administrator
         " . TBL_USERS_LAST_LOGIN . " <= '$endDate'" . $limitArgs;
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        while ($row = mysqli_fetch_assoc($result)) {
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $currentUser = new User();
             $currentUser->initInstance($row);
 
@@ -578,7 +586,7 @@ class Administrator
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
 
         return $row[0];
@@ -628,7 +636,7 @@ class Administrator
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
 
         return $row[0];
@@ -749,7 +757,7 @@ class Administrator
         }
 
         // grab the results
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // check if any values has been returned
         if ($row[0] > 0) {
@@ -784,7 +792,7 @@ class Administrator
         }
 
         // grab the results
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // check if any values has been returned
         if ($row[0] > 0) {

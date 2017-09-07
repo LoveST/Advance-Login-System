@@ -1,7 +1,7 @@
 <?
 
 require "../init.php";
-use ALS\Session\LoginStatus;
+use ALS\LoginStatus;
 
 if ($session->statusCheck() == LoginStatus::GoodToGo) {
     header("Location: index.php");

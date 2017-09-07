@@ -7,9 +7,7 @@
  * Time: 1:11 PM
  */
 
-namespace ALS\Settings;
-
-use ALS\Message\Message;
+namespace ALS;
 
 class Settings
 {
@@ -93,16 +91,16 @@ class Settings
         $sql = "SELECT * FROM " . TBL_SETTINGS;
 
         // try pulling the required data
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             $message->customKill("Fatal Error", "Error while trying to pull the required data from the database.", "default");
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             $message->customKill("Fatal Error", "Settings table doesn't contain any values for the script to run.", "default");
         }
 
         // store the data in the settings array to complete the function
-        while ($row = mysqli_fetch_assoc($result)) {
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
 
             // store the needed variables
             $fieldName = $row['field'];
@@ -412,7 +410,7 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $hex32 . "' WHERE field = '" . TBL_SETTINGS_SECRET_KEY . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             $message->setError("Could not update the site secret", Message::Error);
             return false;
         }
@@ -435,7 +433,7 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $key . "' WHERE field = '" . TBL_SETTINGS_CAPTCHA_KEY . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             $message->setError("Could not update the captcha key", Message::Error);
             return false;
         }
@@ -458,7 +456,7 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $key . "' WHERE field = '" . TBL_SETTINGS_CAPTCHA_SECRET . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             $message->setError("Could not update the captcha secret key", Message::Error);
             return false;
         }
@@ -483,7 +481,7 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $value . "' WHERE field = '" . $setting . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             $message->setError("Could not update : " . $setting, Message::Error);
             return false;
         }

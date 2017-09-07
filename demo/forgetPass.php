@@ -13,36 +13,38 @@ $email = $_POST['email'];
 $code = $_POST['code'];
 $captchaInput = $_POST['g-recaptcha-response'];
 
-    switch($_GET['option']){
-        case "confirm";
-            if(isset($_POST['confirm'])) {
-                if ($passwordManager->resetPasswordUsingCodeAndEmail($email, $code)) {
-                    header("Location: forgetPass.php?option=createNew&u=$email&c=$code");
-                }
+switch ($_GET['option']) {
+    case "confirm";
+        if (isset($_POST['confirm'])) {
+            if ($passwordManager->resetPasswordUsingCodeAndEmail($email, $code)) {
+                header("Location: forgetPass.php?option=createNew&u=$email&c=$code");
             }
-            require TEMPLATE_PATH ."/confirmPasswordReset.html";
-            break;
-        case "createNew";
-            $decryptEmail = $database->escapeString($_GET['u']);
-            $decryptCode = $database->escapeString($_GET['c']);
-            $password = $database->escapeString($_POST['password']);
-            $password2 = $database->escapeString($_POST['password2']);
+        }
 
-            if(isset($_POST["change"])) {
-                if ($passwordManager->confirmNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
-                    $success = true;
-                }
-            }
+        $viewController->loadView("confirmPasswordReset.html");
+        break;
+    case "createNew";
+        $decryptEmail = $database->escapeString($_GET['u']);
+        $decryptCode = $database->escapeString($_GET['c']);
+        $password = $database->escapeString($_POST['password']);
+        $password2 = $database->escapeString($_POST['password2']);
 
-            require TEMPLATE_PATH ."/newPassword.html";
-            break;
-        default;
-            if(isset($_POST['reset'])){
-				//$template = file_get_contents('demo/templates/ubold/');
-                if($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/'. $settings->get(ALS\Settings\Settings::SITE_THEME) . '/forgetPasswordEmail.html'))){
-                    $success = true;
-                }
+        if (isset($_POST["change"])) {
+            if ($passwordManager->confirmNewPassword($decryptEmail, $decryptCode, $password, $password2)) {
+                $success = true;
             }
-            require TEMPLATE_PATH ."/resetPassword.html";
-            break;
-    }
+        }
+
+        $viewController->loadView("newPassword.html");
+        break;
+    default;
+        if (isset($_POST['reset'])) {
+            //$template = file_get_contents('demo/templates/ubold/');
+            if ($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/' . $settings->get(ALS\Settings\Settings::SITE_THEME) . '/forgetPasswordEmail.html'))) {
+                $success = true;
+            }
+        }
+
+        $viewController->loadView("resetPassword.html");
+        break;
+}

@@ -6,7 +6,7 @@
  * Time: 3:15 PM
  */
 
-namespace ALS\Translator;
+namespace ALS;
 
 
 class Translator
@@ -168,10 +168,18 @@ class Translator
                 $key = $matches[1];
                 if (array_key_exists($key, $replacements)) {
                     // Replace the tag if a replacement value exists in the list
-                    return $replacements[$key];
+                    // check if a special Variable is present
+                        return $replacements[$key];
                 } else {
                     // Don't replace the tag if a value is not assigned for it
-                    return $matches[0];
+                    // check if a special Variable is present
+                    if($key[0] == "$" && $key[1] == "$"){
+                        $variable = substr($key, 2);
+                        $newReplacement = '$GLOBALS["' . $variable . '"]';
+                        return $newReplacement;
+                    } else {
+                        return $matches[0];
+                    }
 
                     // Alternatively, you can return a default placeholder string
                     // or return '' to remove the tag completely

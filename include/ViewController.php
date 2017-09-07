@@ -6,10 +6,7 @@
  * Time: 11:28 AM
  */
 
-namespace ALS\ViewController;
-
-use ALS\Message\Message;
-use ALS\Translator\Translator;
+namespace ALS;
 
 require "Translator.php";
 
@@ -38,7 +35,12 @@ class ViewController
     {
 
         // init the required global variables
-        global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
+        global $settings, $functions, $message, $user, $session;
+
+        // check if the cache directory is not empty
+        if (!$functions->isDirEmpty($settings->getTemplatesCachePath())) {
+            $this->emptyCacheFolder();
+        }
 
         // check if empty string is supplied
         if ($templateName == "") {
@@ -57,7 +59,6 @@ class ViewController
 
         // generate a unique id for the file
         $this->uniqueID = md5(uniqid(rand(), true));
-        $fileExtension = $ext = pathinfo($templateName, PATHINFO_EXTENSION);
 
         // update the required template
         $this->requiredTemplate = $this->uniqueID . "." . "php";
@@ -104,7 +105,12 @@ class ViewController
     {
 
         // init the required global variables
-        global $browser, $config, $captcha, $passwordManager, $message, $settings, $user, $functions, $mail, $database, $mailTemplates, $admin, $browser, $profileManager, $session;
+        global $settings, $functions, $message, $user, $session;
+
+        // check if the cache directory is not empty
+        if (!$functions->isDirEmpty($settings->getTemplatesCachePath())) {
+            $this->emptyCacheFolder();
+        }
 
         // check if empty string is supplied
         if ($templateName == "") {
@@ -125,7 +131,6 @@ class ViewController
 
         // generate a unique id for the file
         $uniqueID = md5(uniqid(rand(), true));
-        $fileExtension = $ext = pathinfo($templateName, PATHINFO_EXTENSION);
 
         // update the required template
         $this->requiredTemplate = $uniqueID . "." . "php";
@@ -141,6 +146,26 @@ class ViewController
 
         // return the needed translated file
         return $file;
+    }
+
+    /**
+     * empty the entire cache folder in case of an Unhandled Error
+     */
+    private function emptyCacheFolder()
+    {
+
+        global $settings;
+
+        // get the total files in the cache folder
+        $files = array_diff(scandir($settings->getTemplatesCachePath()), array('.', '..'));
+
+        // unlink each file and delete it
+        foreach ($files as $fileName) {
+
+            // unlink the file
+            unlink($settings->getTemplatesCachePath() . $settings->getSubLine() . $fileName);
+
+        }
     }
 
     /**
@@ -170,7 +195,7 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings, $user, $functions, $message;
+        global $settings, $user, $functions;
 
         $vars = array(
             'user_username' => $user->getUsername(),

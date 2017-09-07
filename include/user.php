@@ -7,12 +7,10 @@
  * Time: 8:26 PM
  */
 
-namespace ALS\User;
+namespace ALS;
 
-use ALS\MailTemplates\MailTemplates;
-use ALS\User\Devices\Devices;
-use ALS\Message\Message;
-use ALS\User\Group\Group;
+use ALS\User\Devices;
+use ALS\User\Group;
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
@@ -91,11 +89,11 @@ class User
         }
 
         // check for empty results
-        if (mysqli_num_rows($results) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             return false;
         }
         // call the results
-        $row = mysqli_fetch_array($results);
+        $row = $database->getQueryEffectedRow($results, true);
 
         // set the userData
         $this->userData = $row;
@@ -137,9 +135,6 @@ class User
      */
     private function updateLastLoginIP()
     {
-
-        // define all the global variables
-        global $database, $message;
 
         // check if device has already been active, then skip
         if ($this->devices()->canAccess()) {
@@ -229,7 +224,7 @@ class User
         }
 
         // check for empty results (user is already banned before)
-        if (mysqli_num_rows($results) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             $message->setError("The user has been banned before", Message::Error);
             return false;
         }
@@ -264,7 +259,7 @@ class User
         }
 
         // check for empty results (user is already banned before)
-        if (mysqli_num_rows($results) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             $message->setError("The requested user account is not banned", Message::Error);
             return false;
         }
@@ -549,7 +544,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
 
@@ -558,7 +553,7 @@ class User
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
         return $row;
     }
 
@@ -571,7 +566,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 
         // load the current user permissions
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
@@ -581,7 +576,7 @@ class User
             return false;
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = $database->getQueryEffectedRow($result, true);
 
         // separate every single permission after a | sign and store it in an array and return it
         $permissions = explode("|", $row[TBL_LEVELS_PERMISSIONS]);
@@ -723,9 +718,6 @@ class User
     public function logOut()
     {
 
-        // define all the global variables
-        global $database;
-
         // check if the user is already not logged in and return true
         if (empty($_SESSION["user_data"]) && empty($_COOKIE["user_data"]) && empty($_COOKIE["user_id"])) {
             return true;
@@ -770,9 +762,7 @@ class User
     public function addXP($amount)
     {
 
-        // define all the global variables
-        global $database, $message;
-
+        // check if its a number
         if (!is_numeric($amount)) {
             return false;
         }
@@ -804,7 +794,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 
         if (!is_numeric($amount)) {
             return false;

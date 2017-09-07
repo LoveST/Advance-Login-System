@@ -6,12 +6,7 @@
  * Time: 12:42 PM
  */
 
-namespace ALS\Session;
-
-use ALS\Message\Message;
-use ALS\Settings\Settings;
-use ALS\Mail\Mail;
-use ALS\User\User;
+namespace ALS;
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
@@ -622,7 +617,7 @@ class Session
         }
 
         // check if wrong code has been used
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($result, true) < 1) {
             $message->setError("Wrong activation code has been used.", Message::Error);
             return false;
         }

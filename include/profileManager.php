@@ -6,9 +6,7 @@
  * Date: 3/7/2017
  * Time: 3:22 PM
  */
-namespace ALS\profileManager;
-
-use ALS\Message\Message;
+namespace ALS;
 
 class profileManager
 {
@@ -76,8 +74,7 @@ class profileManager
             }
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_USERNAME . " = '" . $username . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "' AND " . TBL_USERS_PIN . " = '" . $pin . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            if (!$results = $database->getQueryResults($sql)) {
                 die;
             }
             // logout the user and set the error msg
@@ -87,8 +84,7 @@ class profileManager
 
         } else {
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_USERNAME . " = '" . $username . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            if (!$results = $database->getQueryResults($sql)) {
                 die;
             }
             // logout the user and set the error msg
@@ -150,8 +146,7 @@ class profileManager
             }
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_EMAIL . " = '" . $email . "' WHERE " . TBL_USERS_EMAIL . " = '" . $user->getEmail() . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            if (!$results = $database->getQueryResults($sql)) {
                 die;
             }
             // logout the user and set the error msg
@@ -162,8 +157,7 @@ class profileManager
         } else {
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_EMAIL . " = '" . $email . "' WHERE " . TBL_USERS_EMAIL . " = '" . $user->getEmail() . "'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+            if (!$results = $database->getQueryResults($sql)) {
                 die;
             }
             // logout the user and set the error msg
@@ -230,9 +224,8 @@ class profileManager
 
         // after validating, update the sql with the needed information
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . " = '" . $newPass . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
-            die;
+        if (!$results = $database->getQueryResults($sql)) {
+            return false;
         }
 
         // after no errors then return a success message and log the user out

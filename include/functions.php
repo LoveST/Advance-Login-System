@@ -7,7 +7,7 @@
  * Time: 2:51 PM
  */
 
-namespace ALS\Functions;
+namespace ALS;
 
 class Functions
 {
@@ -121,12 +121,11 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+        if (!$results = $database->getQueryResults($sql)) {
             die;
         }
 
-        if (mysqli_num_rows($result) > 0) {
+        if ($database->getQueryNumRows($results, true) > 0) {
             return true;
         } else {
             return false;
@@ -145,12 +144,11 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+        if (!$results = $database->getQueryResults($sql)) {
             die;
         }
 
-        if (mysqli_num_rows($result) > 0) {
+        if ($database->getQueryNumRows($results, true) > 0) {
             return true;
         } else {
             return false;
@@ -248,16 +246,15 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT " . TBL_USERS_ID . " FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+        if (!$results = $database->getQueryResults($sql)) {
             die;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             return 1;
         }
 
-        $row = mysqli_fetch_assoc($result);
+        $row = $database->getQueryEffectedRow($results, true);
         return $row[TBL_USERS_ID] + 1;
     }
 
@@ -271,16 +268,16 @@ class Functions
         $totalUsers = 0;
 
         $sql = "SELECT * FROM " . TBL_HEARTBEAT;
-        if (!$result = mysqli_query($database->connection, $sql)) {
+        if (!$results = $database->getQueryResults($sql)) {
             return 0;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             return 0;
         }
 
         // count the timestamp for each person online atm
-        while ($row = mysqli_fetch_assoc($result)) {
+        foreach ($database->getQueryEffectedRows($results, true) as $row) {
             $last_update = new \DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
             $currentTime = new \DateTime(date("Y-m-d H:i:s", time())); // current time
             $timeDifference = $currentTime->diff($last_update); // count the difference
@@ -310,12 +307,11 @@ class Functions
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $data . "'";
         }
 
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->kill("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+        if (!$results = $database->getQueryResults($sql)) {
             die;
         }
 
-        $row = mysqli_fetch_assoc($result);
+        $row = $database->getQueryEffectedRow($results, true);
         if ($row[TBL_USERS_ACTIVATED] == 1) {
             return true;
         } else {
@@ -376,6 +372,18 @@ class Functions
         } else {
             return false;
         }
+    }
+
+    function isDirEmpty($path)
+    {
+        if (!is_readable($path)) return NULL;
+        $handle = opendir($path);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
 }

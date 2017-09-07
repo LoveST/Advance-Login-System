@@ -1,4 +1,3 @@
-<? global $username, $requestedUser;  ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +8,7 @@
 
     <link rel="shortcut icon" href="{:settings_templateURL}assets/images/favicon_1.ico">
 
-    <title>{:settings_siteName} | Viewing <?=$username?>'s Profile</title>
+    <title>{:settings_siteName} | Viewing <?={:$$username}?>'s Profile</title>
 
     <!-- Plugins css-->
     <link href="{:settings_templateURL}assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet"/>
@@ -48,19 +47,19 @@
         <div class="panel-body">
 
             <div class="panel-heading">
-                <h3 class="text-center"> Viewing <strong class="text-custom"><?=$username?></strong>'s Profile </h3>
+                <h3 class="text-center"> Viewing <strong class="text-custom"><?={:$$username}?></strong>'s Profile </h3>
             </div>
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($message->is_success()){ ?>
+                <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
                     <?=$message->getSuccess();?>
                 </div>
@@ -69,35 +68,35 @@
                 <h4 class="text-center"> Account ID </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getID();?>
+                        <?={:$$requestedUser}->getID();?>
                     </div>
                 </div>
 
                 <h4 class="text-center"> Full Name </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getFirstName();?> <?=$requestedUser->getLastName();?>
+                        <?={:$$requestedUser}->getFirstName();?> <?={:$$requestedUser}->getLastName();?>
                     </div>
                 </div>
 
                 <h4 class="text-center"> Email Address </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getEmail();?>
+                        <?={:$$requestedUser}->getEmail();?>
                     </div>
                 </div>
 
                 <h4 class="text-center"> Age </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getAge();?>
+                        <?={:$$requestedUser}->getAge();?>
                     </div>
                 </div>
 
                 <h4 class="text-center"> Last Login </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getLastLoginText();?> ago
+                        <?={:$$requestedUser}->getLastLoginText();?> ago
                     </div>
                 </div>
 
@@ -105,10 +104,10 @@
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
                         <?
-                        if($requestedUser->is_banned()){
+                        if({:$$requestedUser}->is_banned()){
                         echo "The account is BANNED";
                         } else {
-                        if(!$requestedUser->is_accountActivated()){
+                        if(!{:$$requestedUser}->is_accountActivated()){
                         echo "The account needs to be activated";
                         } else {
                         echo "The account is up and healthy";
@@ -121,14 +120,14 @@
                 <h4 class="text-center"> Total Experience Points </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getXP();?> xp
+                        <?={:$$requestedUser}->getXP();?> xp
                     </div>
                 </div>
 
                 <h4 class="text-center"> Account/Permission Level </h4>
                 <div class="form-group">
                     <div class="col-xs-12 text-center">
-                        <?=$requestedUser->getLevelName();?>
+                        <?={:$$requestedUser}->getLevelName();?>
                     </div>
                 </div>
 
@@ -139,13 +138,13 @@
                                 class="btn btn-info btn-block text-uppercase waves-effect waves-light" type="submit">
                             Change Level
                         </button>
-                        <? if($requestedUser->is_banned()){ ?>
+                        <? if({:$$requestedUser}->is_banned()){ ?>
                         <button name="unban_account"
                                 class="btn btn-info btn-block text-uppercase waves-effect waves-light" type="submit">
                             Un-Ban Account
                         </button>
                         <? } else { ?>
-                        <? if(!$requestedUser->is_accountActivated()){ ?>
+                        <? if(!{:$$requestedUser}->is_accountActivated()){ ?>
                         <button name="activate_account" value="1"
                                 class="btn btn-info btn-block text-uppercase waves-effect waves-light" type="submit">
                             Activate Account

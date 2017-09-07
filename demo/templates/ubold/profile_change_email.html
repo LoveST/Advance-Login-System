@@ -41,7 +41,7 @@
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>

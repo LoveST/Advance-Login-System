@@ -6,7 +6,7 @@
  * Time: 4:48 PM
  */
 
-namespace ALS\User\Group;
+namespace ALS\User;
 
 
 class Group

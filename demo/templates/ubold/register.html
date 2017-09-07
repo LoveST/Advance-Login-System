@@ -49,13 +49,13 @@
         <div class="panel-body">
             <form action="" class="form-horizontal m-t-20" method="post">
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($success){ ?>
+                <? if({:$$success}){ ?>
                 <div class="alert alert alert-success text-center">
                     Your account has been successfully created<br>
                     <a href="login.php">Login</a>
@@ -148,7 +148,7 @@
 					
 					<div class="form-group">
                         <div class="col-xs-12 text-center">
-                            <div class="g-recaptcha" data-theme="dark" data-sitekey="<?=$captcha->getSiteKey();?>"></div>
+                            <div class="g-recaptcha" data-theme="dark" data-sitekey="<?={:$$captcha}->getSiteKey();?>"></div>
                         </div><!-- input-group -->
                     </div>
 

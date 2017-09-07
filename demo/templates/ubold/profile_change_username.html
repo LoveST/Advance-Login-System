@@ -41,7 +41,7 @@
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Check if can change username is enabled -->
-                <? if($settings->canChangeUsername()){ ?>
+                <? if({:$$settings}->canChangeUsername()){ ?>
                 <div class="form-group">
                     <div class="col-xs-12">
                         <input class="form-control" type="password" value="<? echo $_POST['pin']; ?>" name="pin" required="true" placeholder="Enter pin number">

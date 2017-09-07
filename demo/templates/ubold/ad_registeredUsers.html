@@ -48,7 +48,7 @@
                     <h4 class="m-t-0 header-title"><b>Registered Users</b></h4>
                     <h5 class="m-t-0">Users in the past <a href="?m=30">30, </a><a href="?m=60">60, </a><a href="?m=90">90, </a><a href="?m=365">365 </a>Days</h5>
 
-                    <? if(!$registeredUsers){?>
+                    <? if(!{:$$registeredUsers}){?>
                     <h4 class="m-t-0 text-muted text-center"><b>There are no registered users currently</b></h4>
                     <? } else { ?>
                     <table data-toggle="table"
@@ -72,7 +72,7 @@
                             <td><?=$user->getID(); ?></td>
                             <td><?=$user->getUsername(); ?></td>
                             <td><?=$user->getEmail(); ?></td>
-                            <td><?=$functions->calculateTime($user->getDateJoined()); ?> ago</td>
+                            <td><?={:$$functions}->calculateTime($user->getDateJoined()); ?> ago</td>
                             <td><?=$user->getLevelName(); ?></td>
                             <td><?=$user->getXP(); ?></td>
                         </tr>

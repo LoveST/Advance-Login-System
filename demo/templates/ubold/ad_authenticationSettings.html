@@ -44,13 +44,13 @@
 
 
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($message->is_success()){ ?>
+                <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
                     <?=$message->getSuccess();?>
                 </div>
@@ -60,7 +60,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if($settings->canLogin()){ echo 1;} else { echo 0;} ?>" name="login_enabled" required="true" placeholder="Login enabled">
+                        <input class="form-control" type="text" value="<? if({:$$settings}->canLogin()){ echo 1;} else { echo 0;} ?>" name="login_enabled" required="true" placeholder="Login enabled">
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if($settings->canRegister()){ echo 1;} else { echo 0;} ?>" name="register_enabled" required="true" placeholder="Register enabled">
+                        <input class="form-control" type="text" value="<? if({:$$settings}->canRegister()){ echo 1;} else { echo 0;} ?>" name="register_enabled" required="true" placeholder="Register enabled">
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if($settings->pinRequired()){ echo 1;} else { echo 0;} ?>" name="pin_required" required="true" placeholder="Pin required">
+                        <input class="form-control" type="text" value="<? if({:$$settings}->pinRequired()){ echo 1;} else { echo 0;} ?>" name="pin_required" required="true" placeholder="Pin required">
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if($settings->activationRequired()){ echo 1;} else { echo 0;} ?>" name="activation_required" required="true" placeholder="Activation required">
+                        <input class="form-control" type="text" value="<? if({:$$settings}->activationRequired()){ echo 1;} else { echo 0;} ?>" name="activation_required" required="true" placeholder="Activation required">
                     </div>
                 </div>
 
@@ -100,7 +100,7 @@
                 <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if($settings->minimumAgeRequired()){ echo 1;} else { echo 0;} ?>" name="minimum_age_required" required="true" placeholder="Minimum age required">
+                        <input class="form-control" type="text" value="<? if({:$$settings}->minimumAgeRequired()){ echo 1;} else { echo 0;} ?>" name="minimum_age_required" required="true" placeholder="Minimum age required">
                     </div>
                 </div>
 
@@ -109,7 +109,7 @@
                 <h4 class="text-center"> Minimum Age </h4>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?=$settings->minimumAge()?>" name="minimum_age" required="true" placeholder="Minimum age">
+                        <input class="form-control" type="text" value="<?={:$$settings}->minimumAge()?>" name="minimum_age" required="true" placeholder="Minimum age">
                     </div>
                 </div>
 

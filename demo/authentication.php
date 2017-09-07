@@ -8,7 +8,7 @@
 
 /** Check user & site status **/
 require "../init.php";
-use ALS\Session\LoginStatus;
+use ALS\LoginStatus;
 
 if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
 

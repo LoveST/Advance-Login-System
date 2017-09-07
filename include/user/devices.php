@@ -6,9 +6,7 @@
  * Date: 3/21/2017
  * Time: 11:31 PM
  */
-namespace ALS\User\Devices;
-
-use ALS\User\Device\Device;
+namespace ALS\User;
 
 class Devices
 {
@@ -63,8 +61,7 @@ class Devices
 
         // update the devices record in the database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devices . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__ - 2);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -108,8 +105,7 @@ class Devices
 
         // update the devices record in the database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devicesArray . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 

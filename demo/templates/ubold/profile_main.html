@@ -47,7 +47,7 @@
                         <h3 class="panel-title">Personal Information</h3>
                     </div>
                     <!-- Check if can change username is enabled -->
-                    <? if($settings->canChangeUsername()){ ?>
+                    <? if({:$$settings}->canChangeUsername()){ ?>
                     <div class="panel-body">
                         <p class="text-center"><a href="profile.php?ac=change_username" class="text-primary m-l-5"><b>Change Username</b></a></p>
                     </div>

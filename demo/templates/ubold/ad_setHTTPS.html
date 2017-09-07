@@ -41,20 +41,20 @@
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
-                <? if($message->anyError()){ ?>
+                <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
                     <? echo $message->getError(3); ?>
                 </div>
                 <? } ?>
 
-                <? if($message->is_success()){ ?>
+                <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
                     <?=$message->getSuccess();?>
                 </div>
                 <? } ?>
 
 
-                <? if( !$settings->isHTTPS() ) { ?>
+                <? if( !{:$$settings}->isHTTPS() ) { ?>
 
                 <div class="form-group text-center m-t-40">
                     <div class="col-xs-12">

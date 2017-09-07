@@ -6,9 +6,7 @@
  * Time: 5:46 PM
  */
 
-namespace ALS\Database;
-
-use ALS\Message\Message;
+namespace ALS;
 
 class Database
 {

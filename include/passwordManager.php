@@ -6,12 +6,8 @@
  * Date: 1/12/2017
  * Time: 2:21 PM
  */
-namespace ALS\passwordManager;
 
-use ALS\Message\Message;
-use ALS\Settings\Settings;
-use ALS\Mail\Mail;
-
+namespace ALS;
 
 class passwordManager
 {
@@ -80,8 +76,7 @@ class passwordManager
 
         // ** Update the database with the new reset code ** //
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_RESET_CODE . " = '" . $reset_code . "' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
@@ -154,12 +149,11 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_RESET_CODE . " = '" . $code . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             $message->setError("Failed to locate the reset code. Expired or not found.", Message::Error);
             return false;
         } else {
@@ -201,17 +195,16 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . "= '" . $email . "' AND " . TBL_USERS_RESET_CODE . " = '" . $code . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             $message->setError("Failed to locate the reset code. Expired or not found.", Message::Error);
             return false;
         } else {
 
-            $row = mysqli_fetch_assoc($result);
+            $row = $database->getQueryEffectedRow($results, true);
             if ($password == $row[TBL_USERS_PASSWORD]) {
                 $message->setError("New password cannot be the same as the old one.", Message::Error);
                 return false;
@@ -222,8 +215,7 @@ class passwordManager
 
             // update database with the new password and return true and make sure the session and the cookies are destroyed
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . "= '$hashPassword'," . TBL_USERS_RESET_CODE . "= '' WHERE " . TBL_USERS_EMAIL . "='$email'";
-            if (!$result = mysqli_query($database->connection, $sql)) {
-                $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+            if (!$results = $database->getQueryResults($sql)) {
                 return false;
             }
 
@@ -245,16 +237,15 @@ class passwordManager
         global $database, $message;
 
         if (empty($username)) {
-            die($message->printError("Username and Authentication key most not be empty"));
+            $message->customKill("Username and Authentication key most not be empty", "", "default");
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        if (mysqli_num_rows($result) < 1) {
+        if ($database->getQueryNumRows($results, true) < 1) {
             return false;
         } else {
             return true;
@@ -279,12 +270,11 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$result = mysqli_query($database->connection, $sql)) {
-            $message->setError("Error while pulling data from the database : " . mysqli_error($database->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$results = $database->getQueryResults($sql)) {
             return false;
         }
 
-        $row = mysqli_fetch_assoc($result);
+        $row = $database->getQueryEffectedRow($results, true);
 
         if (($row[TBL_USERS_EMAIL] != $email)) {
             return false;
