@@ -10,6 +10,12 @@ namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
 /**
+ * Set the Database Connection Type
+ */
+
+define("CONNECTION_TYPE","MySQLi");
+
+/**
  * Declare all the database variables
  */
 define("DBURL", "localhost"); // Set the database url (ex : localhost || 127.0.01 ).

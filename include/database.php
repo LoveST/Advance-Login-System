@@ -12,29 +12,72 @@ class Database
 {
 
     var $connection; // public variable for the database connection
+    private $connectionTypes = array();
+    private $DB_CONNECTION_TYPE = "";
+    var $supportedDBConnections = array("MySQLi");
 
     /**
      * Database constructor for PHP5.
      */
     function __construct()
     {
-        $this->connect(); // init the connection to the database
-    }
-
-    /**
-     * Establish the database connection
-     */
-    private function connect()
-    {
-
         // define all the global variables
         global $message;
 
-        $this->connection = mysqli_connect(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
-        // Check for any connection errors
-        if (mysqli_connect_errno()) {
-            $message->customKill("Database Connection Error", "Connection to the database failed: " . mysqli_connect_error(), "default");
+        // check the connection type supplied if valid
+        $this->checkConnectionType();
+
+        // connect to the Database
+        switch ($this->DB_CONNECTION_TYPE) {
+            case "MySQLi";
+
+                $this->connection = new \mysqli(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
+
+                // Check for any connection errors
+                if ($this->connection->connect_error) {
+                    $message->customKill("Database Connection Error", "Connection to the database failed: " . $this->connection->connect_error, "default");
+                }
+
+                break;
+            default;
+
+                $this->connection = new \mysqli(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
+
+                // Check for any connection errors
+                if ($this->connection->connect_error) {
+                    $message->customKill("Database Connection Error", "Connection to the database failed: " . $this->connection->connect_error, "default");
+                }
+
+                break;
         }
+
+        // setup the connection types
+        $this->setupConnectionTypes();
+    }
+
+    /**
+     * check for database connection type
+     */
+    private function checkConnectionType()
+    {
+
+        // check if current connection type exists
+        if (!array_key_exists(CONNECTION_TYPE, $this->supportedDBConnections)) {
+            $this->DB_CONNECTION_TYPE = "MySQLi";
+        }
+
+    }
+
+    /**
+     * Setup the supported database connections
+     */
+    private function setupConnectionTypes()
+    {
+
+        // put every single connection type in an array
+        //$this->connectionTypes[] = array("MySQLi" , array(1 => "getMySQLiNumRows" , 2 => "getMySQLiRow" , 3 => "getMYSQLiRows"));
+        $this->connectionTypes[] = "MySQLi";
+        $this->connectionTypes["MySQLi"] = array("getMySQLiNumRows", "getMySQLiRow", "getMYSQLiRows");
 
     }
 
@@ -86,13 +129,18 @@ class Database
         global $message;
 
         // check for any errors
-        if (!$result = mysqli_query($this->connection, $sqlRequest)) {
-            $message->setError("SQL query error : " . mysqli_error($this->connection), Message::Fatal, __FILE__, __LINE__);
+        if (!$result = $this->connection->prepare($sqlRequest)) {
+            $message->setError("SQL query error : " . mysqli_error($this->connection), Message::Fatal);
             return false;
         }
 
+        // bind the parameters
+
+        // execute the query
+        $result->execute();
+
         // if no error then return the results
-        return $result;
+        return $result->get_result();
     }
 
     /**
@@ -106,14 +154,14 @@ class Database
     {
 
         // run the sql query and get the results
-        if(!$isSqlRespond) {
+        if (!$isSqlRespond) {
             $results = $this->getQueryResults($sqlRequest);
         } else {
             $results = $sqlRequest;
         }
 
         // get the total rows effected
-        $numRows = mysqli_num_rows($results);
+        $numRows = $this->getNumRows($results);
 
         // return the total number of effected rows
         return $numRows;
@@ -129,7 +177,7 @@ class Database
     {
 
         // run the sql query and get the results
-        if(!$isSqlRespond) {
+        if (!$isSqlRespond) {
             $results = $this->getQueryResults($sqlRequest);
         } else {
             $results = $sqlRequest;
@@ -141,7 +189,7 @@ class Database
         }
 
         // get the effected rows
-        $row = mysqli_fetch_assoc($results);
+        $row = $this->getRow($results);
 
         // return the effected rows
         return $row;
@@ -157,7 +205,7 @@ class Database
     {
 
         // run the sql query and get the results
-        if(!$isSqlRespond) {
+        if (!$isSqlRespond) {
             $results = $this->getQueryResults($sqlRequest);
         } else {
             $results = $sqlRequest;
@@ -172,12 +220,107 @@ class Database
         $rows = [];
 
         // get the effected rows
-        while ($row = mysqli_fetch_array($results)) {
+        while ($row = $this->getAllRows($results)) {
             $rows[] = $row;
         }
 
         // return the effected rows
         return $rows;
+    }
+
+    /**
+     * get the number of rows effected in a certain database connection
+     * @param $results
+     * @return int
+     */
+    private function getNumRows($results)
+    {
+        // init the globals
+        global $message;
+
+        // check if function exists
+        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][0];
+
+        if (method_exists($this, $function)) {
+
+            // call in the method and return the value
+            return call_user_func(array($this, $function), $results);
+        } else {
+            $message->setError("Connection Type failed !!!", Message::Fatal);
+        }
+    }
+
+    /**
+     * get the effected row in a certain database connection
+     * @param $results
+     * @return mixed
+     */
+    private function getRow($results)
+    {
+        // init the globals
+        global $message;
+
+        // check if function exists
+        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][1];
+
+        if (method_exists($this, $function)) {
+
+            // call in the method and return the value
+            return call_user_func(array($this, $function), $results);
+        } else {
+            $message->setError("Connection Type failed !!!", Message::Fatal);
+        }
+    }
+
+    /**
+     * get all the effected rows in a certain database connection
+     * @param $results
+     * @return array
+     */
+    private function getAllRows($results)
+    {
+        // init the globals
+        global $message;
+
+        // check if function exists
+        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][2];
+
+        if (method_exists($this, $function)) {
+
+            // call in the method and return the value
+            return call_user_func(array($this, $function), $results);
+        } else {
+            $message->setError("Connection Type failed !!!", Message::Fatal);
+        }
+    }
+
+    /**
+     * get the total number of effected rows
+     * Using MySQLi
+     * @param $results
+     * @return int
+     */
+    private function getMySQLiNumRows($results)
+    {
+        return $results->num_rows;
+    }
+
+    /**
+     * @param \mysqli_result $results
+     * @return mixed
+     */
+    private function getMySQLiRow($results)
+    {
+        return $results->fetch_assoc();
+    }
+
+    /**
+     * @param \mysqli_result $results
+     * @return array
+     */
+    private function getMYSQLiRows($results)
+    {
+        return $results->fetch_array();
     }
 
 }
