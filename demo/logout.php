@@ -10,7 +10,7 @@ if(!$session->logged_in()){
     if($session->logOut()){
         header("Location: index.php");
     } else {
-        $message->setError("Something went wrong while logging out", Message::Error);
+        $message->setError("Something went wrong while logging out", Message::Fatal);
         header("Location: index.php");
     }
 }

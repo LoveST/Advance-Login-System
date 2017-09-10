@@ -84,7 +84,8 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
 
         // get the sql results
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -219,7 +220,8 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '0'";
 
         // get the sql results
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -254,7 +256,8 @@ class User
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '1'";
 
         // get the sql results
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -549,7 +552,8 @@ class User
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -572,7 +576,8 @@ class User
         $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $level . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -812,7 +817,8 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_XP . " = '" . $newXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -827,7 +833,8 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LOST_XP . " = '" . $newLostXP . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->userData[TBL_USERS_USERNAME] . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -929,7 +936,8 @@ class User
         $sql = "UPDATE " . TBL_USERS . " SET " . $content . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_ID . " = '" . $this->getID() . "'";
 
         // query and check for errors
-        if (!$database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         } else {
             return true;

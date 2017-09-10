@@ -15,6 +15,8 @@ class Database
     private $connectionTypes = array();
     private $DB_CONNECTION_TYPE = "";
     var $supportedDBConnections = array("MySQLi");
+    private $_dbError = false;
+    private $_dbErrorMSG = "";
 
     /**
      * Database constructor for PHP5.
@@ -82,6 +84,31 @@ class Database
     }
 
     /**
+     * @return bool
+     */
+    public function anyError()
+    {
+        return $this->_dbError;
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->_dbErrorMSG;
+    }
+
+    /**
+     * @param string $dbErrorMSG
+     */
+    private function setError($dbErrorMSG)
+    {
+        $this->_dbError = true;
+        $this->_dbErrorMSG = $dbErrorMSG;
+    }
+
+    /**
      * Prepare any given string from injections
      * @param $string
      * @return string
@@ -128,19 +155,22 @@ class Database
         // define all the global variables
         global $message;
 
-        // check for any errors
-        if (!$result = $this->connection->prepare($sqlRequest)) {
-            $message->setError("SQL query error : " . mysqli_error($this->connection), Message::Fatal);
-            return false;
-        }
+            // check for any errors
+            if (!$result = $this->connection->prepare($sqlRequest)) {
+                $this->setError(mysqli_error($this->connection));
+            }
 
-        // bind the parameters
+            // bind the parameters
+            // TO_DO
 
-        // execute the query
-        $result->execute();
+            // execute the query
+            $result->execute();
 
-        // if no error then return the results
-        return $result->get_result();
+            // get the results
+            $results = $result->get_result();
+
+            // return the results
+            return $results;
     }
 
     /**

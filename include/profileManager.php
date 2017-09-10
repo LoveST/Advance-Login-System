@@ -74,7 +74,8 @@ class profileManager
             }
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_USERNAME . " = '" . $username . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "' AND " . TBL_USERS_PIN . " = '" . $pin . "'";
-            if (!$results = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 die;
             }
             // logout the user and set the error msg
@@ -84,7 +85,8 @@ class profileManager
 
         } else {
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_USERNAME . " = '" . $username . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
-            if (!$results = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 die;
             }
             // logout the user and set the error msg
@@ -146,7 +148,8 @@ class profileManager
             }
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_EMAIL . " = '" . $email . "' WHERE " . TBL_USERS_EMAIL . " = '" . $user->getEmail() . "'";
-            if (!$results = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 die;
             }
             // logout the user and set the error msg
@@ -157,7 +160,8 @@ class profileManager
         } else {
 
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_EMAIL . " = '" . $email . "' WHERE " . TBL_USERS_EMAIL . " = '" . $user->getEmail() . "'";
-            if (!$results = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 die;
             }
             // logout the user and set the error msg
@@ -224,7 +228,8 @@ class profileManager
 
         // after validating, update the sql with the needed information
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . " = '" . $newPass . "' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 

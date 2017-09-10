@@ -61,7 +61,8 @@ class Devices
 
         // update the devices record in the database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devices . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -105,7 +106,8 @@ class Devices
 
         // update the devices record in the database
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_DEVICES . " = '" . $devicesArray . "' WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 

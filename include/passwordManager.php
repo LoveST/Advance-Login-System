@@ -76,7 +76,8 @@ class passwordManager
 
         // ** Update the database with the new reset code ** //
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_RESET_CODE . " = '" . $reset_code . "' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -149,7 +150,8 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_RESET_CODE . " = '" . $code . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -195,7 +197,8 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . "= '" . $email . "' AND " . TBL_USERS_RESET_CODE . " = '" . $code . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -215,7 +218,8 @@ class passwordManager
 
             // update database with the new password and return true and make sure the session and the cookies are destroyed
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_PASSWORD . "= '$hashPassword'," . TBL_USERS_RESET_CODE . "= '' WHERE " . TBL_USERS_EMAIL . "='$email'";
-            if (!$results = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 return false;
             }
 
@@ -241,7 +245,8 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -270,7 +275,8 @@ class passwordManager
         }
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 

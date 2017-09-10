@@ -121,7 +121,9 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
+            $message->setError("SQL error : " . $database->getError(), Message::Fatal);
             die;
         }
 
@@ -144,7 +146,9 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
+            $message->setError("SQL error : " . $database->getError(), Message::Fatal);
             die;
         }
 
@@ -246,7 +250,9 @@ class Functions
         global $database, $message;
 
         $sql = "SELECT " . TBL_USERS_ID . " FROM " . TBL_USERS . " ORDER BY " . TBL_USERS_ID . " DESC LIMIT 1";
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
+            $message->setError("SQL error : " . $database->getError(), Message::Fatal);
             die;
         }
 
@@ -268,7 +274,8 @@ class Functions
         $totalUsers = 0;
 
         $sql = "SELECT * FROM " . TBL_HEARTBEAT;
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return 0;
         }
 
@@ -307,7 +314,9 @@ class Functions
             $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $data . "'";
         }
 
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
+            $message->setError("SQL error : " . $database->getError(), Message::Fatal);
             die;
         }
 

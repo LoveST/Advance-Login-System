@@ -33,7 +33,8 @@ class Groups
         $sql = "SELECT * FROM ". TBL_LEVELS . " WHERE ". TBL_LEVELS_LEVEL . " = '" . $groupLevel . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 

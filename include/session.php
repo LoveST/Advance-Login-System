@@ -87,7 +87,8 @@ class Session
         $sql = ("SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'");
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -137,7 +138,8 @@ class Session
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '" . $sArray . "', " . TBL_USERS_SIGNIN_AGAIN . " = '0', " . TBL_USERS_LAST_LOGIN . " = '$loginTime' WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
 
             // get the sql results
-            if (!$result = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 return false;
             }
 
@@ -175,6 +177,7 @@ class Session
 
             // get the sql results
             if (!$result = $database->getQueryResults($sql)) {
+                $message->setError("Error while puling the user's required fields.", Message::Error);
                 return false;
             }
 
@@ -240,7 +243,8 @@ class Session
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
 
                 // get the sql results
-                if (!$result = $database->getQueryResults($sql)) {
+                $result = $database->getQueryResults($sql);
+                if ($database->anyError()) {
                     return false;
                 }
 
@@ -280,7 +284,8 @@ class Session
                         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE " . TBL_USERS_ID . " = '" . $user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
                         // get the sql results
-                        if (!$result = $database->getQueryResults($sql)) {
+                        $database->getQueryResults($sql);
+                        if ($database->anyError()) {
                             return false;
                         }
 
@@ -483,7 +488,8 @@ class Session
                     VALUES ('$id','$username','$hashPassword','$firstName','$lastName','$email','1','$loginTime','$loginTime','0','0','0','$pin','0','0','$activationCode','$dataOfBirth')";
 
             // get the sql results
-            if (!$result = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 return false;
             }
 
@@ -529,7 +535,8 @@ class Session
                     VALUES ('$id','$username','$firstName','$lastName','$email','1','$hashPassword','$loginTime','$loginTime','0','0','0','$pin','0','1','0')";
 
             // get the sql results
-            if (!$result = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
                 return false;
             }
 
@@ -555,7 +562,9 @@ class Session
             $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_TOKEN . " = '' WHERE " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
             // get the sql results
-            if (!$result = $database->getQueryResults($sql)) {
+            $database->getQueryResults($sql);
+            if ($database->anyError()) {
+                $message->setError("Database Error : " . $database->getError(), Message::Fatal);
                 return false;
             }
 
@@ -612,7 +621,8 @@ class Session
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -626,7 +636,8 @@ class Session
         $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_ACTIVATED . " ='1'," . TBL_USERS_ACTIVATION_CODE . "='' WHERE " . TBL_USERS_EMAIL . " = '" . $email . "' AND " . TBL_USERS_ACTIVATION_CODE . " = '" . $code . "'";
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 

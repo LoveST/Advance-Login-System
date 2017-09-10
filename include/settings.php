@@ -91,7 +91,8 @@ class Settings
         $sql = "SELECT * FROM " . TBL_SETTINGS;
 
         // try pulling the required data
-        if (!$results = $database->getQueryResults($sql)) {
+        $results = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             $message->customKill("Fatal Error", "Error while trying to pull the required data from the database.", "default");
         }
 
@@ -410,7 +411,8 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $hex32 . "' WHERE field = '" . TBL_SETTINGS_SECRET_KEY . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             $message->setError("Could not update the site secret", Message::Error);
             return false;
         }
@@ -433,7 +435,8 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $key . "' WHERE field = '" . TBL_SETTINGS_CAPTCHA_KEY . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             $message->setError("Could not update the captcha key", Message::Error);
             return false;
         }
@@ -456,7 +459,8 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $key . "' WHERE field = '" . TBL_SETTINGS_CAPTCHA_SECRET . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             $message->setError("Could not update the captcha secret key", Message::Error);
             return false;
         }
@@ -481,7 +485,8 @@ class Settings
 
         // set the query
         $sql = "UPDATE " . TBL_SETTINGS . " SET value = '" . $value . "' WHERE field = '" . $setting . "'";
-        if (!$results = $database->getQueryResults($sql)) {
+        $database->getQueryResults($sql);
+        if ($database->anyError()) {
             $message->setError("Could not update : " . $setting, Message::Error);
             return false;
         }
