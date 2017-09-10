@@ -13,8 +13,8 @@ class Database
 
     var $connection; // public variable for the database connection
     private $connectionTypes = array();
-    private $DB_CONNECTION_TYPE = "";
-    var $supportedDBConnections = array("MySQLi");
+    public $_CONNECTION_TYPE = "";
+    var $_DBConnections = array();
     private $_dbError = false;
     private $_dbErrorMSG = "";
 
@@ -26,11 +26,14 @@ class Database
         // define all the global variables
         global $message;
 
+        // init the supported Database Drivers
+        $this->_DBConnections = array("MySQL", "MySQLi", "PDO");
+
         // check the connection type supplied if valid
         $this->checkConnectionType();
 
         // connect to the Database
-        switch ($this->DB_CONNECTION_TYPE) {
+        switch ($this->_CONNECTION_TYPE) {
             case "MySQLi";
 
                 $this->connection = new \mysqli(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
@@ -64,8 +67,10 @@ class Database
     {
 
         // check if current connection type exists
-        if (!array_key_exists(CONNECTION_TYPE, $this->supportedDBConnections)) {
-            $this->DB_CONNECTION_TYPE = "MySQLi";
+        if (in_array(CONNECTION_TYPE, $this->_DBConnections)) {
+            $this->_CONNECTION_TYPE = CONNECTION_TYPE;
+        } else {
+            $this->_CONNECTION_TYPE = "MySQLi";
         }
 
     }
@@ -77,9 +82,17 @@ class Database
     {
 
         // put every single connection type in an array
-        //$this->connectionTypes[] = array("MySQLi" , array(1 => "getMySQLiNumRows" , 2 => "getMySQLiRow" , 3 => "getMYSQLiRows"));
-        $this->connectionTypes[] = "MySQLi"; // requires "mysqlnd" or "nd_mysqli" driver to be installed on the server
-        $this->connectionTypes["MySQLi"] = array("getMySQLiNumRows", "getMySQLiRow", "getMYSQLiRows");
+
+        /**
+         * MySQL Driver Instances
+         */
+        $this->connectionTypes["MySQL"] = array("getMySQLNumRows", "getMySQLRow", "getMySQLRows");
+
+        /**
+         * MySQLi Driver Instances
+         * Requirements : "mysqlnd" or "nd_mysqli" driver mst be installed on the server
+         */
+        $this->connectionTypes["MySQLi"] = array("getMySQLiNumRows", "getMySQLiRow", "getMySQLiRows");
 
     }
 
@@ -155,22 +168,22 @@ class Database
         // define all the global variables
         global $message;
 
-            // check for any errors
-            if (!$result = $this->connection->prepare($sqlRequest)) {
-                $this->setError(mysqli_error($this->connection));
-            }
+        // check for any errors
+        if (!$result = $this->connection->prepare($sqlRequest)) {
+            $this->setError(mysqli_error($this->connection));
+        }
 
-            // bind the parameters
-            // TO_DO
+        // bind the parameters
+        // TO_DO
 
-            // execute the query
-            $result->execute();
+        // execute the query
+        $result->execute();
 
-            // get the results
-            $results = $result->get_result();
+        // get the results
+        $results = $result->get_result();
 
-            // return the results
-            return $results;
+        // return the results
+        return $results;
     }
 
     /**
@@ -269,14 +282,14 @@ class Database
         global $message;
 
         // check if function exists
-        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][0];
+        $function = $this->connectionTypes[$this->_CONNECTION_TYPE][0];
 
         if (method_exists($this, $function)) {
 
             // call in the method and return the value
             return call_user_func(array($this, $function), $results);
         } else {
-            $message->setError("Connection Type failed !!!", Message::Fatal);
+            $message->setError("Database Connection Type Error", Message::Fatal);
         }
     }
 
@@ -291,14 +304,14 @@ class Database
         global $message;
 
         // check if function exists
-        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][1];
+        $function = $this->connectionTypes[$this->_CONNECTION_TYPE][1];
 
         if (method_exists($this, $function)) {
 
             // call in the method and return the value
             return call_user_func(array($this, $function), $results);
         } else {
-            $message->setError("Connection Type failed !!!", Message::Fatal);
+            $message->setError("Database Connection Type Error", Message::Fatal);
         }
     }
 
@@ -313,14 +326,14 @@ class Database
         global $message;
 
         // check if function exists
-        $function = $this->connectionTypes[$this->DB_CONNECTION_TYPE][2];
+        $function = $this->connectionTypes[$this->_CONNECTION_TYPE][2];
 
         if (method_exists($this, $function)) {
 
             // call in the method and return the value
             return call_user_func(array($this, $function), $results);
         } else {
-            $message->setError("Connection Type failed !!!", Message::Fatal);
+            $message->setError("Database Connection Type Error", Message::Fatal);
         }
     }
 
