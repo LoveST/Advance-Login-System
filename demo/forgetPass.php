@@ -40,7 +40,7 @@ switch ($_GET['option']) {
     default;
         if (isset($_POST['reset'])) {
             //$template = file_get_contents('demo/templates/ubold/');
-            if ($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/' . $settings->get(ALS\Settings\Settings::SITE_THEME) . '/forgetPasswordEmail.html'))) {
+            if ($passwordManager->forgetPasswordWithEmail($username, $email, $captchaInput, true, file_get_contents('templates/' . $settings->get(ALS\Settings::SITE_THEME) . '/forgetPasswordEmail.html'))) {
                 $success = true;
             }
         }

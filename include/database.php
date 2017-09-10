@@ -78,7 +78,7 @@ class Database
 
         // put every single connection type in an array
         //$this->connectionTypes[] = array("MySQLi" , array(1 => "getMySQLiNumRows" , 2 => "getMySQLiRow" , 3 => "getMYSQLiRows"));
-        $this->connectionTypes[] = "MySQLi";
+        $this->connectionTypes[] = "MySQLi"; // requires "mysqlnd" or "nd_mysqli" driver to be installed on the server
         $this->connectionTypes["MySQLi"] = array("getMySQLiNumRows", "getMySQLiRow", "getMYSQLiRows");
 
     }
