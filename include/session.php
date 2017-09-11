@@ -240,10 +240,10 @@ class Session
                 $cookieValue = $database->secureInput($_COOKIE["user_data"]);
 
                 // ** Get the needed information from the database ** //
-                $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
+                $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = ?";
 
                 // get the sql results
-                $result = $database->getQueryResults($sql);
+                $result = $database->getQueryResults($sql, "s", array($userID));
                 if ($database->anyError()) {
                     return false;
                 }
@@ -669,7 +669,7 @@ class Session
         // define all the global variables
         global $database;
 
-        return mysqli_real_escape_string($database->connection, $string);
+        return $database->secureInput($string);
     }
 
     /**

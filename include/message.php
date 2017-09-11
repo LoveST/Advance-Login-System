@@ -43,13 +43,6 @@ class Message
      */
     private function fatalKill($msg, $tracer)
     {
-
-        // clear any headers that have been set
-        if (!headers_sent()) {
-            foreach (headers_list() as $header)
-                header_remove($header);
-        }
-
         // kill the script with a custom message
         echo '<b>' . $this->readErrorType(1) . ': </b>' . $msg . '<br/><br/>';
 

@@ -1,17 +1,16 @@
 <?php
-
 /**
  * Created by PhpStorm.
- * User: masis
- * Date: 9/10/2017
- * Time: 6:43 PM
+ * User: LoveMST-Tablet
+ * Date: 9/11/2017
+ * Time: 6:28 AM
  */
 
 namespace ALS\Databases;
 
-use ALS\Message;
+use Als\Message;
 
-class MySQLi
+class PDO
 {
 
     function __construct()
@@ -37,22 +36,20 @@ class MySQLi
 
     /**
      * connect to the database
-     * @return \mysqli
      */
     function connect()
     {
-
         // init the required globals
         global $message;
 
-        $connection = new \mysqli(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
-
-        // Check for any connection errors
-        if ($connection->connect_error) {
-            $message->customKill("Database Connection Error", "Connection to the database failed: " . $connection->connect_error, "default");
+        try {
+            $connection = new \PDO("mysql:host=" . DBURL . ";port=" . DBPORT . ";dbname=" . DBNAME, DBUSER, DBPASS);
+            // set the PDO error mode to exception
+            $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            $message->setError("Database Connection Failed: " . $this->getErrorMSG($e), Message::Fatal);
         }
 
-        // return the connection
         return $connection;
     }
 
@@ -61,7 +58,7 @@ class MySQLi
      * @param $sqlRequest
      * @param array $parameters
      * @param string $types
-     * @return bool|\mysqli_result
+     * @return bool|\PDO
      */
     function getResults($sqlRequest, $types = null, $parameters = null)
     {
@@ -85,46 +82,68 @@ class MySQLi
                 $params[] = &$$param;
             }
 
-            call_user_func_array(array($result, "bind_param"), $params);
+            call_user_func_array(array($result, "bindParam"), $params);
         }
 
         // execute the query
         $result->execute();
 
-        // get the results
-        $results = $result->get_result();
-
         // return the results
-        return $results;
+        return $result;
     }
 
     /**
      * get the total number of effected rows
-     * Using MySQLi
-     * @param $results
+     * Using PDO
+     * @param \PDOStatement $results
      * @return int
      */
     public function getNumRows($results)
     {
-        return $results->num_rows;
+        return $results->rowCount();
     }
 
     /**
-     * @param \mysqli_result $results
+     * @param \PDOStatement $results
      * @return mixed
      */
     public function getRow($results)
     {
-        return $results->fetch_assoc();
+        return $results->fetch(\PDO::FETCH_ASSOC);
     }
 
     /**
-     * @param \mysqli_result $results
+     * get the total rows effected
+     * Using PDO
+     * @param \PDOStatement $results
      * @return array
      */
     public function getRows($results)
     {
-        return $results->fetch_array();
+        return $results->fetch(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get the database error message
+     * @param \PDOException $err
+     * @return string
+     */
+    private function getErrorMSG($err){
+        $msg = "";
+        switch ($err->getCode()){
+            case 1045;
+            $msg = "Access Denied";
+            break;
+            case 1049;
+            $msg = "Database Not Found";
+            break;
+            case 2002;
+            $msg = "Connection Timeout";
+            break;
+            default;
+            $msg = "Unhandled Error (" . $err->getMessage() . ")";
+            break;
+        }
+        return $msg;
+    }
 }

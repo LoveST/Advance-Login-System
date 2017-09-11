@@ -47,16 +47,16 @@ class Database
         if (in_array(CONNECTION_TYPE, $this->_DBConnections)) {
 
             // get the connection class path
-            $classPath = __DIR__ . $this->getSubLine() . "databases" . $this->getSubLine() . CONNECTION_TYPE .".php";
+            $classPath = __DIR__ . $this->getSubLine() . "databases" . $this->getSubLine() . CONNECTION_TYPE . ".php";
 
             // check if database connection class exists
-            if(!is_readable($classPath)){
+            if (!is_readable($classPath)) {
                 $message->setError("Database Connection Class Not Found", Message::Fatal);
             }
 
             include_once $classPath;
 
-            $class = "ALS\\Databases\\".CONNECTION_TYPE;
+            $class = "ALS\\Databases\\" . CONNECTION_TYPE;
             $object = new $class();
 
             // store the object
@@ -96,7 +96,11 @@ class Database
      */
     function escapeString($string)
     {
-        return mysqli_real_escape_string($this->connection, $string);
+        if($this->_CONNECTION_TYPE == "MySQLi"){
+            return mysqli_real_escape_string($this->connection, $string);
+        } else {
+            return $string;
+        }
     }
 
     /**
@@ -129,11 +133,12 @@ class Database
      * get the results from an sql query
      * @param $sqlRequest
      * @param array $parameters
+     * @param string $types
      * @return bool|\mysqli_result
      */
-    function getQueryResults($sqlRequest, $parameters = array())
+    function getQueryResults($sqlRequest, $types = null, $parameters = array())
     {
-        return $this->_CONNECTION_TYPE->getResults($sqlRequest, $parameters);
+        return $this->_CONNECTION_TYPE->getResults($sqlRequest, $types, $parameters);
     }
 
     /**
@@ -141,14 +146,16 @@ class Database
      * number of rows effected in a single query
      * @param string $sqlRequest
      * @param bool $isSqlRespond
+     * @param array $parameters
+     * @param string $types
      * @return int
      */
-    function getQueryNumRows($sqlRequest, $isSqlRespond = false, $parameters = array())
+    function getQueryNumRows($sqlRequest, $isSqlRespond = false, $types = null, $parameters = null)
     {
 
         // run the sql query and get the results
         if (!$isSqlRespond) {
-            $results = $this->getQueryResults($sqlRequest, $parameters);
+            $results = $this->getQueryResults($sqlRequest, $types, $parameters);
         } else {
             $results = $sqlRequest;
         }
