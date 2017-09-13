@@ -1,4 +1,7 @@
 <?php
-//include "../init.php";
+include "../Core.php";
 
-echo phpinfo();
+$core = new \ALS\Core();
+$core->runAll();
+
+echo "" . $settings->getSubLine();

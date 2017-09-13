@@ -136,9 +136,9 @@ class Database
      * @param string $types
      * @return bool|\mysqli_result
      */
-    function getQueryResults($sqlRequest, $types = null, $parameters = array())
+    function getQueryResults($sqlRequest, $parameters = null, $types = null)
     {
-        return $this->_CONNECTION_TYPE->getResults($sqlRequest, $types, $parameters);
+        return $this->_CONNECTION_TYPE->getResults($sqlRequest, $parameters, $types);
     }
 
     /**
@@ -150,12 +150,12 @@ class Database
      * @param string $types
      * @return int
      */
-    function getQueryNumRows($sqlRequest, $isSqlRespond = false, $types = null, $parameters = null)
+    function getQueryNumRows($sqlRequest, $isSqlRespond = false, $parameters = null, $types = null)
     {
 
         // run the sql query and get the results
         if (!$isSqlRespond) {
-            $results = $this->getQueryResults($sqlRequest, $types, $parameters);
+            $results = $this->getQueryResults($sqlRequest, $parameters, $types);
         } else {
             $results = $sqlRequest;
         }

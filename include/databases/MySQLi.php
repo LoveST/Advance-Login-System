@@ -63,7 +63,7 @@ class MySQLi
      * @param string $types
      * @return bool|\mysqli_result
      */
-    function getResults($sqlRequest, $types = null, $parameters = null)
+    function getResults($sqlRequest, $parameters = null, $types = null)
     {
 
         // define all the global variables

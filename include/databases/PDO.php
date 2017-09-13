@@ -60,7 +60,7 @@ class PDO
      * @param string $types
      * @return bool|\PDO
      */
-    function getResults($sqlRequest, $types = null, $parameters = null)
+    function getResults($sqlRequest, $parameters = null, $types = null)
     {
 
         // define all the global variables
@@ -74,8 +74,10 @@ class PDO
         // bind the parameters
         if ($types && $parameters) {
 
-            // main parameters holder
+            // store the types
             $params[] = $types;
+
+            // get the parameters
             for ($i = 0; $i < count($parameters); $i++) {
                 $param = 'bind' . ($i);
                 $$param = $parameters[$i];
