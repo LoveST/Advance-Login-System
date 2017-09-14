@@ -46,14 +46,14 @@ class User
     {
 
         // define all the global variables
-        global $message;
+        global $message, $translator;
 
         // check if $data is an array or only a username
         if (is_array($data)) {
             $this->userData = $data;
         } else { // if username is supplied, try to load the user
             if (!$this->loadInstance($data)) {
-                $message->setError("The requested user does not exist", Message::Error);
+                $message->setError($translator->translateText("no_user_exists"), Message::Error);
                 return false;
             }
         }
@@ -214,7 +214,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database, $message, $translator;
 
         // check if banned
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '0'";
@@ -227,7 +227,7 @@ class User
 
         // check for empty results (user is already banned before)
         if ($database->getQueryNumRows($results, true) < 1) {
-            $message->setError("The user has been banned before", Message::Error);
+            $message->setError($translator->translateText("already_banned"), Message::Error);
             return false;
         }
 
@@ -250,7 +250,7 @@ class User
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database, $message, $translator;
 
         // check if banned
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $this->getUsername() . "' AND " . TBL_USERS_BANNED . " = '1'";
@@ -263,7 +263,7 @@ class User
 
         // check for empty results (user is already banned before)
         if ($database->getQueryNumRows($results, true) < 1) {
-            $message->setError("The requested user account is not banned", Message::Error);
+            $message->setError($translator->translateText("never_banned"), Message::Error);
             return false;
         }
 
@@ -672,21 +672,19 @@ class User
     {
 
         // define all the global variables
-        global $message;
+        global $message, $translator;
 
         // check if account is already activated then just return true
         if ($this->is_accountActivated()) {
-            $message->setError("The account has already been activated before.", Message::Error);
+            $message->setError($translator->translateText("already_activated"), Message::Error);
             return false;
         }
 
         // if account is not activated then update the sql records
-        if (!$this->updateUserRecord(TBL_USERS_ACTIVATED, '1')) {
-            return false;
-        }
+
 
         // if everything goes right then return true
-        $message->setSuccess("The account " . $this->getUsername() . " has been activated");
+        $message->setSuccess($translator->translateText("successful_activation", array("accountName" => $this->getUsername())));
         return true;
     }
 
@@ -698,11 +696,11 @@ class User
     {
 
         // define all the global variables
-        global $message;
+        global $message, $translator;
 
         // check if account is not activated then just return true
         if (!$this->is_accountActivated()) {
-            $message->setError("The account has not been activated before.", Message::Error);
+            $message->setError($translator->translateText("never_activated"), Message::Error);
             return false;
         }
 
@@ -712,7 +710,7 @@ class User
         }
 
         // if everything goes right then return true
-        $message->setSuccess("The account " . $this->getUsername() . " has been de-activated");
+        $message->setSuccess($translator->translateText("successful_deactivation", array("accountName" => $this->getUsername())));
         return true;
     }
 

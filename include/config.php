@@ -13,7 +13,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
  * Set the Database Connection Type
  */
 
-define("CONNECTION_TYPE","MySQLi");
+define("CONNECTION_TYPE","PDO");
 
 /**
  * Declare all the database variables

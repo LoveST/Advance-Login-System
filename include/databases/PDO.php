@@ -13,6 +13,9 @@ use Als\Message;
 class PDO
 {
 
+    /**
+     * PDO constructor.
+     */
     function __construct()
     {
         // init the required globals
@@ -58,37 +61,36 @@ class PDO
      * @param $sqlRequest
      * @param array $parameters
      * @param string $types
-     * @return bool|\PDO
+     * @return bool|\PDOStatement
      */
     function getResults($sqlRequest, $parameters = null, $types = null)
     {
 
         // define all the global variables
-        global $database;
+        global $database, $message;
 
-        // check for any errors
-        if (!$result = $database->connection->prepare($sqlRequest)) {
-            $database->setError(mysqli_error($database->connection));
-        }
+        // try and catch for any errors
+        try {
 
-        // bind the parameters
-        if ($types && $parameters) {
-
-            // store the types
-            $params[] = $types;
-
-            // get the parameters
-            for ($i = 0; $i < count($parameters); $i++) {
-                $param = 'bind' . ($i);
-                $$param = $parameters[$i];
-                $params[] = &$$param;
+            // check for any errors
+            if (!$result = $this->getConnection()->prepare($sqlRequest)) {
+                $database->setError(mysqli_error($database->connection));
             }
 
-            call_user_func_array(array($result, "bindParam"), $params);
-        }
+            // bind the parameters
+            if ($types && $parameters) {
 
-        // execute the query
-        $result->execute();
+                // get the parameters
+                for ($i = 0; $i < count($parameters); $i++) {
+                    $result->bindValue($types[$i], $parameters[$i]);
+                }
+            }
+
+            // execute the query
+            $result->execute();
+        } catch(\PDOException $e){
+            $message->setError("SQL Error (" . $e->getMessage() . ")", Message::Fatal);
+        }
 
         // return the results
         return $result;
@@ -130,22 +132,33 @@ class PDO
      * @param \PDOException $err
      * @return string
      */
-    private function getErrorMSG($err){
+    private function getErrorMSG($err)
+    {
         $msg = "";
-        switch ($err->getCode()){
+        switch ($err->getCode()) {
             case 1045;
-            $msg = "Access Denied";
-            break;
+                $msg = "Access Denied";
+                break;
             case 1049;
-            $msg = "Database Not Found";
-            break;
+                $msg = "Database Not Found";
+                break;
             case 2002;
-            $msg = "Connection Timeout";
-            break;
+                $msg = "Connection Timeout";
+                break;
             default;
-            $msg = "Unhandled Error (" . $err->getMessage() . ")";
-            break;
+                $msg = "Unhandled Error (" . $err->getMessage() . ")";
+                break;
         }
         return $msg;
+    }
+
+    /**
+     * get the connection from the database
+     * @return \PDO
+     */
+    private function getConnection()
+    {
+        global $database;
+        return $database->connection;
     }
 }

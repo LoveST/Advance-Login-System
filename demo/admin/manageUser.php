@@ -7,7 +7,9 @@
  */
 
 /** Check user & site status **/
-require "../../init.php";
+require "../../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
@@ -32,7 +34,7 @@ if (isset($_POST['change_level'])) {
         }
 
     } else {
-        $message->setError("You can't ban yourself !", \ALS\Message\Message::Error);
+        $message->setError("You can't ban yourself !", \ALS\Message::Error);
     }
 
     $viewController->loadView("ad_viewUserProfile.html");
@@ -47,7 +49,7 @@ if (isset($_POST['change_level'])) {
         }
 
     } else {
-        $message->setError("You can't un-ban yourself !", \ALS\Message\Message::Error);
+        $message->setError("You can't un-ban yourself !", \ALS\Message::Error);
     }
 
     $viewController->loadView("ad_viewUserProfile.html");

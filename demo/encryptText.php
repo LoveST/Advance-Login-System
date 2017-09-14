@@ -6,7 +6,9 @@
  * Time: 12:01 PM
  */
 
-require "../init.php";
+require "../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 
 // get the encrypt template
 require TEMPLATE_PATH ."/encryptText.html";

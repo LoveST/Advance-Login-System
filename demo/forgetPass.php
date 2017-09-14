@@ -6,7 +6,9 @@
  * Time: 11:07 PM
  */
 
-require "../init.php";
+require "../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $username = $_POST['username'];
 $email = $_POST['email'];

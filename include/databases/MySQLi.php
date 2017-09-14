@@ -14,6 +14,9 @@ use ALS\Message;
 class MySQLi
 {
 
+    /**
+     * MySQLi constructor.
+     */
     function __construct()
     {
         // init the required globals
@@ -70,8 +73,8 @@ class MySQLi
         global $database;
 
         // check for any errors
-        if (!$result = $database->connection->prepare($sqlRequest)) {
-            $database->setError(mysqli_error($database->connection));
+        if (!$result = $this->getConnection()->prepare($sqlRequest)) {
+            $database->setError(mysqli_error($this->getConnection()));
         }
 
         // bind the parameters
@@ -125,6 +128,16 @@ class MySQLi
     public function getRows($results)
     {
         return $results->fetch_array();
+    }
+
+    /**
+     * get the connection from the database
+     * @return \mysqli
+     */
+    private function getConnection()
+    {
+        global $database;
+        return $database->connection;
     }
 
 }

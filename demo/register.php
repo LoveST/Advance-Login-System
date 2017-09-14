@@ -6,7 +6,9 @@
  * Time: 8:50 PM
  */
 
-require "../init.php";
+require "../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 
 if ($session->logged_in()) {
     header("Location: index.php");

@@ -6,7 +6,9 @@
  * Time: 6:27 PM
  */
 /** Check user & site status **/
-require "../../init.php";
+require "../../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/

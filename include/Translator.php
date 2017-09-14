@@ -92,12 +92,21 @@ class Translator
 
     /**
      * translate a text
-     * @param $text
+     * @param string $text
+     * @param null|array $parameters
      * @return string
      */
-    public function translateText($text)
+    public function translateText($text, $parameters = null)
     {
-        return $this->langFile[$text];
+        // check if parameters are not empty
+        if ($parameters) {
+
+            // replace the special tags with the corresponding values
+            return $this->replaceTags("%", "%", $this->langFile[$text], $parameters);
+
+        } else {
+            return $this->langFile[$text];
+        }
     }
 
     /**
@@ -140,8 +149,8 @@ class Translator
         }
 
         // merge both arrays (the main one and this one)
-        array_merge($this->langFile, $file);
-
+        $this->langFile = array_merge($this->langFile, $file);
+        
         return true;
     }
 
@@ -169,11 +178,11 @@ class Translator
                 if (array_key_exists($key, $replacements)) {
                     // Replace the tag if a replacement value exists in the list
                     // check if a special Variable is present
-                        return $replacements[$key];
+                    return $replacements[$key];
                 } else {
                     // Don't replace the tag if a value is not assigned for it
                     // check if a special Variable is present
-                    if($key[0] == "$" && $key[1] == "$"){
+                    if ($key[0] == "$" && $key[1] == "$") {
                         $variable = substr($key, 2);
                         $newReplacement = '$GLOBALS["' . $variable . '"]';
                         return $newReplacement;

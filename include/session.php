@@ -173,10 +173,10 @@ class Session
             $user_data = $_SESSION['user_data'];
 
             // call the database to store the new session data
-            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = ? AND " . TBL_USERS_USERNAME . " = ?";
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = " . $user_data[TBL_USERS_ID] . " AND " . TBL_USERS_USERNAME . " = '" . $user_data[TBL_USERS_USERNAME] . "'";
 
             // get the sql results
-            if (!$result = $database->getQueryResults($sql, array($user_data[TBL_USERS_ID], $user_data[TBL_USERS_USERNAME]), "ss")) {
+            if (!$result = $database->getQueryResults($sql)) {
                 $message->setError("Error while puling the user's required fields.", Message::Error);
                 return false;
             }
@@ -240,10 +240,10 @@ class Session
                 $cookieValue = $database->secureInput($_COOKIE["user_data"]);
 
                 // ** Get the needed information from the database ** //
-                $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = ?";
+                $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
 
                 // get the sql results
-                $result = $database->getQueryResults($sql, array($userID), "s");
+                $result = $database->getQueryResults($sql);
                 if ($database->anyError()) {
                     return false;
                 }

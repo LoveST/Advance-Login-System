@@ -15,6 +15,7 @@ class Settings
     private $settings; // store all the database settings (array)
     const SITE_NAME = TBL_SETTINGS_SITE_NAME;
     const SITE_URL = TBL_SETTINGS_SITE_URL;
+    const SITE_PATH = TBL_SETTINGS_SITE_PATH;
     const SITE_EMAIL = TBL_SETTINGS_SITE_EMAIL;
     const SITE_ENABLED = TBL_SETTINGS_SITE_ENABLED;
     const SITE_THEME = TBL_SETTINGS_SITE_THEME;
@@ -31,6 +32,9 @@ class Settings
     const CAPTCHA_KEY = TBL_SETTINGS_CAPTCHA_KEY;
     const CAPTCHA_SECRET_KEY = TBL_SETTINGS_CAPTCHA_SECRET;
     const SAME_IP_LOGIN = TBL_SETTINGS_SAME_IP_LOGIN;
+    const TIMESTAMP = TBL_SETTINGS_LOADING_TIMESTAMP;
+    const TEMPLATES_FOLDER = TBL_SETTINGS_TEMPLATES_FOLDER;
+    const TIMEZONE = TBL_SETTINGS_SITE_TIMEZONE;
 
     /**
      * Settings constructor for PHP4
@@ -136,123 +140,209 @@ class Settings
 
     }
 
-    function initTimeStamp(){
-
+    /**
+     * Initiate the start of the functions while loading everything else
+     * @return bool|float
+     */
+    function initTimeStamp()
+    {
         // check if timestamp is been enabled
-        if(!$this->siteLoadingTimestamp()){
+        if (!$this->siteLoadingTimestamp()) {
             return false;
         }
 
         static $start;
 
-        if (is_null($start))
-        {
+        if (is_null($start)) {
             $start = microtime(true);
-        }
-        else
-        {
+        } else {
             $diff = round((microtime(true) - $start), 4);
             $start = null;
             return $diff;
         }
-
     }
 
+    /**
+     * Check if login's are enabled on the server
+     * @return bool
+     */
     function canLogin()
     {
         return $this->settings[TBL_SETTINGS_LOGIN_ENABLE];
     }
 
+    /**
+     * Enable/Disable user registration
+     * @return bool
+     */
     function canRegister()
     {
         return $this->settings[TBL_SETTINGS_REGISTER_ENABLE];
     }
 
+    /**
+     * get the script name
+     * @return string
+     */
     function siteName()
     {
         return $this->settings[TBL_SETTINGS_SITE_NAME];
     }
 
+    /**
+     * get the site url, ending with "/"
+     * @return string
+     */
     function siteURL()
     {
         return $this->settings[TBL_SETTINGS_SITE_URL];
     }
 
+    /**
+     * get the site path
+     * @return string
+     */
     function sitePath()
     {
         return $this->settings[TBL_SETTINGS_SITE_PATH];
     }
 
+    /**
+     * Get the script main e-mail address
+     * @return string
+     */
     function siteEmail()
     {
         return $this->settings[TBL_SETTINGS_SITE_EMAIL];
     }
 
+    /**
+     * Check if the script is disabled
+     * @return bool
+     */
     function siteDisabled()
     {
         return !$this->settings[TBL_SETTINGS_SITE_ENABLED];
     }
 
+    /**
+     * Get the script theme name
+     * @return string
+     */
     function siteTheme()
     {
         return $this->settings[TBL_SETTINGS_SITE_THEME];
     }
 
+    /**
+     * Get the script default used language
+     * @return string
+     */
     function siteLanguage()
     {
         return $this->settings[TBL_SETTINGS_SITE_LANG];
     }
 
+    /**
+     * Get the script timezone
+     * @return string
+     */
     function siteTimeZone()
     {
         return $this->settings[TBL_SETTINGS_SITE_TIMEZONE];
     }
 
+    /**
+     * Get the script secret key
+     * IMPORTANT: DO NOT !! print the value of the secret anywhere
+     * @return string
+     */
     function secretKey()
     {
         return SITE_SECRET;
     }
 
+    /**
+     * Enable/Disable activation for new users
+     * @return bool
+     */
     function activationRequired()
     {
         return $this->settings[TBL_SETTINGS_ACTIVATION_REQUIRED];
     }
 
+    /**
+     * Check if pin is required along the script files and
+     * there functions
+     * @return bool
+     */
     function pinRequired()
     {
         return $this->settings[TBL_SETTINGS_PIN_REQUIRED];
     }
 
+    /**
+     * Enable/Disable age restrictions
+     * @return bool
+     */
     function minimumAgeRequired()
     {
         return $this->settings[TBL_SETTINGS_MINIMUM_AGE_REQUIRED];
     }
 
+    /**
+     * Check the minimum age required for a user to be before
+     * signing up on the site
+     * @return int
+     */
     function minimumAge()
     {
         return $this->settings[TBL_SETTINGS_MINIMUM_AGE];
     }
 
+    /**
+     * Check if the user can change his username
+     * @return int
+     */
     function canChangeUsername()
     {
         return $this->settings[TBL_SETTINGS_USERNAME_CHANGE];
     }
 
+    /**
+     * Check if HTTPS is enabled on the script
+     * @return bool
+     */
     function isHTTPS()
     {
         return $this->settings[TBL_SETTINGS_FORCE_HTTPS];
     }
 
+    /**
+     * Get the total number or warnings that a user can get
+     * before getting his account locked for X amount of time
+     * * TO-DO
+     * @return int
+     */
     function maxWarnings()
     {
         return $this->settings[TBL_SETTINGS_MAX_WARNINGS];
     }
 
+    /**
+     * Allow/Deny the user to login in case there was any
+     * different IP address that's been used
+     * @return bool
+     */
     function sameIpLogin()
     {
         return $this->settings[TBL_SETTINGS_SAME_IP_LOGIN];
     }
 
+    /**
+     * Get the total allowed verified devices for each user
+     * @return int
+     */
     function maxVerifiedDevices()
     {
         return $this->settings[TBL_SETTINGS_MAX_VERIFIED_DEVICES];
@@ -273,11 +363,19 @@ class Settings
         return $this->settings[TBL_SETTINGS_TWILIO_PHONE_NUMBER];
     }
 
+    /**
+     * get the site templates folder name
+     * @return string
+     */
     function templatesFolder()
     {
         return $this->settings[TBL_SETTINGS_TEMPLATES_FOLDER];
     }
 
+    /**
+     * Check if the site timestamp is enabled
+     * @return bool
+     */
     function siteLoadingTimestamp()
     {
         return $this->settings[TBL_SETTINGS_LOADING_TIMESTAMP];

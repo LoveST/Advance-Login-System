@@ -1,6 +1,8 @@
 <?
 
-require "../init.php";
+require "../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 use ALS\LoginStatus;
 
 if ($session->statusCheck() == LoginStatus::GoodToGo) {

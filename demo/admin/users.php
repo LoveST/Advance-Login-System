@@ -7,13 +7,15 @@
  */
 
 /** Check user & site status **/
-require "../../init.php";
+require "../../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 $session->statusCheck();
 $session->adminCheck();
 /** End check user & site status**/
 
-    $totalUsers = $admin->getUsers();
-    $banedUsers = $admin->getBannedUsers();
-    $administrator = $admin->getAdmins();
+$totalUsers = $admin->getUsers();
+$banedUsers = $admin->getBannedUsers();
+$administrator = $admin->getAdmins();
 
-    require "../". TEMPLATE_PATH ."/users_info.html";
+$viewController->loadView("users_info.html");

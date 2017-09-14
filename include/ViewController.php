@@ -195,9 +195,10 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings, $user, $functions;
+        global $settings, $user, $functions, $database;
 
         $vars = array(
+            'db_connectionType' => $database->_CONNECTION_TYPE,
             'user_username' => $user->getUsername(),
             'user_id' => $user->getID(),
             'user_email' => $user->getEmail(),
@@ -212,13 +213,20 @@ class ViewController
             'user_lastLoginText' => $user->getLastLoginText(),
             'user_age' => $user->getAge(),
             'user_birthday' => $user->getBirthDate(),
+            'user_browserName' => $user->devices()->getCurrentDevice()->getBrowserName(),
+            'user_browserVersion' => $user->devices()->getCurrentDevice()->getBrowserVersion(),
+            'user_ip' => $user->devices()->getCurrentDevice()->getIP(),
+            'user_os' => $user->devices()->getCurrentDevice()->getOS(),
             'settings_siteName' => $settings->siteName(),
             'settings_siteURL' => $settings->siteURL(),
+            'settings_sitePath' => $settings->sitePath(),
             'settings_siteEmail' => $settings->siteEmail(),
             'settings_theme' => $settings->siteTheme(),
             'settings_siteLanguage' => $settings->siteLanguage(),
             'settings_minimumAge' => $settings->minimumAge(),
             'settings_templateURL' => $settings->getTemplatesURL(),
+            'settings_timezone' => $settings->siteTimeZone(),
+            'settings_templatesFolder' => $settings->templatesFolder(),
         );
 
         // check if any custom arrays has been supplied, then apply it to the current array

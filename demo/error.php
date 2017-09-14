@@ -6,7 +6,7 @@
  * Time: 1:19 PM
  */
 
-error_reporting(1);
+error_reporting(0);
 session_start();
 
 $title = $_SESSION['err_title'];

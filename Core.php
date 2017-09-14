@@ -52,6 +52,7 @@ class Core
     final function initClasses()
     {
         // call the function for each class in the script
+        $this->setErrorReporting();
         $this->_Message();
         $this->_Database();
         $this->_Settings();
@@ -69,6 +70,19 @@ class Core
         $this->_ProfileManager();
         $this->_MailTemplates();
 
+    }
+
+    /**
+     * set the script error reporting messages
+     * @param bool $err
+     */
+    final function setErrorReporting($err = false)
+    {
+        if ($err) {
+            error_reporting(-1);
+        } else {
+            error_reporting(0);
+        }
     }
 
     /**
