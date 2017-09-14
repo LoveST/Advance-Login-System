@@ -681,7 +681,9 @@ class User
         }
 
         // if account is not activated then update the sql records
-
+        if (!$this->updateUserRecord(TBL_USERS_ACTIVATED, '1')) {
+            return false;
+        }
 
         // if everything goes right then return true
         $message->setSuccess($translator->translateText("successful_activation", array("accountName" => $this->getUsername())));

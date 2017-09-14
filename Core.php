@@ -9,6 +9,7 @@
 
 namespace ALS;
 
+use ALS\AUTH\Google\Google;
 const _PATH = "include/";
 
 class Core
@@ -53,6 +54,7 @@ class Core
     {
         // call the function for each class in the script
         $this->setErrorReporting();
+        $this->_GoogleAuthenticator();
         $this->_Message();
         $this->_Database();
         $this->_Settings();
@@ -83,6 +85,12 @@ class Core
         } else {
             error_reporting(0);
         }
+    }
+
+    function _GoogleAuthenticator()
+    {
+        // build the variable to store it
+        $GLOBALS['googleAuth'] = new Google();
     }
 
     /**
