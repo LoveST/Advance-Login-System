@@ -25,5 +25,3 @@ class Google extends \GoogleAuthenticator
     }
 
 }
-
-$googleAuth = new Google();

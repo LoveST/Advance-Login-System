@@ -16,15 +16,13 @@ class Database
     var $_DBConnections = array();
     private $_dbError = false;
     private $_dbErrorMSG = "";
+    var $_errorKILL;
 
     /**
      * Database constructor for PHP5.
      */
     function __construct()
     {
-        // define all the global variables
-        global $message;
-
         // init the supported Database Drivers
         $this->_DBConnections = array("MySQLi", "PDO");
 
@@ -33,6 +31,9 @@ class Database
 
         // connect to the Database
         $this->connection = $this->_CONNECTION_TYPE->connect();
+        if($this->anyError()){
+            // translate the error code
+        }
     }
 
     /**
@@ -54,14 +55,25 @@ class Database
                 $message->setError("Database Connection Class Not Found", Message::Fatal);
             }
 
+            // include the required database file
             include_once $classPath;
 
+            // create an object from the connection file
             $class = "ALS\\Databases\\" . CONNECTION_TYPE;
             $object = new $class();
 
             // store the object
             $this->_CONNECTION_TYPE = $object;
         }
+    }
+
+    /**
+     * Set the option to kill the script if any database error were
+     * to be found while connecting to SQL
+     * @param bool $condition
+     */
+    function anyErrorKill($condition = true){
+        $this->_errorKILL = $condition;
     }
 
     /**
@@ -96,7 +108,7 @@ class Database
      */
     function escapeString($string)
     {
-        if($this->_CONNECTION_TYPE == "MySQLi"){
+        if ($this->_CONNECTION_TYPE == "MySQLi") {
             return mysqli_real_escape_string($this->connection, $string);
         } else {
             return $string;

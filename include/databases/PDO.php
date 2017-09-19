@@ -43,14 +43,20 @@ class PDO
     function connect()
     {
         // init the required globals
-        global $message;
+        global $message, $database;
 
         try {
             $connection = new \PDO("mysql:host=" . DBURL . ";port=" . DBPORT . ";dbname=" . DBNAME, DBUSER, DBPASS);
             // set the PDO error mode to exception
             $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            $message->setError("Database Connection Failed: " . $this->getErrorMSG($e), Message::Fatal);
+            if($database->_errorKILL) {
+                $message->setError("Database Connection Failed: " . $this->getErrorMSG($e), Message::Fatal);
+                return false;
+            } else {
+                $database->setError("PDO[1]");
+                return false;
+            }
         }
 
         return $connection;
