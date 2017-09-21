@@ -20,9 +20,13 @@ class Database
 
     /**
      * Database constructor for PHP5.
+     * @param bool $dieIfError
      */
-    function __construct()
+    function __construct($dieIfError = true)
     {
+        // set the error handler
+        $this->anyErrorKill($dieIfError);
+
         // init the supported Database Drivers
         $this->_DBConnections = array("MySQLi", "PDO");
 
@@ -31,9 +35,6 @@ class Database
 
         // connect to the Database
         $this->connection = $this->_CONNECTION_TYPE->connect();
-        if($this->anyError()){
-            // translate the error code
-        }
     }
 
     /**
@@ -72,7 +73,8 @@ class Database
      * to be found while connecting to SQL
      * @param bool $condition
      */
-    function anyErrorKill($condition = true){
+    function anyErrorKill($condition = true)
+    {
         $this->_errorKILL = $condition;
     }
 
@@ -97,8 +99,15 @@ class Database
      */
     public function setError($dbErrorMSG)
     {
-        $this->_dbError = true;
-        $this->_dbErrorMSG = $dbErrorMSG;
+        // init the required globals
+        global $message;
+
+        if ($this->_errorKILL) {
+            $message->setError($dbErrorMSG, Message::Fatal);
+        } else {
+            $this->_dbError = true;
+            $this->_dbErrorMSG = $dbErrorMSG;
+        }
     }
 
     /**

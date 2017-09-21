@@ -59,7 +59,7 @@ class Message
 
             // check if error has been called from this class then avoid it
             $file = basename($trace['caller']);
-            if ($file = "message.php" && $trace['function'] == "backtrace") {
+            if ($file == "message.php" && $trace['function'] == "backtrace") {
                 continue;
             }
 
@@ -93,7 +93,6 @@ class Message
                         $args .= $a;
                         break;
                     case 'string':
-                        //$a = htmlspecialchars(substr(, 0, 64)).((strlen($a) > 64) ? '...' : '');
                         $args .= "\"$a\"";
                         break;
                     case 'array':
@@ -329,5 +328,3 @@ class Message
     }
 
 }
-
-$message = new Message();

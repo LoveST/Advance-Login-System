@@ -6,4 +6,6 @@
  * Time: 12:27 AM
  */
 
-require "../include/auth/Google.php";
+require "../API.php";
+
+$api->callMethod("user_exist", array("username" => "masis916"));

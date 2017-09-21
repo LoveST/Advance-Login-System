@@ -19,7 +19,7 @@ class PDO
     function __construct()
     {
         // init the required globals
-        global $message;
+        global $message, $database;
 
         // init the complete list of functions
         $functions = array("getResults", "getNumRows", "getRow", "getRows");
@@ -32,7 +32,7 @@ class PDO
 
             // check if doesn't exist
             if (!method_exists($this, $function)) {
-                $message->setError("Missing Function In Database Connection : function(" . $function . ")", Message::Fatal);
+                $database->setError("Missing Function In Database Connection : function(" . $function . ")");
             }
         }
     }
@@ -50,13 +50,8 @@ class PDO
             // set the PDO error mode to exception
             $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            if($database->_errorKILL) {
-                $message->setError("Database Connection Failed: " . $this->getErrorMSG($e), Message::Fatal);
-                return false;
-            } else {
-                $database->setError("PDO[1]");
-                return false;
-            }
+            $database->setError("Database Connection Failed: " . $this->getErrorMSG($e));
+            return false;
         }
 
         return $connection;
@@ -94,8 +89,8 @@ class PDO
 
             // execute the query
             $result->execute();
-        } catch(\PDOException $e){
-            $message->setError("SQL Error (" . $e->getMessage() . ")", Message::Fatal);
+        } catch (\PDOException $e) {
+            $database->setError("SQL Error (" . $this->getErrorMSG($e) . ")");
         }
 
         // return the results
@@ -150,6 +145,9 @@ class PDO
                 break;
             case 2002;
                 $msg = "Connection Timeout";
+                break;
+            case 42000;
+                $msg = "Invalid Syntax";
                 break;
             default;
                 $msg = "Unhandled Error (" . $err->getMessage() . ")";

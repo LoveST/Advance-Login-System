@@ -15,10 +15,12 @@ const _PATH = "include/";
 class Core
 {
 
+    private $dieIfError = true;
+
     /**
      * Core constructor.
      */
-    function __construct()
+    function __construct($dieIfError = true)
     {
         // Start the session
         session_start();
@@ -44,6 +46,12 @@ class Core
         require _PATH . "MailTemplates.php";
         require _PATH . "ViewController.php";
 
+        // set the error handler
+        $this->_ErrorKiller($dieIfError);
+    }
+
+    function _ErrorKiller($dieIfError){
+        $this->dieIfError = $dieIfError;
     }
 
     /**
@@ -110,7 +118,7 @@ class Core
     function _Database()
     {
         // build the variable to store it
-        $GLOBALS['database'] = new Database();
+        $GLOBALS['database'] = new Database($this->dieIfError);
     }
 
     /**
