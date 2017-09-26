@@ -21,8 +21,17 @@ class user_exist
             $api->printError("No Parameters supplied");
         }
 
+        $username = "";
+
+        // check if the supplied parameters is an array or string
+        if(is_string($params)){
+            $username = $params;
+        } else {
+            $username = $params['username'];
+        }
+
         // check if the user exists
-        if ($functions->userExist($params['username'])){
+        if ($functions->userExist($username)){
             $this->printMSG("1");
         } else {
             $this->printMSG("0");
