@@ -86,7 +86,7 @@ class Administrator
             return false;
         }
 
-        $users = "";
+        $users = array();
 
         if ($database->getQueryNumRows($results, true) < 1) {
             return false;
@@ -582,7 +582,8 @@ class Administrator
         " . TBL_USERS_DATE_JOINED . " <= '$endDate'" . $limitArgs;
 
         // get the sql results
-        if (!$result = $database->getQueryResults($sql)) {
+        $result = $database->getQueryResults($sql);
+        if ($database->anyError()) {
             return false;
         }
 
@@ -627,7 +628,7 @@ class Administrator
         }
 
         // call the database and get the results back
-        $sql = "SELECT COUNT(*) FROM " . TBL_USERS . " WHERE
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE
         " . TBL_USERS_LAST_LOGIN . " >= '$startDate' AND 
         " . TBL_USERS_LAST_LOGIN . " <= '$endDate'" . $limitArgs;
 
@@ -636,10 +637,7 @@ class Administrator
             return false;
         }
 
-        $row = $database->getQueryEffectedRow($result, true);
-
-
-        return $row[0];
+        return $database->getQueryNumRows($result, true);
     }
 
     /**

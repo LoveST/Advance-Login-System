@@ -19,6 +19,7 @@ class Core
 
     /**
      * Core constructor.
+     * @param bool $dieIfError
      */
     function __construct($dieIfError = true)
     {
@@ -50,7 +51,8 @@ class Core
         $this->_ErrorKiller($dieIfError);
     }
 
-    function _ErrorKiller($dieIfError){
+    function _ErrorKiller($dieIfError)
+    {
         $this->dieIfError = $dieIfError;
     }
 
@@ -118,7 +120,9 @@ class Core
     function _Database()
     {
         // build the variable to store it
-        $GLOBALS['database'] = new Database($this->dieIfError);
+        $database = new Database($this->dieIfError);
+        $GLOBALS['database'] = $database;
+        $database->connect();
     }
 
     /**
@@ -128,15 +132,6 @@ class Core
     {
         // build the variable to store it
         $GLOBALS['settings'] = new Settings();
-    }
-
-    /**
-     * init the Groups Class
-     */
-    function _Groups()
-    {
-        // build the variable to store it
-        $GLOBALS['groups'] = new Groups();
     }
 
     /**
@@ -156,6 +151,15 @@ class Core
         // build the variable to store it
         global $viewController;
         $GLOBALS['translator'] = $viewController->getTranslator();
+    }
+
+    /**
+     * init the Groups Class
+     */
+    function _Groups()
+    {
+        // build the variable to store it
+        $GLOBALS['groups'] = new Groups();
     }
 
     /**

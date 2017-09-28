@@ -180,7 +180,7 @@ class User
      */
     public function isAdmin()
     {
-        if ($this->userData[TBL_USERS_LEVEL] == 100) {
+        if ($this->hasPermission("*")) {
             return true;
         } else {
             return false;
@@ -203,7 +203,9 @@ class User
      */
     function getGroup()
     {
-        return $this->group;
+        if ($this->group !== null) {
+            return $this->group;
+        }
     }
 
     /**
@@ -427,6 +429,7 @@ class User
      */
     function getSecret()
     {
+        // TODO
         return $this->userData[TBL_USERS_SECRET];
     }
 
@@ -436,15 +439,9 @@ class User
      */
     function getLevelName()
     {
-        if ($this->getLevel() == 100) {
-            return "Admin";
-        } else if ($this->getLevel() == 1) {
-            return "User";
-        } else if (empty($this->levelData[TBL_LEVELS_NAME])) {
-            return "Undefined";
+        if ($this->getGroup() != null) {
+            return $this->getGroup()->getName();
         }
-
-        return $this->levelData[TBL_LEVELS_NAME];
     }
 
     /**
@@ -453,9 +450,9 @@ class User
      */
     function getPermissions()
     {
-        $permissions = explode("|", $this->levelData[TBL_LEVELS_PERMISSIONS]);
-        array_map('trim', $permissions);
-        return $permissions;
+        if ($this->getGroup() !== null) {
+            return $this->getGroup()->getPermissions();
+        }
     }
 
     /**
@@ -595,17 +592,18 @@ class User
      */
     function hasPermission($permission)
     {
-        // check if the user is an admin
-        if ($this->getLevel() == 100) {
-            return true;
-        }
-        // check if the user is a new user with level 1
-        if ($this->getLevel() == 1) {
+        // load the permissions for the current user
+        $permissions = $this->getGroup()->getPermissions();
+
+        // check if empty array
+        if(empty($permissions)){
             return false;
         }
 
-        // load the permissions for the current user
-        $permissions = $this->getPermissions();
+        // check if first offset is *
+        if($permissions[0] == "*"){
+            return true;
+        }
 
         // loop throw the permissions and check if any * is to be found that matches the current requested permission
         foreach ($permissions As $perm) {

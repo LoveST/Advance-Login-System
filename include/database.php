@@ -32,7 +32,9 @@ class Database
 
         // check the connection type supplied if valid
         $this->checkConnectionType();
+    }
 
+    final function connect(){
         // connect to the Database
         $this->connection = $this->_CONNECTION_TYPE->connect();
     }

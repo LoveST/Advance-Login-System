@@ -14,9 +14,9 @@ class Group
 
     private $data; // to-store all the group data
 
-    function __construct($groupData)
+    function __construct($data)
     {
-        $this->data = $groupData;
+        $this->data = $data;
     }
 
     /**
@@ -25,7 +25,11 @@ class Group
      */
     function getLevel()
     {
-        return $this->data[TBL_LEVELS_LEVEL];
+        if (empty($this->data[TBL_LEVELS_LEVEL])) {
+            return "";
+        } else {
+            return $this->data[TBL_LEVELS_LEVEL];
+        }
     }
 
     /**
@@ -34,7 +38,11 @@ class Group
      */
     function getName()
     {
-        return $this->data[TBL_LEVELS_NAME];
+        if (empty($this->data[TBL_LEVELS_NAME])) {
+            return "";
+        } else {
+            return $this->data[TBL_LEVELS_NAME];
+        }
     }
 
     /**
@@ -44,8 +52,34 @@ class Group
     function getPermissions()
     {
         // separate every single permission after a | sign and store it in an array and return it
-        $permissions = explode("|", $this->data[TBL_LEVELS_PERMISSIONS]);
-        return $permissions;
+        $permissions = unserialize($this->data[TBL_LEVELS_PERMISSIONS]);
+
+        // check if no array is available
+        if (!is_array($permissions)) {
+            return array();
+        } else {
+            return $permissions;
+        }
+    }
+
+    /**
+     * check if a certain permission exists
+     * @param string $permission
+     * @return bool
+     */
+    function permissionExist($permission)
+    {
+        // check if $permission is empty or not string
+        if (!is_string($permission) || empty($permission)) {
+            return false;
+        }
+
+        // check if permissions array contains the current permission
+        if (in_array($permission, $this->getPermissions())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

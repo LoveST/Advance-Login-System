@@ -6,6 +6,11 @@
  * Time: 12:27 AM
  */
 
-require "../API.php";
+require "../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
+var_dump($user->hasPermission("analytics_countRegisteredUsersInBetween"));
+//var_dump($user->getGroup()->getPermissions());
 
-$api->callMethod("user_exist", array("username" => "masis916"));
+echo "<br>" . $message->getError(3);
+echo "<br>" . $message->getSuccess();

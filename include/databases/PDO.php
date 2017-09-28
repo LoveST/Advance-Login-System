@@ -50,6 +50,7 @@ class PDO
             // set the PDO error mode to exception
             $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
+            var_dump($database->setError($this->getErrorMSG($e)));
             $database->setError("Database Connection Failed: " . $this->getErrorMSG($e));
             return false;
         }
@@ -138,7 +139,7 @@ class PDO
         $msg = "";
         switch ($err->getCode()) {
             case 1045;
-                $msg = "Access Denied";
+                $msg = "Database Access Denied";
                 break;
             case 1049;
                 $msg = "Database Not Found";

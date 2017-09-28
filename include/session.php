@@ -207,7 +207,8 @@ class Session
                 $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_SIGNIN_AGAIN . " = '0' WHERE " . TBL_USERS_ID . " = '" . $user->getID() . "' AND " . TBL_USERS_USERNAME . " = '" . $user->getUsername() . "'";
 
                 // get the sql results
-                if (!$result = $database->getQueryResults($sql)) {
+                $database->getQueryResults($sql);
+                if ($database->anyError()) {
                     return false;
                 }
 
@@ -758,7 +759,7 @@ class Session
         if ($settings->siteDisabled()) {
             // check if the user is an admin then do and exception
             if ($user->isAdmin()) {
-                return true;
+                return LoginStatus::GoodToGo;
             }
             $message->customKill($translator->translateText("siteDisabled"), $translator->translateText("siteDisabledMSG"), $settings->get(Settings::SITE_THEME));
             return false;

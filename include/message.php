@@ -188,28 +188,47 @@ class Message
         $_SESSION['success'][] = $array;
     }
 
+    /**
+     * @return bool|array|string
+     */
     function getSuccess()
     {
 
         // set the current success array to object
         $data = $_SESSION["success"];
+        $size = sizeof($data);
 
-        foreach ($data as $key => $value) {
-            if ($key != 0) echo "<br>";
-            echo $value['msg'];
+        if ($data != null && is_array($data) && $size > 1) {
+            return $data;
+        } else if (is_array($data) && $size == 1) {
+            return $data[0]['msg'];
+        } else {
+            return false;
         }
     }
 
+    /**
+     * Print the total success messages to the user UI
+     * @return bool
+     */
     function printSuccess()
     {
 
         // set the current success array to object
         $data = $_SESSION["success"];
+        $size = sizeof($data);
+
+        // check if data is empty
+        if (is_null($data) || $size == 0) {
+            return false;
+        }
 
         foreach ($data as $key => $value) {
             if ($key != 0) echo "<br>";
             echo $value['msg'];
         }
+
+        return true;
     }
 
     /**
@@ -217,7 +236,7 @@ class Message
      */
     function anyError()
     {
-        return !empty($this->msg) && $this->msg["msg"] != "";
+        return !empty($this->msg) && !empty($this->msg["msg"]);
     }
 
     /**
@@ -226,7 +245,7 @@ class Message
      */
     function is_success()
     {
-        return !empty($this->success) && $this->success["msg"] != "";
+        return !empty($this->success) && !empty($this->success["msg"]);
     }
 
     /**
@@ -236,7 +255,7 @@ class Message
     function getError($type = 0)
     {
         $data = isset($_SESSION['error']) ? $_SESSION['error'] : null;
-        if (empty($data) || $data[0]['msg'] == "") {
+        if (empty($data) || empty($data[0]['msg'])) {
             echo "";
             return;
         }
@@ -244,7 +263,15 @@ class Message
         if ($type == 0) { // get all the errors
             foreach ($data as $key => $value) {
                 if ($key != 0) echo "<br>";
-                echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $value['lineNumber'] . '</b> )';
+
+                // check if line is null or empty
+                if (empty($value['lineNumber'])) {
+                    $line = 0;
+                } else {
+                    $line = $value['lineNumber'];
+                }
+
+                echo '<b>' . $this->readErrorType($value['type']) . ': </b>' . $value['msg'] . ' (<b> ' . $value['fileName'] . '</b> on Line <b>' . $line . '</b> )';
                 if ($value["type"] == 1) die;
             }
         } else if ($type == 2) { // get all the errors with a type value of 2

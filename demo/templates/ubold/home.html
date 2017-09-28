@@ -41,6 +41,11 @@
         <div class="panel-body">
             <form class="form-horizontal m-t-20" action="index.html">
 
+                <? if({:$$message}->anyError()){ ?>
+                <div class="alert alert-danger">
+                    <? echo {:$$message}->getError(3); ?>
+                </div>
+                <? } ?>
 
                 <div class="panel panel-color panel-success">
                     <div class="panel-heading">
@@ -121,7 +126,7 @@
             <p><a href="logout.php" class="text-primary m-l-5"><b>{t}LOGOUT{/t}</b></a></p>
             <p><a href="profile.php" class="text-primary m-l-5"><b>{t}USER_PANEL{/t}</b></a></p>
             <? if({:$$user}->isAdmin()){ ?> <p><a href="admin/index.php"
-                                              class="text-primary m-l-5"><b>{t}ADMIN_PANEL{/t}</b></a></p> <? } ?>
+                                                  class="text-primary m-l-5"><b>{t}ADMIN_PANEL{/t}</b></a></p> <? } ?>
         </div>
     </div>
 
