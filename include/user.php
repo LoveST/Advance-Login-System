@@ -592,16 +592,21 @@ class User
      */
     function hasPermission($permission)
     {
+        // check if class has been initiated
+        if ($this->getGroup() == null) {
+            return false;
+        }
+
         // load the permissions for the current user
         $permissions = $this->getGroup()->getPermissions();
 
         // check if empty array
-        if(empty($permissions)){
+        if (empty($permissions)) {
             return false;
         }
 
         // check if first offset is *
-        if($permissions[0] == "*"){
+        if ($permissions[0] == "*") {
             return true;
         }
 

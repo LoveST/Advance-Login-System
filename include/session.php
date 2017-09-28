@@ -776,7 +776,7 @@ class Session
         }
 
         // check if session is authenticated
-        if ($this->authenticationNeeded()) {
+        if ($this->authenticationNeeded() && $user->twoFactorEnabled()) {
             return LoginStatus::AuthenticationNeeded;
         }
 

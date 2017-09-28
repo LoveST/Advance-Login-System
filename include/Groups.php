@@ -54,6 +54,7 @@ class Groups
     }
 
     /**
+     * Add a new group with custom permissions
      * @param int $id
      * @param string $name
      * @param null|string|array $permissions
@@ -62,7 +63,13 @@ class Groups
     function addGroup($id, $name, $permissions = null)
     {
         // init the global variables
-        global $database, $message;
+        global $database, $message, $user;
+
+        // check if the user has permission
+        if (!$user->hasPermission("als_groups_addGroup")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
 
         // check for empty variables
         if (empty($id) || empty($name)) {
@@ -88,7 +95,7 @@ class Groups
         $sql =
             "INSERT INTO " . TBL_LEVELS . " (" . TBL_LEVELS_LEVEL . "," . TBL_LEVELS_NAME . "," . TBL_LEVELS_PERMISSIONS .
             ") VALUES (" . "$id, '$name', '$permissions'" . ")";
-        //die($sql);
+
         // query the results
         $database->getQueryResults($sql);
 
@@ -103,9 +110,58 @@ class Groups
         return true;
     }
 
-    function removeGroup()
+    /**
+     * Remove a certain group by nae or id
+     * @param int|string $value
+     * @return bool
+     */
+    function removeGroup($value)
     {
+        // init the global variables
+        global $database, $message, $user;
 
+        // check for empty variables
+        if (empty($value)) {
+            $message->setError("Missing required parameters", Message::Error);
+            return false;
+        }
+
+        // check if the user has permission
+        if (!$user->hasPermission("als_groups_removeGroup")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
+
+        // check if group exist
+        if (!$this->groupExists($value)) {
+            $message->setError("Required group doesn't exist", Message::Error);
+            return false;
+        }
+
+        // prepare the sql query
+        if (is_string($value) && !is_numeric($value)) {
+            $sql = "DELETE FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_NAME . " = '" . $value . "'";
+        } else {
+            $sql = "DELETE FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '" . $value . "'";
+        }
+
+        // query the results
+        $results = $database->getQueryResults($sql);
+
+        // check for eny errors
+        if ($database->anyError()) {
+            $message->setError("SQL Update Error", Message::Error);
+            return false;
+        }
+
+        if ($results != TRUE) {
+            $message->setError("Something went wrong while updating the database", Message::Error);
+            return false;
+        }
+
+        // set the success message and return true
+        $message->setSuccess("The group '" . $value . "' has been removed");
+        return true;
     }
 
     /**
@@ -117,7 +173,13 @@ class Groups
     function addPermission($perm, $group)
     {
         // init the global variables
-        global $database, $message;
+        global $database, $message, $user;
+
+        // check if the user has permission
+        if (!$user->hasPermission("als_groups_addPermission")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
 
         // check if the supplied args are empty
         if (empty($perm) || empty($group) || $perm == null || $group == null) {
@@ -203,7 +265,13 @@ class Groups
     function removePermission($perm, $group)
     {
         // init the global variables
-        global $database, $message;
+        global $database, $message, $user;
+
+        // check if the user has permission
+        if (!$user->hasPermission("als_groups_removePermission")) {
+            $message->setError("You don't have the permission to perform this action", Message::Error);
+            return false;
+        }
 
         // check if the supplied args are empty
         if (empty($perm) || empty($group) || $perm == null || $group == null) {
@@ -298,7 +366,7 @@ class Groups
         }
 
         // check in database if exists
-        if (is_string($group)) {
+        if (is_string($group) && !is_numeric($group)) {
             $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_NAME . " = '$group'";
         } else {
             $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_LEVEL . " = '$group'";

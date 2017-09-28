@@ -9,8 +9,4 @@
 require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
-var_dump($user->hasPermission("analytics_countRegisteredUsersInBetween"));
-//var_dump($user->getGroup()->getPermissions());
 
-echo "<br>" . $message->getError(3);
-echo "<br>" . $message->getSuccess();
