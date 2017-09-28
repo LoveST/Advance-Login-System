@@ -22,6 +22,7 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 - Custom Variables
 - Custom API Functions
 - Custom Database Connections
+- Support for MySQLi & PDO connections ( more to come )
 
 #### And many more features to come
 
