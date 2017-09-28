@@ -17,6 +17,11 @@ Having all that, makes it easier to manage all users (with diffrent levels) & ad
 - Each user has his own xp gained amount (controlled by 3rd party, in this case YOU ! :smile: )
 - Monitorize all users and activities
 - Friendly **API**
+- Custom Languages
+- Custom Templates
+- Custom Variables
+- Custom API Functions
+- Custom Database Connections
 
 #### And many more features to come
 
