@@ -197,7 +197,7 @@ class Administrator
         global $database, $message, $user, $functions;
 
         // check if current user has the required permission
-        if (!$user->hasPermission("manage_xp_add")) {
+        if (!$user->hasPermission("als_xp_add")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
             return false;
         }
@@ -252,7 +252,7 @@ class Administrator
         global $database, $message, $user, $functions;
 
         // check if current user has the required permission
-        if (!$user->hasPermission("manage_xp_subtract")) {
+        if (!$user->hasPermission("als_xp_subtract")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
             return false;
         }
@@ -314,7 +314,7 @@ class Administrator
         $captchaSecretKey = $database->secureInput($captchaSecretKey);
 
         // check if current user has the required permission
-        if (!$user->hasPermission("update_site_settings")) {
+        if (!$user->hasPermission("als_update_siteSettings")) {
             $message->setError("You don't have the permission to perform this action", Message::Error);
             return false;
         }

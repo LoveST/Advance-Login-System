@@ -8,6 +8,7 @@
 
 namespace ALS;
 require "Core.php";
+require "include/api/API_DEFAULT.php"; // call the default api constructor
 
 class API extends Core
 {
@@ -94,15 +95,17 @@ class API extends Core
         if ($currentMethod['file_path'] != "" && $currentMethod['file_path'] != null) {
             // check for a custom file path
             // replace the path index & the sub line index
-            if($this->methods['__path']['path'] != ""){ $dir = $this->methods['__path']['path'];}
+            if ($this->methods['__path']['path'] != "") {
+                $dir = $this->methods['__path']['path'];
+            }
             $path = $dir . $currentMethod['file_path'];
-            $newFilePath = $translator->replaceTags("%", "%", $path, array("_PATH_ => $this->methods['__path']['path']","_DIR_" => __DIR__, "_SUB_" => $database->getSubLine()));
+            $newFilePath = $translator->replaceTags("%", "%", $path, array("_PATH_ => $this->methods['__path']['path']", "_DIR_" => __DIR__, "_SUB_" => $database->getSubLine()));
         } else {
             $newFilePath = __DIR__ . $database->getSubLine() . "include" . $database->getSubLine() . "api" . $database->getSubLine();
         }
 
         // check if the needed method file exist
-        if(!is_readable($newFilePath . $currentMethod['file_name'])){
+        if (!is_readable($newFilePath . $currentMethod['file_name'])) {
             $this->printError("Method file does not exist");
         }
 
@@ -110,7 +113,7 @@ class API extends Core
         include_once $newFilePath . $currentMethod['file_name'];
 
         // create an object from the connection file
-        $class = "ALS_API\\" . $method;
+        $class = "ALS\\API\\" . $method;
         $object = new $class($parameters);
 
     }
