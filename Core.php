@@ -88,7 +88,7 @@ class Core
      * set the script error reporting messages
      * @param bool $err
      */
-    final function setErrorReporting($err = true)
+    final function setErrorReporting($err = false)
     {
         if ($err) {
             error_reporting(-1);

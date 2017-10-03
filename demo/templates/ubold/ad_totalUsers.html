@@ -77,7 +77,7 @@
                             <td><?=$user->getUsername(); ?></td>
                             <td><?=$user->getEmail(); ?></td>
                             <td><?={:$$functions}->calculateTime($user->getDateJoined()); ?> ago</td>
-                            <td><?=$user->getLevelName(); ?></td>
+                            <td><?=$user->getGroup()->getName(); ?></td>
                             <td><?=$user->getXP(); ?></td>
                             <td>
                                 <a href="manageUser.php?ac=view&username=<?=$user->getUserName();?>&id=<?=$user->getID();?>"><button type="button" class="btn btn-info waves-effect waves-light">

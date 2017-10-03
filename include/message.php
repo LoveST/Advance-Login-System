@@ -249,10 +249,70 @@ class Message
     }
 
     /**
+     * get the total errors that's been added and return an array or string
+     * @param int $type
+     * @return array|bool|string
+     */
+    function getError($type = 0)
+    {
+
+        // check for empty session message
+        $data = isset($_SESSION['error']) ? $_SESSION['error'] : null;
+        if (empty($data) || empty($data[0]['msg'])) {
+            return "";
+        }
+
+        // hold the messages array
+        $messages = array();
+
+        // loop throw each case
+        if ($type == 0) {
+
+            foreach ($data as $key => $value) {
+                $messages[] = $value['msg'];
+            }
+
+        } else if ($type == 1) {
+
+            foreach ($data as $key => $value) {
+                if ($value['type'] == 1) {
+                    $messages[] = $value['msg'];
+                }
+            }
+
+        } else if ($type == 2) {
+
+            foreach ($data as $key => $value) {
+                if ($value['type'] == 2) {
+                    $messages[] = $value['msg'];
+                }
+            }
+
+        } else if ($type == 3) {
+
+            foreach ($data as $key => $value) {
+                if ($value['type'] == 3) {
+                    $messages[] = $value['msg'];
+                }
+            }
+
+        } else {
+            return false;
+        }
+
+        // check if array size is equal too 1
+        if (sizeof($messages) == 1) {
+            $messages = $messages[0];
+        }
+
+        return $messages;
+    }
+
+    /**
      * @param int $type // 0 = (default) all errors , 1 = only fatal errors , 2 = only warnings
      * @return mixed
      */
-    function getError($type = 0)
+    function printError($type = 0)
     {
         $data = isset($_SESSION['error']) ? $_SESSION['error'] : null;
         if (empty($data) || empty($data[0]['msg'])) {

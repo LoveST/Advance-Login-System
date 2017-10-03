@@ -8,7 +8,8 @@
 
 require "../API.php";
 
-class initAPI{
+class initAPI
+{
 
     var $api;
 
@@ -18,18 +19,19 @@ class initAPI{
         $this->api = $api;
     }
 
-    function callParentMethod(){
+    function callParentMethod()
+    {
         // get the current method called
-        if(!empty($_GET['method'])){
-            $param = $_GET['param'];
+        if (!empty($_GET['method'])) {
             $method = $_GET['method'];
 
             // call the api
-            $this->api->callMethod($method, $param);
+            $this->api->callMethod($method, $_GET);
         } else {
             $this->api->printError("No method supplied");
         }
     }
 }
+
 $initAPI = new initAPI();
 $initAPI->callParentMethod();

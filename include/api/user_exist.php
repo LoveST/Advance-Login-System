@@ -8,11 +8,23 @@
 
 namespace ALS\API;
 
+use ALS\User;
+
 class user_exist extends API_DEFAULT
 {
 
-    function __construct($params = null)
+    private $user;
+
+    /**
+     * user_exist constructor.
+     * @param User $user
+     * @param null $params
+     */
+    function __construct($user, $params = null)
     {
+        // set the user class
+        $this->user = $user;
+
         // construct the parent class
         parent::__construct();
 
@@ -34,9 +46,14 @@ class user_exist extends API_DEFAULT
         // globals
         global $functions;
 
+        // check if has permission
+        if (!$this->user->hasPermission("als_SELF(USER)_checkUser")) {
+            $this->printError("You don't have the permission to perform this action");
+        }
+
         // check if params is null
-        if ($params == null) {
-            parent::printError("No Parameters Supplied");
+        if ($params['username'] == "") {
+            parent::printError("No username Supplied");
         }
 
         $username = "";

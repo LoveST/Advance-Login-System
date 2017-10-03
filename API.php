@@ -80,42 +80,71 @@ class API extends Core
     function callMethod($method, $parameters = null)
     {
         // init the required globals
-        global $translator, $database;
+        global $message, $database, $translator, $user;
 
         // check if method exists
         if ($this->methods[$method] == "") {
             $this->printError("Called method does not exist");
         }
 
+        // create a connection with the database
+        $apiUser = new User();
+        if (!$apiUser->initAPIInstance($parameters['key'], $parameters['token'])) {
+            $this->printError($message->getError(3));
+        }
+
         // get the current method parameters
         $currentMethod = $this->methods[$method];
 
         // check if the method required a specific file to load
-        $newFilePath = "";
-        if ($currentMethod['file_path'] != "" && $currentMethod['file_path'] != null) {
-            // check for a custom file path
-            // replace the path index & the sub line index
-            if ($this->methods['__path']['path'] != "") {
-                $dir = $this->methods['__path']['path'];
-            }
-            $path = $dir . $currentMethod['file_path'];
-            $newFilePath = $translator->replaceTags("%", "%", $path, array("_PATH_ => $this->methods['__path']['path']", "_DIR_" => __DIR__, "_SUB_" => $database->getSubLine()));
+        $sub = $database->getSubLine();
+
+        // check if the main path variable is empty
+        if ($currentMethod['__path']['path'] != "") {
+            $mainPath = $currentMethod['__path']['path'] . $sub;
         } else {
-            $newFilePath = __DIR__ . $database->getSubLine() . "include" . $database->getSubLine() . "api" . $database->getSubLine();
+            $mainPath = __DIR__ . $sub . "include" . $sub . "api" . $sub;
         }
 
+        // check if a sub path exist
+        if (!empty($currentMethod['file_path'])) {
+            $filePath = $mainPath . $currentMethod['file_path'] . $sub . $currentMethod['file_name'];
+        } else {
+            $filePath = $mainPath . $currentMethod['file_name'];
+        }
+
+        // translate any special characters in the path
+        $char = array("_PATH_" => $this->methods['__path']['path'], "_DIR_" => __DIR__, "_SUB_" => $sub, "_SLASH_" => "\\");
+        $newFilePath = $translator->replaceTags("%", "%", $filePath, $char);
+
         // check if the needed method file exist
-        if (!is_readable($newFilePath . $currentMethod['file_name'])) {
+        //die($newFilePath);
+        if (!is_readable($newFilePath)) {
             $this->printError("Method file does not exist");
         }
 
         // load the class file
-        include_once $newFilePath . $currentMethod['file_name'];
+        include_once $newFilePath;
+
+        // check if a namespace has been specified
+        if ($currentMethod['namespace'] != "") {
+            $namespace = $translator->replaceTags("%", "%", $currentMethod['namespace'], $char) . "\\";
+        } else {
+            $namespace = "ALS\\API\\";
+        }
+
+        // check if a class has been specified
+        if ($currentMethod['class_name'] != "") {
+            $className = $currentMethod['class_name'];
+        } else {
+            $className = $method;
+        }
 
         // create an object from the connection file
-        $class = "ALS\\API\\" . $method;
-        $object = new $class($parameters);
+        $class = $namespace . $className;
+        new $class($apiUser, $parameters);
 
+        return true;
     }
 
     function printError($msg)

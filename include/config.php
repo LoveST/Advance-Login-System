@@ -13,7 +13,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
  * Set the Database Connection Type
  */
 
-define("CONNECTION_TYPE","PDO");
+define("CONNECTION_TYPE", "PDO");
 
 /**
  * Declare all the database variables
@@ -64,6 +64,8 @@ define("TBL_USERS_LASTLOGIN_IP", "lastLogin_ip");
 define("TBL_USERS_BIRTH_DATE", "birth_date");
 define("TBL_USERS_PREFERRED_LANGUAGE", "preferred_language");
 define("TBL_USERS_SECRET", "secret");
+define("TBL_USERS_API_KEY", "api_key");
+define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_SETTINGS", "settings");
 define("TBL_SETTINGS_SITE_NAME", "site_name");
 define("TBL_SETTINGS_SITE_URL", "site_url");

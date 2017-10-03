@@ -199,24 +199,6 @@ class ViewController
 
         $vars = array(
             'db_connectionType' => $database->_CONNECTION_TYPE,
-            'user_username' => $user->getUsername(),
-            'user_id' => $user->getID(),
-            'user_email' => $user->getEmail(),
-            'user_firstName' => $user->getFirstName(),
-            'user_lastName' => $user->getLastName(),
-            'user_dateJoined' => $user->getDateJoined(),
-            'user_daysSinceJoined' => $functions->calculateTime($user->getDateJoined()),
-            'user_levelName' => $user->getLevelName(),
-            'user_XP' => $user->getXP(),
-            'user_lostXP' => $user->getLostXP(),
-            'user_lastLogin' => $user->getLastLoginTime(),
-            'user_lastLoginText' => $user->getLastLoginText(),
-            'user_age' => $user->getAge(),
-            'user_birthday' => $user->getBirthDate(),
-            'user_browserName' => $user->devices()->getCurrentDevice()->getBrowserName(),
-            'user_browserVersion' => $user->devices()->getCurrentDevice()->getBrowserVersion(),
-            'user_ip' => $user->devices()->getCurrentDevice()->getIP(),
-            'user_os' => $user->devices()->getCurrentDevice()->getOS(),
             'settings_siteName' => $settings->siteName(),
             'settings_siteURL' => $settings->siteURL(),
             'settings_sitePath' => $settings->sitePath(),
@@ -228,6 +210,32 @@ class ViewController
             'settings_timezone' => $settings->siteTimeZone(),
             'settings_templatesFolder' => $settings->templatesFolder(),
         );
+
+        // check if user class has been initiated
+        if ($user->getGroup() != null) {
+            $userArray = array(
+                'user_username' => $user->getUsername(),
+                'user_id' => $user->getID(),
+                'user_email' => $user->getEmail(),
+                'user_firstName' => $user->getFirstName(),
+                'user_lastName' => $user->getLastName(),
+                'user_dateJoined' => $user->getDateJoined(),
+                'user_daysSinceJoined' => $functions->calculateTime($user->getDateJoined()),
+                'user_levelName' => $user->getGroup()->getName(),
+                'user_XP' => $user->getXP(),
+                'user_lostXP' => $user->getLostXP(),
+                'user_lastLogin' => $user->getLastLoginTime(),
+                'user_lastLoginText' => $user->getLastLoginText(),
+                'user_age' => $user->getAge(),
+                'user_birthday' => $user->getBirthDate(),
+                'user_browserName' => $user->devices()->getCurrentDevice()->getBrowserName(),
+                'user_browserVersion' => $user->devices()->getCurrentDevice()->getBrowserVersion(),
+                'user_ip' => $user->devices()->getCurrentDevice()->getIP(),
+                'user_os' => $user->devices()->getCurrentDevice()->getOS(),
+            );
+
+            $vars = array_merge($userArray, $vars);
+        }
 
         // check if any custom arrays has been supplied, then apply it to the current array
         if ($this->customVariables != null) {
