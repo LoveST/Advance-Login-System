@@ -378,7 +378,7 @@ class User_Default
      */
     function is_samePinNumber($pin)
     {
-        if ($this->get(User::PIN) == $pin) {
+        if ($this->userData[TBL_USERS_PIN] == $pin) {
             return true;
         } else {
             return false;
@@ -646,6 +646,42 @@ class User_Default
         //update the current lost xp for the current session
         $this->userData[TBL_USERS_LOST_XP] = $newLostXP;
 
+        return true;
+    }
+
+    /**
+     * Update the current users class group
+     * @param int $group
+     * @return bool
+     */
+    public function updateGroup($group)
+    {
+        // init the required globals
+        global $message, $groups;
+
+        // check if empty group submitted
+        if ($group == "" || empty($group)) {
+            $message->setError("Missing or empty required parameter", Message::Error);
+            return false;
+        }
+
+        // check if integer is supplied
+        if (!is_numeric($group)) {
+            $message->setError("Group id most be an integer", Message::Error);
+            return false;
+        }
+
+        // check if intened group exist
+        if (!$groups->groupExists($group)) {
+            $message->setError("Required group does not exist", Message::Error);
+            return false;
+        }
+
+        // update the user records
+        $this->updateUserRecord(TBL_USERS_LEVEL, $group);
+
+        // return a success message
+        $message->setSuccess("Group ID has been updated");
         return true;
     }
 

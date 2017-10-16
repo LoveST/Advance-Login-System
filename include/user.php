@@ -9,14 +9,18 @@
 
 namespace ALS;
 
+use ALS\User\Authenticators;
 use ALS\User\Devices;
 
 require "user/User_Default.php";
+require "user/Authenticators.php";
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class User extends User_Default
 {
+
+    private $authenticators;
 
     function __construct()
     {
@@ -98,6 +102,7 @@ class User extends User_Default
         }
 
         $this->setDevices(new Devices()); // create the unique logs class for the current user
+        $this->authenticators = new Authenticators($this->getUserData());
         return true;
     }
 

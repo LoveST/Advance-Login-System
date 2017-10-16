@@ -144,8 +144,9 @@ class Session
             }
 
             // ** set the cookie ** //
-            setcookie("user_data", $newToken, time() + $rememberMe, "/"); // 86400 = 1 day
-            setcookie("user_id", $id, time() + $rememberMe, "/"); // 86400 = 1 day
+            $data = $id . "," . $newToken;
+            $data = $functions->encryptIt($data);
+            setcookie("user_data", $data, time() + $rememberMe, "/"); // 86400 = 1 day
 
         }
 
@@ -236,9 +237,19 @@ class Session
         global $database, $message, $user, $settings, $functions, $browser;
 
         if (empty($_SESSION["user_data"])) { // check if the current session is empty
-            if (!empty($_COOKIE["user_data"]) && !empty($_COOKIE["user_id"])) { // check if the current cookie is not empty or null
-                $userID = $database->secureInput($_COOKIE["user_id"]);
-                $cookieValue = $database->secureInput($_COOKIE["user_data"]);
+            if (!empty($_COOKIE["user_data"])) { // check if the current cookie is not empty or null
+
+                // decrypt the user data
+                $data = $functions->decryptIt($_COOKIE['user_data']);
+                $data = explode(",", $data);
+
+                // check if empty cookie
+                if ($data[0] == "" || $data[1] == "") {
+                    return false;
+                }
+
+                $userID = $database->secureInput($data[0]);
+                $cookieValue = $database->secureInput($data[1]);
 
                 // ** Get the needed information from the database ** //
                 $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $userID . "'";
@@ -302,8 +313,9 @@ class Session
                     // initiate the user data
                     $user->initUserData();
 
+                } else {
+                    return false;
                 }
-                return true;
             } else {
                 return false;
             }

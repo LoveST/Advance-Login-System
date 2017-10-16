@@ -1,6 +1,8 @@
 <?
 
-require "../../init.php";
+require "../../Core.php";
+$core = new \ALS\Core();
+$core->initClasses();
 
 if (!isset($_POST['keyword'])) {
 	die("");
