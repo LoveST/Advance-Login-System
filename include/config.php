@@ -33,6 +33,7 @@ define("SITE_SECRET", md5("This is Just An ExaMple123"));
 
 /**
  * Declare all sql tables that's been used in the script
+ * User Table
  */
 define("TBL_USERS", "users");
 define("TBL_USERS_ID", "id");
@@ -67,6 +68,11 @@ define("TBL_USERS_SECRET", "secret");
 define("TBL_USERS_API_KEY", "api_key");
 define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_USERS_AUTHENTICATORS", "authenticators");
+
+/**
+ * Settings Table
+ */
+
 define("TBL_SETTINGS", "settings");
 define("TBL_SETTINGS_SITE_NAME", "site_name");
 define("TBL_SETTINGS_SITE_URL", "site_url");
@@ -95,7 +101,21 @@ define("TBL_SETTINGS_TWILIO_AUTH_TOKEN", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_PHONE_NUMBER", "twilio_phone_number");
 define("TBL_SETTINGS_TEMPLATES_FOLDER", "templates_folder");
 define("TBL_SETTINGS_LOADING_TIMESTAMP", "loading_timestamp");
+
+/**
+ * Levels-Groups Table
+ */
+
 define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");
 define("TBL_LEVELS_PERMISSIONS", "permissions");
+
+/**
+ * users_auths table
+ */
+
+define("TBL_USERS_AUTHS", "users_auths");
+define("TBL_USERS_AUTHS_ID", "id");
+define("TBL_USERS_AUTHS_SITE", "site");
+define("TBL_USERS_AUTHS_AUTH_TYPE", "auth_type");

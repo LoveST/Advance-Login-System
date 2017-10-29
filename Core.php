@@ -46,6 +46,7 @@ class Core
         require _PATH . "profileManager.php";
         require _PATH . "MailTemplates.php";
         require _PATH . "ViewController.php";
+        require _PATH . "Authenticator.php";
 
         // set the error handler
         $this->_ErrorKiller($dieIfError);
@@ -80,6 +81,7 @@ class Core
         $this->_Session();
         $this->_Administrator();
         $this->_ProfileManager();
+        $this->_Authenticator();
         $this->_MailTemplates();
 
     }
@@ -88,7 +90,7 @@ class Core
      * set the script error reporting messages
      * @param bool $err
      */
-    final function setErrorReporting($err = false)
+    final function setErrorReporting($err = true)
     {
         if ($err) {
             error_reporting(-1);
@@ -243,6 +245,12 @@ class Core
     {
         // build the variable to store it
         $GLOBALS['profileManager'] = new profileManager();
+    }
+
+    function _Authenticator()
+    {
+        // build the variable to store it
+        $GLOBALS['authenticator'] = new Authenticator();
     }
 
     /**

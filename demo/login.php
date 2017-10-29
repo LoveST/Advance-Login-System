@@ -3,6 +3,7 @@
 require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
+
 use ALS\LoginStatus;
 
 if ($session->statusCheck() == LoginStatus::GoodToGo) {
@@ -32,7 +33,11 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
                 }
 
                 if ($session->loginWithPassword($_POST["username"], $_POST["password"], $daysToRemember)) {
-                    header("Location: index.php");
+                    if ($session->anyRedirect()) {
+                        header("Location: " . $session->getRedirect());
+                    } else {
+                        header("Location: index.php");
+                    }
                 }
             }
 

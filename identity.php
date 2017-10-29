@@ -33,6 +33,7 @@ require "include/session.php";
 require "include/administrator.php";
 require "include/profileManager.php";
 require "include/MailTemplates.php";
+require "include/Authenticator.php";
 require "include/ViewController.php";
 /**
  * init Message class
@@ -112,3 +113,8 @@ $profileManager = new profileManager();
  */
 use ALS\MailTemplates;
 $mailTemplates = new MailTemplates();
+/**
+ * init the Authenticator class
+ */
+use ALS\Authenticator;
+$authenticator = new Authenticator();

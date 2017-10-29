@@ -145,7 +145,7 @@ class Session
 
             // ** set the cookie ** //
             $data = $id . "," . $newToken;
-            $data = $functions->encryptIt($data);
+            $data = $functions->encryptIt($data); // encrypt the data
             setcookie("user_data", $data, time() + $rememberMe, "/"); // 86400 = 1 day
 
         }
@@ -156,6 +156,24 @@ class Session
         }
 
         return true;
+    }
+
+    /**
+     * Check if any redirect link has been posted
+     * @return bool
+     */
+    public function anyRedirect()
+    {
+        return !empty($_GET['redirect']);
+    }
+
+    /**
+     * Get the redirect link if available
+     * @return string
+     */
+    public function getRedirect()
+    {
+        return $this->secureInput($_GET['redirect']);
     }
 
     /**

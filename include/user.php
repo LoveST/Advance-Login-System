@@ -175,7 +175,17 @@ class User extends User_Default
         // send a heart beat to the database
         $this->sendHeartBeat();
 
+        $this->authenticators = new Authenticators($this->getUserData());
+
         return true;
+    }
+
+    /**
+     * @return Authenticators
+     */
+    function getAuthenticators()
+    {
+        return $this->authenticators;
     }
 
     /**
@@ -221,11 +231,13 @@ class User extends User_Default
         return true;
     }
 
-    /**
-     * update & set the users current heartbeat
-     * fire this function every time the class User initiates ( for statics )
-     * @return bool
-     */
+    final
+
+        /**
+         * update & set the users current heartbeat
+         * fire this function every time the class User initiates ( for statics )
+         * @return bool
+         */
     function sendHeartBeat()
     {
 
