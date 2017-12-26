@@ -35,6 +35,7 @@ require "include/profileManager.php";
 require "include/MailTemplates.php";
 require "include/Authenticator.php";
 require "include/ViewController.php";
+require "include/Applications.php";
 /**
  * init Message class
  */
@@ -56,6 +57,11 @@ $settings = new Settings();
  */
 use ALS\Groups;
 $groups = new Groups();
+/**
+ *
+ */
+use ALS\AUTH\Google\Google;
+$googleAuth = new Google();
 /**
  * init the View Controller Class
  */
@@ -118,3 +124,8 @@ $mailTemplates = new MailTemplates();
  */
 use ALS\Authenticator;
 $authenticator = new Authenticator();
+/**
+ * init the Applications class
+ */
+use ALS\Applications;
+$applications = new Applications();

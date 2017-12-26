@@ -80,7 +80,7 @@ class API extends Core
     function callMethod($method, $parameters = null)
     {
         // init the required globals
-        global $message, $database, $translator, $user;
+        global $message, $database, $translator, $user, $applications;
 
         // check if method exists
         if ($this->methods[$method] == "") {
@@ -89,8 +89,29 @@ class API extends Core
 
         // create a connection with the database
         $apiUser = new User();
-        if (!$apiUser->initAPIInstance($parameters['key'], $parameters['token'])) {
-            $this->printError($message->getError(3));
+        if($parameters['key'] != "SELF") {
+            if (!$apiUser->initAPIInstance($parameters['key'], $parameters['token'])) {
+                $this->printError($message->getError(3));
+            }
+        } else {
+
+            // check if application id & key are supplied
+            $appID = $parameters['appID'];
+            $appKey = $parameters['appKey'];
+            if($appID == "" || $appKey == ""){
+                $this->printError("Missing Application ID or Key");
+            }
+
+            // check if application exist by id & key
+            if(!$applications->appExist($appID, $appKey)){
+                $this->printError("Wrong Application ID/Key Used");
+            }
+
+            // check if application is active
+            if(!!$applications->appIsActive($appID)){
+                $this->printError("The current application API is offline");
+            }
+
         }
 
         // get the current method parameters

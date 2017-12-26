@@ -321,6 +321,24 @@ class User_Default
     }
 
     /**
+     * get the user's two factor authentication code
+     * @return string
+     */
+    function get2FactorCode()
+    {
+        global $functions;
+
+        $code = $this->userData[TBL_USERS_TWOFACTOR_CODE];
+
+        // check if null
+        if(empty($code) || $code == null){
+            return "";
+        } else {
+            return $functions->decryptIt($code);
+        }
+    }
+
+    /**
      * get the user secret
      * @return string
      */

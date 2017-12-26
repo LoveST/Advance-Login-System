@@ -13,6 +13,7 @@ class API_DEFAULT
 {
 
     private $errorMSG = null;
+    private $successMSG = null;
     private $object = null; // hold the returning results of the api
 
     public function __construct()
@@ -34,9 +35,21 @@ class API_DEFAULT
             $this->printError("Nothing to do here !");
         }
 
-        // encode and print out the object variable
-        $this->printMSG(json_encode($this->object));
+        // check if error message is null
+        if ($this->errorMSG == null) {
+            $error = "";
+        } else {
+            $error = $this->errorMSG;
+        }
 
+        // check if success message is null
+
+        // setup the returning results
+        $errorArray = array('error' => $error);
+        $this->object = array_merge($this->object, $errorArray);
+
+        // return the results array
+        die(json_encode($this->object));
     }
 
     /**
@@ -77,7 +90,7 @@ class API_DEFAULT
      */
     final function anyError()
     {
-        if (empty($this->errorMSG)) {
+        if (empty($this->errorMSG) || $this->errorMSG == null) {
             return false;
         } else {
             return true;
@@ -90,7 +103,32 @@ class API_DEFAULT
      */
     final function getError()
     {
+        if ($this->errorMSG == null) {
+            return "";
+        }
+        
         return $this->errorMSG;
+    }
+
+    /**
+     *
+     * @return null|string
+     */
+    final function getSuccessMSG()
+    {
+        if ($this->successMSG == null) {
+            return "";
+        }
+
+        return $this->successMSG;
+    }
+
+    /**
+     * @param $msg
+     */
+    final function setSuccessMSG($msg)
+    {
+        $this->successMSG = $msg;
     }
 
 }

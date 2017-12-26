@@ -11,6 +11,7 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 $status = $session->statusCheck();
+
 use ALS\LoginStatus;
 
 if ($status == LoginStatus::NeedToLogin) {
@@ -33,7 +34,7 @@ switch ($action) {
                 header("Location: login.php");
             }
         }
-        
+
         $viewController->loadView("profile_change_username.html");
         break;
     case "verified_devices";
@@ -65,7 +66,23 @@ switch ($action) {
         $viewController->loadView("profile_change_password.html");
         break;
     case "change_pin";
-        echo "hello";
+        echo "under construction";
+        break;
+    case "view_2authCode";
+
+        $viewController->loadView("profile_view_2authCode.html");
+
+        break;
+    case "generate_2factorCode";
+
+        // check if post already been submitted
+        if(!isset($_POST['generate'])){
+
+            $viewController->loadView("profile_generate_2factorCode.html");
+
+        }
+
+
         break;
     default;
         $viewController->loadView("profile_main.html");

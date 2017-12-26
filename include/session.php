@@ -885,7 +885,7 @@ class Session
         }
 
         // check if secret key has been setup
-        if ($user->getSecret() == "") {
+        if ($user->get2FactorCode() == "") {
             return false;
         }
 
@@ -920,7 +920,7 @@ class Session
         }
 
         // check if codes match
-        if (!$googleAuth->checkCode($user->getSecret(), $authCode)) {
+        if (!$googleAuth->checkCode($user->get2FactorCode(), $authCode)) {
             $message->setError($translator->translateText("wrongAuthCode"), Message::Error);
             return false;
         }

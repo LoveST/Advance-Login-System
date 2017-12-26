@@ -60,6 +60,7 @@ define("TBL_USERS_SIGNIN_AGAIN", "must_signin_again");
 define("TBL_USERS_HEARTBEAT", "heartbeat");
 define("TBL_USERS_DEVICES", "devices");
 define("TBL_USERS_TWOFACTOR_ENABLED", "twoFactor_enabled");
+define("TBL_USERS_TWOFACTOR_CODE", "twoFactor_code");
 define("TBL_USERS_VERIFICATION_CODE", "verification_code");
 define("TBL_USERS_LASTLOGIN_IP", "lastLogin_ip");
 define("TBL_USERS_BIRTH_DATE", "birth_date");
@@ -119,3 +120,14 @@ define("TBL_USERS_AUTHS", "users_auths");
 define("TBL_USERS_AUTHS_ID", "id");
 define("TBL_USERS_AUTHS_SITE", "site");
 define("TBL_USERS_AUTHS_AUTH_TYPE", "auth_type");
+
+/**
+ * users_api_calls
+ */
+
+define("TBL_USERS_API_CALLS" , "TBL_USERS_API_CALLS");
+define("TBL_USERS_API_CALLS_USER_ID" , "user_id");
+define("TBL_USERS_API_CALLS_USER_TOKEN" , "user_token");
+define("TBL_USERS_API_CALLS_EXPIRATION_DATE" , "expiration_date");
+define("TBL_USERS_API_CALLS_APP_ID" , "app_id");
+define("TBL_USERS_API_CALLS_APP_KEY" , "app_key");

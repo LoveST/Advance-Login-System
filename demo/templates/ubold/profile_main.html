@@ -1,3 +1,4 @@
+<? GLOBAL $user; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +75,16 @@
                     <div class="panel-body">
                         <p class="text-center"><a href="profile.php?ac=verified_devices" class="text-primary m-l-5"><b>Verified Devices</b></a></p>
                     </div>
+                    <? if({:$$user}->twoFactorEnabled()){ ?>
+                    <div class="panel-body">
+                        <p class="text-center"><a href="profile.php?ac=view_2authCode" class="text-primary m-l-5"><b>View 2-Factor Auth Code</b></a></p>
+                    </div>
+                    <? } ?>
+                    <? if({:$$user}->twoFactorEnabled()){ ?>
+                    <div class="panel-body">
+                        <p class="text-center"><a href="profile.php?ac=generate_2factorCode" class="text-primary m-l-5"><b>Re-Generate 2-Factor Auth Code</b></a></p>
+                    </div>
+                    <? } ?>
                 </div>
 
             </form>

@@ -10,6 +10,6 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 //$groups->addPermission("als_test", "user");
-var_dump($user->hasPermission("als_SELF(USER)_checkUser"));
 echo $message->printError(3);
-echo $message->getSuccess();
+
+echo $functions->encryptIt($user->get2FactorCode());
