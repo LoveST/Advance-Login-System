@@ -104,9 +104,9 @@ class API_DEFAULT
     final function getError()
     {
         if ($this->errorMSG == null) {
-            return "";
+            return '';
         }
-        
+
         return $this->errorMSG;
     }
 

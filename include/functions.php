@@ -160,6 +160,34 @@ class Functions
     }
 
     /**
+     * Get a specific user ID by giving its username
+     * @param string $username
+     * @return bool|int
+     */
+    function getUserID($username)
+    {
+
+        global $database;
+
+        // prepare the sql query
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
+
+        // execute the query
+        $results = $database->getQueryResults($sql);
+
+        // check if results are found
+        if ($database->getQueryNumRows($results, true) <= 0) {
+            return false;
+        }
+
+        // get the user id
+        $id = $database->getQueryEffectedRow($results, true)[TBL_USERS_ID];
+
+        // return the the user id
+        return $id;
+    }
+
+    /**
      * Generate a random string
      * @param int $length
      * @return string

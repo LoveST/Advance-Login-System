@@ -9,7 +9,9 @@
 require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
-//$groups->addPermission("als_test", "user");
-echo $message->printError(3);
 
-echo $functions->encryptIt($user->get2FactorCode());
+// generate a uuid for the user token for API requests
+$u = new \ALS\User();
+$u->initUserRestAPI(1);
+
+echo $u->getUsername();

@@ -74,6 +74,39 @@ class User extends User_Default
         return $this;
     }
 
+    function initUserRestAPI($id)
+    {
+
+        global $database, $groups;
+
+        // check if id is empty
+        if (empty($id) || $id == "") {
+            return false;
+        }
+
+        // setup the sql request
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $id . "' LIMIT 1";
+
+        // get the results
+        $data = $database->getQueryResults($sql);
+
+        // check if user exists
+        if ($database->getQueryNumRows($data, true) <= 0) {
+            return false;
+        }
+
+        // get the required data
+        $data = $database->getQueryEffectedRow($data, true);
+
+        // set the userData
+        $this->setUserData($data);
+
+        // set the user group
+        $this->setGroup($groups->loadGroup($this->getGroupID()));
+
+        return $this;
+    }
+
     /**
      * init an instance of this class and supply it with the user data ($data) and the other classes Or basically use a username for the variable ($data)
      * @param $data

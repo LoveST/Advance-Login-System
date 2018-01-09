@@ -9,6 +9,7 @@
 namespace ALS;
 require "Core.php";
 require "include/api/API_DEFAULT.php"; // call the default api constructor
+require "include/api/USER_API.php"; // call the default User api constructor
 
 class API extends Core
 {
@@ -89,29 +90,28 @@ class API extends Core
 
         // create a connection with the database
         $apiUser = new User();
-        if($parameters['key'] != "SELF") {
+        if ($parameters['key'] != "SELF") {
             if (!$apiUser->initAPIInstance($parameters['key'], $parameters['token'])) {
                 $this->printError($message->getError(3));
             }
         } else {
 
             // check if application id & key are supplied
-            $appID = $parameters['appID'];
-            $appKey = $parameters['appKey'];
-            if($appID == "" || $appKey == ""){
+            $appID = $database->secureInput($parameters['appID']);
+            $appKey = $database->secureInput($parameters['appKey']);
+            if ($appID == "" || $appKey == "") {
                 $this->printError("Missing Application ID or Key");
             }
 
             // check if application exist by id & key
-            if(!$applications->appExist($appID, $appKey)){
+            if (!$applications->appExist($appID, $appKey)) {
                 $this->printError("Wrong Application ID/Key Used");
             }
 
             // check if application is active
-            if(!!$applications->appIsActive($appID)){
+            if (!$applications->appIsActive($appID)) {
                 $this->printError("The current application API is offline");
             }
-
         }
 
         // get the current method parameters

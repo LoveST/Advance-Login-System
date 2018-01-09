@@ -125,9 +125,14 @@ define("TBL_USERS_AUTHS_AUTH_TYPE", "auth_type");
  * users_api_calls
  */
 
-define("TBL_USERS_API_CALLS" , "TBL_USERS_API_CALLS");
+define("TBL_USERS_API_CALLS" , "users_api_calls");
 define("TBL_USERS_API_CALLS_USER_ID" , "user_id");
 define("TBL_USERS_API_CALLS_USER_TOKEN" , "user_token");
 define("TBL_USERS_API_CALLS_EXPIRATION_DATE" , "expiration_date");
 define("TBL_USERS_API_CALLS_APP_ID" , "app_id");
 define("TBL_USERS_API_CALLS_APP_KEY" , "app_key");
+define("TBL_USERS_API_CALLS_USER_BROWSER" , "user_browser");
+define("TBL_USERS_API_CALLS_BROWSER_NAME" , "browser_name");
+define("TBL_USERS_API_CALLS_BROWSER_AOL" , "browser_aol");
+define("TBL_USERS_API_CALLS_USER_AGENT" , "user_agent");
+define("TBL_USERS_API_CALLS_USER_IP" , "user_ip");

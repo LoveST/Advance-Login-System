@@ -9,11 +9,13 @@
 namespace ALS\API;
 
 use ALS\User;
+use ALS\USER_API\USER_API;
 
-class login extends API_DEFAULT
+class login
 {
 
     private $user;
+    private $userObj = null;
 
     /**
      * user_exist constructor.
@@ -25,39 +27,39 @@ class login extends API_DEFAULT
         // set the user class
         $this->user = $user;
 
-        // construct the parent class
-        parent::__construct();
+        // create the user session class
+        $token = $params['token'];
+        $userObj = new USER_API($token);
+        $this->userObj = $userObj;
 
         // prepare the results
         $this->tryLogin($params);
 
         // execute the api call
-        parent::executeAPI();
+        $userObj->executeAPI();
 
     }
 
     function tryLogin($params)
     {
-        global $functions;
+        global $functions, $browser, $database, $settings;
 
         // check if username or password is empty
-        if(empty($params['username']) || empty($params['password'])){
-            parent::printError("Missing username or password");
+        if (empty($params['username']) || empty($params['password'])) {
+            $this->userObj->printError("Missing username or password");
         }
 
         // create the required variables
-        $username = $params['username'];
-        $password = $params['password'];
+        $username = $database->secureInput($params['username']);
+        $password = $database->secureInput($params['password']);
 
-        // check if user exist
-        if(!$functions->userExist($username)){
-            parent::printError("Wrong username or password used.");
+        // check if already logged in
+        if ($this->userObj->logged_in()) {
+            $this->userObj->printError("already logged in");
+            return false;
         }
 
-        // print the success message
-        $token = md5("testtesttest");
-        parent::setExecutable(array("token" => $token));
-        //parent::printMSG("logged in successfully");
-
+        // try to log in
+        $this->userObj->login($username, $password, $params['appID'], $params['appKey']);
     }
 }
