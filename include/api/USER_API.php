@@ -48,7 +48,7 @@ class USER_API extends API_DEFAULT
 
         // check if DB contains the token
         if ($database->getQueryNumRows($results, true) <= 0) {
-            parent::printError("API token does not exist");
+            parent::printError(9991,"API token does not exist");
             return false;
         }
 
@@ -57,15 +57,16 @@ class USER_API extends API_DEFAULT
 
         // get the user token, expiration date, user agent, browser name & ip
         $userID = $user[TBL_USERS_API_CALLS_USER_ID];
-        $expirationDate = $functions->decryptIt($user[TBL_USERS_API_CALLS_EXPIRATION_DATE]);
-        $userAgent = $functions->decryptIt($user[TBL_USERS_API_CALLS_USER_AGENT]);
-        $browserName = $functions->decryptIt($user[TBL_USERS_API_CALLS_BROWSER_NAME]);
-        $ip = $functions->decryptIt($user[TBL_USERS_API_CALLS_USER_IP]);
+        $expirationDate = trim($user[TBL_USERS_API_CALLS_EXPIRATION_DATE]);
+        $userAgent = trim($user[TBL_USERS_API_CALLS_USER_AGENT]);
+        $browserName = trim($user[TBL_USERS_API_CALLS_BROWSER_NAME]);
+        $platform = trim($user[TBL_USERS_API_CALLS_PLATFORM]);
+        $ip = trim($functions->decryptIt($user[TBL_USERS_API_CALLS_USER_IP]));
 
         // Todo add the ability to modify the option to enable or disable multiple IP requests
-        if ($settings->sameIpLogin()) {
+        if ($settings->sameIpLogin() && !$functions->is_localhost($ip)) {
             // check if different ip is present
-            if ($functions->getUserIP() != $ip) {
+            if (strcmp($functions->getUserIP(), $ip) != 0) {
                 return false;
             }
         }
@@ -80,10 +81,15 @@ class USER_API extends API_DEFAULT
             return false;
         }
 
+        // check if different platform presents
+        if ($browser->getPlatform() != $platform) {
+            return false;
+        }
+
         // check if token is expired, then delete the token it self
-        if (strtotime($expirationDate) < time()) {
+        if ($expirationDate < time()) {
             $this->deleteToken($token, $userID);
-            parent::printError("Token expired");
+            parent::printError(9992, "Token expired");
             return false;
         }
 
@@ -104,7 +110,7 @@ class USER_API extends API_DEFAULT
 
         // get the user id and check if user exist
         if (!$id = $functions->getUserID($username)) {
-            parent::printError("Wrong username or password used");
+            parent::printError(0003, "Wrong username or password used");
         }
 
         // check if passwords match
@@ -114,23 +120,40 @@ class USER_API extends API_DEFAULT
 
         // check the passwords
         if (!password_verify($password, $row[TBL_USERS_PASSWORD])) {
-            parent::printError("Wrong username or password used");
+            parent::printError(0003, "Wrong username or password used");
         }
 
         // get the user browser information & encrypt them
-        $platform = $functions->encryptIt($browser->getPlatform());
-        $expirationDate = $functions->encryptIt("");
-        $userAgent = $functions->encryptIt($browser->getUserAgent());
-        $browserName = $functions->encryptIt($browser->getBrowser());
-        $browserAOL = $functions->encryptIt($browser->getAolVersion());
+        $platform = $browser->getPlatform();
+        $expirationDate = strtotime('+7 day', time());
+        $userAgent = $browser->getUserAgent();
+        $browserName = $browser->getBrowser();
+        $browserAOL = $browser->getAolVersion();
         $ip = $functions->encryptIt($functions->getUserIP());
 
         // generate the user UUID
         $uuid = uniqid(md5($username . $id . $browser->getUserAgent() . $browser->getPlatform()), true);
 
+        // check if user has already logged in throw the same Application
+        $sql = "SELECT * FROM " . TBL_USERS_API_CALLS . " WHERE " . TBL_USERS_API_CALLS_APP_ID . " = '" . $appID . "' AND " . TBL_USERS_API_CALLS_APP_KEY . " = '" . $appKey . "'";
+        $results = $database->getQueryResults($sql);
+        $row = $database->getQueryEffectedRow($results, true);
+
+        //  if any results were found
+        if ($database->getQueryNumRows($results, true) > 0) {
+            // print the user new token
+            parent::setExecutable(array("token" => $row[TBL_USERS_API_CALLS_USER_TOKEN]));
+            return true;
+        }
+
         // insert the data to Database
+        $sql = "INSERT INTO " . TBL_USERS_API_CALLS . " (" . TBL_USERS_API_CALLS_USER_ID . ", " . TBL_USERS_API_CALLS_USER_TOKEN . ", " . TBL_USERS_API_CALLS_EXPIRATION_DATE . ", " . TBL_USERS_API_CALLS_APP_ID . ", " . TBL_USERS_API_CALLS_APP_KEY . ", " . TBL_USERS_API_CALLS_PIN_VERIFIED . ", " . TBL_USERS_API_CALLS_BROWSER_NAME . ", " . TBL_USERS_API_CALLS_BROWSER_AOL . ", " . TBL_USERS_API_CALLS_USER_AGENT . ", " . TBL_USERS_API_CALLS_USER_IP . ", " . TBL_USERS_API_CALLS_PLATFORM . ") 
+                VALUES ('$id', '$uuid', '$expirationDate', '$appID', '$appKey', '0', '$browserName', '$browserAOL', '$userAgent', '$ip', '$platform')";
 
+        // execute the sql request
+        $database->getQueryResults($sql);
 
+        // print the user new token
         parent::setExecutable(array("token" => $uuid));
     }
 

@@ -37,12 +37,12 @@ class API extends Core
         // check if the main methods file exists
         $filePath = __DIR__ . $database->getSubLine() . "include" . $database->getSubLine() . "api" . $database->getSubLine() . "methods.ini";
         if (!is_readable($filePath)) {
-            $this->printError("Main methods file does not exist");
+            $this->printError(8889, "Main methods file does not exist");
         }
 
         // try to parse the file
         if (!$file = parse_ini_file($filePath, true)) {
-            $this->printError("Unable to parse the main methods file");
+            $this->printError(8888, "Unable to parse the main methods file");
         }
 
         // store the file content
@@ -61,12 +61,12 @@ class API extends Core
 
         // check if the main methods file exists
         if (!is_readable($filePath)) {
-            $this->printError("Custom methods file does not exist");
+            $this->printError(8886, "Custom methods file does not exist");
         }
 
         // try to parse the file
         if (!$file = parse_ini_file($filePath, true)) {
-            $this->printError("Unable to parse the custom methods file");
+            $this->printError(8885, "Unable to parse the custom methods file");
         }
 
         // merge the current methods with the new ones
@@ -85,7 +85,7 @@ class API extends Core
 
         // check if method exists
         if ($this->methods[$method] == "") {
-            $this->printError("Called method does not exist");
+            $this->printError(8884, "Called method does not exist");
         }
 
         // create a connection with the database
@@ -100,17 +100,17 @@ class API extends Core
             $appID = $database->secureInput($parameters['appID']);
             $appKey = $database->secureInput($parameters['appKey']);
             if ($appID == "" || $appKey == "") {
-                $this->printError("Missing Application ID or Key");
+                $this->printError(8883, "Missing Application ID or Key");
             }
 
             // check if application exist by id & key
             if (!$applications->appExist($appID, $appKey)) {
-                $this->printError("Wrong Application ID/Key Used");
+                $this->printError(8882, "Wrong Application ID/Key Used");
             }
 
             // check if application is active
             if (!$applications->appIsActive($appID)) {
-                $this->printError("The current application API is offline");
+                $this->printError(88881, "The current application API is offline");
             }
         }
 
@@ -141,7 +141,7 @@ class API extends Core
         // check if the needed method file exist
         //die($newFilePath);
         if (!is_readable($newFilePath)) {
-            $this->printError("Method file does not exist");
+            $this->printError(8880, "Method file does not exist");
         }
 
         // load the class file
@@ -168,14 +168,14 @@ class API extends Core
         return true;
     }
 
-    function printError($msg)
+    /**
+     * print an error message to the user
+     * @param null|string $errCode
+     * @param null|string $errMsg
+     */
+    final function printError($errCode, $errMsg = "")
     {
-
-        // set the array
-        $array = array("error" => $msg);
-
-        // die and print the message in JSON format
-        die(json_encode($array));
+        die(json_encode(array("errorCode" => $errCode, "errorMsg" => $errMsg)));
     }
 
 }

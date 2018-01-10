@@ -32,7 +32,7 @@ class API_DEFAULT
         }
 
         if ($this->object == null) {
-            $this->printError("Nothing to do here !");
+            $this->printError(9999, "Nothing to do here !");
         }
 
         // check if error message is null
@@ -45,7 +45,7 @@ class API_DEFAULT
         // check if success message is null
 
         // setup the returning results
-        $errorArray = array('error' => $error);
+        $errorArray = array('errorCode' => $error);
         $this->object = array_merge($this->object, $errorArray);
 
         // return the results array
@@ -73,14 +73,15 @@ class API_DEFAULT
 
     /**
      * print an error message to the user
-     * @param null|string $msg
+     * @param null|string $errCode
+     * @param null|string $errMsg
      */
-    final function printError($msg = null)
+    final function printError($errCode = null, $errMsg = null)
     {
-        if ($msg == null) {
+        if ($errCode == null) {
             die(json_encode(array("error" => $this->getError())));
         } else {
-            die(json_encode(array("error" => $msg)));
+            die(json_encode(array("errorCode" => $errCode, "errorMsg" => $errMsg)));
         }
     }
 

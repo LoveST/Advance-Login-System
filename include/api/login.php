@@ -44,20 +44,20 @@ class login
     {
         global $functions, $browser, $database, $settings;
 
+        // check if already logged in
+        if ($this->userObj->logged_in()) {
+            $this->userObj->printError(0001, "already logged in");
+            return false;
+        }
+
         // check if username or password is empty
         if (empty($params['username']) || empty($params['password'])) {
-            $this->userObj->printError("Missing username or password");
+            $this->userObj->printError(0002, "Missing username or password");
         }
 
         // create the required variables
         $username = $database->secureInput($params['username']);
         $password = $database->secureInput($params['password']);
-
-        // check if already logged in
-        if ($this->userObj->logged_in()) {
-            $this->userObj->printError("already logged in");
-            return false;
-        }
 
         // try to log in
         $this->userObj->login($username, $password, $params['appID'], $params['appKey']);

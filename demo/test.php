@@ -10,8 +10,8 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-// generate a uuid for the user token for API requests
-$u = new \ALS\User();
-$u->initUserRestAPI(1);
-
-echo $u->getUsername();
+if(("1516149317") < time()){
+    echo "1516149317";
+} else {
+    echo "not expired";
+}

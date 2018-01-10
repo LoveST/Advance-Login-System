@@ -14,51 +14,42 @@ class Functions
 
     /**
      * encrypt a string using the site key
-     * @param $data
+     * @param $text
      * @return string
      */
-    function encryptIt($data)
+    function encryptIt($text)
     {
 
-        // define all the global variables
-        global $settings;
+        $ivlen = openssl_cipher_iv_length($cipher = "AES-128-CBC");
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $ciphertext_raw = openssl_encrypt($text, $cipher, SITE_SECRET, $options = OPENSSL_RAW_DATA, $iv);
+        $hmac = hash_hmac('sha256', $ciphertext_raw, SITE_SECRET, $as_binary = true);
+        $ciphertext = base64_encode($iv . $hmac . $ciphertext_raw);
 
-        $encrypt = serialize($data);
-        $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
-        $key = pack('H*', $settings->secretKey());
-        $mac = hash_hmac('sha256', $encrypt, substr(bin2hex($key), -32));
-        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $encrypt . $mac, MCRYPT_MODE_CBC, $iv);
-        $encoded = base64_encode($passcrypt) . '|' . base64_encode($iv);
-        return $encoded;
+        return $ciphertext;
     }
 
     /**
      * decrypt a string using the site key
-     * @param $data
+     * @param $text
      * @return string
      */
-    function decryptIt($data)
+    function decryptIt($text)
     {
 
-        // define all the global variables
-        global $settings;
-
-        $decrypt = explode('|', $data . '|');
-        $decoded = base64_decode($decrypt[0]);
-        $iv = base64_decode($decrypt[1]);
-        if (strlen($iv) !== mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC)) {
-            return false;
+        $c = base64_decode($text);
+        $ivlen = openssl_cipher_iv_length($cipher = "AES-128-CBC");
+        $iv = substr($c, 0, $ivlen);
+        $hmac = substr($c, $ivlen, $sha2len = 32);
+        $ciphertext_raw = substr($c, $ivlen + $sha2len);
+        $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, SITE_SECRET, $options = OPENSSL_RAW_DATA, $iv);
+        $calcmac = hash_hmac('sha256', $ciphertext_raw, SITE_SECRET, $as_binary = true);
+        if (hash_equals($hmac, $calcmac))//PHP 5.6+ timing attack safe comparison
+        {
+            return $original_plaintext . "\n";
+        } else {
+            return "";
         }
-        $key = pack('H*', $settings->secretKey());
-        $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $decoded, MCRYPT_MODE_CBC, $iv));
-        $mac = substr($decrypted, -64);
-        $decrypted = substr($decrypted, 0, -64);
-        $calcmac = hash_hmac('sha256', $decrypted, substr(bin2hex($key), -32));
-        if ($calcmac !== $mac) {
-            return false;
-        }
-        $decrypted = unserialize($decrypted);
-        return $decrypted;
     }
 
     /**
@@ -377,7 +368,26 @@ class Functions
      */
     function getUserIP()
     {
-        return $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR'];
+        return trim($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_X_FORWARDED_FOR']);
+    }
+
+    /**
+     * Check if the user is on a localhost server
+     * @param string $ip
+     * @return bool
+     */
+    function is_localhost($ip = "")
+    {
+        if (empty($ip) || $ip == "") {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        $whitelist = array('::1', '127.0.0.1');
+        if (in_array($ip, $whitelist)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
