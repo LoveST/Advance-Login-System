@@ -36,7 +36,7 @@ Make sure the ``` cache ``` file inside the desired template has a ``` CHMOD 777
 Include the Core.php file to your desired script files.
 
 ```php
-require "init.php";
+require "Core.php";
 ```
 
 Initiate the class.
