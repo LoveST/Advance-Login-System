@@ -48,7 +48,7 @@ class USER_API extends API_DEFAULT
 
         // check if DB contains the token
         if ($database->getQueryNumRows($results, true) <= 0) {
-            parent::printError(9991,"API token does not exist");
+            parent::printError(9991, "API token does not exist");
             return false;
         }
 
@@ -57,6 +57,7 @@ class USER_API extends API_DEFAULT
 
         // get the user token, expiration date, user agent, browser name & ip
         $userID = $user[TBL_USERS_API_CALLS_USER_ID];
+        $pinVerified = trim($user[TBL_USERS_API_CALLS_PIN_VERIFIED]);
         $expirationDate = trim($user[TBL_USERS_API_CALLS_EXPIRATION_DATE]);
         $userAgent = trim($user[TBL_USERS_API_CALLS_USER_AGENT]);
         $browserName = trim($user[TBL_USERS_API_CALLS_BROWSER_NAME]);
@@ -90,6 +91,12 @@ class USER_API extends API_DEFAULT
         if ($expirationDate < time()) {
             $this->deleteToken($token, $userID);
             parent::printError(9992, "Token expired");
+            return false;
+        }
+
+        // check if pin has been verified
+        if ($pinVerified == 0) {
+            parent::printError(9993, "Pin Verification Is Required");
             return false;
         }
 
