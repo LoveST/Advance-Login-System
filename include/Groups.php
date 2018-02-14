@@ -211,6 +211,11 @@ class Groups
             // loop throw each permission
             foreach ($perm as $permission) {
 
+                // check if permission is empty
+                if (empty($permission)) {
+                    continue;
+                }
+
                 // check if permission already exists
                 if ($group->permissionExist($permission)) {
                     continue;
@@ -304,6 +309,11 @@ class Groups
             // loop throw each permission
             foreach ($perm as $permission) {
 
+                // check if permission is empty
+                if (empty($permission)) {
+                    continue;
+                }
+
                 // check if permission already exists
                 if (!$group->permissionExist($permission)) {
                     continue;
@@ -383,6 +393,36 @@ class Groups
         } else {
             return false;
         }
+    }
+
+    /**
+     * List all the available groups
+     * @return Group[]
+     */
+    function listGroups()
+    {
+        // define all the global variables
+        global $database;
+
+        // call the database to list the groups
+        $sql = "SELECT * FROM " . TBL_LEVELS;
+
+        // get the results
+        $results = $database->getQueryResults($sql);
+
+        // get the data
+        $rows = $database->getQueryEffectedRows($results, true);
+
+        // loop throw the results
+        $groups = array();
+        $i = 0;
+        foreach ($rows as $group) {
+            $groups[$i] = new Group($group);
+            $i++;
+        }
+
+        // return the results
+        return $groups;
     }
 
 }

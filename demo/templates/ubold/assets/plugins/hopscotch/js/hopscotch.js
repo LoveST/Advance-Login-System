@@ -63,7 +63,7 @@
 
   // If cookies are disabled, accessing sessionStorage can throw an error.
   // sessionStorage could also throw an error in Safari on write (even though it exists).
-  // So, we'll try writing to sessionStorage to verify it's available.
+  // So, we'll try writing to sessionStorage to checkstatus it's available.
   try {
     if(typeof window.sessionStorage !== undefinedStr){
       hasSessionStorage = true;

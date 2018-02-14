@@ -10,8 +10,6 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-if(("1516149317") < time()){
-    echo "1516149317";
-} else {
-    echo "not expired";
+foreach ($groups->listGroups() as $group) {
+    echo "Group name : " . $group->getName() . "<br>";
 }

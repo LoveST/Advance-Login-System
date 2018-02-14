@@ -382,6 +382,33 @@ class Settings
     }
 
     /**
+     * Get the required max length for a pin number
+     * @return int
+     */
+    function maxRequiredPinLength()
+    {
+        return $this->settings[TBL_SETTINGS_MAX_REQUIRED_PIN_LENGTH];
+    }
+
+    /**
+     * Get the maximum required password length
+     * @return int
+     */
+    function maxPasswordLength()
+    {
+        return $this->settings[TBL_SETTINGS_MAX_PASSWORD_LENGTH];
+    }
+
+    /**
+     * Get the minimum required password length
+     * @return int
+     */
+    function minPasswordLength()
+    {
+        return $this->settings[TBL_SETTINGS_MIN_PASSWORD_LENGTH];
+    }
+
+    /**
      * check if https is enabled in the settings
      * @return bool
      */

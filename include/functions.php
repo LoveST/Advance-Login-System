@@ -421,6 +421,11 @@ class Functions
         }
     }
 
+    /**
+     * Check if a certain directory is empty
+     * @param $path
+     * @return bool|null
+     */
     function isDirEmpty($path)
     {
         if (!is_readable($path)) return NULL;
@@ -431,6 +436,54 @@ class Functions
             }
         }
         return TRUE;
+    }
+
+    /**
+     * Check if a pin number has a valid length
+     * @param int $pin
+     * @return bool
+     */
+    function isValidPinLength($pin)
+    {
+        // define the required global variables
+        global $settings;
+
+        // check if $pin is empty or has 0 length
+        if (empty($pin) || strlen($pin) == 0 || $pin == null) {
+            return false;
+        }
+
+        // check if pin number length match the required
+        if (strlen($pin) != $settings->maxRequiredPinLength()) {
+            return false;
+        }
+
+        // if no errors then return true
+        return true;
+    }
+
+    /**
+     * Check if a password length is valid
+     * @param string $password
+     * @return bool
+     */
+    function isValidPasswordLength($password)
+    {
+        // define the required global variables
+        global $settings;
+
+        // check if $password is empty or has 0 length
+        if (empty($password) || strlen($password) == 0 || $password == null) {
+            return false;
+        }
+
+        // check if the password length match the required script settings
+        if (strlen($password) < $settings->minPasswordLength() || strlen($password) > $settings->maxPasswordLength()) {
+            return false;
+        }
+
+        // if no errors then return true
+        return true;
     }
 
 }

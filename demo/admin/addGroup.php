@@ -15,7 +15,7 @@ $session->adminCheck();
 /** End check user & site status**/
 
 // check if form has been submitted
-if(isset($_POST['add'])){
+if (isset($_POST['add'])) {
 
     // grab the needed information
     $name = $_POST['name'];
@@ -30,4 +30,4 @@ if(isset($_POST['add'])){
 
 }
 
-$viewController->loadView("ad_addLevel.html");
+$viewController->loadView("ad_addGroup.html");

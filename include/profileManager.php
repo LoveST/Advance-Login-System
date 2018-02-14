@@ -6,6 +6,7 @@
  * Date: 3/7/2017
  * Time: 3:22 PM
  */
+
 namespace ALS;
 
 class profileManager
@@ -236,6 +237,69 @@ class profileManager
         // after no errors then return a success message and log the user out
         $message->setSuccess("You have successfully updated your password !");
         $user->forceSignInAgain();
+        return true;
+    }
+
+    /**
+     * Set a new pin number for the current user
+     * @param $password
+     * @param $currentPin
+     * @param $newPin
+     * @param $confirmPin
+     * @return bool
+     */
+    function setNewPin($password, $currentPin, $newPin, $confirmPin)
+    {
+        // define all the global variables
+        global $message, $user, $database, $settings, $functions;
+
+        // secure the variables
+        $password = $database->secureInput($password);
+
+        // check if any of the field are empty
+        if ($password == "" || $currentPin == "" || $newPin == "" || $confirmPin == "") {
+            $message->setError("All the required fields must be filled", Message::Error);
+            return false;
+        }
+
+        // check if pin numbers are numeric
+        if (!is_numeric($currentPin) || !is_numeric($newPin)) {
+            $message->setError("Pin number has to been a numeric value", Message::Error);
+            return false;
+        }
+
+        // check if any pin number length is less or greater than the required
+        if (!$functions->isValidPinLength($newPin)) {
+            $message->setError("Pin number length has to be exactly " . $settings->maxRequiredPinLength(), Message::Error);
+            return false;
+        }
+
+        // check if both pin's match
+        if ($newPin != $confirmPin) {
+            $message->setError("Both Pin's most match", Message::Error);
+            return false;
+        }
+
+        // check if the password is correct
+        if (!$user->is_samePassword($password)) {
+            $message->setError("Wrong password has been used", Message::Error);
+            return false;
+        }
+
+        // check if the pin is correct
+        if (!$user->is_samePinNumber(md5($currentPin))) {
+            $message->setError("Wrong pin number used", Message::Error);
+            return false;
+        }
+
+        // update the current pin
+        $user->updateUserRecord(TBL_USERS_PIN, md5($newPin));
+
+        // force the user to sign off
+        $user->forceSignInAgain();
+
+        // if everything is done then return true
+        $message->setSuccess("Pin number updated successfully");
         return true;
     }
 

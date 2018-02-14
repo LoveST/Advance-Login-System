@@ -66,7 +66,14 @@ switch ($action) {
         $viewController->loadView("profile_change_password.html");
         break;
     case "change_pin";
-        echo "under construction";
+
+        if (isset($_POST['update'])) {
+            if ($profileManager->setNewPin($_POST['currentPass'], $_POST['currentPin'], $_POST['newPin'], $_POST['confirmPin'])) {
+                header("Location: login.php");
+            }
+        }
+
+        $viewController->loadView("profile_change_pin.html");
         break;
     case "view_2authCode";
 
@@ -76,7 +83,7 @@ switch ($action) {
     case "generate_2factorCode";
 
         // check if post already been submitted
-        if(!isset($_POST['generate'])){
+        if (!isset($_POST['generate'])) {
 
             $viewController->loadView("profile_generate_2factorCode.html");
 

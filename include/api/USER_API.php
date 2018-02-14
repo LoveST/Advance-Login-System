@@ -110,6 +110,14 @@ class USER_API extends API_DEFAULT
         return true;
     }
 
+    /**
+     * Log the user in
+     * @param $username
+     * @param $password
+     * @param $appID
+     * @param $appKey
+     * @return bool
+     */
     public function login($username, $password, $appID, $appKey)
     {
 
@@ -162,6 +170,27 @@ class USER_API extends API_DEFAULT
 
         // print the user new token
         parent::setExecutable(array("token" => $uuid));
+    }
+
+    public function checkStatus($token, $appID, $appKEY)
+    {
+
+        global $database, $functions;
+
+        // check if application ID or Key are missing
+        if (empty($appID) || empty($appKEY) || $appID == null || $appKEY == null) {
+            parent::printError(9960, "Missing Application ID or Key");
+            return false;
+        }
+
+        // check if token is missing
+        if (empty($token) || $token == null) {
+            parent::printError(9961, "Missing Login Token");
+            return false;
+        }
+
+        // if no errors then return a success message
+        parent::setExecutable(array("status" => "1"));
     }
 
     /**

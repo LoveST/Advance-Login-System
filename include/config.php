@@ -102,6 +102,9 @@ define("TBL_SETTINGS_TWILIO_AUTH_TOKEN", "twilio_account_sid");
 define("TBL_SETTINGS_TWILIO_PHONE_NUMBER", "twilio_phone_number");
 define("TBL_SETTINGS_TEMPLATES_FOLDER", "templates_folder");
 define("TBL_SETTINGS_LOADING_TIMESTAMP", "loading_timestamp");
+define("TBL_SETTINGS_MAX_REQUIRED_PIN_LENGTH", "max_required_pin_length");
+define("TBL_SETTINGS_MAX_PASSWORD_LENGTH", "max_password_length");
+define("TBL_SETTINGS_MIN_PASSWORD_LENGTH", "min_password_length");
 
 /**
  * Levels-Groups Table

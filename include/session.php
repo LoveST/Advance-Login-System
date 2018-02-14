@@ -727,7 +727,7 @@ class Session
     }
 
     /**
-     * verify the users current device
+     * checkstatus the users current device
      * @param $pin
      * @return boolean
      */
