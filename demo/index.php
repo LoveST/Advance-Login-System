@@ -5,6 +5,7 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 $status = $session->statusCheck();
+
 use ALS\LoginStatus;
 
 if ($status == LoginStatus::NeedToLogin) {

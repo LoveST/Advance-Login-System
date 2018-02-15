@@ -197,11 +197,11 @@ class Functions
     /**
      * Convert a string that its in a time format to an actual time based string ("Y-m-d H:i:s")
      * @param $time2
+     * @param int $precision
      * @return string
      */
-    function calculateTime($time2)
+    function calculateTime($time2, $precision = 1)
     {
-        $precision = 1;
         $time1 = time();
         // If not numeric then convert timestamps
         if (!is_int($time1)) {

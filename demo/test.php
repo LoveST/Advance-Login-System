@@ -10,6 +10,4 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-foreach ($groups->listGroups() as $group) {
-    echo "Group name : " . $group->getName() . "<br>";
-}
+var_dump($groups->getDefaultGroup());

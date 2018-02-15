@@ -114,6 +114,7 @@ define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");
 define("TBL_LEVELS_PERMISSIONS", "permissions");
+define("TBL_LEVELS_DEFAULT_GROUP", "default_group");
 
 /**
  * users_auths table

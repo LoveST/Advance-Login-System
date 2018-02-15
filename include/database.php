@@ -34,7 +34,8 @@ class Database
         $this->checkConnectionType();
     }
 
-    final function connect(){
+    final function connect()
+    {
         // connect to the Database
         $this->connection = $this->_CONNECTION_TYPE->connect();
     }

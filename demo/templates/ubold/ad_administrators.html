@@ -6,18 +6,18 @@
     <meta name="description" content="">
     <meta name="author" content="Coderthemes">
     <!-- App Favicon icon -->
-    <link rel="shortcut icon" href="../<?=TEMPLATE_PATH?>/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{:settings_templateURL}assets/images/favicon.ico">
     <!-- App Title -->
     <title><?=SITE_NAME . " | "; ?> Administrators</title>
 
 
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/core.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/components.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/icons.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/pages.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/menu.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="{:settings_templateURL}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/core.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/icons.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/pages.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/menu.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/responsive.css" rel="stylesheet" type="text/css"/>
 
     <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,7 +26,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <script src="../<?=TEMPLATE_PATH?>/assets/js/modernizr.min.js"></script>
+    <script src="{:settings_templateURL}assets/js/modernizr.min.js"></script>
 
 </head>
 
@@ -35,7 +35,6 @@
 
 
 <!-- Navigation Bar-->
-
 
 
 <div class="wrapper">
@@ -67,12 +66,12 @@
                         <tbody>
                         <? foreach({:$$administrator} as $key => $admin){?>
                         <tr>
-                            <td><?=$admin->getID(); ?></td>
-                            <td><?=$admin->getUsername(); ?></td>
-                            <td><?=$admin->getEmail(); ?></td>
-                            <td><?={:$$functions}->calculateTime($admin->getDateJoined()); ?> ago</td>
-                            <td><?=$admin->getLevelName(); ?></td>
-                            <td><?=$admin->getXP(); ?></td>
+                            <td>{:msgc admin->getID()}</td>
+                            <td>{:msgc admin->getUsername()}</td>
+                            <td>{:msgc admin->getEmail()}</td>
+                            <td>{:msgc admin->getDateJoinedText()} ago</td>
+                            <td>{:msgc admin->getGroup()->getName()}</td>
+                            <td>{:msgc admin->getXP()}</td>
                         </tr>
                         <? } ?>
                         </tbody>
@@ -89,35 +88,35 @@
 <!-- end wrapper -->
 
 
-
 <!-- jQuery  -->
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/bootstrap.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/detect.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/fastclick.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.slimscroll.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.blockUI.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/waves.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/wow.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.nicescroll.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.scrollTo.min.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.min.js"></script>
+<script src="{:settings_templateURL}assets/js/bootstrap.min.js"></script>
+<script src="{:settings_templateURL}assets/js/detect.js"></script>
+<script src="{:settings_templateURL}assets/js/fastclick.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.slimscroll.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.blockUI.js"></script>
+<script src="{:settings_templateURL}assets/js/waves.js"></script>
+<script src="{:settings_templateURL}assets/js/wow.min.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.nicescroll.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.scrollTo.min.js"></script>
 
-<script src="../<?=TEMPLATE_PATH?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/plugins/datatables/dataTables.bootstrap.js"></script>
+<script src="{:settings_templateURL}assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{:settings_templateURL}assets/plugins/datatables/dataTables.bootstrap.js"></script>
 
 
 <!-- Bootstrap table css -->
-<link href="../<?=TEMPLATE_PATH?>/assets/plugins/bootstrap-table/css/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+<link href="{:settings_templateURL}assets/plugins/bootstrap-table/css/bootstrap-table.min.css" rel="stylesheet"
+      type="text/css"/>
 
-<script src="../<?=TEMPLATE_PATH?>/assets/pages/datatables.init.js"></script>
+<script src="{:settings_templateURL}assets/pages/datatables.init.js"></script>
 
 <!-- Bootstrap plugin js -->
-<script src="../<?=TEMPLATE_PATH?>/assets/plugins/bootstrap-table/js/bootstrap-table.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/pages/jquery.bs-table.js"></script>
+<script src="{:settings_templateURL}assets/plugins/bootstrap-table/js/bootstrap-table.min.js"></script>
+<script src="{:settings_templateURL}assets/pages/jquery.bs-table.js"></script>
 
 <!-- App core js -->
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.core.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.app.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.core.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.app.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {

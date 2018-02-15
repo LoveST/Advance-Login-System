@@ -425,4 +425,24 @@ class Groups
         return $groups;
     }
 
+    /**
+     * Get the script default group
+     */
+    function getDefaultGroup()
+    {
+        // define all the global variables
+        global $database;
+
+        // call the database to list the groups
+        $sql = "SELECT * FROM " . TBL_LEVELS . " WHERE " . TBL_LEVELS_DEFAULT_GROUP . " = '1'";
+
+        // get the results
+        $results = $database->getQueryResults($sql);
+
+        // get the data
+        $row = $database->getQueryEffectedRow($results, true);
+
+        return new Group($row);
+    }
+
 }

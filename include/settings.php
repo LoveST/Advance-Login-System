@@ -409,6 +409,15 @@ class Settings
     }
 
     /**
+     * Check if a certain group is a default one
+     * @return bool
+     */
+    function isDefaultGroup()
+    {
+        return $this->settings[TBL_LEVELS_DEFAULT_GROUP];
+    }
+
+    /**
      * check if https is enabled in the settings
      * @return bool
      */

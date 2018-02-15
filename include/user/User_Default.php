@@ -238,13 +238,23 @@ class User_Default
     }
 
     /**
-     * get the users last login time in text format
+     * get the users last login time as a rich text
      * @return string
      */
     function getLastLoginText()
     {
         global $functions;
         return $functions->calculateTime($this->getLastLoginTime());
+    }
+
+    /**
+     * get the users since joined date as a rich text
+     * @return string
+     */
+    function getDateJoinedText()
+    {
+        global $functions;
+        return $functions->calculateTime($this->getDateJoined());
     }
 
     /**
@@ -331,7 +341,7 @@ class User_Default
         $code = $this->userData[TBL_USERS_TWOFACTOR_CODE];
 
         // check if null
-        if(empty($code) || $code == null){
+        if (empty($code) || $code == null) {
             return "";
         } else {
             return $functions->decryptIt($code);

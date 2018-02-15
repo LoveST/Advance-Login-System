@@ -189,14 +189,19 @@ class Translator
 
                     } else if ($key[0] == "m" && $key[1] == "s" && $key[2] == "g") { // check if a print character exists
 
-                        // check if variable is 'msg' or 'msgf'
-                        if ($key[3] == "f") {
-                            $variable = substr($key, 5) . "()";
-                        } else {
+                        // check if command is 'msg' or 'msgc'
+                        if ($key[3] == "c") { // class
+
+                            $variable = substr($key, 5);
+                            $newReplacement = "<? echo $" . $variable . "; ?>";
+
+                        } else { // global variable
+
                             $variable = substr($key, 4);
+                            $newReplacement = '<? echo $GLOBALS["' . $variable . '"];?>';
+
                         }
 
-                        $newReplacement = '<? echo $GLOBALS["' . $variable . '"];?>';
                         return $newReplacement;
                     } else {
                         return $matches[0];

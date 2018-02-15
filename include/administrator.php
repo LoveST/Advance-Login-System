@@ -40,11 +40,12 @@ class Administrator
         global $database;
 
         if ($limit == 0) {
-            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_LEVEL . "='100'";
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_LEVEL . " <= 0";
+            //die(print($sql));
         } else {
-            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_LEVEL . "='100' LIMIT " . $limit;
+            $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_LEVEL . " <= 0 LIMIT " . $limit;
         }
-        $admins = "";
+        $admins = array();
 
         // get the sql results
         if (!$results = $database->getQueryResults($sql)) {
@@ -104,7 +105,7 @@ class Administrator
     /**
      * get the total users that are banned from the database
      * @param int $limit
-     * @return integer
+     * @return bool|User[]
      */
     function getBannedUsers($limit = 0)
     {
@@ -123,7 +124,7 @@ class Administrator
             return false;
         }
 
-        $users = "";
+        $users = array();
 
         if ($database->getQueryNumRows($results, true) < 1) {
             return false;

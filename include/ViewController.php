@@ -195,10 +195,10 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings, $user, $functions, $database;
+        global $settings, $user;
 
         $vars = array(
-            'db_connectionType' => $database->_CONNECTION_TYPE,
+            'db_connectionType' => CONNECTION_TYPE,
             'settings_siteName' => $settings->siteName(),
             'settings_siteURL' => $settings->siteURL(),
             'settings_sitePath' => $settings->sitePath(),
@@ -220,8 +220,8 @@ class ViewController
                 'user_firstName' => $user->getFirstName(),
                 'user_lastName' => $user->getLastName(),
                 'user_dateJoined' => $user->getDateJoined(),
-                'user_daysSinceJoined' => $functions->calculateTime($user->getDateJoined()),
-                'user_levelName' => $user->getGroup()->getName(),
+                'user_daysSinceJoined' => $user->getDateJoinedText(),
+                'user_groupName' => $user->getGroup()->getName(),
                 'user_XP' => $user->getXP(),
                 'user_lostXP' => $user->getLostXP(),
                 'user_lastLogin' => $user->getLastLoginTime(),
@@ -280,8 +280,8 @@ class ViewController
         // init the required global variables
         global $message, $settings;
 
-        $message->customKill("View Controller Error", $msg, $settings->siteTheme());
-
+        $_SESSION['siteTemplateURL'] = $settings->getTemplatesURL();
+        $message->customKill("View Controller Error", $msg, $settings->getTemplatesPath());
     }
 
     private function deleteFile($file)
