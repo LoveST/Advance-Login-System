@@ -10,4 +10,4 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-var_dump($groups->getDefaultGroup());
+$user->forceSignInAgain();

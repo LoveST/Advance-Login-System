@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Coderthemes">
+
+    <link rel="shortcut icon" href="{:settings_templateURL}assets/images/favicon_1.ico">
+
+    <title>{:settings_siteName} | Login</title>
+
+    <link href="{:settings_templateURL}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/icons.css" rel="stylesheet" type="text/css"/>
+    <link href="{:settings_templateURL}assets/css/style.css" rel="stylesheet" type="text/css"/>
+
+    <script src="{:settings_templateURL}assets/js/modernizr.min.js"></script>
+
+</head>
+<body>
+
+<div class="account-pages"></div>
+<div class="clearfix"></div>
+
+<div class="wrapper-page">
+    <div class="card-box">
+        <div class="panel-heading">
+            <h4 class="text-center"> Sign In </h4>
+        </div>
+
+        <div class="p-20">
+            <form action="" class="form-horizontal m-t-20" method="post">
+
+                <? if({:$$message}->anyError()){ ?>
+                <div class="alert alert-danger">
+                    <? echo {:$$message}->getError(3); ?>
+                </div>
+                <? } ?>
+
+                <div class="form-group-custom">
+                    <input type="text" id="user-name" name="username" required="required"/>
+                    <label class="control-label" for="user-name">Username</label><i class="bar"></i>
+                </div>
+
+                <div class="form-group-custom">
+                    <input type="password" id="user-password" name="password" required="required"/>
+                    <label class="control-label" for="user-password">Password</label><i class="bar"></i>
+                </div>
+
+                <div class="form-group ">
+                    <div class="col-12">
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox-signup" name="rememberMe" type="checkbox">
+                            <label for="checkbox-signup"> Remember me </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-20">
+                    <div class="col-12">
+                        <button class="btn btn-purple btn-block text-uppercase waves-effect waves-light" name="login"
+                                type="submit">
+                            Log In
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group m-t-20 m-b-0">
+                    <div class="col-12">
+                        <a href="forgetPass.php" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your
+                            password?</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="text-white">
+                Don't have an account? <a href="register.php" class="text-white m-l-5"><b>Sign Up</b></a>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var resizefunc = [];
+</script>
+
+<!-- jQuery  -->
+<script src="{:settings_templateURL}assets/js/jquery.min.js"></script>
+<script src="{:settings_templateURL}assets/js/popper.min.js"></script><!-- Popper for Bootstrap -->
+<script src="{:settings_templateURL}assets/js/bootstrap.min.js"></script>
+<script src="{:settings_templateURL}assets/js/detect.js"></script>
+<script src="{:settings_templateURL}assets/js/fastclick.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.slimscroll.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.blockUI.js"></script>
+<script src="{:settings_templateURL}assets/js/waves.js"></script>
+<script src="{:settings_templateURL}assets/js/wow.min.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.nicescroll.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.scrollTo.min.js"></script>
+
+<script src="{:settings_templateURL}assets/js/jquery.core.js"></script>
+<script src="{:settings_templateURL}assets/js/jquery.app.js"></script>
+
+</body>
+</html>

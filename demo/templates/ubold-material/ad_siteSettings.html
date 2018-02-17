@@ -1,0 +1,98 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-md-12">
+        <div class="card-box">
+
+            <h4 class="m-t-0 m-b-20 header-title"><b>Site settings</b></h4>
+
+            <form action="" class="form-horizontal m-t-20" method="post">
+
+
+                <? if({:$$message}->anyError()){ ?>
+                <div class="alert alert-danger">
+                    <? echo $message->getError(3); ?>
+                </div>
+                <? } ?>
+
+                <? if({:$$message}->is_success()){ ?>
+                <div class="alert alert alert-success text-center">
+                    <?=$message->printSuccess();?>
+                </div>
+                <? } ?>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Name</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteName();?>"
+                               name="site_name" required="true" placeholder="Site Name">
+                    </div>
+                    <p class="col-2 text-muted m-b-30 font-13">The site main title</p>
+                </div>
+
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">URL</label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteURL();?>"
+                               name="site_url" required="true" placeholder="Site URL">
+                    </div>
+
+                    <div class="">
+                        <button class="form-control">Update</button>
+                    </div>
+                    <label class="col-3"><p class="text-muted m-b-30 font-13">Site URL used to navigate throw the pages</p></label>
+                </div>
+
+
+
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Email</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteEmail();?>"
+                               name="site_email" required="true" placeholder="Site email">
+                    </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Main site name used across the pages</p>
+                </div>
+
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Script Status</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text"
+                               value="<? if(!{:$$settings}->siteDisabled()){ echo 1;} else { echo 0;} ?>"
+                               name="site_enabled" required="true" placeholder="Script Status">
+                    </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable or Disable access to the whole script</p>
+                </div>
+
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Theme</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteTheme();?>"
+                               name="site_theme" required="true" placeholder="Site theme">
+                    </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Main theme used across all pages</p>
+                </div>
+
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Language</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<?={:$$settings}->siteLanguage();?>"
+                               name="site_language" required="true" placeholder="Site language">
+                    </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Default language used on the site</p>
+                </div>
+
+                <br>
+
+            </form>
+
+        </div>
+    </div>
+</div>
