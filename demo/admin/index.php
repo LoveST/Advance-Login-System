@@ -24,21 +24,21 @@ if ($status == LoginStatus::NeedToLogin) {
 /** End check user & site status**/
 
 // load the header
-$viewController->loadView("ad_main_panel.html");
+$viewController->loadView("ad_main_panel_header.html");
 
 // get the required page
 $page = $_GET['page'];
-switch ($page) {
-    case "siteSettings":
-        $viewController->loadView("ad_siteSettings.html");
-        break;
-    case "randomVariables":
-        require_once "randomVariables.php";
-        $viewController->loadView("ad_randomVariables.html");
-        break;
-    default:
 
-        break;
+// check if page is empty
+if (!empty($page) && $page != "index" && file_exists($page . ".php")) {
+
+    // load the required page file
+    include $page . ".php";
+} else {
+
+    // load default view
+    $viewController->loadView("admin_main_panel_default.html");
+
 }
 
 // load the footer

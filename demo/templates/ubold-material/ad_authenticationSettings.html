@@ -1,48 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-md-12">
+        <div class="card-box">
 
-    <link rel="shortcut icon" href="../<?=TEMPLATE_PATH?>/assets/images/favicon_1.ico">
-
-    <title><?=SITE_NAME . " | "; ?>Authentication Settings</title>
-
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/core.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/components.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/icons.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/pages.css" rel="stylesheet" type="text/css" />
-    <link href="../<?=TEMPLATE_PATH?>/assets/css/responsive.css" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script src="../<?=TEMPLATE_PATH?>/assets/js/modernizr.min.js"></script>
-
-</head>
-<body>
-
-<div class="account-pages"></div>
-<div class="clearfix"></div>
-<div class="wrapper-page">
-    <div class=" card-box">
-
-        <div class="panel-body">
-
-            <div class="panel-heading">
-                <h3 class="text-center"> Authentication settings </h3>
-            </div>
+			<h4 class="m-t-0 m-b-20 header-title"><b>Authentication settings</b></h4>
 
             <form action="" class="form-horizontal m-t-20" method="post">
-
-
 
                 <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
@@ -56,103 +18,67 @@
                 </div>
                 <? } ?>
 
-                <h4 class="text-center"> Login enabled </h4>
-                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if({:$$settings}->canLogin()){ echo 1;} else { echo 0;} ?>" name="login_enabled" required="true" placeholder="Login enabled">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Login enabled</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg canLogin}"
+                               name="login_enabled" required="true" placeholder="{:msg canLogin}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable or Disable global login system</p>
                 </div>
 
-                <br><hr>
-
-                <h4 class="text-center"> Register enabled </h4>
-                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if({:$$settings}->canRegister()){ echo 1;} else { echo 0;} ?>" name="register_enabled" required="true" placeholder="Register enabled">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Register enabled</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg canRegister}"
+                               name="register_enabled" required="true" placeholder="{:msg canRegister}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable or Disable global registeration system</p>
                 </div>
 
-                <br><hr>
-
-                <h4 class="text-center"> Pin required </h4>
-                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if({:$$settings}->pinRequired()){ echo 1;} else { echo 0;} ?>" name="pin_required" required="true" placeholder="Pin required">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Pin required</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg pinRequired}"
+                               name="pin_required" required="true" placeholder="{:msg pinRequired}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable or Disable the need of using a pin number</p>
                 </div>
 
-                <br><hr>
-
-                <h4 class="text-center"> Activation required </h4>
-                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if({:$$settings}->activationRequired()){ echo 1;} else { echo 0;} ?>" name="activation_required" required="true" placeholder="Activation required">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Activation required</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg activationRequired}"
+                               name="activation_required" required="true" placeholder="{:msg activationRequired}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable or Disable the need of activating recently registered accounts</p>
                 </div>
 
-                <br><hr>
-
-                <h4 class="text-center"> Minimum Age required </h4>
-                <h5 class="text-center"> (0 = disabled , 1 = enabled) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<? if({:$$settings}->minimumAgeRequired()){ echo 1;} else { echo 0;} ?>" name="minimum_age_required" required="true" placeholder="Minimum age required">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Minimum Age required</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg minimumAgeRequired}"
+                               name="minimum_age_required" required="true" placeholder="{:msg minimumAgeRequired}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Set a limit for how young a new user most be</p>
                 </div>
 
-                <br><hr>
-
-                <h4 class="text-center"> Minimum Age </h4>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="<?={:$$settings}->minimumAge()?>" name="minimum_age" required="true" placeholder="Minimum age">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Minimum Age</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="{:msg minimumAge}"
+                               name="minimum_age" required="true" placeholder="{:msg minimumAge}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Minimum age for a new user to signup</p>
                 </div>
-
-                <br><hr>
 
 
                 <div class="form-group text-center m-t-40">
-                    <div class="col-xs-12">
-                        <button name="subtractXP" class="btn btn-danger btn-block text-uppercase waves-effect waves-light" type="submit">Update</button>
+                    <div class="col-md-12 text-right">
+                        <button name="update" class="btn btn-primary waves-effect waves-light" type="submit">Update</button>
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <p><a href="#" onclick="history.back();" class="text-primary m-l-5"><b></b>Go Back</a></p>
-        </div>
-    </div>
-
 </div>
-
-<script>
-    var resizefunc = [];
-</script>
-
-<!-- jQuery  -->
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/bootstrap.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/detect.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/fastclick.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.slimscroll.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.blockUI.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/waves.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/wow.min.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.nicescroll.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.scrollTo.min.js"></script>
-
-
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.core.js"></script>
-<script src="../<?=TEMPLATE_PATH?>/assets/js/jquery.app.js"></script>
-
-</body>
-</html>

@@ -6,15 +6,10 @@
  * Time: 4:54 PM
  */
 
-/** Check user & site status **/
-require "../../Core.php";
-$core = new \ALS\Core();
-$core->initClasses();
-$session->statusCheck();
-$session->adminCheck();
-/** End check user & site status**/
+// disable direct access to the file
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
-if(isset($_POST['update'])){
+if (isset($_POST['update'])) {
 
     $siteSecretKey = $_POST['site_secret'];
     $captchaKey = $_POST['captcha_key'];
@@ -25,4 +20,10 @@ if(isset($_POST['update'])){
 
 }
 
+// set the required variables
+$siteSecretKey = $settings->secretKey();
+$captchaKey = $captcha->getSiteKey();
+$captchaSecretKey = $captcha->getSecretKey();
+
+// load the view
 $viewController->loadView("ad_securitySettings.html");

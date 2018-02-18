@@ -6,13 +6,8 @@
  * Time: 11:23 PM
  */
 
-/** Check user & site status **/
-require "../../Core.php";
-$core = new \ALS\Core();
-$core->initClasses();
-$session->statusCheck();
-$session->adminCheck();
-/** End check user & site status**/
+// disable direct access to the file
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
 if (isset($_POST['addXP'])) {
     $admin->addXP($_POST['username'], $_POST['amount']);
@@ -20,4 +15,5 @@ if (isset($_POST['addXP'])) {
     $admin->subtractXP($_POST['username'], $_POST['amount']);
 }
 
+// load the view
 $viewController->loadView("ad_manageXP.html");

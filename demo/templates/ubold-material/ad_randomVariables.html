@@ -1,10 +1,8 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-12">
         <div class="card-box">
-
-            <div class="panel-heading">
-                <h3 class="text-center"> Random Variables </h3>
-            </div>
+          
+			<h4 class="m-t-0 m-b-20 header-title"><b>Random Variables</b></h4>
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
@@ -21,79 +19,42 @@
                 </div>
                 <? } ?>
 
-                <h4 class="text-center"> Minimum Password Length </h4>
-                <h5 class="text-center"> ( The minimum required password length for any user ) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
+                
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Minimum Password Length</label>
+                    <div class="col-10">
                         <input class="form-control" type="text" value="{:msg minPasswordLength}"
-                               name="minPasswordLength" required="true" placeholder="Minimum Password Length">
-                        <button name="update" class="btn btn-danger btn-block text-uppercase waves-effect waves-light"
-                                type="submit">Update
-                        </button>
+                               name="minPasswordLength" required="true" placeholder="{:msg minPasswordLength}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">The minimum required password length for any user</p>
                 </div>
-
-                <br>
-                <hr>
-
-                <h4 class="text-center"> Maximum Password Length </h4>
-                <h5 class="text-center"> ( The maximum required password length for any user ) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
+ 
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Maximum Password Length</label>
+                    <div class="col-10">
                         <input class="form-control" type="text" value="{:msg maxPasswordLength}"
-                               name="maxPasswordLength" required="true" placeholder="Maximum Password Length">
-                        <button name="update" class="btn btn-danger btn-block text-uppercase waves-effect waves-light"
-                                type="submit">Update
-                        </button>
+                               name="maxPasswordLength" required="true" placeholder="{:msg maxPasswordLength}">
                     </div>
-                </div>
-
-                <br>
-                <hr>
-
-                <h4 class="text-center"> Maximum Pin Length </h4>
-                <h5 class="text-center"> ( The maximum required pin length for any user ) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input class="form-control" type="text" value="{:msg maxPinLength}"
-                               name="maxPinLength" required="true" placeholder="Maximum Pin Length">
-                        <button name="update" class="btn btn-danger btn-block text-uppercase waves-effect waves-light"
-                                type="submit">Update
-                        </button>
-                    </div>
-                </div>
-
-                <br>
-                <hr>
-
-                <h4 class="text-center"> Same IP Login </h4>
-                <h5 class="text-center"> ( Enable/Disable same ip login ) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
+                    <p class="col-2 text-muted m-b-30 font-13">Maximum paasword length that a user can have</p>
+                </div> 
+   
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Same IP Login</label>
+                    <div class="col-10">
                         <input class="form-control" type="text" value="{:msg sameIpLogin}"
-                               name="maxPinLength" required="true" placeholder="Enable/Disable same IP login">
-                        <button name="update" class="btn btn-danger btn-block text-uppercase waves-effect waves-light"
-                                type="submit">Update
-                        </button>
+                               name="maxPinLength" required="true" placeholder="{:msg sameIpLogin}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">Enable/Disable same ip login</p>
                 </div>
 
-                <br>
-                <hr>
-
-                <h4 class="text-center"> Maximum Verified Devices </h4>
-                <h5 class="text-center"> ( The maximum amount of devices a user can login from ) </h5>
-                <div class="form-group">
-                    <div class="col-xs-12">
+				<div class="form-group row">
+                    <label class="col-2 col-form-label">Maximum Verified Devices</label>
+                    <div class="col-10">
                         <input class="form-control" type="text" value="{:msg maxVerifiedDevices}"
-                               name="maxVerifiedDevices" required="true" placeholder="Maximum Verified Devices">
-                        <button name="update" class="btn btn-danger btn-block text-uppercase waves-effect waves-light"
-                                type="submit">Update
-                        </button>
+                               name="maxVerifiedDevices" required="true" placeholder="{:msg maxVerifiedDevices}">
                     </div>
+                    <p class="col-2 text-muted m-b-30 font-13">The maximum amount of devices a user can login from</p>
                 </div>
-
-                <br>
 
             </form>
 
