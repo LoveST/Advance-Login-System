@@ -347,6 +347,10 @@ class Functions
         }
     }
 
+    /**
+     * Get the current page full url
+     * @return string
+     */
     function getCurrentPageURL()
     {
         $pageURL = 'http';
@@ -484,6 +488,37 @@ class Functions
 
         // if no errors then return true
         return true;
+    }
+
+    /**
+     * redirect a client to a specific url
+     * @param string $url
+     * @return bool
+     */
+    function redirect($url)
+    {
+        // define the required global variables
+        global $database;
+
+        // secure and decode the string
+        $url = $database->secureInput(urldecode($url));
+
+        // check if string is empty
+        if (is_null($url) || empty($url)) {
+            return false;
+        }
+
+        // check if URL starts with HTTP
+        $prefix = "";
+        if (substr($url, 0, 7) != "http://" && substr($url, 0, 8) != "https://") {
+            $prefix = "http://";
+        }
+
+        // redirect the client
+        header("Location: " . $prefix . $url);
+
+        // exit the script
+        exit();
     }
 
 }

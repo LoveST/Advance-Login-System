@@ -340,6 +340,8 @@ class Session
         } else {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -497,10 +499,9 @@ class Session
             return false;
         }
 
-        // After passing all checks then start the registeration proccess
+        // After passing all checks then start the registration process
 
         // secure the password and the pin if submitted
-        $password = md5($password);
         if ($settings->pinRequired()) { // check if pin is needed
             $pin = md5($pin);
         }
@@ -852,6 +853,7 @@ class Session
         } else {
             $_SESSION['siteTemplateURL'] = $settings->getTemplatesURL();
             $message->customKill($translator->translateText("invalidPrivileges"), $translator->translateText("invalidPrivilegesMSG"), $settings->getTemplatesPath());
+            return false;
         }
     }
 
@@ -865,8 +867,6 @@ class Session
 
         // define all the global variables
         global $user;
-
-        $language = "";
 
         // check if its a user or guest session
         if ($this->logged_in()) { // user session
