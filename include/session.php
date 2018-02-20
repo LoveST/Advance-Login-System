@@ -831,8 +831,28 @@ class Session
         }
 
         // if not then print a custom error message
-        $message->customKill($translator->translateText("invalidPrivileges"), $translator->translateText("invalidPrivilegesMSG"), $settings->siteTheme());
+        $_SESSION['siteTemplateURL'] = $settings->getTemplatesURL();
+        $message->customKill($translator->translateText("invalidPrivileges"), $translator->translateText("invalidPrivilegesMSG"), $settings->getTemplatesPath());
         return false;
+    }
+
+    /**
+     * Check if the current user has a certain permission to access a certain page
+     * @param string $permission
+     * @return bool
+     */
+    function requirePermission($permission)
+    {
+        // define all the global variables
+        global $user, $message, $translator, $settings;
+
+        // check if user is logged in and has permission
+        if ($this->logged_in() && $user->hasPermission($permission)) {
+            return true;
+        } else {
+            $_SESSION['siteTemplateURL'] = $settings->getTemplatesURL();
+            $message->customKill($translator->translateText("invalidPrivileges"), $translator->translateText("invalidPrivilegesMSG"), $settings->getTemplatesPath());
+        }
     }
 
     /**

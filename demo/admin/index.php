@@ -21,13 +21,14 @@ if ($status == LoginStatus::NeedToLogin) {
 } else if ($status == LoginStatus::AuthenticationNeeded) {
     header("Location: ../authentication.php");
 }
+$session->adminCheck();
 /** End check user & site status**/
 
 // load the header
 $viewController->loadView("ad_main_panel_header.html");
 
 // get the required page
-$page = $_GET['page'];
+$page = $database->secureInput($_GET['page']);
 
 // check if page is empty
 if (!empty($page) && $page != "index" && file_exists($page . ".php")) {

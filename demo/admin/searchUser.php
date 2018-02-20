@@ -14,11 +14,8 @@ $totalUsers = $admin->getUsers();
 
 // load the required scripts
 $customScripts = '<script src="' . $settings->getTemplatesURL() . 'assets/js/popper.min.js"></script>' . "\n";
-
 $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/jquery.dataTables.min.js"></script>' . "\n";
 $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/dataTables.bootstrap4.min.js"></script>' . "\n";
-
-
 $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/dataTables.responsive.min.js"></script>' . "\n";
 $customScripts .= '<script src="' . $settings->getTemplatesURL() .'plugins/datatables/responsive.bootstrap4.min.js"></script>' . "\n";
 

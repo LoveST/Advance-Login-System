@@ -10,4 +10,4 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-$user->forceSignInAgain();
+$session->requirePermission("hello_me");
