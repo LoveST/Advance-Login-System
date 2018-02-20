@@ -228,6 +228,7 @@ class ViewController
                 'user_lastLoginText' => $user->getLastLoginText(),
                 'user_age' => $user->getAge(),
                 'user_birthday' => $user->getBirthDate(),
+                'user_defaultLanguage' => $user->getPreferredLanguage(),
                 'user_browserName' => $user->devices()->getCurrentDevice()->getBrowserName(),
                 'user_browserVersion' => $user->devices()->getCurrentDevice()->getBrowserVersion(),
                 'user_ip' => $user->devices()->getCurrentDevice()->getIP(),
