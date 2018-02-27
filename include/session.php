@@ -918,6 +918,11 @@ class Session
         return true;
     }
 
+    /**
+     * Verify the user identity using Google Authenticator
+     * @param int $authCode
+     * @return bool
+     */
     function authenticateUser($authCode)
     {
 

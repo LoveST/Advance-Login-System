@@ -10,7 +10,7 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
     header("Location: index.php");
 } else {
 
-    $page = $_GET['ac'];
+    $page = $database->secureInput($_GET['ac']);
 
     switch ($page) {
         case "activate";
@@ -24,6 +24,48 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
 
             $viewController->loadView("activate-account.html");
             break;
+        case "verifyPin";
+
+            if ($session->statusCheck() == LoginStatus::VerifyDevice) {
+                if (isset($_POST["pin"])) {
+
+                    // grab the post
+                    $pin = $_POST['pin'];
+
+                    // submit for check
+                    if ($session->verifyDevice($pin)) {
+                        $functions->directBackToSource("index.php");
+                    }
+                }
+
+                // load the needed template
+                $viewController->loadView("verify_device.html");
+            } else {
+                $functions->directBackToSource("index.php");
+            }
+
+            break;
+        case  "googleAuthenticate";
+
+            if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
+                if (isset($_POST["authCode"])) {
+
+                    // grab the post
+                    $authCode = $_POST['authCode'];
+
+                    // submit for check
+                    if ($session->authenticateUser($authCode)) {
+                        $functions->directBackToSource("index.php");
+                    }
+                }
+
+                // load the needed template
+                $viewController->loadView("authentication.html");
+            } else {
+                $functions->directBackToSource("index.php");
+            }
+
+            break;
         default;
 
             if (isset($_POST["login"])) {
@@ -33,11 +75,7 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
                 }
 
                 if ($session->loginWithPassword($_POST["username"], $_POST["password"], $daysToRemember)) {
-                    if ($session->anyRedirect()) {
-                        header("Location: " . $session->getRedirect());
-                    } else {
-                        header("Location: index.php");
-                    }
+                    $functions->directBackToSource("index.php");
                 }
             }
 

@@ -493,9 +493,10 @@ class Functions
     /**
      * redirect a client to a specific url
      * @param string $url
+     * @param bool $redirectBack
      * @return bool
      */
-    function redirect($url)
+    function redirect($url, $redirectBack = false)
     {
         // define the required global variables
         global $database;
@@ -514,11 +515,68 @@ class Functions
             $prefix = "http://";
         }
 
+        // check if redirectBack is enabled
+        if ($redirectBack) {
+            // insert the current page url to the session for the purpose of coming back to it
+            $_SESSION['redirect_source'] = urlencode($this->getCurrentPageURL());
+        }
+
         // redirect the client
         header("Location: " . $prefix . $url);
 
         // exit the script
         exit();
+    }
+
+    /**
+     * Check if a redirect to source is available
+     * @return bool
+     */
+    function isDirectBackToSourceAvailable()
+    {
+        // check if a redirect is available
+        if (isset($_SESSION['redirect_source'])) {
+            return true;
+        }
+
+        // if no redirect found then return false
+        return false;
+    }
+
+    /**
+     * Check if a redirect is available, then set the current page header to the required redirect source
+     * @param string $customURL
+     */
+    function directBackToSource($customURL = "")
+    {
+        // check if source is available in the session
+        if (isset($_SESSION{'redirect_source'})) {
+            // set the headers
+            header("Location: " . urldecode($_SESSION['redirect_source']));
+
+            // unset the session
+            unset($_SESSION['redirect_source']);
+
+            // exit the script
+            exit();
+        } else if (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
+
+            // secure the url
+            $url = urlencode($_GET['redirect']);
+
+            // set the header
+            header("Location: " . $url);
+
+            // exit the script
+            exit();
+        } else if (!empty($customURL)) {
+
+            //redirect to the custom URL
+            header("Location: " . $customURL);
+
+            // exit the script
+            exit();
+        }
     }
 
 }

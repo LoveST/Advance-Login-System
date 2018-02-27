@@ -15,11 +15,11 @@ $status = $session->statusCheck();
 use ALS\LoginStatus;
 
 if ($status == LoginStatus::NeedToLogin) {
-    header("Location: login.php");
+    $functions->redirect($settings->siteURL() . "login.php", true);
 } else if ($status == LoginStatus::VerifyDevice) {
-    header("Location: verifyDevice.php");
+    $functions->redirect($settings->siteURL() . "verifyDevice.php", true);
 } else if ($status == LoginStatus::AuthenticationNeeded) {
-    header("Location: authentication.php");
+    $functions->redirect($settings->siteURL() . "authentication.php", true);
 }
 /** End check user & site status**/
 
