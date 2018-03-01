@@ -10,6 +10,7 @@
 require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
+
 use ALS\LoginStatus;
 
 if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
@@ -23,7 +24,6 @@ if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
         if ($session->authenticateUser($authCode)) {
             header("Location: index.php");
         }
-
     }
 
     // load the needed template

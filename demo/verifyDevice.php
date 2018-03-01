@@ -7,9 +7,8 @@
  */
 
 /** Check user & site status **/
-require "../Core.php";
-$core = new \ALS\Core();
-$core->initClasses();
+require "init.php";
+$init = new init("../Core.php");
 
 use ALS\LoginStatus;
 

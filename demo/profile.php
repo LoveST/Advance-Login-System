@@ -7,22 +7,10 @@
  */
 
 /** Check user & site status **/
-require "../Core.php";
-$core = new \ALS\Core();
-$core->initClasses();
-$status = $session->statusCheck();
-
-use ALS\LoginStatus;
-
-if ($status == LoginStatus::NeedToLogin) {
-    $functions->redirect($settings->siteURL() . "login.php", true);
-} else if ($status == LoginStatus::VerifyDevice) {
-    $functions->redirect($settings->siteURL() . "verifyDevice.php", true);
-} else if ($status == LoginStatus::AuthenticationNeeded) {
-    $functions->redirect($settings->siteURL() . "authentication.php", true);
-}
+require "init.php";
+$init = new init("../Core.php");
+$init->loginCheck();
 /** End check user & site status**/
-
 
 $action = array_key_exists('ac', $_GET) ? $_GET['ac'] : null;
 

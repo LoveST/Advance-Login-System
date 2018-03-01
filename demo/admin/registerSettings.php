@@ -7,9 +7,8 @@
  */
 
 /** Check user & site status **/
-require "../../Core.php";
-$core = new \ALS\Core();
-$core->initClasses();
-$session->statusCheck();
+require "../init.php";
+$init = new init("../../Core.php");
+$init->loginCheck();
 $session->adminCheck();
 /** End check user & site status**/

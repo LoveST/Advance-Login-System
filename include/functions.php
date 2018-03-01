@@ -283,38 +283,6 @@ class Functions
         return $row[TBL_USERS_ID] + 1;
     }
 
-    // count the total number of online users using the script in a 1 minute radius
-    function onlineCounter()
-    {
-
-        // define all the global variables
-        global $database;
-
-        $totalUsers = 0;
-
-        $sql = "SELECT * FROM " . TBL_HEARTBEAT;
-        $results = $database->getQueryResults($sql);
-        if ($database->anyError()) {
-            return 0;
-        }
-
-        if ($database->getQueryNumRows($results, true) < 1) {
-            return 0;
-        }
-
-        // count the timestamp for each person online atm
-        foreach ($database->getQueryEffectedRows($results, true) as $row) {
-            $last_update = new \DateTime($row[TBL_HEARTBEAT_TIMESTAMP]); // last time updated
-            $currentTime = new \DateTime(date("Y-m-d H:i:s", time())); // current time
-            $timeDifference = $currentTime->diff($last_update); // count the difference
-            if ($timeDifference->i < 1) {
-                $totalUsers += 1;
-            }
-        }
-
-        return $totalUsers;
-    }
-
     /**
      * Check if given a user's account with the given (username or email) is activated
      * @param $data
