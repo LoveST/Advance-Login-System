@@ -10,19 +10,4 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-$url = urlencode($settings->siteURL() . "login.php?token=287563856893568353204&key=29837495f");
-$ur = urldecode($_GET['url']);
-die($functions->getCurrentPageURL());
-
-//sleep(1);
-$functions->redirect("www.facebook.com");
-header("Location: " . $url, true, false);
-
-exit();
-/**
- * $data[]
- *
- * $authenticateUser();
- *
- *
- */
+echo "<img src='". $settings->getAvatarsURL() . $user->getAvatarID() .".jpg'>";

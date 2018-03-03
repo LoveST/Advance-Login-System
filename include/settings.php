@@ -9,6 +9,8 @@
 
 namespace ALS;
 
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+
 class Settings
 {
 
@@ -512,6 +514,24 @@ class Settings
 
         // return the path
         return $path;
+    }
+
+    /**
+     * Get the default avatars folder path
+     * @return string
+     */
+    function getAvatarsPath()
+    {
+        return $this->settings[TBL_SETTINGS_AVATARS_PATH];
+    }
+
+    /**
+     * Get the default avatars folder url
+     * @return string
+     */
+    function getAvatarsURL()
+    {
+        return $this->settings[TBL_SETTINGS_AVATARS_URL];
     }
 
     /**

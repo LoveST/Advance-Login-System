@@ -69,6 +69,7 @@ define("TBL_USERS_SECRET", "secret");
 define("TBL_USERS_API_KEY", "api_key");
 define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_USERS_AUTHENTICATORS", "authenticators");
+define("TBL_USERS_AVATAR_ID", "avatar_id");
 
 /**
  * Settings Table
@@ -105,6 +106,8 @@ define("TBL_SETTINGS_LOADING_TIMESTAMP", "loading_timestamp");
 define("TBL_SETTINGS_MAX_REQUIRED_PIN_LENGTH", "max_required_pin_length");
 define("TBL_SETTINGS_MAX_PASSWORD_LENGTH", "max_password_length");
 define("TBL_SETTINGS_MIN_PASSWORD_LENGTH", "min_password_length");
+define("TBL_SETTINGS_AVATARS_PATH", "avatars_path");
+define("TBL_SETTINGS_AVATARS_URL", "avatars_url");
 
 /**
  * Levels-Groups Table

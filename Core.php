@@ -48,6 +48,7 @@ class Core
         require _PATH . "ViewController.php";
         require _PATH . "Authenticator.php";
         require _PATH . "Applications.php";
+        require _PATH . "Avatars.php";
 
         // set the error handler
         $this->_ErrorKiller($dieIfError);
@@ -85,6 +86,7 @@ class Core
         $this->_Authenticator();
         $this->_Applications();
         $this->_MailTemplates();
+        $this->_Avatars();
 
     }
 
@@ -268,6 +270,15 @@ class Core
     {
         // build the variable to store it
         $GLOBALS['mailTemplates'] = new MailTemplates();
+    }
+
+    /**
+     * init the Avatars Class
+     */
+    function _Avatars()
+    {
+        // build the variable to store it
+        $GLOBALS['avatars'] = new Avatars();
     }
 
 }

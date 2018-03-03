@@ -372,6 +372,28 @@ class User_Default
     }
 
     /**
+     * Get the user avatar id
+     * @return string
+     */
+    function getAvatarID()
+    {
+        return $this->userData[TBL_USERS_AVATAR_ID];
+    }
+
+    /**
+     * Get the user avatar url
+     * @return string
+     */
+    function getAvatarURL()
+    {
+        // define the global variables
+        global $settings;
+
+        // return the required link
+        return $settings->getAvatarsURL() . $this->getAvatarID() . ".jpg";
+    }
+
+    /**
      * Set this function to force the current user to log in again and re-initiate the data
      * @return bool
      */

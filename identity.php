@@ -36,96 +36,159 @@ require "include/MailTemplates.php";
 require "include/Authenticator.php";
 require "include/ViewController.php";
 require "include/Applications.php";
+require "include/Avatars.php";
+
 /**
  * init Message class
  */
+
 use ALS\Message;
+
 $message = new Message();
 $message->init();
+
 /**
  * init Database class
  */
+
 use ALS\Database;
+
 $database = new Database();
+
 /**
  * init Settings class
  */
+
 use ALS\Settings;
+
 $settings = new Settings();
+
 /**
  * init the Groups class
  */
+
 use ALS\Groups;
+
 $groups = new Groups();
+
 /**
  *
  */
+
 use ALS\AUTH\Google\Google;
+
 $googleAuth = new Google();
+
 /**
  * init the View Controller Class
  */
+
 use ALS\ViewController;
+
 $viewController = new ViewController();
 $translator = $viewController->getTranslator();
+
 /**
  * init the Browser class
  */
+
 use ALS\Browser;
+
 $browser = new Browser();
+
 /**
  * init Captcha class
  */
+
 use ALS\Captcha;
+
 $captcha = new Captcha();
+
 /**
  * init Mail class
  */
+
 use ALS\Mail;
+
 $mail = new Mail();
+
 /**
  * init User class
  */
+
 use ALS\User;
+
 $user = new User();
+
 /**
  * init passwordManager class
  */
+
 use ALS\passwordManager;
+
 $passwordManager = new passwordManager();
+
 /**
  * init Functions class
  */
+
 use ALS\Functions;
+
 $functions = new Functions();
+
 /**
  * init Session class
  */
+
 use ALS\Session;
+
 $session = new Session();
 $session->init();
+
 /**
  * init Administrator class
  */
+
 use ALS\Administrator;
+
 $admin = new Administrator();
+
 /**
  * init profileManager class
  */
+
 use ALS\profileManager;
+
 $profileManager = new profileManager();
+
 /**
  * init the MailTemplates class
  */
+
 use ALS\MailTemplates;
+
 $mailTemplates = new MailTemplates();
+
 /**
  * init the Authenticator class
  */
+
 use ALS\Authenticator;
+
 $authenticator = new Authenticator();
+
 /**
  * init the Applications class
  */
+
 use ALS\Applications;
+
 $applications = new Applications();
+
+/**
+ * init the Avatars class
+ */
+
+use ALS\Avatars;
+
+$avatars = new Avatars();

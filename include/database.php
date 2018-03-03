@@ -8,6 +8,8 @@
 
 namespace ALS;
 
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+
 class Database
 {
 
