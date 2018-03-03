@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1864537c-ab97-4ddc-9a7a-d176313e98d4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Core.php" afterPath="$PROJECT_DIR$/Core.php" />
-      <change beforePath="$PROJECT_DIR$/demo/admin/index.php" afterPath="$PROJECT_DIR$/demo/admin/index.php" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/authentication.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/authentication.html" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/confirmPasswordReset.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/confirmPasswordReset.html" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/home.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/home.html" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/resetPassword.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/resetPassword.html" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/verify_device.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/verify_device.html" />
-      <change beforePath="$PROJECT_DIR$/demo/test.php" afterPath="$PROJECT_DIR$/demo/test.php" />
-      <change beforePath="$PROJECT_DIR$/identity.php" afterPath="$PROJECT_DIR$/identity.php" />
-      <change beforePath="$PROJECT_DIR$/include/ViewController.php" afterPath="$PROJECT_DIR$/include/ViewController.php" />
-      <change beforePath="$PROJECT_DIR$/include/config.php" afterPath="$PROJECT_DIR$/include/config.php" />
-      <change beforePath="$PROJECT_DIR$/include/database.php" afterPath="$PROJECT_DIR$/include/database.php" />
-      <change beforePath="$PROJECT_DIR$/include/functions.php" afterPath="$PROJECT_DIR$/include/functions.php" />
-      <change beforePath="$PROJECT_DIR$/include/settings.php" afterPath="$PROJECT_DIR$/include/settings.php" />
-      <change beforePath="$PROJECT_DIR$/include/user/User_Default.php" afterPath="$PROJECT_DIR$/include/user/User_Default.php" />
+      <change beforePath="$PROJECT_DIR$/demo/avatars/2c309f512fdd87e2e572380087f940105a9b0cdca804a.jpg" afterPath="$PROJECT_DIR$/demo/avatars/2c309f512fdd87e2e572380087f940105a9b0cdca804a.jpg" />
+      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html" />
     </list>
     <ignored path="ALS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/include/config.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="219">
-              <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+              <caret line="47" column="18" lean-forward="false" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -98,17 +84,37 @@
         <entry file="file://$PROJECT_DIR$/demo/forgetPass.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="609">
-              <caret line="26" column="14" lean-forward="true" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+              <caret line="26" column="14" lean-forward="false" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViewController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/ViewController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6732">
-              <caret line="192" column="7" lean-forward="true" selection-start-line="192" selection-start-column="7" selection-end-line="192" selection-end-column="7" />
+            <state relative-caret-position="720">
+              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="newPassword.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="66" column="14" lean-forward="true" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="confirmPasswordReset.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/confirmPasswordReset.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="59" column="59" lean-forward="false" selection-start-line="59" selection-start-column="59" selection-end-line="59" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -168,7 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/demo/templates/ubold-material/ad_main_panel_footer.html" />
         <option value="$PROJECT_DIR$/demo/admin/addPermission.php" />
         <option value="$PROJECT_DIR$/demo/admin/removePermission.php" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/ad_removePermission.html" />
@@ -219,6 +224,7 @@
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/authentication.html" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/resetPassword.html" />
         <option value="$PROJECT_DIR$/include/ViewController.php" />
+        <option value="$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html" />
       </list>
     </option>
   </component>
@@ -559,15 +565,15 @@
       <workItem from="1519955135486" duration="6438000" />
       <workItem from="1519963512048" duration="886000" />
       <workItem from="1520102576813" duration="1245000" />
-      <workItem from="1520107755718" duration="4244000" />
+      <workItem from="1520107755718" duration="5384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="595685000" />
+    <option name="totallyTimeSpent" value="596825000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="3226" height="1746" extended-state="7" />
+    <frame x="-13" y="-13" width="3226" height="1746" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -613,14 +619,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/demo/tests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_main_panel_header.html" />
     <entry file="file://$PROJECT_DIR$/include/message.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6579">
@@ -890,7 +888,7 @@
     <entry file="file://$PROJECT_DIR$/include/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
-          <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+          <caret line="47" column="18" lean-forward="false" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -914,18 +912,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/confirmPasswordReset.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1501">
-          <caret line="86" column="14" lean-forward="true" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/forgetPass.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
-          <caret line="26" column="14" lean-forward="true" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+          <caret line="26" column="14" lean-forward="false" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -934,14 +924,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="426">
           <caret line="28" column="40" lean-forward="true" selection-start-line="28" selection-start-column="40" selection-end-line="28" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/resetPassword.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -970,10 +952,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/confirmPasswordReset.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="59" column="59" lean-forward="false" selection-start-line="59" selection-start-column="59" selection-end-line="59" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/resetPassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-116">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_change_password.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-261">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/include/ViewController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6732">
-          <caret line="192" column="7" lean-forward="true" selection-start-line="192" selection-start-column="7" selection-end-line="192" selection-end-column="7" />
+        <state relative-caret-position="720">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="66" column="14" lean-forward="true" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
           <folding />
         </state>
       </provider>
