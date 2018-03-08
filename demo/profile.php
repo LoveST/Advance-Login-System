@@ -28,7 +28,7 @@ switch ($action) {
     case "verified_devices";
         $devices = $user->devices()->getDevices();
 
-        $viewController->loadView("profile_verified_devices.html");
+        $viewController->loadView("profile_view_verifiedDevices.html");
         break;
     case "change_information";
         echo "hello";
