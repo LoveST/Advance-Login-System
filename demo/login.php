@@ -47,6 +47,11 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
             break;
         case  "googleAuthenticate";
 
+            // insert custom scripts
+            $viewController->addCustomScript(' <script src="'. $settings->getTemplatesURL() .'plugins/bootstrap-inputmask/bootstrap-inputmask.min.js" type="text/javascript"></script>');
+            $viewController->addCustomScript('<script src="'. $settings->getTemplatesURL() .'plugins/autoNumeric/autoNumeric.js" type="text/javascript"></script>');
+            $viewController->addCustomScript('<script type="text/javascript">jQuery(function($) {$(\'.autonumber\').autoNumeric(\'init\');});</script>');
+
             if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
                 if (isset($_POST["authCode"])) {
 

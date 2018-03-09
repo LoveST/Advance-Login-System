@@ -28,6 +28,11 @@ echo "<img src='" . $settings->getAvatarsURL() . $user->getAvatarID() . ".jpg'>"
  *
  *
  * profile/index.php?page=...
+ * admin/index.php?page=...
  *
  * To-Do => fix an exploit that the user can call a specific file from a different folder and path using the url
  */
+
+if($settings->pinRequired()){
+
+}

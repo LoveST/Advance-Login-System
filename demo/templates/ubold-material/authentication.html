@@ -52,7 +52,7 @@
                     <? } ?>
 
                     <div class="form-group-custom m-t-40">
-                        <input type="password" name="authCode" id="user-password" required="required"/>
+                        <input type="text" name="authCode" data-mask="999999" id="user-password" required="required"/>
                         <label class="control-label" for="user-password">Authentication Code</label><i class="bar"></i>
                     </div>
 
@@ -99,5 +99,6 @@
 <script src="{:settings_templateURL}assets/js/jquery.core.js"></script>
 <script src="{:settings_templateURL}assets/js/jquery.app.js"></script>
 
+{:customScripts}
 </body>
 </html>

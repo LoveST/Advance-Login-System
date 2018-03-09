@@ -17,9 +17,14 @@ $viewController->loadView("profile_main_panel_header.html");
 
 // get the required page
 $page = $database->secureInput($_GET['page']);
+// split the text and check if starts with "../" or "./" or "/"
+if (strpos($page, '../') === 0 || strpos($page, './') === 0 || strpos($page, '/') === 0 || strpos($page, '~') === 0) {
+    $error = true;
+}
+
 
 // check if page is empty
-if (!empty($page) && $page != "index" && file_exists($page . ".php")) {
+if (!empty($page) && $page != "index" && file_exists($page . ".php") && !$error) {
 
     // load the required page file
     include $page . ".php";

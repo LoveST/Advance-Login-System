@@ -255,6 +255,9 @@ class profileManager
 
         // secure the variables
         $password = $database->secureInput($password);
+        $currentPin = $database->secureInput($currentPin);
+        $newPin = $database->secureInput($newPin);
+        $confirmPin = $database->secureInput($confirmPin);
 
         // check if any of the field are empty
         if ($password == "" || $currentPin == "" || $newPin == "" || $confirmPin == "") {
@@ -270,7 +273,7 @@ class profileManager
 
         // check if any pin number length is less or greater than the required
         if (!$functions->isValidPinLength($newPin)) {
-            $message->setError("Pin number length has to be exactly " . $settings->maxRequiredPinLength(), Message::Error);
+            $message->setError("Pin number length has to be exactly " . $settings->maxRequiredPinLength() . " integers long", Message::Error);
             return false;
         }
 
@@ -301,6 +304,35 @@ class profileManager
         // if everything is done then return true
         $message->setSuccess("Pin number updated successfully");
         return true;
+    }
+
+    /**
+     * Update the current users first & last name
+     * @param $firstName
+     * @param $lastName
+     * @return bool
+     */
+    function updateFirstLastName($firstName, $lastName)
+    {
+        // define all the global variables
+        global $message, $user, $database, $settings, $functions;
+
+        // secure the inputs
+        $firstName = $database->secureInput($firstName);
+        $lastName = $database->secureInput($lastName);
+
+        // check for empty fields
+        if (empty($firstName) || empty($lastName)) {
+            $message->setError("First & Last names cannot be empty", Message::Error);
+            return false;
+        }
+
+        // check if no changes
+        if ($firstName == $user->getFirstName() && $lastName == $user->getLastName()) {
+            $message->setError("No changes were made", Message::Error);
+            return false;
+        }
+
     }
 
 }

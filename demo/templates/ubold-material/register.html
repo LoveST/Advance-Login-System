@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="{:settings_templateURL}assets/images/favicon_1.ico">
 
-    <title>{:settings_siteName} | Signup</title>
+    <title>{:settings_siteName} | Sign-up</title>
 
     <link href="{:settings_templateURL}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="{:settings_templateURL}assets/css/icons.css" rel="stylesheet" type="text/css"/>
@@ -45,65 +45,72 @@
 
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">Account information</h3>
-                </div><br>
+                </div>
+                <br>
 
                 <div class="form-group-custom">
-                    <input type="text" name="username" id="user-name" value="<? echo $_POST['username']; ?>" required="required"/>
+                    <input type="text" name="username" id="user-name" value="<? echo $_POST['username']; ?>"
+                           required="required"/>
                     <label class="control-label" for="user-name">Username</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="email" name="email" id="user-email" value="<? echo $_POST['email']; ?>" required="required"/>
+                    <input type="email" name="email" id="user-email" value="<? echo $_POST['email']; ?>"
+                           required="required"/>
                     <label class="control-label" for="user-email">Email</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="email" name="email2" id="confirm-user-email" value="<? echo $_POST['email2']; ?>" required="required"/>
+                    <input type="email" name="email2" id="confirm-user-email" value="<? echo $_POST['email2']; ?>"
+                           required="required"/>
                     <label class="control-label" for="confirm-user-email">Confirm Email</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="password" id="user-password" value="<? echo $_POST['password']; ?>" name="password" required="required"/>
+                    <input type="password" id="user-password" value="<? echo $_POST['password']; ?>" name="password"
+                           required="required"/>
                     <label class="control-label" for="user-password">Password</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="password" id="confirm-user-password" value="<? echo $_POST['password2']; ?>" name="password2" required="required"/>
+                    <input type="password" id="confirm-user-password" value="<? echo $_POST['password2']; ?>"
+                           name="password2" required="required"/>
                     <label class="control-label" for="confirm-user-password">Confirm Password</label><i class="bar"></i>
                 </div>
 
-                <!-- check if pin needed -->
-                <?  if($settings->pinRequired()){ ?>
-
                 <div class="form-group-custom">
-                    <input type="password" id="user-pin" name="pin" value="<? echo $_POST['pin']; ?>" required="required"/>
+                    <input type="password" id="user-pin" name="pin" value="<? echo $_POST['pin']; ?>"
+                           required="required"/>
                     <label class="control-label" for="user-pin">Pin Number</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="password" id="confirm-user-pin" name="pin2" value="<? echo $_POST['pin2']; ?>" required="required"/>
+                    <input type="password" id="confirm-user-pin" name="pin2" value="<? echo $_POST['pin2']; ?>"
+                           required="required"/>
                     <label class="control-label" for="confirm-user-pin">Confirm Pin Number</label><i class="bar"></i>
                 </div>
 
-                <?  } ?>
-                <!-- end check if pin needed -->
 
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">Personal information</h3>
-                </div><br>
+                </div>
+                <br>
 
                 <div class="form-group-custom">
-                    <input type="text" name="first_name" id="first_name" value="<? echo $_POST['first_name']; ?>" required="required"/>
+                    <input type="text" name="first_name" id="first_name" value="<? echo $_POST['first_name']; ?>"
+                           required="required"/>
                     <label class="control-label" for="first_name">First Name</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="text" name="last_name" id="last_name" value="<? echo $_POST['last_name']; ?>" required="required"/>
+                    <input type="text" name="last_name" id="last_name" value="<? echo $_POST['last_name']; ?>"
+                           required="required"/>
                     <label class="control-label" for="last_name">Last Name</label><i class="bar"></i>
                 </div>
 
                 <div class="form-group-custom">
-                    <input type="text" name="dateOfBirth" id="dateOfBirth" value="<? echo $_POST['dateOfBirth']; ?>" data-mask="99/99/9999" required="required"/>
+                    <input type="text" name="dateOfBirth" id="dateOfBirth" value="<? echo $_POST['dateOfBirth']; ?>"
+                           data-mask="99/99/9999" required="required"/>
                     <label class="control-label" for="dateOfBirth">Date of birth (mm/dd/yyyy)</label><i class="bar"></i>
                 </div>
 
@@ -113,7 +120,8 @@
 
                 <div class="form-group text-center m-t-20">
                     <div class="col-12">
-                        <button class="btn btn-purple btn-block text-uppercase waves-effect waves-light" name="register" type="submit">
+                        <button class="btn btn-purple btn-block text-uppercase waves-effect waves-light" name="register"
+                                type="submit">
                             Register
                         </button>
                     </div>

@@ -436,28 +436,24 @@ class Session
         }
 
         // check if pin is required then check for length and the value being an integer and if they are both the same
-        if ($settings->pinRequired()) { // check if pin is needed
-            if ($pin != $pin2) {
-                $message->setError("Pin number fields should be the identical", Message::Error);
-                return false;
-            }
+        if ($pin != $pin2) {
+            $message->setError("Pin number fields should be the identical", Message::Error);
+            return false;
+        }
 
-            if (!is_numeric($pin)) {
-                $message->setError("Pin number should only contain numbers", Message::Error);
-                return false;
-            }
+        if (!is_numeric($pin)) {
+            $message->setError("Pin number should only contain numbers", Message::Error);
+            return false;
+        }
 
-            if ($pin[0] == 0) {
-                $message->setError("Pin number cannot start with a 0", Message::Error);
-                return false;
-            }
+        if ($pin[0] == 0) {
+            $message->setError("Pin number cannot start with a 0", Message::Error);
+            return false;
+        }
 
-            if (strlen($pin) < 6 || strlen($pin) > 6) {
-                $message->setError("Pin number has to be exactly 6 characters long", Message::Error);
-                return false;
-            }
-
-
+        if (strlen($pin) < 6 || strlen($pin) > 6) {
+            $message->setError("Pin number has to be exactly 6 characters long", Message::Error);
+            return false;
         }
 
         // date of birth checks

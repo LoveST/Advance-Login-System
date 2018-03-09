@@ -1,0 +1,101 @@
+<link href="{:settings_templateURL}plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<form action="" class="form-horizontal m-t-20" method="post">
+
+    <? if({:$$message}->anyError()){ ?>
+    <div class="alert alert-danger">
+        <? echo $message->getError(3); ?>
+    </div>
+    <? } ?>
+
+    <? if({:$$message}->is_success()){ ?>
+    <div class="alert alert alert-success text-center">
+        <?=$message->printSuccess();?>
+    </div>
+    <? } ?>
+
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-12">
+            <div class="card-box">
+
+                <h4 class="m-t-0 m-b-20 header-title"><b>Change First & Last Name</b></h4>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">First Name</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="firstName" required="" placeholder="{:user_firstName}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Last Name</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="lastName" required="" placeholder="{:user_lastName}">
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-md-12 text-right">
+                        <button name="update_first&last" class="btn btn-primary waves-effect waves-light"
+                                type="submit">Update
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-12">
+            <div class="card-box">
+
+                <h4 class="m-t-0 m-b-20 header-title"><b>Change Date Of Birth</b></h4>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Date Of Birth</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="dateOfBirth" placeholder="{:user_birthday}">
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-md-12 text-right">
+                        <button name="update_birthday" class="btn btn-primary waves-effect waves-light"
+                                type="submit">Update
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-12">
+            <div class="card-box">
+
+                <h4 class="m-t-0 m-b-20 header-title"><b>Preferred Language</b></h4>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Date Of Birth</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="defaultLanguage" placeholder="{:user_defaultLanguage}">
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-md-12 text-right">
+                        <button name="update_language" class="btn btn-primary waves-effect waves-light"
+                                type="submit">Update
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

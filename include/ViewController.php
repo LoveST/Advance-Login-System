@@ -17,6 +17,7 @@ class ViewController
     private $customVariables = null;
     private $uniqueID;
     private $translator;
+    private $customScripts = "";
 
     public function __construct()
     {
@@ -244,6 +245,9 @@ class ViewController
             $vars = array_merge($vars, $this->customVariables);
         }
 
+        // insert custom scripts to the array
+        $vars["customScripts"] = $this->customScripts;
+
         // convert variables to actual values
         $newFile = $this->getTranslator()->replaceTags("{:", "}", $file, $vars);
 
@@ -314,6 +318,20 @@ class ViewController
     public function translateText($text)
     {
         return $this->getTranslator()->translateText($text);
+    }
+
+    /**
+     * Add a new line to the custom scripts variables
+     * @param string $line
+     */
+    public function addCustomScript($line)
+    {
+        if (!empty($line)) {
+            if(!empty($this->customScripts)){
+                $this->customScripts .= "\n";
+            }
+            $this->customScripts .= $line;
+        }
     }
 
 }
