@@ -315,11 +315,7 @@ class profileManager
     function updateFirstLastName($firstName, $lastName)
     {
         // define all the global variables
-        global $message, $user, $database, $settings, $functions;
-
-        // secure the inputs
-        $firstName = $database->secureInput($firstName);
-        $lastName = $database->secureInput($lastName);
+        global $message, $user;
 
         // check for empty fields
         if (empty($firstName) || empty($lastName)) {
@@ -333,6 +329,133 @@ class profileManager
             return false;
         }
 
+        // update the first name
+        if (!$this->setFirstName($firstName) || !$this->setLastName($lastName)) {
+            $message->setError("Something went wrong", Message::Error);
+            return false;
+        }
+
+        // if no errors then return true
+        $message->setSuccess("First & Last names updated successfully");
+        return true;
+    }
+
+    function updateDateOfBirth($birthDate)
+    {
+        // define all the global variables
+        global $message, $user;
+
+        // check if empty fields
+        if (empty($birthDate)) {
+            $message->setError("Date of birth cannot be empty", Message::Error);
+            return false;
+        }
+
+        // check if both fields are the same
+        if ($birthDate == $user->getBirthDate()) {
+            $message->setError("No changes were made", Message::Error);
+            return false;
+        }
+
+        // if no errors then return true
+        $message->setSuccess("Date of birth updated successfully");
+        return true;
+    }
+
+    /**
+     * Set the user first name
+     * @param string $firstName
+     * @param User|null $user
+     * @return bool
+     */
+    function setFirstName($firstName, $user = null)
+    {
+        // define all the global variables
+        global $message, $database;
+
+        // secure the input
+        $firstName = $database->secureInput($firstName);
+
+        // check if user is null
+        if ($user == null) {
+            $user = $GLOBALS['user'];
+        }
+
+        // check if firstName is empty
+        if (empty($firstName)) {
+            $message->setError("First name cannot be empty", Message::Error);
+            return false;
+        }
+
+        // update the user table and return true
+        $user->updateUserRecord(TBL_USERS_FNAME, $firstName);
+        return true;
+    }
+
+    /**
+     * Set the user last name
+     * @param string $lastName
+     * @param User|null $user
+     * @return bool
+     */
+    function setLastName($lastName, $user = null)
+    {
+        // define all the global variables
+        global $message, $database;
+
+        // secure the input
+        $lastName = $database->secureInput($lastName);
+
+        // check if user is null
+        if ($user == null) {
+            $user = $GLOBALS['user'];
+        }
+
+        // check if last name is empty
+        if (empty($lastName)) {
+            $message->setError("Last name cannot be empty", Message::Error);
+            return false;
+        }
+
+        // update the user table and return true
+        $user->updateUserRecord(TBL_USERS_LNAME, $lastName);
+        return true;
+    }
+
+    /**
+     * Set the user's date of birth
+     * @param string $birthday
+     * @param User|null $user
+     * @return bool
+     */
+    function setBirthday($birthday, $user = null)
+    {
+        // define all the global variables
+        global $message, $database, $functions;
+
+        // secure the input
+        $birthday = $database->secureInput($birthday);
+
+        // check if user is null
+        if ($user == null) {
+            $user = $GLOBALS['user'];
+        }
+
+        // check if birth date is empty
+        if (empty($birthday)) {
+            $message->setError("Birth date cannot be empty", Message::Error);
+            return false;
+        }
+
+        // check if date prefix matches the required
+        if (!$functions->isValidDate($birthday)) {
+            $message->setError("Date of birth should be in the form of (mm/dd/yyyy)", Message::Error);
+            return false;
+        }
+
+        // update the user table and return true
+        $user->updateUserRecord(TBL_USERS_BIRTH_DATE, $birthday);
+        return true;
     }
 
 }

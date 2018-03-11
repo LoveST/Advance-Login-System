@@ -15,5 +15,11 @@ if (isset($_POST['update_first&last'])) {
     $profileManager->updateFirstLastName($_POST['firstName'], $_POST['lastName']);
 }
 
+// check if update date of birth is posted
+if (isset($_POST['update_birthday'])) {
+    // call the required function
+
+}
+
 // load the view
 $viewController->loadView("profile_change_accountInfo.html");

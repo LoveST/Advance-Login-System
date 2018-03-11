@@ -228,7 +228,6 @@ class Message
             echo $value['msg'];
         }
 
-        return true;
     }
 
     /**
