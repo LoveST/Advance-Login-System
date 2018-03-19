@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1864537c-ab97-4ddc-9a7a-d176313e98d4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/profile/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/profile/profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/templates/ubold-material/profile_verified_devices.html" beforeDir="false" afterPath="$PROJECT_DIR$/demo/templates/ubold-material/profile_view_verifiedDevices.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Core.php" afterPath="$PROJECT_DIR$/Core.php" />
+      <change beforePath="$PROJECT_DIR$/demo/profile/changeAccountInfo.php" afterPath="$PROJECT_DIR$/demo/profile/changeAccountInfo.php" />
+      <change beforePath="$PROJECT_DIR$/include/message.php" afterPath="$PROJECT_DIR$/include/message.php" />
+      <change beforePath="$PROJECT_DIR$/include/profileManager.php" afterPath="$PROJECT_DIR$/include/profileManager.php" />
     </list>
     <ignored path="ALS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,8 +43,14 @@
       <file leaf-file-name="loginWithEmail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/loginWithEmail.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state>
               <caret line="27" column="19" lean-forward="true" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+=======
+            <state relative-caret-position="0">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
             </state>
           </provider>
         </entry>
@@ -53,8 +58,14 @@
       <file leaf-file-name="profileManager.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/include/profileManager.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="324">
               <caret line="374" column="45" lean-forward="true" selection-start-line="374" selection-start-column="45" selection-end-line="374" selection-end-column="45" />
+=======
+            <state relative-caret-position="664">
+              <caret line="346" column="0" lean-forward="true" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
+              <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
             </state>
           </provider>
         </entry>
@@ -62,17 +73,49 @@
       <file leaf-file-name="session.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/session.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-49">
               <caret line="516" column="53" selection-start-line="516" selection-start-column="53" selection-end-line="516" selection-end-column="53" />
+=======
+            <state relative-caret-position="745">
+              <caret line="467" column="9" lean-forward="true" selection-start-line="464" selection-start-column="8" selection-end-line="467" selection-end-column="9" />
+              <folding>
+                <marker date="1520707491143" expanded="true" signature="2602:2688" ph="SELECT * FRO... ${TBL_USERS}" />
+                <marker date="1520707491143" expanded="true" signature="6188:6355" ph="SELECT * FRO... ${TBL_USERS}" />
+                <marker date="1520707491143" expanded="true" signature="9145:9223" ph="SELECT * FRO... ${TBL_USERS}" />
+                <marker date="1520707491143" expanded="true" signature="18591:19275" ph="INSERT INTO ${TBL_USERS}" />
+                <marker date="1520707491143" expanded="true" signature="21140:21766" ph="INSERT INTO ${TBL_USERS}" />
+                <marker date="1520707491143" expanded="true" signature="24514:24650" ph="SELECT * FRO... ${TBL_USERS}" />
+              </folding>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="functions.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/functions.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1956">
               <caret line="206" column="24" lean-forward="true" selection-start-line="206" selection-start-column="24" selection-end-line="206" selection-end-column="24" />
+=======
+      <file leaf-file-name="Core.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="839">
+              <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="changeAccountInfo.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/profile/changeAccountInfo.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
             </state>
           </provider>
         </entry>
@@ -80,6 +123,7 @@
       <file leaf-file-name="test.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/test.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="532">
               <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
             </state>
@@ -91,6 +135,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
               <caret line="8" selection-start-line="8" selection-end-line="13" selection-end-column="66" />
+=======
+            <state relative-caret-position="542">
+              <caret line="396" column="7" lean-forward="true" selection-start-line="396" selection-start-column="7" selection-end-line="396" selection-end-column="7" />
+              <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
             </state>
           </provider>
         </entry>
@@ -134,7 +183,11 @@
       <find>../&lt;?=TEMPLATE_PATH?&gt;/</find>
       <find>$theme</find>
       <find>`</find>
+<<<<<<< HEAD
       <find>$mail</find>
+=======
+      <find>1</find>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     </findStrings>
     <replaceStrings>
       <replace>$database-&gt;getQueryEffectedRow($results, true)</replace>
@@ -153,6 +206,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/demo/verifyDevice.php" />
+        <option value="$PROJECT_DIR$/demo/admin/activateUser.php" />
+        <option value="$PROJECT_DIR$/demo/admin/registerSettings.php" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         <option value="$PROJECT_DIR$/demo/admin/registeredUsers.php" />
         <option value="$PROJECT_DIR$/demo/admin/manageUser.php" />
         <option value="$PROJECT_DIR$/demo/admin/users.php" />
@@ -186,6 +245,7 @@
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/profile_change_pinNumber.html" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/register.html" />
         <option value="$PROJECT_DIR$/demo/profile/changePinNumber.php" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/demo/profile/changeAccountInfo.php" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/profile_change_accountInfo.html" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/authentication.html" />
@@ -203,6 +263,12 @@
         <option value="$PROJECT_DIR$/demo/tests.php" />
         <option value="$PROJECT_DIR$/demo/templates/ubold-material/mail_user_login_link.html" />
         <option value="$PROJECT_DIR$/Core.php" />
+=======
+        <option value="$PROJECT_DIR$/demo/templates/ubold-material/profile_change_accountInfo.html" />
+        <option value="$PROJECT_DIR$/Core.php" />
+        <option value="$PROJECT_DIR$/include/message.php" />
+        <option value="$PROJECT_DIR$/demo/profile/changeAccountInfo.php" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         <option value="$PROJECT_DIR$/include/profileManager.php" />
       </list>
     </option>
@@ -217,7 +283,7 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP">
     <include_path>
       <path value="D:\xampp\php" />
       <path value="D:\xampp\php" />
@@ -233,11 +299,22 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -388,15 +465,18 @@
       <arguments />
       <envs />
     </configuration>
-    <list>
-      <item itemvalue="JavaScript Debug.login.php" />
-      <item itemvalue="PHP Script.login.php" />
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.login.php" />
+      <item index="1" class="java.lang.String" itemvalue="PHP Script.login.php" />
     </list>
     <recent_temporary>
-      <list>
-        <item itemvalue="JavaScript Debug.login.php" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.login.php" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -545,19 +625,29 @@
       <workItem from="1520135906001" duration="4269000" />
       <workItem from="1520538814500" duration="863000" />
       <workItem from="1520549104666" duration="3079000" />
+<<<<<<< HEAD
       <workItem from="1520566899291" duration="7206000" />
       <workItem from="1521330481159" duration="8083000" />
       <workItem from="1521441328055" duration="5716000" />
+=======
+      <workItem from="1520566899291" duration="6606000" />
+      <workItem from="1520710836099" duration="2654000" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="627336000" />
+=======
+    <option name="totallyTimeSpent" value="615591000" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-13" y="-13" width="3226" height="1746" extended-state="6" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
@@ -579,6 +669,28 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3270111" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.176875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2896406" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="PHP-CGI Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270111" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,8 +711,75 @@
     <breakpoint-manager>
       <option name="time" value="44" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/newPassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_main_panel_footer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="25" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="44" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="26" lean-forward="false" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/profile/error.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="30" lean-forward="true" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_main_panel_header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="50" column="50" lean-forward="false" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/admin/activateUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/admin/addPermission.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/admin/bannedUsers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="5" lean-forward="true" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_addGroup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_view_2authCode.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -611,59 +790,79 @@
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_setHTTPS.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <caret line="7" column="32" lean-forward="false" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/changeUsername.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/view2FactorAuth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="8" selection-start-line="8" selection-end-line="12" selection-end-column="57" />
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="12" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_totalUsers.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="899">
-          <caret line="31" column="24" lean-forward="true" selection-end-line="55" selection-end-column="6" />
+          <caret line="31" column="24" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="55" selection-end-column="6" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_view_verifiedDevices.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="12" column="88" lean-forward="false" selection-start-line="12" selection-start-column="88" selection-end-line="12" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     <entry file="file://$PROJECT_DIR$/demo/profile/verifiedDevices.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="123">
-          <caret line="8" selection-start-line="8" selection-end-line="15" selection-end-column="63" />
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="15" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/changeEmail.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
-          <caret line="11" column="10" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/profile.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="0">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/admin/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
-          <caret line="21" column="115" selection-start-line="21" selection-start-column="88" selection-end-line="21" selection-end-column="115" />
+          <caret line="21" column="115" lean-forward="false" selection-start-line="21" selection-start-column="88" selection-end-line="21" selection-end-column="115" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/include/functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9084">
+          <caret line="38" column="29" lean-forward="false" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     <entry file="file://$PROJECT_DIR$/demo/profile/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -674,31 +873,52 @@
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/home.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1653">
-          <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
+          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/ad_siteSettings.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-463">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/languages/en_us.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
+<<<<<<< HEAD
           <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+=======
+          <caret line="30" column="25" lean-forward="false" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_main_panel_footer.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="386">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="36" />
+          <caret line="24" column="36" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="36" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/include/Translator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="641">
+          <caret line="204" column="47" lean-forward="true" selection-start-line="204" selection-start-column="47" selection-end-line="204" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/ViewController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="717">
+          <caret line="330" column="43" lean-forward="false" selection-start-line="330" selection-start-column="43" selection-end-line="330" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_change_email.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -709,42 +929,52 @@
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_change_username.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="481">
-          <caret line="37" column="55" selection-end-line="48" selection-end-column="6" />
+          <caret line="37" column="55" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="48" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_change_password.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/demo/test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     <entry file="file://$PROJECT_DIR$/demo/profile.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="736">
-          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_main_panel_header.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
-          <caret line="115" column="61" selection-start-line="115" selection-start-column="61" selection-end-line="115" selection-end-column="61" />
+          <caret line="115" column="61" lean-forward="false" selection-start-line="115" selection-start-column="61" selection-end-line="115" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/generate2FactorAuth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="16" selection-end-column="63" />
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="16" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-848">
-          <caret line="136" column="13" selection-start-line="136" selection-start-column="13" selection-end-line="136" selection-end-column="13" />
+          <caret line="136" column="13" lean-forward="false" selection-start-line="136" selection-start-column="13" selection-end-line="136" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -778,13 +1008,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/profile/changeAccountInfo.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="63">
           <caret line="8" selection-start-line="8" selection-end-line="9" selection-end-column="97" />
+=======
+        <state relative-caret-position="273">
+          <caret line="105" column="71" lean-forward="false" selection-start-line="105" selection-start-column="48" selection-end-line="105" selection-end-column="71" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_generate_2factorCode.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="351">
           <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
         </state>
@@ -794,6 +1030,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="737">
           <caret line="330" column="43" selection-start-line="330" selection-start-column="43" selection-end-line="330" selection-end-column="43" />
+=======
+        <state relative-caret-position="0">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
@@ -806,6 +1047,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/register.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="567">
           <caret line="32" column="22" lean-forward="true" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
         </state>
@@ -862,6 +1104,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2850">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+=======
+        <state relative-caret-position="405">
+          <caret line="32" column="21" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
@@ -888,8 +1134,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/tests.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="168">
           <caret line="8" selection-start-line="8" selection-end-line="13" selection-end-column="66" />
+=======
+        <state relative-caret-position="240">
+          <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
@@ -900,6 +1151,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/demo/test.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
@@ -911,11 +1163,35 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+=======
+    <entry file="file://$PROJECT_DIR$/Core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="839">
+          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/templates/ubold-material/profile_change_accountInfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="11" column="27" lean-forward="false" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/message.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="396" column="7" lean-forward="true" selection-start-line="396" selection-start-column="7" selection-end-line="396" selection-end-column="7" />
+          <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="628">
           <caret line="194" column="33" lean-forward="true" selection-start-line="194" selection-start-column="33" selection-end-line="194" selection-end-column="33" />
         </state>
@@ -946,13 +1222,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret line="27" column="19" lean-forward="true" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+=======
+        <state relative-caret-position="230">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="745">
+          <caret line="467" column="9" lean-forward="true" selection-start-line="464" selection-start-column="8" selection-end-line="467" selection-end-column="9" />
+          <folding>
+            <marker date="1520707491143" expanded="true" signature="2602:2688" ph="SELECT * FRO... ${TBL_USERS}" />
+            <marker date="1520707491143" expanded="true" signature="6188:6355" ph="SELECT * FRO... ${TBL_USERS}" />
+            <marker date="1520707491143" expanded="true" signature="9145:9223" ph="SELECT * FRO... ${TBL_USERS}" />
+            <marker date="1520707491143" expanded="true" signature="18591:19275" ph="INSERT INTO ${TBL_USERS}" />
+            <marker date="1520707491143" expanded="true" signature="21140:21766" ph="INSERT INTO ${TBL_USERS}" />
+            <marker date="1520707491143" expanded="true" signature="24514:24650" ph="SELECT * FRO... ${TBL_USERS}" />
+          </folding>
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/profileManager.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="324">
           <caret line="374" column="45" lean-forward="true" selection-start-line="374" selection-start-column="45" selection-end-line="374" selection-end-column="45" />
+=======
+        <state relative-caret-position="664">
+          <caret line="346" column="0" lean-forward="true" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
+          <folding />
+>>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
         </state>
       </provider>
     </entry>
