@@ -344,6 +344,11 @@ class Session
         return true;
     }
 
+    function loginThrowEmail()
+    {
+
+    }
+
     /**
      * Main function to register a guest as a new user
      * @param $username
@@ -906,8 +911,10 @@ class Session
         }
 
         // check if current session has been authenticated
-        if ($_SESSION["authenticated"] == true) {
-            return false;
+        if(isset($_SESSION["authenticated"])) {
+            if ($_SESSION["authenticated"] == true) {
+                return false;
+            }
         }
 
         // if no errors then ask for authentication

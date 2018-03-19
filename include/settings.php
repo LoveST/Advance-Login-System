@@ -485,7 +485,6 @@ class Settings
      */
     function getTemplatesPath()
     {
-
         $sub = "";
 
         // check the servers current OS
@@ -497,6 +496,28 @@ class Settings
 
         // start building the path
         $path = $this->sitePath() . $sub . $this->templatesFolder() . $sub . $this->siteTheme() . $sub;
+
+        // return the path
+        return $path;
+    }
+
+    /**
+     * get the site templates folder path
+     * @return string
+     */
+    function getTemplatesFolderPath()
+    {
+        $sub = "";
+
+        // check the servers current OS
+        if (PHP_OS == "Linux") {
+            $sub = "/";
+        } else {
+            $sub = "\\";
+        }
+
+        // start building the path
+        $path = $this->sitePath() . $sub . $this->templatesFolder() . $sub . $sub;
 
         // return the path
         return $path;

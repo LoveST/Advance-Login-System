@@ -335,4 +335,69 @@ class profileManager
 
     }
 
+    function sendLoginLink($email, $userCaptcha)
+    {
+        // define all the global variables
+        global $message, $database, $functions, $captcha, $mail, $settings, $viewController;
+
+        // secure the inputs
+        $email = $database->secureInput($email);
+        $userCaptcha = $database->secureInput($userCaptcha);
+
+        // check if any empty
+        if (empty($email) || $email == "") {
+            $message->setError("All fields are required", Message::Error);
+            return false;
+        }
+
+        // check if email exists
+        if (!$functions->emailExist($email)) {
+            $message->setError("Email address does not exist", Message::Error);
+            return false;
+        }
+
+        // check if captcha matches
+        $captcha->sendRequest($userCaptcha);
+        if (!$captcha->success()) {
+            $message->setError("Wrong captcha has been used", Message::Error);
+            return false;
+        }
+
+        // load the required user
+        $newUser = $functions->searchUser($email, searchBy::email);
+
+        // generate a UUID
+        $uuid = md5(uniqid($email));
+
+        // update the user database
+        $newUser->updateUserRecord(TBL_USERS_LOGIN_ID, $uuid);
+
+        // hold the required custom variables
+        $vars = array(
+            "loginLink" => $settings->siteURL() . "login.php?ac=emailLogin&id=" . $newUser->getID() . "&loginID=" . $uuid,
+            "username" => $newUser->getUsername(),
+            "title" => "Login Link"
+        );
+
+        // pre-load the required template
+        $viewController->setCustomReservedCharacters($vars);
+
+        // translate the page
+        $file = $viewController->preLoadView("mail_user_login_link.html");
+
+        // send the required email containing the link
+        $mail->fromEmail($settings->siteEmail())->fromName($settings->siteName())->subject("Login Link")
+            ->isTemplate(true)->to($newUser->getEmail())->template($file);
+
+        // check if mail got sent
+        if (!$mail->send()) {
+            $message->setError("There was an error while sending the email", Message::Error);
+            return false;
+        }
+
+        // if no errors, return true.
+        $message->setSuccess("An email has been sent containing the login link.");
+        return true;
+    }
+
 }

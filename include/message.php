@@ -209,7 +209,6 @@ class Message
 
     /**
      * Print the total success messages to the user UI
-     * @return bool
      */
     function printSuccess()
     {
@@ -220,15 +219,13 @@ class Message
 
         // check if data is empty
         if (is_null($data) || $size == 0) {
-            return false;
+            return;
         }
 
         foreach ($data as $key => $value) {
             if ($key != 0) echo "<br>";
             echo $value['msg'];
         }
-
-        return true;
     }
 
     /**

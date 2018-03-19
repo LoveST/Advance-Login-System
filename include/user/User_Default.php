@@ -394,6 +394,15 @@ class User_Default
     }
 
     /**
+     * Get the user login ID
+     * @return string
+     */
+    function getLoginID()
+    {
+        return $this->userData[TBL_USERS_LOGIN_ID];
+    }
+
+    /**
      * Set this function to force the current user to log in again and re-initiate the data
      * @return bool
      */

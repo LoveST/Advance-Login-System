@@ -19,7 +19,6 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
                 if ($session->activateAccount($_POST['code'], $_POST['email'])) {
                     $success = true;
                 }
-                //break;
             }
 
             $viewController->loadView("activate-account.html");
@@ -48,8 +47,8 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
         case  "googleAuthenticate";
 
             // insert custom scripts
-            $viewController->addCustomScript(' <script src="'. $settings->getTemplatesURL() .'plugins/bootstrap-inputmask/bootstrap-inputmask.min.js" type="text/javascript"></script>');
-            $viewController->addCustomScript('<script src="'. $settings->getTemplatesURL() .'plugins/autoNumeric/autoNumeric.js" type="text/javascript"></script>');
+            $viewController->addCustomScript(' <script src="' . $settings->getTemplatesURL() . 'plugins/bootstrap-inputmask/bootstrap-inputmask.min.js" type="text/javascript"></script>');
+            $viewController->addCustomScript('<script src="' . $settings->getTemplatesURL() . 'plugins/autoNumeric/autoNumeric.js" type="text/javascript"></script>');
             $viewController->addCustomScript('<script type="text/javascript">jQuery(function($) {$(\'.autonumber\').autoNumeric(\'init\');});</script>');
 
             if ($session->statusCheck() == LoginStatus::AuthenticationNeeded) {
@@ -69,6 +68,23 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
             } else {
                 $functions->directBackToSource("index.php");
             }
+
+            break;
+        case "loginWithEmail";
+
+            // check if form posted
+            if (isset($_POST['login'])) {
+
+                // get the required fields
+                $email = $_POST['email'];
+                $userCaptcha = $_POST['g-recaptcha-response'];
+
+                // call the required function
+                $profileManager->sendLoginLink($email, $userCaptcha);
+            }
+
+            // load the view
+            $viewController->loadView("loginWithEmail.html");
 
             break;
         default;

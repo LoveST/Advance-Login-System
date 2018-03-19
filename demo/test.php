@@ -10,7 +10,6 @@ require "../Core.php";
 $core = new \ALS\Core();
 $core->initClasses();
 
-echo "<img src='" . $settings->getAvatarsURL() . $user->getAvatarID() . ".jpg'>";
 
 /**
  *
@@ -32,7 +31,3 @@ echo "<img src='" . $settings->getAvatarsURL() . $user->getAvatarID() . ".jpg'>"
  *
  * To-Do => fix an exploit that the user can call a specific file from a different folder and path using the url
  */
-
-if($settings->pinRequired()){
-
-}

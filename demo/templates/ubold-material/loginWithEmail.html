@@ -14,6 +14,7 @@
     <link href="{:settings_templateURL}assets/css/style.css" rel="stylesheet" type="text/css"/>
 
     <script src="{:settings_templateURL}assets/js/modernizr.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body>
@@ -34,8 +35,7 @@
                         </div>
                         <h4 class="font-18">{:user_username}</h4>
                         <p class="text-muted">
-                            Your account has 2-factor authentication enabled, so you'r required to supply a code
-                            from the Google Authentication App.
+                            You'll get an email containing the link to login.
                         </p>
                     </div>
 
@@ -52,13 +52,17 @@
                     <? } ?>
 
                     <div class="form-group-custom m-t-40">
-                        <input type="text" name="authCode" data-mask="999999" id="user-password" required="required"/>
-                        <label class="control-label" for="user-password">Authentication Code</label><i class="bar"></i>
+                        <input type="email" name="email" id="user-email" required="required"/>
+                        <label class="control-label" for="user-email">Email Address</label><i class="bar"></i>
+                    </div>
+
+                    <div class="form-group-custom m-t-40">
+                        <div class="g-recaptcha" data-theme="dark" data-sitekey="{:msgc captcha...getSiteKey()}"></div>
                     </div>
 
                     <div class="form-group text-center m-t-20">
-                        <button name="verify" class="btn btn-success btn-block waves-effect waves-light"
-                                type="submit">Verify
+                        <button name="login" class="btn btn-success btn-block waves-effect waves-light"
+                                type="submit">Send Link
                         </button>
                     </div>
                 </div>
@@ -71,9 +75,6 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p class="text-white">
-                Don't have the app setup ?<a href="login.php?ac=loginWithEmail" class="text-white m-l-5"><b>Login with email</b></a>
-            </p>
             <p class="text-white">
                 Not {:user_username}?<a href="logout.php" class="text-white m-l-5"><b>Logout</b></a>
             </p>

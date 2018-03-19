@@ -192,7 +192,15 @@ class Translator
                         // check if command is 'msg' or 'msgc'
                         if ($key[3] == "c") { // class
 
+                            // get the current method call
                             $variable = substr($key, 5);
+
+                            // check if it contains ...
+                            if (strpos($variable, '...') !== false) {
+                                $newStrings = explode('...', $variable);
+                                $variable = "GLOBALS['" . $newStrings[0] . "']->" . $newStrings[1];
+                            }
+
                             $newReplacement = "<? echo $" . $variable . "; ?>";
 
                         } else { // global variable

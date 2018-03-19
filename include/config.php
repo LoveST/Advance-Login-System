@@ -70,6 +70,7 @@ define("TBL_USERS_API_KEY", "api_key");
 define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_USERS_AUTHENTICATORS", "authenticators");
 define("TBL_USERS_AVATAR_ID", "avatar_id");
+define("TBL_USERS_LOGIN_ID","login_id");
 
 /**
  * Settings Table

@@ -549,4 +549,68 @@ class Functions
         }
     }
 
+    /**
+     * Search for a specific user by (username, ID, email)
+     * @param mixed value
+     * @param int|searchBy $searchBy
+     * @return bool|User
+     */
+    function searchUser($value, $searchBy)
+    {
+        // define the required global variables
+        global $database;
+
+        // secure the inputs
+        $value = $database->secureInput($value);
+
+        // hold the required data to return
+        $data = null;
+
+        // check which method should be used
+        switch ($searchBy) {
+            case searchBy::username:
+                $data = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $value . "'";
+                break;
+            case searchBy::id:
+                $data = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $value . "'";
+                break;
+            case searchBy::email:
+                $data = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_EMAIL . " = '" . $value . "'";
+                break;
+            default:
+                $data = false;
+                break;
+        }
+
+        // call the database and get the required data
+        $results = $database->getQueryResults($data);
+
+        // check if any results
+        if ($database->getQueryNumRows($results, true) > 0) {
+
+            // get the data
+            $data = $database->getQueryEffectedRow($results, true);
+
+            // load the new user to prepare for the return
+            $newUser = new User();
+            $newUser->initInstance($data);
+
+            // set the new data
+            $data = $newUser;
+
+        } else {
+            $data = false;
+        }
+
+        // return the results
+        return $data;
+    }
+
+}
+
+abstract class searchBy
+{
+    const username = 1;
+    const id = 2;
+    const email = 3;
 }
