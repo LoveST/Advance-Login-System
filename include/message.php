@@ -226,10 +226,6 @@ class Message
             if ($key != 0) echo "<br>";
             echo $value['msg'];
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> aefb92d5449f38040b2680ae3beac82fe727dfcc
     }
 
     /**

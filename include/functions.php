@@ -104,22 +104,44 @@ class Functions
 
     /**
      * check if x user exists
-     * @param $username
+     * @param string $username
      * @return bool
      */
     function userExist($username)
     {
-
         // define all the global variables
-        global $database, $message;
+        global $database;
 
+        // call the database
         $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_USERNAME . " = '" . $username . "'";
         $results = $database->getQueryResults($sql);
-        if ($database->anyError()) {
-            $message->setError("SQL error : " . $database->getError(), Message::Fatal);
-            die;
-        }
 
+        // check if any results found
+        if ($database->getQueryNumRows($results, true) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * check if x ID exists
+     * @param $id
+     * @return bool
+     */
+    function idExist($id)
+    {
+        // define all the global variables
+        global $database;
+
+        // secure the input
+        $id = $database->secureInput($id);
+
+        // call the database
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $id . "'";
+        $results = $database->getQueryResults($sql);
+
+        // check if any results found
         if ($database->getQueryNumRows($results, true) > 0) {
             return true;
         } else {
@@ -291,7 +313,7 @@ class Functions
      * @param $isEmail
      * @return bool
      */
-    function is_userActivated($data, $isEmail = false)
+    function isUserActivated($data, $isEmail = false)
     {
 
         // define all the global variables
@@ -350,7 +372,7 @@ class Functions
      * @param string $ip
      * @return bool
      */
-    function is_localhost($ip = "")
+    function isLocalhost($ip = "")
     {
         if (empty($ip) || $ip == "") {
             $ip = $_SERVER['REMOTE_ADDR'];

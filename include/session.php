@@ -79,7 +79,7 @@ class Session
         }
 
         // check if the user account is enabled
-        if (!$functions->is_userActivated($username)) {
+        if (!$functions->isUserActivated($username)) {
             $message->setError($translator->translateText("activateAccountBeforeLogin"), Message::Error);
             return false;
         }
@@ -344,8 +344,29 @@ class Session
         return true;
     }
 
-    function loginThrowEmail()
+    function loginThrowEmail($email, $id, $loginID)
     {
+        // define the required global variables
+        global $database, $message, $settings, $functions;
+
+        // secure the inputs
+        $email = $database->secureInput($email);
+        $id = $database->secureInput($id);
+        $loginID = $database->secureInput($loginID);
+
+        // check if any field is empty
+        if (empty($email) || empty($id) || empty($loginID)) {
+            $message->setError("Missing required data", Message::Error);
+            return false;
+        }
+
+        // check if email exists
+        if (!$functions->emailExist($email)) {
+            $message->setError("No such user exists with the supplied email", Message::Error);
+            return false;
+        }
+
+
 
     }
 
@@ -646,7 +667,7 @@ class Session
         }
 
         // check if account already has been activated
-        if ($functions->is_userActivated($email, true)) {
+        if ($functions->isUserActivated($email, true)) {
             $message->setError("The account is already activated", Message::Error);
             return false;
         }
@@ -911,7 +932,7 @@ class Session
         }
 
         // check if current session has been authenticated
-        if(isset($_SESSION["authenticated"])) {
+        if (isset($_SESSION["authenticated"])) {
             if ($_SESSION["authenticated"] == true) {
                 return false;
             }

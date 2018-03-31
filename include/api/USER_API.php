@@ -65,7 +65,7 @@ class USER_API extends API_DEFAULT
         $ip = trim($functions->decryptIt($user[TBL_USERS_API_CALLS_USER_IP]));
 
         // Todo add the ability to modify the option to enable or disable multiple IP requests
-        if ($settings->sameIpLogin() && !$functions->is_localhost($ip)) {
+        if ($settings->sameIpLogin() && !$functions->isLocalhost($ip)) {
             // check if different ip is present
             if (strcmp($functions->getUserIP(), $ip) != 0) {
                 return false;
