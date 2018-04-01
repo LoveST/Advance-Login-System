@@ -87,6 +87,26 @@ if ($session->statusCheck() == LoginStatus::GoodToGo) {
             $viewController->loadView("loginWithEmail.html");
 
             break;
+        case "emailLogin";
+
+            // check if form posted
+            if (isset($_POST['login'])) {
+
+                // get the required fields
+                $id = $_GET['id'];
+                $loginID = $_GET['loginID'];
+                $email = $_POST['email'];
+
+                // call the required function
+                if ($session->loginThrowEmail($email, $id, $loginID)) {
+                    $functions->directBackToSource("index.php");
+                }
+            }
+
+            // load the view
+            $viewController->loadView("emailLogin.html");
+
+            break;
         default;
 
             if (isset($_POST["login"])) {

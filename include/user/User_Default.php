@@ -354,7 +354,7 @@ class User_Default
      */
     function getSecret()
     {
-        // TODO
+        // TODO get the user custom secret key
         return $this->userData[TBL_USERS_SECRET];
     }
 

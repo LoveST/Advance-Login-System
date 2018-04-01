@@ -497,15 +497,15 @@ class profileManager
 
         // hold the required custom variables
         $vars = array(
-            "loginLink" => $settings->siteURL() . "login.php?ac=emailLogin&id=" . $newUser->getID() . "&loginID=" . $uuid,
+            "loginLink" => "http://" . $settings->siteURL() . "login.php?ac=emailLogin&id=" . $newUser->getID() . "&loginID=" . $uuid,
             "username" => $newUser->getUsername(),
             "title" => "Login Link"
         );
 
-        // pre-load the required template
+        // set the custom variables
         $viewController->setCustomReservedCharacters($vars);
 
-        // translate the page
+        // pre-load the required template
         $file = $viewController->preLoadView("mail_user_login_link.html");
 
         // send the required email containing the link

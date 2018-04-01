@@ -8,6 +8,8 @@
 
 namespace ALS;
 
+use Couchbase\UserSettings;
+
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
 class Session
@@ -347,7 +349,7 @@ class Session
     function loginThrowEmail($email, $id, $loginID)
     {
         // define the required global variables
-        global $database, $message, $settings, $functions;
+        global $database, $message, $functions;
 
         // secure the inputs
         $email = $database->secureInput($email);
@@ -366,8 +368,37 @@ class Session
             return false;
         }
 
+        // call the database for the required data
+        $sql = "SELECT * FROM " . TBL_USERS . " WHERE " . TBL_USERS_ID . " = '" . $id . "' AND " . TBL_USERS_LOGIN_ID . " = '" . $loginID . "'";
+        $results = $database->getQueryResults($sql);
 
+        // check for a valid login ID
+        if ($database->getQueryNumRows($results, true) <= 0) {
+            $message->setError("Invalid or expired user login ID.", Message::Error);
+            return false;
+        }
 
+        // TODO check for expired link
+
+        // grab the user data
+        $row = $database->getQueryEffectedRow($results, true);
+
+        // create a new session without the need of confirmation
+        // ** Update the current session data ** //
+        foreach ($row As $rowName => $rowValue) {
+            $_SESSION["user_data"][$rowName] = $rowValue;
+        }
+
+        // delete the login ID
+        $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LOGIN_ID . " = '' WHERE " . TBL_USERS_ID . " = '" . $id . "' AND " . TBL_USERS_EMAIL . " = '" . $email . "'";
+        $database->getQueryResults($sql);
+
+        // disable the need for authentication
+        $_SESSION["authenticated"] = true;
+
+        // set the success message and return a true message
+        $message->setSuccess("Logged in successfully");
+        return true;
     }
 
     /**
