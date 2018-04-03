@@ -32,6 +32,7 @@ class Core
         require _PATH . "message.php";
         require _PATH . "database.php";
         require _PATH . "settings.php";
+        require _PATH . "Links.php";
         require _PATH . "Groups.php";
         require _PATH . "user/device.php";
         require _PATH . "browser.php";
@@ -71,6 +72,7 @@ class Core
         $this->_Message();
         $this->_Database();
         $this->_Settings();
+        $this->_Links();
         $this->_Groups();
         $this->_ViewController();
         $this->_Translator();
@@ -229,6 +231,7 @@ class Core
     {
         // build the variable to store it
         $session = new Session();
+        $GLOBALS['links']->init();
         $GLOBALS['session'] = $session;
         $session->init();
     }
@@ -279,6 +282,12 @@ class Core
     {
         // build the variable to store it
         $GLOBALS['avatars'] = new Avatars();
+    }
+
+    function _Links()
+    {
+        // build the variable to store it
+        $GLOBALS['links'] = new Links();
     }
 
 }

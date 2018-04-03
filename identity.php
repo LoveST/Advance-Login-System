@@ -37,6 +37,7 @@ require "include/Authenticator.php";
 require "include/ViewController.php";
 require "include/Applications.php";
 require "include/Avatars.php";
+require "include/Links.php";
 
 /**
  * init Message class
@@ -192,3 +193,11 @@ $applications = new Applications();
 use ALS\Avatars;
 
 $avatars = new Avatars();
+
+/**
+ * init the Links class
+ */
+
+use ALS\Links;
+
+$links = new Links();

@@ -18,6 +18,7 @@ define("CONNECTION_TYPE", "PDO");
 /**
  * Declare all the database variables
  */
+
 define("DBURL", "localhost"); // Set the database url (ex : localhost || 127.0.01 ).
 define("DBUSER", "root"); // Set the database user.
 define("DBPASS", "199601997masis@"); // Set the database password to access it.
@@ -35,6 +36,7 @@ define("SITE_SECRET", md5("This is Just An ExaMple123"));
  * Declare all sql tables that's been used in the script
  * User Table
  */
+
 define("TBL_USERS", "users");
 define("TBL_USERS_ID", "id");
 define("TBL_USERS_USERNAME", "username");
@@ -70,7 +72,7 @@ define("TBL_USERS_API_KEY", "api_key");
 define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_USERS_AUTHENTICATORS", "authenticators");
 define("TBL_USERS_AVATAR_ID", "avatar_id");
-define("TBL_USERS_LOGIN_ID","login_id");
+define("TBL_USERS_LOGIN_ID", "login_id");
 
 /**
  * Settings Table
@@ -121,7 +123,7 @@ define("TBL_LEVELS_PERMISSIONS", "permissions");
 define("TBL_LEVELS_DEFAULT_GROUP", "default_group");
 
 /**
- * users_auths table
+ * users_auths Table
  */
 
 define("TBL_USERS_AUTHS", "users_auths");
@@ -145,3 +147,11 @@ define("TBL_USERS_API_CALLS_BROWSER_AOL", "browser_aol");
 define("TBL_USERS_API_CALLS_USER_AGENT", "user_agent");
 define("TBL_USERS_API_CALLS_USER_IP", "user_ip");
 define("TBL_USERS_API_CALLS_PLATFORM", "platform");
+
+/**
+ * Links Table
+ */
+
+define("TBL_LINKS", "links");
+define("TBL_LINKS_NAME", "name");
+define("TBL_LINKS_VALUE", "value");

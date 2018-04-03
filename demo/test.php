@@ -31,3 +31,7 @@ $core->initClasses();
  *
  * To-Do => fix an exploit that the user can call a specific file from a different folder and path using the url
  */
+
+echo $links->getLink("mainProfile4");
+
+
