@@ -7,3 +7,4 @@ $init->loginCheck();
 /** End check user & site status**/
 
 $viewController->loadView("home.html");
+echo $links->getLink("login");

@@ -36,7 +36,7 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings, $functions, $message, $user, $session;
+        global $settings, $functions, $links, $message, $user, $session;
 
         // check if the cache directory is not empty
         if (!$functions->isDirEmpty($settings->getTemplatesCachePath())) {
@@ -72,6 +72,10 @@ class ViewController
 
         // translate the TEMPLATE file
         $file = $this->getTranslator()->translateFile($file);
+
+        // translate the required custom links from the database
+        $file = $this->getTranslator()->translateLinks($file);
+        $links->translateCharacters();
 
         // save the file to the temporary cache folder
         $fp = fopen($settings->getTemplatesCachePath() . $this->requiredTemplate, "wb");
@@ -327,7 +331,7 @@ class ViewController
     public function addCustomScript($line)
     {
         if (!empty($line)) {
-            if(!empty($this->customScripts)){
+            if (!empty($this->customScripts)) {
                 $this->customScripts .= "\n";
             }
             $this->customScripts .= $line;

@@ -19,7 +19,6 @@ class Translator
 
     function __construct()
     {
-
         // define all the global variables
         global $settings;
 
@@ -37,12 +36,10 @@ class Translator
 
         // read and parse the INI language file
         $this->langFile = $this->readLanguageFile();
-
     }
 
     public function initSessionLanguage()
     {
-
         // define all the global variables
         global $session;
 
@@ -51,7 +48,6 @@ class Translator
 
             // set the session's preferred language
             $this->setLanguage($sessionLanguage);
-
         }
     }
 
@@ -62,15 +58,9 @@ class Translator
      */
     public function translateFile($file)
     {
-
-        // set the needed REGEX
-        $regex = "#{t}(.*?){/t}#";
-        $langFile = $this->langFile;
-
-        $file = $this->replaceTags("{t}", "{/t}", $file, $langFile);
-
+        // translate the file and return it
+        $file = $this->replaceTags("{t}", "{/t}", $file, $this->langFile);
         return $file;
-
     }
 
     /**
@@ -79,7 +69,6 @@ class Translator
      */
     private function readLanguageFile()
     {
-
         // get the needed file
         $file = $this->folderPath . LANGUAGE . ".ini";
 
@@ -110,6 +99,32 @@ class Translator
     }
 
     /**
+     * translate an entire file links with the needed tags
+     * @author https://stackoverflow.com/users/4265352/axiac (Axiac)
+     * @param $file
+     * @return string
+     */
+    public function translateLinks($file)
+    {
+        return preg_replace_callback(
+            '#' . preg_quote("{l}") . '(.*)' . preg_quote("{/l}") . '#U',
+            function (array $matches) {
+
+                // get the character
+                $key = $matches[1];
+
+                // add the link to the buffer
+                global $links;
+                $links->requestLink($key . "");
+
+                // return the translated results
+                return "<? echo \$links->getLink('" . $key . "', false); ?>";
+            },
+            $file
+        );
+    }
+
+    /**
      * set the script language
      * @param string $lang
      * @return $this
@@ -127,7 +142,6 @@ class Translator
      */
     function addSecondLanguageFile($filePath)
     {
-
         // check if file is null
         if ($filePath == null) {
             return false;
@@ -222,5 +236,4 @@ class Translator
             $template
         );
     }
-
 }

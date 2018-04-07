@@ -12,46 +12,9 @@ namespace ALS;
 class Links
 {
 
-    private $links = null;
-
-    /**
-     * Initiate the current class
-     */
-    public function init()
-    {
-
-        // read the links from the database
-        $this->readDatabaseLinks();
-
-        // translate the characters
-        $this->translateCharacters();
-    }
-
-    /**
-     * Load the required data links from the database
-     */
-    private function readDatabaseLinks()
-    {
-        // get the required global variables
-        global $database;
-
-        // call the database
-        $sql = "SELECT * FROM " . TBL_LINKS;
-
-        // request the data
-        $results = $database->getQueryResults($sql);
-
-        // get the data
-        foreach ($database->getQueryEffectedRows($results, true) as $row) {
-
-            // store the needed variables
-            $fieldName = $row[TBL_LINKS_NAME];
-            $fieldValue = $row[TBL_LINKS_VALUE];
-
-            // append to the links array
-            $this->links[$fieldName] = $fieldValue;
-        }
-    }
+    private $links = array();
+    private $linksList = null;
+    private $linksSize = 0;
 
     /**
      * Get all the links in the database as an array
@@ -63,28 +26,41 @@ class Links
     }
 
     /**
-     * Get a specific link name value
+     * Add a link to the buffer list or access one link strictly
      * @param string $linkName
+     * @param bool $toBuffer
      * @return string
      */
-    public function getLink($linkName)
+    public function requestLink($linkName, $toBuffer = true)
     {
-        if (array_key_exists($linkName, $this->links)) {
-            return $this->links[$linkName];
-        } else {
-            return "NULL";
-        }
-    }
+        // get the required global variables
+        global $database;
 
-    /**
-     * Translate the current data links and convert the custom characters
-     * Example : {:siteURL}index.php ===> http://localhost/index.php
-     */
-    private function translateCharacters()
-    {
-        // loop throw the current links array
-        $index = 0;
-        foreach ($this->links as $name => $value) {
+        // check if toStore is enabled
+        if ($toBuffer) {
+
+            // check if link already been defined
+            if (array_key_exists($linkName, $this->links)) {
+                return $this->links[$linkName];
+            }
+
+            // add to the current link list and add 1 to the size
+            $this->linksList[] = $linkName;
+            $this->linksSize++;
+        } else {
+
+            // prepare the sql query
+            $sql = "SELECT * FROM " . TBL_LINKS . " WHERE " . TBL_LINKS_NAME . " = '" . $linkName . "'";
+            $results = $database->getQueryResults($sql);
+
+            // check if no results are found
+            if ($database->getQueryNumRows($results, true) <= 0) {
+                return "";
+            }
+
+            // get the current row
+            $row = $database->getQueryEffectedRow($results, true);
+            $value = $row[TBL_LINKS_VALUE];
 
             // do a while loop if any tags found
             while ($this->anyTags($value)) {
@@ -93,10 +69,81 @@ class Links
                 $value = $this->replaceTags($value);
             }
 
-            // update the current list
-            $this->links[$name] = $value;
-            $index++;
+            // return the required link
+            $this->links[$linkName] = $value;
+            return $value;
         }
+    }
+
+    public function getLink($linkName)
+    {
+        // check if link exists in the array
+        if (array_key_exists($linkName, $this->links)) {
+            return $this->links[$linkName];
+        } else {
+            return "{LinkError}";
+        }
+    }
+
+    /**
+     * Translate the current data links and convert the custom characters
+     * Example : {:siteURL}index.php ===> http://localhost/index.php
+     */
+    public function translateCharacters()
+    {
+        // get the required global variables
+        global $database;
+
+        // store the sql select list
+        $list = "";
+
+        // check if the current links array is empty
+        if (empty($this->linksList)) {
+            return;
+        }
+
+        // prepare the sql select list
+        for ($i = 0; $i < $this->linksSize; $i++) {
+            if ($i == 0) {
+                $list .= " \"" . $this->linksList[$i] . "\" ";
+            } else {
+                $list .= ", \"" . $this->linksList[$i] . "\" ";
+            }
+        }
+
+        // query the results
+        $sql = "SELECT * FROM " . TBL_LINKS . " WHERE " . TBL_LINKS_NAME . " In (" . $list . ")";
+        $results = $database->getQueryResults($sql);
+
+        // check if no results are found
+        if ($database->getQueryNumRows($results, true) <= 0) {
+            return;
+        }
+
+        // reset the links list and set it to array
+        $this->linksList = null;
+        $this->linksSize = 0;
+        $this->links = array();
+
+        // loop throw each link
+        foreach ($database->getQueryEffectedRows($results, true) as $link) {
+
+            // get the required variables
+            $name = $link[TBL_LINKS_NAME];
+            $value = $link[TBL_LINKS_VALUE];
+
+            // do a while loop if any tags found
+            while ($this->anyTags($value)) {
+
+                // replace the tags
+                $value = $this->replaceTags($value);
+            }
+
+            // insert into the links array
+            $this->links[$name] = $value;
+        }
+
+        //test
     }
 
     /**

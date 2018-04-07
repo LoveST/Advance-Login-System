@@ -231,7 +231,6 @@ class Core
     {
         // build the variable to store it
         $session = new Session();
-        $GLOBALS['links']->init();
         $GLOBALS['session'] = $session;
         $session->init();
     }
