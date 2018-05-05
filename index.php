@@ -13,14 +13,25 @@ class ALS
     var $_Root = "Public\\";
     private $_currentDir = "";
     private $directories = array();
+    private $_RESERVED_D = "reserved_dir";
 
     public function __construct()
     {
-        // load the config
-        $this->loadConfig();
-
         // load the directories
         $this->loadDirectories();
+
+        // check if pre-load action were found
+        $action = array_key_exists('ac', $_GET) ? $_GET['ac'] : null;
+        $action = strip_tags(htmlspecialchars($action));
+
+        if ($action == "pre-load") {
+            echo $_GET["__dir"] . "<br>";
+            echo $this->getRequestedFolder();
+            return;
+        }
+
+        // load the config
+        $this->loadConfig();
 
         // load the core
         $this->loadCore();
@@ -41,21 +52,39 @@ class ALS
     public function loadDirectories()
     {
         // parse the ini file
-        $this->directories = parse_ini_file("Settings/Directories.ini");
+        $this->directories = parse_ini_file("Settings/Directories.ini", true);
     }
 
     /**
      * Call a specific path from the directories list
      * @param string $dirName
+     * @param boolean $isReserved
      * @return string
      */
-    public function getDirectory($dirName)
+    public function getDirectory($dirName, $isReserved = false)
     {
-        if (isset($this->directories[$dirName]) && !empty($this->directories[$dirName])) {
-            return $this->directories[$dirName];
+        // set the required path
+        if ($isReserved) {
+            $subDir = "reserved_dir";
+        } else {
+            $subDir = "public_dir";
+        }
+
+        if (isset($this->directories[$subDir][$dirName]) && !empty($this->directories[$subDir][$dirName])) {
+            return $this->directories[$subDir][$dirName];
         } else {
             return "";
         }
+    }
+
+    /**
+     * Secure a given input
+     * @param $input
+     * @return string
+     */
+    public function secureInput($input)
+    {
+        return strip_tags(htmlspecialchars($input));
     }
 
     /**
@@ -86,7 +115,7 @@ class ALS
 
         if (isset($_GET['__dir'])) {
             // get the current
-            $currentDir = strip_tags(htmlspecialchars($_GET['__dir']));
+            $currentDir = $this->secureInput($_GET['__dir']);
 
             // check if special path found
             if (strpos($currentDir, "/") !== false && isset($currentDir)) {
@@ -145,6 +174,37 @@ class ALS
         } else {
 
             $message->kill("Required file does not exist " . $requiredDir, "Core");
+        }
+    }
+
+    function getRequestedFolder()
+    {
+        // get the current requested directory
+        $currentDir = $this->secureInput($_GET['__dir']);
+
+        // check if special character found
+        if (isset($currentDir) && strpos($currentDir, "/") !== false) {
+
+            // separate the string with each / char found
+            $currentDirList = explode("/", $currentDir);
+
+            return $currentDirList[0];
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Check if a folder is in the reserved category
+     * @param $folderName
+     * @return bool
+     */
+    function isReservedFolder($folderName)
+    {
+        if (!empty($this->getDirectory($folderName, true))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
