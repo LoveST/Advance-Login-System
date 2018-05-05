@@ -334,16 +334,19 @@ class Settings
         return $this->settings[TBL_SETTINGS_MAX_VERIFIED_DEVICES];
     }
 
+    // TODO remove the support for this api
     function twilioAccountSid()
     {
         return $this->settings[TBL_SETTINGS_TWILIO_ACCOUNT_SID];
     }
 
+    // TODO remove the support for this api
     function twilioAuthToken()
     {
         return $this->settings[TBL_SETTINGS_TWILIO_AUTH_TOKEN];
     }
 
+    // TODO remove the support for this api
     function twilioPhoneNumber()
     {
         return $this->settings[TBL_SETTINGS_TWILIO_PHONE_NUMBER];
@@ -513,7 +516,6 @@ class Settings
      */
     function getTemplatesURL()
     {
-
         // start building the path
         $path = "http://" . $this->siteURL() . $this->templatesFolder() . "/" . $this->siteTheme() . "/";
 
@@ -564,7 +566,6 @@ class Settings
      */
     function setSiteSecret($hex32)
     {
-
         // define all the global variables
         global $database, $message;
 
@@ -588,7 +589,6 @@ class Settings
      */
     function setCaptchaKey($key)
     {
-
         // define all the global variables
         global $database, $message;
 
@@ -612,7 +612,6 @@ class Settings
      */
     function setCaptchaSecretKey($key)
     {
-
         // define all the global variables
         global $database, $message;
 
@@ -638,7 +637,6 @@ class Settings
      */
     function setSetting($setting, $value)
     {
-
         // define all the global variables
         global $database, $message;
 
@@ -651,6 +649,29 @@ class Settings
         }
 
         // if no error then return true
+        return true;
+    }
+
+    function insertNewSetting($name, $value)
+    {
+        // init the required global variables
+        global $database, $message;
+
+        // check for any empty value
+        if (empty($name) || empty($value)) {
+            return false;
+        }
+
+        // prepare the sql query
+        $sql = "INSERT INTO " . TBL_SETTINGS . " VALUES('$name', '$value')";
+
+        // execute the sql request
+        if ($database->getQueryResults($sql)) {
+            $message->setError("Error while inserting: " . $database->getError(), Message::Error);
+            return false;
+        }
+
+        // if no errors then return true
         return true;
     }
 
