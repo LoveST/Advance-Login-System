@@ -15,10 +15,10 @@ class MailTemplates
     {
 
         // define all the global variables
-        global $mail, $user, $settings;
+        global $mail, $user, $settings, $devices;
 
         // grab the current user device info
-        $device = $user->devices()->getCurrentDevice();
+        $device = $devices->getCurrentDevice();
 
         $vars = array(
             '{:username}' => $user->getUsername(),

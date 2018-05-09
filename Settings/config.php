@@ -13,7 +13,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 define("ERROR_REPORTING", -1);
 
 // Main Framework Path
-define("FRAMEWORK_PATH", "D:\AppServ\www\ALS v2\\");
+define("FRAMEWORK_PATH", "D:\AppServ\www\ALS\\");
 define("FRAMEWORK_PUBLIC_PATH", "Public\\");
 
 //Set the Database Connection Type
@@ -109,6 +109,7 @@ define("TBL_SETTINGS_MAX_PASSWORD_LENGTH", "max_password_length");
 define("TBL_SETTINGS_MIN_PASSWORD_LENGTH", "min_password_length");
 define("TBL_SETTINGS_AVATARS_PATH", "avatars_path");
 define("TBL_SETTINGS_AVATARS_URL", "avatars_url");
+define("TBL_SETTINGS_AVATARS_DEFAULT_NAME", "avatars_default_name");
 
 /**
  * Levels-Groups Table

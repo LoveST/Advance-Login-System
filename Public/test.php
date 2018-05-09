@@ -27,6 +27,5 @@
  *
  * To-Do => fix an exploit that the user can call a specific file from a different folder and path using the url
  */
-echo $settings->maxVerifiedDevices() . "<br>";
-var_dump(sizeof($user->devices()->getDevicesArray()));
-$core->loadDirectories();
+global $settings;
+//$settings->insertNewSetting(TBL_SETTINGS_AVATARS_DEFAULT_NAME, "default.png");

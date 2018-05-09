@@ -930,8 +930,11 @@ class Session
         } else { // guest session
 
             // check if any cookies were to be found for a custom language
-            $language = $_COOKIE['language'];
-
+            if (isset($_COOKIE['language'])) {
+                $language = $_COOKIE['language'];
+            } else {
+                $language = "";
+            }
         }
 
         // check if $language has been initialized or not

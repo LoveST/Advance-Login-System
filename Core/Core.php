@@ -38,13 +38,13 @@ class Core
         $this->_Browser();
         $this->_Captcha();
         $this->_Mail();
+        $this->_MailTemplates();
         $this->_User();
         $this->_PasswordManager();
         $this->_Functions();
         $this->_Session();
         $this->_Administrator();
         $this->_ProfileManager();
-        $this->_MailTemplates();
         $this->_Authenticator();
         $this->_Applications();
         $this->_Avatars();

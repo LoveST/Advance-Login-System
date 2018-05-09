@@ -9,8 +9,20 @@
 // disable direct access to the file
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
-// get the verified devices
-$devices = $user->devices()->getDevices();
+class User_verifiedDevices
+{
 
-// load the view
-$viewController->loadView("profile_view_verifiedDevices.html");
+    public function __construct()
+    {
+        // init the required globals
+        global $viewController, $devices;
+
+        // get the verified devices
+        $devices = $devices->getDevices();
+
+        // load the view
+        $viewController->loadView("profile_view_verifiedDevices.html");
+    }
+}
+
+new User_verifiedDevices();

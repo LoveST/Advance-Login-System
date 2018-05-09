@@ -106,6 +106,12 @@ class ViewController
         return true;
     }
 
+    // TODO implement pre-process templates
+    public function processView()
+    {
+
+    }
+
     /**
      * pre load a template
      * @param $templateName

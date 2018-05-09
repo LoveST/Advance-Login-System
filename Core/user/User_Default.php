@@ -390,8 +390,15 @@ class User_Default
         // define the global variables
         global $settings;
 
+        // check if avatar id is missing
+        if ($this->getAvatarID() == null || empty($this->getAvatarID())) {
+            $avatarID = $settings->getAvatarsPath();
+        } else {
+            $avatarID = $this->getAvatarID();
+        }
+
         // return the required link
-        return $settings->getAvatarsURL() . $this->getAvatarID() . ".jpg";
+        return $settings->getAvatarsURL() . $avatarID . ".jpg";
     }
 
     /**

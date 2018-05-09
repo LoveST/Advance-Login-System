@@ -6,9 +6,16 @@
  * Time: 4:55 PM
  */
 
-/** Check user & site status **/
-require "../init.php";
-$init = new init("../../Core.php");
-$init->loginCheck();
-$session->adminCheck();
-/** End check user & site status**/
+// disable direct access to the file
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
+
+class Admin_registerSettings
+{
+
+    public function __construct()
+    {
+
+    }
+}
+
+new Admin_registerSettings();

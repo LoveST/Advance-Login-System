@@ -1,10 +1,27 @@
-    Initialize the core functions and classes
-- include the settings file required to run the framework
-- include the Core class file and initialize the required classes
+    fix ViewController
+- Update the loadView() function to enable pre-process the templates
+- Combine all the required templates in a single variable to faster process them later on
+- Process all the templates and flush them to the browser after the Core::class finished processing the data
 
-    Read and Parse the required path and functions
-- get the submitted link
-- read the required file name and path
-- check if file exists
-- load the file with the submitted path
-- 
+Ex:
+-----------
+
+function loadView($templateName, $process = false){
+
+    if($process){
+
+    } else {
+
+    }
+
+}
+
+function processView($view){
+
+    // replace special tags
+
+    // translate custom language tags
+
+    // flush to browser
+
+}

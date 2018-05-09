@@ -13,31 +13,41 @@ class ALS
     var $_Root = "Public\\";
     private $_currentDir = "";
     private $directories = array();
-    private $_RESERVED_D = "reserved_dir";
+    static $_currentDirectory;
 
     public function __construct()
     {
+        // start the session timer timestamp
+        $_executeStartTime = microtime(true);
+
         // load the directories
         $this->loadDirectories();
-
-        // check if pre-load action were found
-        $action = array_key_exists('ac', $_GET) ? $_GET['ac'] : null;
-        $action = strip_tags(htmlspecialchars($action));
-
-        if ($action == "pre-load") {
-            echo $_GET["__dir"] . "<br>";
-            echo $this->getRequestedFolder();
-            return;
-        }
 
         // load the config
         $this->loadConfig();
 
-        // load the core
-        $this->loadCore();
+        // check if current requested folder is in the reserved section
+        if ($this->isReservedFolder($this->getRequestedFolder())) {
 
-        // load the view controller
-        $this->loadController();
+            // load the required content and
+            $this->loadRequiredContent();
+            return;
+        } else {
+
+            // load the core
+            $this->loadCore();
+
+            // load the view controller
+            $this->loadController();
+
+            // TODO process the templates in the viewController
+        }
+
+        // print the time stamp if enabled
+        global $settings;
+        if (!$settings->siteLoadingTimestamp()) {
+            echo "\n<br>Page generated in " . round((microtime(true) - $_executeStartTime), 4) . " seconds.";
+        }
     }
 
     /**
@@ -49,10 +59,56 @@ class ALS
         include_once "Settings/config.php";
     }
 
+    /**
+     * Load the main required directories
+     */
     public function loadDirectories()
     {
         // parse the ini file
         $this->directories = parse_ini_file("Settings/Directories.ini", true);
+    }
+
+    /**
+     * Load a required file without further processing it throw the framework
+     */
+    public function loadRequiredContent()
+    {
+        // get the current requested path
+        $currentRequestedDir = $this->secureInput($_GET["__dir"]);
+
+        // set the required path
+        $currentPath = FRAMEWORK_PATH . $this->_Root . $currentRequestedDir;
+
+        // check if current path is a directory instead of a file
+        if (is_dir($currentPath)) {
+            echo "Access Denied";
+            return;
+        }
+
+        // check if file exists
+        if (!file_exists($currentPath)) {
+            echo "Required file does not exist";
+            return;
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($currentPath) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($currentPath));
+        readfile($currentPath);
+        exit();
+    }
+
+    /**
+     * @param $file
+     * @return resource
+     */
+    function getMimeType($file)
+    {
+        return finfo_open($file);
     }
 
     /**
@@ -125,6 +181,10 @@ class ALS
                 $listCount = count($currentDirList);
                 if ($listCount >= 1) {
                     if ($listCount > 1) {
+
+                        // set current folder static variable
+                        ALS::$_currentDirectory = $currentDirList[0];
+
                         // loop throw each sub path
                         for ($i = 0; $i < $listCount; $i++) {
 
@@ -158,6 +218,13 @@ class ALS
         // check if file exists & include it
         $newPath = FRAMEWORK_PATH . $this->_Root . $requiredDir;
 
+        // check if current path is a directory and if it exists
+        // check if folder exists
+        if (is_dir($newPath) && !file_exists($newPath)) {
+            $message->kill("File Not Found", "Core");
+            return;
+        }
+
         // check if path ends with a sub line
         if ($functions->stringEndsWith($newPath, $this->getSubLine())) {
             $this->_currentDir = $newPath;
@@ -173,10 +240,28 @@ class ALS
             $functions->loadFile($newPath);
         } else {
 
-            $message->kill("Required file does not exist " . $requiredDir, "Core");
+            $message->kill("Required file does not exist: " . $requiredDir, "Core");
         }
     }
 
+    /**
+     * Check if a given folder name is reserved
+     * @param string $folderName
+     * @return bool
+     */
+    function isReservedFolder($folderName)
+    {
+        if (in_array($folderName, $this->directories["reserved_dir"])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the current folder's name from the requested directory string
+     * @return string
+     */
     function getRequestedFolder()
     {
         // get the current requested directory
@@ -191,20 +276,6 @@ class ALS
             return $currentDirList[0];
         } else {
             return "";
-        }
-    }
-
-    /**
-     * Check if a folder is in the reserved category
-     * @param $folderName
-     * @return bool
-     */
-    function isReservedFolder($folderName)
-    {
-        if (!empty($this->getDirectory($folderName, true))) {
-            return true;
-        } else {
-            return false;
         }
     }
 

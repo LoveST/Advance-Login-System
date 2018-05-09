@@ -6,6 +6,8 @@
  * Time: 4:28 PM
  */
 
+use ALS\ALS;
+
 class MainAdmin
 {
 
@@ -19,7 +21,7 @@ class MainAdmin
         // load the main required init.php file
         include_once FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php";
         $init = new init();
-        $this->currentDir = FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "admin" . $settings->getSubLine();
+        $this->currentDir = FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . ALS::$_currentDirectory . $settings->getSubLine();
 
         // login check
         $init->loginCheck();
@@ -31,7 +33,7 @@ class MainAdmin
     public function init()
     {
         // init the required global variables
-        global $message, $session, $database;
+        global $session, $database, $functions;
 
         // check for admin status
         $session->adminCheck();
@@ -40,11 +42,8 @@ class MainAdmin
         $this->loadView("ad_main_panel_header.html");
 
         // get the required page
-        if (isset($_GET['page'])) {
-            $page = $database->secureInput($_GET['page']);
-        } else {
-            $page = "";
-        }
+        $page = array_key_exists('page', $_GET) ? $_GET['page'] : null;
+        $page = $database->secureInput($page);
 
         // split the text and check if starts with "../" or "./" or "/"
         $error = false;
@@ -53,10 +52,10 @@ class MainAdmin
         }
 
         // check if page is empty
-        if (!empty($page) && $page != "index" && file_exists($this->currentDir . $page . ".php") && !$error) {
+        if (!empty($page) && $page != null && $page != "index" && file_exists($this->currentDir . $page . ".php") && !$error) {
 
             // load the required page file
-            include_once $this->currentDir . $page . ".php";
+            $functions->loadFile($this->currentDir . $page . ".php");
         } else {
 
             // load default view

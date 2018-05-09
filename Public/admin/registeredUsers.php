@@ -5,49 +5,71 @@
  * Date: 6/8/2017
  * Time: 6:27 PM
  */
-/** Check user & site status **/
-require "../init.php";
-$init = new init("../../Core.php");
-$init->loginCheck();
-$session->adminCheck();
-/** End check user & site status**/
 
-// grab the needed method to be used and switch between them
-$m = $_GET['m'];
+// disable direct access to the file
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
-switch ($m) {
-    case 30;
+class Admin_registeredUsers
+{
 
-        $time = strtotime(date("Y-m-d") . ' -30 days');
-        $sinceDate = date("Y-m-d", $time);
-        $todayDate = date("Y-m-d");
-        $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate,$todayDate,20);
-        break;
-    case 60;
-        $time = strtotime(date("Y-m-d") . ' -60 days');
-        $sinceDate = date("Y-m-d", $time);
-        $todayDate = date("Y-m-d");
-        $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate,$todayDate,20);
-        break;
-    case 90;
-        $time = strtotime(date("Y-m-d") . ' -90 days');
-        $sinceDate = date("Y-m-d", $time);
-        $todayDate = date("Y-m-d");
-        $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate,$todayDate,20);
-        break;
-    case 365;
-        $time = strtotime(date("Y-m-d") . ' -365 days');
-        $sinceDate = date("Y-m-d", $time);
-        $todayDate = date("Y-m-d");
-        $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate,$todayDate,20);
-        break;
-    default;
+    public function __construct()
+    {
+        // init the required globals
+        global $viewController;
 
-        // show the first 10 registered users in the site
-        $date = date("Y-m-d");
-        $registeredUsers = $admin->getTotalRegisteredUsersInBetween("2000-01-01",$date,10);
+        // init the required functions
+        $this->init();
 
-        break;
+        // load the view
+        $viewController->loadView("ad_registeredUsers.html");
+    }
+
+    public function init()
+    {
+        // init the required globals
+        global $database, $admin;
+
+        // grab the needed method to be used and switch between them
+        $m = array_key_exists('m', $_GET) ? $_GET['m'] : null;
+        $m = $database->secureInput($m);
+
+        // set the required variables
+        global $time, $sinceDate, $todayDate, $registeredUsers;
+
+        switch ($m) {
+            case 30;
+
+                $time = strtotime(date("Y-m-d") . ' -30 days');
+                $sinceDate = date("Y-m-d", $time);
+                $todayDate = date("Y-m-d");
+                $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate, $todayDate, 20);
+                break;
+            case 60;
+                $time = strtotime(date("Y-m-d") . ' -60 days');
+                $sinceDate = date("Y-m-d", $time);
+                $todayDate = date("Y-m-d");
+                $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate, $todayDate, 20);
+                break;
+            case 90;
+                $time = strtotime(date("Y-m-d") . ' -90 days');
+                $sinceDate = date("Y-m-d", $time);
+                $todayDate = date("Y-m-d");
+                $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate, $todayDate, 20);
+                break;
+            case 365;
+                $time = strtotime(date("Y-m-d") . ' -365 days');
+                $sinceDate = date("Y-m-d", $time);
+                $todayDate = date("Y-m-d");
+                $registeredUsers = $admin->getTotalRegisteredUsersInBetween($sinceDate, $todayDate, 20);
+                break;
+            default;
+
+                // show the first 10 registered users in the site
+                $date = date("Y-m-d");
+                $registeredUsers = $admin->getTotalRegisteredUsersInBetween("2000-01-01", $date, 10);
+                break;
+        }
+    }
 }
 
-$viewController->loadView("ad_registeredUsers.html");
+new Admin_registeredUsers();
