@@ -141,6 +141,7 @@ class Settings
 
         if (is_null($start)) {
             $start = microtime(true);
+            return false;
         } else {
             $diff = round((microtime(true) - $start), 4);
             $start = null;
@@ -307,7 +308,7 @@ class Settings
     /**
      * Get the total number or warnings that a user can get
      * before getting his account locked for X amount of time
-     * * TO-DO
+     * TODO Implement the max amount of warnings that a user can get and its functions
      * @return int
      */
     function maxWarnings()
@@ -332,24 +333,6 @@ class Settings
     function maxVerifiedDevices()
     {
         return $this->settings[TBL_SETTINGS_MAX_VERIFIED_DEVICES];
-    }
-
-    // TODO remove the support for this api
-    function twilioAccountSid()
-    {
-        return $this->settings[TBL_SETTINGS_TWILIO_ACCOUNT_SID];
-    }
-
-    // TODO remove the support for this api
-    function twilioAuthToken()
-    {
-        return $this->settings[TBL_SETTINGS_TWILIO_AUTH_TOKEN];
-    }
-
-    // TODO remove the support for this api
-    function twilioPhoneNumber()
-    {
-        return $this->settings[TBL_SETTINGS_TWILIO_PHONE_NUMBER];
     }
 
     /**
@@ -449,9 +432,6 @@ class Settings
      */
     function getTemplatesCachePath()
     {
-
-        $sub = "";
-
         // check the servers current OS
         if (PHP_OS == "Linux") {
             $sub = "/";
@@ -472,8 +452,6 @@ class Settings
      */
     function getTemplatesPath()
     {
-        $sub = "";
-
         // check the servers current OS
         if (PHP_OS == "Linux") {
             $sub = "/";
@@ -494,8 +472,6 @@ class Settings
      */
     function getTemplatesFolderPath()
     {
-        $sub = "";
-
         // check the servers current OS
         if (PHP_OS == "Linux") {
             $sub = "/";
@@ -681,8 +657,6 @@ class Settings
      */
     function getSubLine()
     {
-        $sub = "";
-
         // check the servers current OS
         if (PHP_OS == "Linux") {
             $sub = "/";

@@ -2,34 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="277b65dc-b6c8-48da-b9a9-314064cfd990" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Methods/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Methods/getUserDevices.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/MailTemplates.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/MailTemplates.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Session.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Settings.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/ViewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/ViewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/user/User_Default.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/user/User_Default.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/registerSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/registerSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/registeredUsers.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/registeredUsers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/removePermission.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/removePermission.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/searchUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/searchUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/securitySettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/securitySettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/siteSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/siteSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/admin/users.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/changeAccountInfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/changeAccountInfo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/changeEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/changeEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/changePassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/changePassword.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/changePinNumber.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/changePinNumber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/changeUsername.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/changeUsername.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/generate2FactorAuth.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/generate2FactorAuth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/verifiedDevices.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/verifiedDevices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/profile/view2FactorAuth.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/profile/view2FactorAuth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Settings/Directories.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Settings/Directories.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Settings/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Settings/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,35 +24,53 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+            <state relative-caret-position="2520">
+              <caret line="125" column="31" lean-forward="true" selection-start-line="125" selection-start-column="31" selection-end-line="125" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="siteSettings.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Public/admin/siteSettings.php">
+      <file leaf-file-name="Directories.ini" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="75">
+              <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Core/ViewController.php">
+      <file leaf-file-name=".htaccess" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.htaccess">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="98" column="51" lean-forward="true" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+            <state relative-caret-position="81">
+              <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ToDo.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ToDo.txt">
+      <file leaf-file-name="Core.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core/Core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="418">
+              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getUserDevices.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Methods/getUserDevices.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="16" column="31" lean-forward="true" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Settings/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="371">
+              <caret line="106" column="33" selection-start-line="106" selection-start-column="33" selection-end-line="106" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -93,10 +91,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Core/passwordManager.php" />
-        <option value="$PROJECT_DIR$/Core/administrator.php" />
-        <option value="$PROJECT_DIR$/Core/Authenticator.php" />
-        <option value="$PROJECT_DIR$/Core/Avatars.php" />
         <option value="$PROJECT_DIR$/Core/Browser.php" />
         <option value="$PROJECT_DIR$/Core/user/devices.php" />
         <option value="$PROJECT_DIR$/Core/User.php" />
@@ -107,7 +101,6 @@
         <option value="$PROJECT_DIR$/Public/init.php" />
         <option value="$PROJECT_DIR$/Public/admin/manageXP.php" />
         <option value="$PROJECT_DIR$/Core/Functions.php" />
-        <option value="$PROJECT_DIR$/Public/index.php" />
         <option value="$PROJECT_DIR$/Public/logout.php" />
         <option value="$PROJECT_DIR$/Public/login.php" />
         <option value="$PROJECT_DIR$/Public/authentication.php" />
@@ -115,12 +108,9 @@
         <option value="$PROJECT_DIR$/Public/register.php" />
         <option value="$PROJECT_DIR$/Public/forgetPass.php" />
         <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/Settings/Directories.ini" />
         <option value="$PROJECT_DIR$/Templates/ubold-material/cache/.htaccess" />
         <option value="$PROJECT_DIR$/Core/Session.php" />
         <option value="$PROJECT_DIR$/Core/MailTemplates.php" />
-        <option value="$PROJECT_DIR$/Core/Core.php" />
-        <option value="$PROJECT_DIR$/Settings/config.php" />
         <option value="$PROJECT_DIR$/Core/user/User_Default.php" />
         <option value="$PROJECT_DIR$/Public/test.php" />
         <option value="$PROJECT_DIR$/Public/admin/index.php" />
@@ -141,9 +131,17 @@
         <option value="$PROJECT_DIR$/Public/admin/registerSettings.php" />
         <option value="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" />
         <option value="$PROJECT_DIR$/Public/admin/registeredUsers.php" />
-        <option value="$PROJECT_DIR$/ToDo.txt" />
-        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Public/index.php" />
         <option value="$PROJECT_DIR$/Core/ViewController.php" />
+        <option value="$PROJECT_DIR$/ToDo.txt" />
+        <option value="$PROJECT_DIR$/Settings/config.php" />
+        <option value="$PROJECT_DIR$/Core/Settings.php" />
+        <option value="$PROJECT_DIR$/Query/getUserInfo.php" />
+        <option value="$PROJECT_DIR$/Settings/Directories.ini" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Methods/getUserInfo.php" />
+        <option value="$PROJECT_DIR$/Core/Core.php" />
+        <option value="$PROJECT_DIR$/Methods/getUserDevices.php" />
       </list>
     </option>
   </component>
@@ -176,12 +174,7 @@
             <path>
               <item name="ALS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ALS" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ALS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ALS" type="462c0819:PsiDirectoryNode" />
-              <item name="Templates" type="462c0819:PsiDirectoryNode" />
+              <item name="Methods" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -200,6 +193,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\AppServ\www\ALS\Methods" />
       <recent name="D:\AppServ\www\ALS\Templates\ubold-material\cache" />
     </key>
   </component>
@@ -239,26 +233,37 @@
       <workItem from="1525549530661" duration="5033000" />
       <workItem from="1525736774959" duration="1213000" />
       <workItem from="1525817660005" duration="8898000" />
+      <workItem from="1525987417659" duration="6421000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53150000" />
+    <option name="totallyTimeSpent" value="59571000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14658849" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14818764" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -267,7 +272,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,19 +281,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Public/register.php" />
-    <entry file="file://$PROJECT_DIR$/Public/auth.php" />
     <entry file="file://$PROJECT_DIR$/Public/forgetPass.php" />
     <entry file="file://$PROJECT_DIR$/Public/authentication.php" />
-    <entry file="file://$PROJECT_DIR$/Public/index.php" />
     <entry file="file://$PROJECT_DIR$/Public/logout.php" />
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Core/Functions.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -308,20 +302,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
           <caret line="32" column="46" selection-start-line="31" selection-start-column="8" selection-end-line="32" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1807">
-          <caret line="144" column="56" selection-start-line="144" selection-start-column="20" selection-end-line="144" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -347,27 +327,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="26" column="38" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Settings/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="111" column="53" selection-start-line="111" selection-start-column="53" selection-end-line="111" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="955" column="21" selection-start-line="955" selection-start-column="21" selection-end-line="955" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Core.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="52" column="41" lean-forward="true" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -455,9 +414,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/admin/users.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/users.php" />
     <entry file="file://$PROJECT_DIR$/Public/profile/verifiedDevices.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -550,31 +507,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/admin/siteSettings.php">
+    <entry file="file://$PROJECT_DIR$/Core/Session.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="515">
+          <caret line="380" column="11" selection-start-line="380" selection-start-column="11" selection-end-line="380" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ToDo.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="228">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/ViewController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="98" column="51" lean-forward="true" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+        <state relative-caret-position="1666">
+          <caret line="106" column="44" selection-start-line="106" selection-start-column="44" selection-end-line="106" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/siteSettings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Methods/.htaccess">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="11" column="135" lean-forward="true" selection-start-line="11" selection-end-line="11" selection-end-column="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Settings/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="106" column="33" selection-start-line="106" selection-start-column="33" selection-end-line="106" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="125" column="31" lean-forward="true" selection-start-line="125" selection-start-column="31" selection-end-line="125" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Methods/getUserDevices.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="16" column="31" lean-forward="true" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
         </state>
       </provider>
     </entry>

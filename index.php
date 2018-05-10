@@ -10,13 +10,18 @@ namespace ALS;
 
 class ALS
 {
-    var $_Root = "Public\\";
+    var $_Root = "Public";
+    private $_methodsPath = "Methods";
+    private $_methodsCall = "Query";
     private $_currentDir = "";
     private $directories = array();
     static $_currentDirectory;
 
     public function __construct()
     {
+        // load the Core class without initializing it
+        include_once "Core/Core.php";
+
         // start the session timer timestamp
         $_executeStartTime = microtime(true);
 
@@ -26,8 +31,9 @@ class ALS
         // load the config
         $this->loadConfig();
 
+
         // check if current requested folder is in the reserved section
-        if ($this->isReservedFolder($this->getRequestedFolder())) {
+        if ($this->isReservedFolder($this->getRequestedFolder()) || $this->getRequestedFolder() == $this->_methodsCall) {
 
             // load the required content and
             $this->loadRequiredContent();
@@ -40,12 +46,14 @@ class ALS
             // load the view controller
             $this->loadController();
 
-            // TODO process the templates in the viewController
+            // process the required templates and sent them to the browser
+            global $viewController;
+            $viewController->processViews();
         }
 
         // print the time stamp if enabled
         global $settings;
-        if (!$settings->siteLoadingTimestamp()) {
+        if ($settings->siteLoadingTimestamp()) {
             echo "\n<br>Page generated in " . round((microtime(true) - $_executeStartTime), 4) . " seconds.";
         }
     }
@@ -76,8 +84,12 @@ class ALS
         // get the current requested path
         $currentRequestedDir = $this->secureInput($_GET["__dir"]);
 
-        // set the required path
-        $currentPath = FRAMEWORK_PATH . $this->_Root . $currentRequestedDir;
+        // set the required path and check if Methods path required
+        if ($this->getRequestedFolder() == $this->_methodsCall) {
+            $currentPath = FRAMEWORK_PATH . $this->queryToMethods($currentRequestedDir);
+        } else {
+            $currentPath = FRAMEWORK_PATH . $this->_Root . $this->getSubLine() . $currentRequestedDir;
+        }
 
         // check if current path is a directory instead of a file
         if (is_dir($currentPath)) {
@@ -91,15 +103,31 @@ class ALS
             return;
         }
 
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($currentPath) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($currentPath));
-        readfile($currentPath);
-        exit();
+        // check if required file is under Query directory
+        if ($this->getRequestedFolder() == $this->_methodsCall) {
+
+            // safely load the file
+            include_once $currentPath;
+        } else {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($currentPath) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($currentPath));
+            readfile($currentPath);
+            exit();
+        }
+    }
+
+    private function queryToMethods($string)
+    {
+        // split the string every '/'
+        $stringList = explode("/", $string);
+
+        // return the results
+        return $this->_methodsPath . $this->getSubLine() . $stringList[1];
     }
 
     /**
@@ -148,9 +176,6 @@ class ALS
      */
     public function loadCore()
     {
-        // load the required file
-        include_once "Core/Core.php";
-
         // create a new instance of the Core class
         $core = new Core();
 
@@ -158,6 +183,9 @@ class ALS
         $core->initClasses();
     }
 
+    // TODO fix wrong URL redirection
+    // ex: http://localhost/als/index.php/admin/profile/logout.php
+    // returning: Public/index.php
     /**
      * Load the required content from the Public folder
      */
@@ -216,7 +244,7 @@ class ALS
         }
 
         // check if file exists & include it
-        $newPath = FRAMEWORK_PATH . $this->_Root . $requiredDir;
+        $newPath = FRAMEWORK_PATH . $this->_Root . $this->getSubLine() . $requiredDir;
 
         // check if current path is a directory and if it exists
         // check if folder exists
@@ -239,7 +267,6 @@ class ALS
         if (file_exists($newPath) && !is_dir($newPath)) {
             $functions->loadFile($newPath);
         } else {
-
             $message->kill("Required file does not exist: " . $requiredDir, "Core");
         }
     }
@@ -300,4 +327,4 @@ class ALS
 /**
  * Initiate the framework
  */
-$GLOBALS['core'] = $core = new ALS();
+$GLOBALS['als'] = $als = new ALS();

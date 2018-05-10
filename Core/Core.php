@@ -9,6 +9,8 @@
 
 namespace ALS;
 
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+
 use ALS\AUTH\Google\Google;
 
 error_reporting(ERROR_REPORTING);
@@ -18,14 +20,29 @@ class Core
     private $dieIfError = true;
 
     /**
-     * Core constructor.
-     * @param bool $dieIfError
+     * Core constructor
+     * @param bool $dieIfError.
      */
     function __construct($dieIfError = true)
     {
         // Start the session
         session_start();
 
+        // set the error handler
+        $this->_ErrorKiller($dieIfError);
+    }
+
+    function _ErrorKiller($dieIfError)
+    {
+        $this->dieIfError = $dieIfError;
+    }
+
+    /**
+     * Initiate all the functions for the classes
+     * that are required to run the script
+     */
+    final function initClasses()
+    {
         // import all the required classes
         $this->_GoogleAuthenticator();
         $this->_Message();
@@ -48,25 +65,6 @@ class Core
         $this->_Authenticator();
         $this->_Applications();
         $this->_Avatars();
-
-        // set the error handler
-        $this->_ErrorKiller($dieIfError);
-
-    }
-
-    function _ErrorKiller($dieIfError)
-    {
-        $this->dieIfError = $dieIfError;
-    }
-
-    /**
-     * Initiate all the functions for the classes
-     * that are required to run the script
-     */
-    final function initClasses()
-    {
-
-
     }
 
     function _GoogleAuthenticator()

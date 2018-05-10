@@ -14,8 +14,8 @@ class ViewController
     private $requiredTemplate = "";
     private $customVariables = null;
     private $uniqueID;
-    private $translator;
     private $customScripts = "";
+    private $fullTemplateContent = "";
 
     public function __construct()
     {
@@ -28,20 +28,20 @@ class ViewController
         global $translator;
 
         // init the Translator class
-        $this->translator = $translator;
-        $this->translator->_init();
+        $translator->_init();
     }
 
     /**
      * load a template to the view controller
      * @param string $templateName
+     * @param bool $preProcess
      * @return bool
      */
-    public function loadView($templateName)
+    public function loadView($templateName, $preProcess = false)
     {
 
         // init the required global variables
-        global $settings, $functions, $links, $message, $user, $session;
+        global $settings, $functions, $links, $message, $user, $session, $translator;
 
         // check if the cache directory is not empty
         if (!$functions->isDirEmpty($settings->getTemplatesCachePath())) {
@@ -50,7 +50,7 @@ class ViewController
 
         // check if empty string is supplied
         if ($templateName == "") {
-            $this->killViewer($this->getTranslator()->translateText("templatePathNeeded"));
+            $this->killViewer($translator->translateText("templatePathNeeded"));
         }
 
         // check if the cache directory exists
@@ -60,7 +60,7 @@ class ViewController
 
         // check if view is accessible
         if (!$this->isViewAccessible($templateName)) {
-            $this->killViewer($this->getTranslator()->translateText("templateDoNotExists"));
+            $this->killViewer($translator->translateText("templateDoNotExists"));
         }
 
         // generate a unique id for the file
@@ -72,14 +72,62 @@ class ViewController
         // grab the file content
         $file = file_get_contents($settings->getTemplatesPath() . $templateName);
 
+        // check if preProcess template is enabled then pre-process or wait till the end of the script
+        if ($preProcess) {
+
+            // replace any special reserved characters
+            $file = $this->replaceReservedCharacters($file);
+
+            // translate the TEMPLATE file
+            $file = $translator->translateFile($file);
+
+            // translate the required custom links from the database
+            $file = $translator->translateLinks($file);
+            $links->translateCharacters();
+
+            // save the file to the temporary cache folder
+            $fp = fopen($settings->getTemplatesCachePath() . $this->requiredTemplate, "wb");
+            fwrite($fp, $file);
+            fclose($fp);
+
+            // load the html file
+            try {
+                include_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
+            } catch (\Exception $ex) {
+                $this->deleteFile($this->requiredTemplate);
+                $this->killViewer($translator->translateText("errorLoadingTemplate"));
+            }
+
+            // delete the temporary template file
+            $this->deleteFile($this->requiredTemplate);
+
+        } else {
+
+            // add the current content to the full template string
+            $this->fullTemplateContent .= $file;
+        }
+
+        return true;
+    }
+
+    public final function processViews($template = null)
+    {
+        // init the required global variables
+        global $links, $settings, $translator;
+
+        // check if $template is null
+        if (is_null($template)) {
+            $template = $this->fullTemplateContent;
+        }
+
         // replace any special reserved characters
-        $file = $this->replaceReservedCharacters($file);
+        $file = $this->replaceReservedCharacters($template);
 
         // translate the TEMPLATE file
-        $file = $this->getTranslator()->translateFile($file);
+        $file = $translator->translateFile($file);
 
         // translate the required custom links from the database
-        $file = $this->getTranslator()->translateLinks($file);
+        $file = $translator->translateLinks($file);
         $links->translateCharacters();
 
         // save the file to the temporary cache folder
@@ -92,24 +140,11 @@ class ViewController
             include_once $settings->getTemplatesCachePath() . $this->requiredTemplate . "";
         } catch (\Exception $ex) {
             $this->deleteFile($this->requiredTemplate);
-            $this->killViewer($this->getTranslator()->translateText("errorLoadingTemplate"));
+            $this->killViewer($translator->translateText("errorLoadingTemplate"));
         }
 
         // delete the temporary template file
         $this->deleteFile($this->requiredTemplate);
-
-        // print the timestamp if enabled
-        if ($settings->siteLoadingTimestamp()) {
-            echo 'Page generated in ' . $settings->initTimeStamp() . ' seconds.';
-        }
-
-        return true;
-    }
-
-    // TODO implement pre-process templates
-    public function processView()
-    {
-
     }
 
     /**
@@ -121,7 +156,7 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings, $functions, $message, $user, $session;
+        global $settings, $functions, $message, $user, $session, $translator;
 
         // check if the cache directory is not empty
         if (!$functions->isDirEmpty($settings->getTemplatesCachePath())) {
@@ -130,7 +165,7 @@ class ViewController
 
         // check if empty string is supplied
         if ($templateName == "") {
-            $message->setError($this->getTranslator()->translateText("templatePathNeeded"), Message::Error);
+            $message->setError($translator->translateText("templatePathNeeded"), Message::Error);
             return false;
         }
 
@@ -141,7 +176,7 @@ class ViewController
 
         // check if view is accessible
         if (!$this->isViewAccessible($templateName)) {
-            $message->setError($this->getTranslator()->translateText("templateDoNotExists"), Message::Error);
+            $message->setError($translator->translateText("templateDoNotExists"), Message::Error);
             return false;
         }
 
@@ -158,7 +193,7 @@ class ViewController
         $file = $this->replaceReservedCharacters($file);
 
         // translate the TEMPLATE file
-        $file = $this->getTranslator()->translateFile($file);
+        $file = $translator->translateFile($file);
 
         // return the needed translated file
         return $file;
@@ -169,7 +204,7 @@ class ViewController
      */
     private function emptyCacheFolder()
     {
-
+        // init the required global variables
         global $settings;
 
         // get the total files in the cache folder
@@ -191,7 +226,6 @@ class ViewController
      */
     private function isViewAccessible($template)
     {
-
         // init the required global variables
         global $settings;
 
@@ -209,9 +243,8 @@ class ViewController
      */
     private function replaceReservedCharacters($file)
     {
-
         // init the required global variables
-        global $settings, $user;
+        global $settings, $user, $translator;
 
         $vars = array(
             'db_connectionType' => CONNECTION_TYPE,
@@ -264,7 +297,7 @@ class ViewController
         $vars["customScripts"] = $this->customScripts;
 
         // convert variables to actual values
-        $newFile = $this->getTranslator()->replaceTags("{:", "}", $file, $vars);
+        $newFile = $translator->replaceTags("{:", "}", $file, $vars);
 
         // return the new file
         return $newFile;
@@ -279,10 +312,12 @@ class ViewController
      */
     public function setCustomReservedCharacters($varArray)
     {
+        // init the required global variables
+        global $translator;
 
         // check if array has been supplied
         if (!is_array($varArray)) {
-            $this->killViewer($this->getTranslator()->translateText("incorrectViewerInformation"));
+            $this->killViewer($translator->translateText("incorrectViewerInformation"));
         }
 
         // set the current custom variables to this array
@@ -297,7 +332,6 @@ class ViewController
      */
     private function killViewer($msg)
     {
-
         // init the required global variables
         global $message, $settings;
 
@@ -309,20 +343,11 @@ class ViewController
     {
 
         // init the required global variables
-        global $settings;
+        global $settings, $translator;
 
         if (!unlink($settings->getTemplatesCachePath() . $file)) {
-            $this->killViewer($this->getTranslator()->translateText("cachedFileError"));
+            $this->killViewer($translator->translateText("cachedFileError"));
         }
-    }
-
-    /**
-     * get the translator class
-     * @return Translator
-     */
-    public function getTranslator()
-    {
-        return $this->translator;
     }
 
     /**
@@ -332,7 +357,11 @@ class ViewController
      */
     public function translateText($text)
     {
-        return $this->getTranslator()->translateText($text);
+        // init the required global variables
+        global $translator;
+
+        // return the translated text
+        return $translator->translateText($text);
     }
 
     /**
