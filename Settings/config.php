@@ -10,7 +10,7 @@ namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
 // Set Error Reporting
-define("ERROR_REPORTING", -1);
+define("ERROR_REPORTING", E_ALL);
 
 // Main Framework Path
 define("FRAMEWORK_PATH", "D:\AppServ\www\ALS\\");

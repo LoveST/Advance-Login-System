@@ -21,7 +21,7 @@ class Core
 
     /**
      * Core constructor
-     * @param bool $dieIfError.
+     * @param bool $dieIfError .
      */
     function __construct($dieIfError = true)
     {
@@ -388,4 +388,44 @@ class Core
         $GLOBALS['avatars'] = $avatars;
     }
 
+
+    public final function loadClasses($classes)
+    {
+        // check if the given variable is a string or array
+        if (is_string($classes)) {
+
+            // check if functions exists
+            if (method_exists($this, "_" . $classes)) {
+
+                // load the required function
+                call_user_func(array($this, "_" . $classes));
+            }
+        } else if (is_array($classes)) {
+
+            // loop throw the array
+            foreach ($classes as $class) {
+                // check if functions exists
+                if (method_exists($this, "_" . $class)) {
+
+                    // load the required function
+                    call_user_func(array($this, "_" . $class));
+                }
+            }
+        }
+    }
+
+}
+
+abstract class ALS_Classes
+{
+    const Database = "Database";
+    const Message = "Message";
+    const Settings = "Settings";
+    const User = "User";
+    const Translator = "Translator";
+    const Functions = "Functions";
+    const Browser = "Browser";
+    const Devices = "Devices";
+    const Groups = "Groups";
+    const Session = "Session";
 }

@@ -7,6 +7,7 @@
  */
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+use ALS\ALS_Classes;
 
 class Query_getUserInfo extends \ALS\Core
 {
@@ -16,13 +17,19 @@ class Query_getUserInfo extends \ALS\Core
 
         // construct the parent
         parent::__construct();
-        parent::initClasses();
+
+        // load the database class
+        $classes = array(
+            ALS_Classes::Database,
+            ALS_Classes::Settings,
+            ALS_Classes::Message
+        );
+        parent::loadClasses($classes);
 
         // init the required global variables
-        global $user;
-
-        // print the required data
-        echo json_encode($user->devices()->getDevicesArray());
+        global $settings;
+        echo json_encode($settings->getTemplatesCachePath());
+        exit();
     }
 
 }

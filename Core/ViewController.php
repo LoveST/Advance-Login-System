@@ -15,7 +15,7 @@ class ViewController
     private $customVariables = null;
     private $uniqueID;
     private $customScripts = "";
-    private $fullTemplateContent = "";
+    private $fullTemplateContent = null;
 
     public function __construct()
     {
@@ -118,6 +118,11 @@ class ViewController
         // check if $template is null
         if (is_null($template)) {
             $template = $this->fullTemplateContent;
+        }
+
+        // check if main template content is null
+        if (is_null($this->fullTemplateContent)) {
+            return;
         }
 
         // replace any special reserved characters

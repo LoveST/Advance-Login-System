@@ -1,31 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LoveMST-Tablet
- * Date: 7/6/2017
- * Time: 12:27 AM
- */
 
+class Tests1
+{
 
-/**
- *
- *  html ->   {:url:loginPage}
- *  php  ->   split {:url:  -  variable  -  }
- *
- *  SQL  ->         variable        address
- *---------------------------------------------------------------
- *Example :         loginPage       {:settings_siteURL}login.php
- *---------------------------------------------------------------
- *
- * Class ->   url
- *
- *
- *
- *
- * profile/index.php?page=...
- * admin/index.php?page=...
- *
- * To-Do => fix an exploit that the user can call a specific file from a different folder and path using the url
- */
-global $settings;
-//$settings->insertNewSetting(TBL_SETTINGS_AVATARS_DEFAULT_NAME, "default.png");
+    public function __construct()
+    {
+        global $functions;
+        // load the main required init.php file
+        $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
+        new init();
+
+        // load the view controller
+        include_once "test.html";
+    }
+
+}
+
+new Tests1();

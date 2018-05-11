@@ -13,12 +13,12 @@ $title = $_SESSION['err_title'];
 $msg = $_SESSION['err_msg'];
 $theme = $_SESSION['theme_url'];
 $templatePath = $_SESSION['siteTemplateURL'];
-
+echo $msg;
 if ($theme == "" || $msg == "" || $title == "") {
     header("Location: index.php");
 }
 
-require $theme . "error.html";
+require "../Templates/" . $theme . "error.html";
 unset($_SESSION['err_msg']);
 unset($_SESSION['err_title']);
 unset($_SESSION['theme_url']);
