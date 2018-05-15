@@ -251,6 +251,50 @@ class Database
         return $rows;
     }
 
+    function getTableNames()
+    {
+
+        // prepare the required statement
+        $sql = "show tables";
+
+        // execute the query
+        $results = $this->getQueryResults($sql);
+
+        // check if any results
+        if ($this->getQueryNumRows($results, true) <= 0) {
+            $this->setError("Database callback: No Results");
+            return false;
+        }
+
+        // grab the required array
+        $rows = $this->getQueryEffectedRows($results, true);
+
+        // loop throw each element and store the required data
+        $names = array();
+        foreach ($rows as $table) {
+            $names[] = reset($table);
+        }
+
+        // return the array
+        return $names;
+    }
+
+    function countTableFields($tableName)
+    {
+
+        // secure the table name
+        $tableName = $this->secureInput($tableName);
+
+        // prepare the required statement
+        $sql = "SHOW COLUMNS FROM " . $tableName;
+
+        // execute the query
+        $results = $this->getQueryResults($sql);
+
+        // return the results
+        return count($this->getQueryEffectedRows($results, true));
+    }
+
     /**
      * get the required sub line for the current server's os
      * @return string

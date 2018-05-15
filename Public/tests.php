@@ -1,16 +1,17 @@
 <?php
-include "../Core.php";
 
-use ALS\searchBy;
+class Tests
+{
 
-$core = new \ALS\Core();
-$core->initClasses();
+    public function __construct()
+    {
+        global $functions;
+        // load the main required init.php file
+        $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
+        new init();
 
-// hold the required custom variables
-$vars = array("loginLink" => "http://www.lovemst.com");
-$viewController->setCustomReservedCharacters($vars);
+    }
 
-// translate the page
-$file = $viewController->preLoadView("mail_user_login_link.html");
+}
 
-echo $file;
+new Tests();

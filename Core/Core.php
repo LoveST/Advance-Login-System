@@ -13,8 +13,6 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 
 use ALS\AUTH\Google\Google;
 
-error_reporting(ERROR_REPORTING);
-
 class Core
 {
     private $dieIfError = true;
@@ -65,6 +63,7 @@ class Core
         $this->_Authenticator();
         $this->_Applications();
         $this->_Avatars();
+        $this->_Firebase();
     }
 
     function _GoogleAuthenticator()
@@ -374,6 +373,21 @@ class Core
     }
 
     /**
+     * init the Firebase class
+     */
+    function _Firebase()
+    {
+        // load the required class file
+        require "Firebase.php";
+
+        // check if defined
+        if (!isset($firebase)) die("Undefined variables at line " . __LINE__);
+
+        // store the variable and initiate the class
+        $GLOBALS['firebase'] = $firebase;
+    }
+
+    /**
      * init the Avatars Class
      */
     function _Avatars()
@@ -428,4 +442,5 @@ abstract class ALS_Classes
     const Devices = "Devices";
     const Groups = "Groups";
     const Session = "Session";
+    const FireBase = "Firebase";
 }

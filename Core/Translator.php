@@ -201,33 +201,54 @@ class Translator
                 } else {
                     // Don't replace the tag if a value is not assigned for it
                     // check if a special Variable is present
-                    if ($key[0] == "$" && $key[1] == "$") {
+                    if (strpos($key, '$$') !== false) {
                         $variable = substr($key, 2);
                         $newReplacement = '$GLOBALS["' . $variable . '"]';
                         return $newReplacement;
+                    } else if (strpos($key, 'msgc') !== false) { // check if a 'msg' character exists
 
-                    } else if ($key[0] == "m" && $key[1] == "s" && $key[2] == "g") { // check if a print character exists
+                        // get the current method call
+                        $variable = substr($key, 5);
 
-                        // check if command is 'msg' or 'msgc'
-                        if ($key[3] == "c") { // class
-
-                            // get the current method call
-                            $variable = substr($key, 5);
-
-                            // check if it contains ...
-                            if (strpos($variable, '...') !== false) {
-                                $newStrings = explode('...', $variable);
-                                $variable = "GLOBALS['" . $newStrings[0] . "']->" . $newStrings[1];
-                            }
-
-                            $newReplacement = "<? echo $" . $variable . "; ?>";
-
-                        } else { // global variable
-
-                            $variable = substr($key, 4);
-                            $newReplacement = '<? echo $GLOBALS["' . $variable . '"];?>';
-
+                        // check if it contains ...
+                        if (strpos($variable, '...') !== false) {
+                            $newStrings = explode('...', $variable);
+                            $variable = "GLOBALS['" . $newStrings[0] . "']->" . $newStrings[1];
                         }
+
+                        $newReplacement = "<? echo $" . $variable . "; ?>";
+
+                        return $newReplacement;
+                    } else if (strpos($key, 'msg') !== false) { // check if a 'msg' character exists
+
+                        // grab the variable
+                        $variable = substr($key, 4);
+
+                        $newReplacement = '<? echo $GLOBALS["' . $variable . '"];?>';
+
+                        return $newReplacement;
+                    } else if (strpos($key, 'glob') !== false) { // check if glob exists
+
+                        // get the current method call
+                        $variable = substr($key, 5);
+
+                        // check if variable contains ',' then separate them
+                        if (strpos($variable, ',') !== false) {
+                            $newStrings = explode(',', $variable);
+                            $variable = "";
+
+                            // loop throw each one
+                            $i = 0;
+                            foreach ($newStrings as $var) {
+                                if ($i != 0)
+                                    $variable .= ",";
+                                $variable .= "$" . $var;
+                                $i++;
+                            }
+                        }
+
+                        // set the replacement
+                        $newReplacement = "<? global " . $variable . "; ?>";
 
                         return $newReplacement;
                     } else {

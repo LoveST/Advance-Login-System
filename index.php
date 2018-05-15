@@ -7,7 +7,7 @@
  */
 
 namespace ALS;
-
+error_reporting(-1);
 class ALS
 {
     var $_Root = "Public";
@@ -178,6 +178,7 @@ class ALS
     {
         // create a new instance of the Core class
         $core = new Core();
+        $core->_ErrorKiller(DB_ERROR_DIE);
 
         // init the core classes
         $core->initClasses();
@@ -207,11 +208,17 @@ class ALS
 
                 // check if currentDie list has more than 1 sub path
                 $listCount = count($currentDirList);
+
                 if ($listCount >= 1) {
                     if ($listCount > 1) {
 
                         // set current folder static variable
                         ALS::$_currentDirectory = $currentDirList[0];
+
+                        // check if first directory is defined in the directories list
+                        if (!isset($this->directories['public_dir'][$currentDirList[0]]) || empty($this->directories['public_dir'][$currentDirList[0]])) {
+                            $message->kill("Required file does not exist", "Core");
+                        }
 
                         // loop throw each sub path
                         for ($i = 0; $i < $listCount; $i++) {

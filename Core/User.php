@@ -257,7 +257,7 @@ class User extends User_Default
         $_SESSION['new_device_check'] = 1;
         $_SESSION['new_device_check_timeout'] = time();
 
-        // send a message to the current user's email address to checkstatus the login session
+        // send a message to the current user's email address to check status the login session
         $this->setNewLogin(true);
         $mailTemplates->newSignIn();
 

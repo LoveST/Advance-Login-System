@@ -693,6 +693,11 @@ class Functions
         require_once $filePath;
     }
 
+    function functionExist($function)
+    {
+
+    }
+
 }
 
 abstract class searchBy

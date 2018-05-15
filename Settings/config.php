@@ -11,6 +11,7 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 
 // Set Error Reporting
 define("ERROR_REPORTING", E_ALL);
+define("DB_ERROR_DIE", false);
 
 // Main Framework Path
 define("FRAMEWORK_PATH", "D:\AppServ\www\ALS\\");
