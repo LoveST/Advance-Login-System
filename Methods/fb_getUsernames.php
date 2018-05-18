@@ -8,7 +8,7 @@
 
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 use ALS\ALS_Classes;
-error_reporting(-1);
+
 class fb_getUsernames extends \ALS\Core
 {
 

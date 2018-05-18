@@ -679,7 +679,7 @@ class Functions
 
         // check if file exists
         if (!file_exists($filePath)) {
-            $message->kill("Required file does not exist", "File Loader");
+            $message->kill("Required file does not exist (" . $filePath . ")", "File Loader");
             return;
         }
 

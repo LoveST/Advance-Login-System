@@ -14,8 +14,8 @@ define("ERROR_REPORTING", E_ALL);
 define("DB_ERROR_DIE", false);
 
 // Main Framework Path
-define("FRAMEWORK_PATH", "D:\AppServ\www\ALS\\");
-define("FRAMEWORK_PUBLIC_PATH", "Public\\");
+define("FRAMEWORK_PATH", "D:\AppServ\www\ALS/");
+define("FRAMEWORK_PUBLIC_PATH", "Public/");
 
 //Set the Database Connection Type
 define("CONNECTION_TYPE", "PDO");
@@ -117,7 +117,7 @@ define("TBL_LEVELS", "levels");
 define("TBL_LEVELS_LEVEL", "level");
 define("TBL_LEVELS_NAME", "name");
 define("TBL_LEVELS_PERMISSIONS", "permissions");
-define("TBL_LEVELS_DEFAULT_GROUP", "default_group");
+define("TBL_LEVELS_DEFAULT_GROUP", "isDefault");
 
 /**
  * users_auths Table

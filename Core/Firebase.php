@@ -8,9 +8,10 @@
 
 namespace ALS;
 
-require_once 'firebase/firebaseLib.php';
-require_once 'firebase/firebaseStub.php';
-error_reporting(-1);
+require_once 'Firebase/firebaseLib.php';
+require_once 'Firebase/firebaseStub.php';
+
+use \Firebase\FirebaseLib;
 
 class fBase
 {
@@ -25,7 +26,7 @@ class fBase
 
         // This assumes that you have placed the Firebase credentials in the same directory
         // as this PHP file.
-        $this->fBase = new \Firebase\FirebaseLib(fBase::DEFAULT_URL, fBase::DEFAULT_TOKEN);
+        $this->fBase = new FirebaseLib(fBase::DEFAULT_URL, fBase::DEFAULT_TOKEN);
         //return $fBase;
     }
 

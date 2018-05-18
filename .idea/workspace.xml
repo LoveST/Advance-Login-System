@@ -2,26 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="277b65dc-b6c8-48da-b9a9-314064cfd990" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Core/Firebase.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Methods/fb_getUsernames.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Public/admin/db_viewTables.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Public/admin/db_editTable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Public/admin/manageGroups.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_db_editTables.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_manageGroups.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Core.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Firebase.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Firebase.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Groups.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Groups.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Mail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Settings.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Translator.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Translator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Methods/getUserInfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/Methods/getUserInfo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/decryptText.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/decryptText.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/Public/test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/Public/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/user/Group.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/user/Group.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Methods/fb_getUsernames.php" beforeDir="false" afterPath="$PROJECT_DIR$/Methods/fb_getUsernames.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public/admin/db_viewTables.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/admin/db_viewTables.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public/error.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/error.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Public/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/test.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Public/tests.php" beforeDir="false" afterPath="$PROJECT_DIR$/Public/tests.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Settings/Directories.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Settings/Directories.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Settings/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Settings/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/ubold-material/decryptText.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/ubold-material/decryptText.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/ubold-material/profile_view_2authCode.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/ubold-material/profile_view_2authCode.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,29 +36,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tests.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Public/tests.php">
+      <file leaf-file-name="Group.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core/user/Group.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="305">
+              <caret line="72" column="32" selection-start-line="72" selection-start-column="32" selection-end-line="72" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fb_getUsernames.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Methods/fb_getUsernames.php">
+      <file leaf-file-name="Database.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core/Database.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Firebase.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Core/Firebase.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="20" column="19" lean-forward="true" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+            <state relative-caret-position="110">
+              <caret line="10" column="135" lean-forward="true" selection-start-line="10" selection-end-line="10" selection-end-column="135" />
             </state>
           </provider>
         </entry>
@@ -63,8 +57,20 @@
       <file leaf-file-name="Core.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/Core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="262">
+              <caret line="226" column="7" lean-forward="true" selection-start-line="226" selection-start-column="7" selection-end-line="226" selection-end-column="7" />
+              <folding>
+                <element signature="e#253#280#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="error.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Public/error.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -72,8 +78,35 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="701">
+              <caret line="334" column="5" lean-forward="true" selection-start-line="320" selection-start-column="4" selection-end-line="334" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mail.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core/Mail.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="11" column="135" selection-start-line="11" selection-start-column="135" selection-end-line="11" selection-end-column="135" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="init.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/init.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Directories.ini" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -96,6 +129,9 @@
       <find>../als</find>
       <find>&lt;?=TEMPLATE_PATH?&gt;/</find>
       <find>function get</find>
+      <find>uns</find>
+      <find>Undefined variables</find>
+      <find>mail</find>
     </findStrings>
     <replaceStrings>
       <replace>http://lovemst.com/als</replace>
@@ -108,16 +144,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/Templates/ubold-material/cache/.htaccess" />
-        <option value="$PROJECT_DIR$/Core/Session.php" />
-        <option value="$PROJECT_DIR$/Core/MailTemplates.php" />
-        <option value="$PROJECT_DIR$/Core/user/User_Default.php" />
-        <option value="$PROJECT_DIR$/Public/admin/index.php" />
-        <option value="$PROJECT_DIR$/Public/profile/index.php" />
-        <option value="$PROJECT_DIR$/Public/profile/generate2FactorAuth.php" />
-        <option value="$PROJECT_DIR$/Public/profile/changeUsername.php" />
-        <option value="$PROJECT_DIR$/Public/profile/changeEmail.php" />
         <option value="$PROJECT_DIR$/Public/profile/changePassword.php" />
         <option value="$PROJECT_DIR$/Public/profile/changePinNumber.php" />
         <option value="$PROJECT_DIR$/Public/profile/verifiedDevices.php" />
@@ -130,11 +156,8 @@
         <option value="$PROJECT_DIR$/Public/admin/searchUser.php" />
         <option value="$PROJECT_DIR$/Public/admin/registerSettings.php" />
         <option value="$PROJECT_DIR$/Public/admin/registeredUsers.php" />
-        <option value="$PROJECT_DIR$/Public/index.php" />
         <option value="$PROJECT_DIR$/ToDo.txt" />
-        <option value="$PROJECT_DIR$/Core/Settings.php" />
         <option value="$PROJECT_DIR$/Query/getUserInfo.php" />
-        <option value="$PROJECT_DIR$/Public/error.php" />
         <option value="$PROJECT_DIR$/Core/ViewController.php" />
         <option value="$PROJECT_DIR$/Public/test.html" />
         <option value="$PROJECT_DIR$/Public/test.js" />
@@ -142,23 +165,36 @@
         <option value="$PROJECT_DIR$/Public/decryptText.php" />
         <option value="$PROJECT_DIR$/Templates/ubold-material/decryptText.html" />
         <option value="$PROJECT_DIR$/Settings/Directories.ini" />
-        <option value="$PROJECT_DIR$/Public/test.php" />
         <option value="$PROJECT_DIR$/Core/User.php" />
-        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" />
         <option value="$PROJECT_DIR$/Public/admin/viewTables.php" />
         <option value="$PROJECT_DIR$/Templates/ubold-material/ad_db_viteTables.html" />
-        <option value="$PROJECT_DIR$/Settings/config.php" />
-        <option value="$PROJECT_DIR$/Public/admin/db_viewTables.php" />
-        <option value="$PROJECT_DIR$/Core/Database.php" />
-        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html" />
-        <option value="$PROJECT_DIR$/Core/Functions.php" />
-        <option value="$PROJECT_DIR$/Core/Translator.php" />
-        <option value="$PROJECT_DIR$/Public/tests.php" />
-        <option value="$PROJECT_DIR$/Core/Firebase.php" />
         <option value="$PROJECT_DIR$/Methods/getUserDevices.php" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/Core/Core.php" />
         <option value="$PROJECT_DIR$/Methods/fb_getUsernames.php" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_rawDatabaseSettings.html" />
+        <option value="$PROJECT_DIR$/Public/admin/rawDatabaseSettings.php" />
+        <option value="$PROJECT_DIR$/Public/admin/db_viewTables.php" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html" />
+        <option value="$PROJECT_DIR$/Public/admin/db_editTable.php" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_db_editTables.html" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html" />
+        <option value="$PROJECT_DIR$/Public/admin/manageGroups.php" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/ad_manageGroups.html" />
+        <option value="$PROJECT_DIR$/Public/tests.php" />
+        <option value="$PROJECT_DIR$/Public/test.php" />
+        <option value="$PROJECT_DIR$/Core/Groups.php" />
+        <option value="$PROJECT_DIR$/Core/user/Group.php" />
+        <option value="$PROJECT_DIR$/Templates/ubold-material/profile_view_2authCode.html" />
+        <option value="$PROJECT_DIR$/Core/Database.php" />
+        <option value="$PROJECT_DIR$/Core/Functions.php" />
+        <option value="$PROJECT_DIR$/Public/index.php" />
+        <option value="$PROJECT_DIR$/Settings/config.php" />
+        <option value="$PROJECT_DIR$/Core/Settings.php" />
+        <option value="$PROJECT_DIR$/Core/Translator.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Core/Firebase.php" />
+        <option value="$PROJECT_DIR$/Core/Mail.php" />
+        <option value="$PROJECT_DIR$/Core/Core.php" />
+        <option value="$PROJECT_DIR$/Public/error.php" />
       </list>
     </option>
   </component>
@@ -182,7 +218,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,17 +228,13 @@
             <path>
               <item name="ALS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ALS" type="462c0819:PsiDirectoryNode" />
-              <item name="Methods" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ALS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ALS" type="462c0819:PsiDirectoryNode" />
-              <item name="Templates" type="462c0819:PsiDirectoryNode" />
+              <item name="Public" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -232,6 +263,14 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="ad_db_editTables.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ALS/Templates/ubold-material/ad_db_editTables.html" />
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.ad_db_editTables.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -262,11 +301,14 @@
       <workItem from="1526146460111" duration="7850000" />
       <workItem from="1526169476542" duration="5338000" />
       <workItem from="1526334869439" duration="12373000" />
+      <workItem from="1526357186508" duration="3326000" />
+      <workItem from="1526566552043" duration="6451000" />
+      <workItem from="1526601075526" duration="12107000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89953000" />
+    <option name="totallyTimeSpent" value="111837000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -281,25 +323,25 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.12793177" />
-      <window_info anchor="bottom" id="TODO" order="9" weight="0.1906318" />
-      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
-      <window_info anchor="right" id="Database" order="0" />
-      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="1" />
-      <window_info anchor="bottom" id="Run" order="5" />
-      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="3" />
-      <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15671642" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32897604" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,85 +351,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Public/profile/verifiedDevices.php" />
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_siteSettings.html" />
-    <entry file="file://$PROJECT_DIR$/Public/profile/changeAccountInfo.php" />
-    <entry file="file://$PROJECT_DIR$/Public/admin/securitySettings.php" />
-    <entry file="file://$PROJECT_DIR$/Public/admin/registerSettings.php" />
-    <entry file="file://$PROJECT_DIR$/Public/profile/index.php" />
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_registeredUsers.html" />
-    <entry file="file://$PROJECT_DIR$/Public/admin/removePermission.php" />
-    <entry file="file://$PROJECT_DIR$/Public/admin/registeredUsers.php" />
-    <entry file="file://$PROJECT_DIR$/.htaccess" />
-    <entry file="file://$PROJECT_DIR$/Public/init.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/forgetPass.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="18" column="19" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="18" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/error.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="15" column="10" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="18" column="29" lean-forward="true" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Methods/getUserInfo.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="53" column="159" selection-start-line="53" selection-start-column="159" selection-end-line="53" selection-end-column="159" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_setHTTPS.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/forgetPasswordEmail.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/decryptText.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/decryptText.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/encryptText.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="65">
@@ -416,20 +379,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/user/User_Default.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="870" column="52" lean-forward="true" selection-start-line="870" selection-start-column="52" selection-end-line="870" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="305" selection-start-line="305" selection-end-line="305" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Core/Session.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
@@ -437,42 +386,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="148" column="60" selection-start-line="148" selection-start-column="60" selection-end-line="148" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/admin/siteSettings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="8" selection-start-line="8" selection-end-line="33" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/Core/Core_d.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
           <caret line="127" column="9" selection-start-line="127" selection-start-column="9" selection-end-line="127" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6188">
-          <caret line="338" column="41" selection-start-line="338" selection-start-column="41" selection-end-line="338" selection-end-column="41" />
-          <folding>
-            <marker date="1525991651606" expanded="true" signature="2653:2667" ph="SELECT * FRO... ${TBL_SETTINGS}" />
-            <marker date="1525991651606" expanded="true" signature="17101:17159" ph="INSERT INTO ${TBL_SETTINGS}... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -497,76 +414,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Settings/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/admin/db_viewTables.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="286" selection-start-line="286" selection-end-line="286" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Functions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="697" selection-start-line="697" selection-end-line="697" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Translator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="744">
-          <caret line="245" column="37" selection-start-line="245" selection-start-column="37" selection-end-line="245" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="17" column="43" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="29" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Firebase/firebaseLib.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="179" column="20" selection-start-line="179" selection-start-column="20" selection-end-line="179" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Firebase/Firebase/Factory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="73" column="46" lean-forward="true" selection-start-line="73" selection-start-column="46" selection-end-line="73" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/tests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Firebase/firebaseLib.php" />
+    <entry file="file://$PROJECT_DIR$/Core/Firebase/Firebase/Factory.php" />
     <entry file="file://$PROJECT_DIR$/Methods/getUserDevices.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -574,31 +423,267 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Core.php">
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_randomVariables.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="493">
+          <caret line="29" column="22" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="29" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_setHTTPS.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+        <state relative-caret-position="321">
+          <caret line="32" column="72" selection-start-line="32" selection-start-column="61" selection-end-line="32" selection-end-column="72" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Firebase.php">
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_rawDatabaseSettings.html" />
+    <entry file="file://$PROJECT_DIR$/Public/admin/rawDatabaseSettings.php" />
+    <entry file="file://$PROJECT_DIR$/Public/admin/siteSettings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="20" column="19" lean-forward="true" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+        <state relative-caret-position="78">
+          <caret line="11" column="24" lean-forward="true" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Message.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4903">
+          <caret line="43" column="30" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="44" column="71" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_bannedUsers.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_addPermission.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="23" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Databases/MySQLi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="119" column="5" lean-forward="true" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/db_editTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_db_editTables.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Methods/fb_getUsernames.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_main_panel_header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="138" column="59" selection-start-line="138" selection-start-column="59" selection-end-line="138" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_db_viewTables.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="23" column="24" lean-forward="true" selection-end-line="50" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/db_viewTables.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="19" selection-start-line="19" selection-end-line="20" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/ad_manageGroups.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="24" column="37" lean-forward="true" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/tests.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/admin/manageGroups.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/user/User_Default.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="881" column="15" lean-forward="true" selection-start-line="881" selection-start-column="15" selection-end-line="881" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="75" selection-start-line="16" selection-start-column="75" selection-end-line="16" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Groups.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2257">
+          <caret line="238" column="36" lean-forward="true" selection-start-line="238" selection-start-column="36" selection-end-line="238" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/user/Group.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="72" column="32" selection-start-line="72" selection-start-column="32" selection-end-line="72" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Templates/ubold-material/profile_view_2authCode.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="55" lean-forward="true" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Settings/Directories.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="7" column="26" lean-forward="true" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="658" column="7" lean-forward="true" selection-start-line="658" selection-start-column="7" selection-end-line="658" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9534">
+          <caret line="65" column="5" lean-forward="true" selection-start-line="65" selection-start-column="5" selection-end-line="65" selection-end-column="5" />
+          <folding>
+            <marker date="1526610558347" expanded="true" signature="2653:2667" ph="SELECT * FRO... ${TBL_SETTINGS}" />
+            <marker date="1526610558347" expanded="true" signature="17101:17159" ph="INSERT INTO ${TBL_SETTINGS}... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Settings/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="12" column="33" lean-forward="true" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Translator.php">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Firebase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="8" column="14" lean-forward="true" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/init.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="10" column="135" lean-forward="true" selection-start-line="10" selection-end-line="10" selection-end-column="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Mail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="11" column="135" selection-start-line="11" selection-start-column="135" selection-end-line="11" selection-end-column="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/auth/Google.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="701">
+          <caret line="334" column="5" lean-forward="true" selection-start-line="320" selection-start-column="4" selection-end-line="334" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="226" column="7" lean-forward="true" selection-start-line="226" selection-start-column="7" selection-end-line="226" selection-end-column="7" />
+          <folding>
+            <element signature="e#253#280#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/error.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
         </state>
       </provider>
     </entry>

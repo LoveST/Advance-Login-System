@@ -64,7 +64,7 @@ class Settings
      */
     function initRequiredFields()
     {
-        define("TEMPLATE_PATH", "templates/" . $this->siteTheme() . "/");
+        define("TEMPLATE_PATH", "Templates/" . $this->siteTheme() . "/");
         define("SITE_NAME", $this->siteName());
     }
 

@@ -1,4 +1,4 @@
-{:glob tableNames,database,table}
+{:glob groups,database,listGroups,g}
 <link href="{:settings_templateURL}plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <link href="{:settings_templateURL}plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet"/>
 <link href="{:settings_templateURL}plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
@@ -13,29 +13,37 @@
             <? } ?>
 
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Database Tables</b></h4><br>
+                <h4 class="m-t-0 header-title"><b>Groups</b></h4><br>
 
-                <? if(!{:$$tableNames}){ ?>
-                <h4 class="m-t-0 text-muted text-center"><b>There are no tables</b></h4>
+                <? if(!{:$$listGroups}){ ?>
+                <h4 class="m-t-0 text-muted text-center"><b>There are no groups</b></h4>
                 <? } else { ?>
 
                 <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <td>Total Columns</td>
+                        <td>Level</td>
+                        <td>Is Default</td>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <? foreach($tableNames as $table){ ?>
+                    <? foreach($listGroups as $g){ ?>
                     <tr>
-                        <td>{:msg table}</td>
-                        <td>{:msgc database...countTableFields($table)}</td>
+                        <td>{:msgc g...getName()}</td>
+                        <td>{:msgc g...getLevel()}</td>
+                        <td>
+                            <?php
+                                if($g->isDefault()){
+                            echo "Default";
+                            }
+                            ?>
+                        </td>
                         <td>
                             <label type="submit" class="btn alert-warning"><a
-                                    href="?page=db_editTable&dbName={:msgc table}">Edit</a></label>
+                                    href="?page=editGroup&name={:msgc g...getName()}">Edit</a></label>
                         </td>
                         <td>
                             <label type="submit" class="btn alert-danger">Remove</label>

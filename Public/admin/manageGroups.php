@@ -2,24 +2,22 @@
 /**
  * Created by PhpStorm.
  * User: masis
- * Date: 5/14/2018
- * Time: 3:01 PM
+ * Date: 5/17/2018
+ * Time: 5:18 PM
  */
 
-// disable direct access to the file
-if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
-
-class db_ViewTables
+class ad_manageGroups
 {
 
     public function __construct()
     {
+
         // init the required globals
-        global $viewController, $database, $settings, $tableNames;
+        global $groups, $viewController, $settings, $listGroups;
 
-        // get the database table names
-        $tableNames = $database->getTableNames();
-
+        // load the groups
+        $listGroups = $groups->listGroups();
+        $listGroups[0];
         // load the required scripts
         $customScripts = '<script src="' . $settings->getTemplatesURL() . 'assets/js/popper.min.js"></script>' . "\n";
         $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/jquery.dataTables.min.js"></script>' . "\n";
@@ -28,8 +26,9 @@ class db_ViewTables
         $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/responsive.bootstrap4.min.js"></script>' . "\n";
 
         // load the view
-        $viewController->loadView("ad_db_viewTables.html");
+        $viewController->loadView("ad_manageGroups.html");
     }
+
 }
 
-new db_ViewTables();
+new ad_manageGroups();

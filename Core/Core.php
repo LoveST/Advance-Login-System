@@ -12,10 +12,12 @@ namespace ALS;
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 use ALS\AUTH\Google\Google;
+use ALS\Mail;
 
 class Core
 {
     private $dieIfError = true;
+    private $_corePath = "";
 
     /**
      * Core constructor
@@ -28,6 +30,9 @@ class Core
 
         // set the error handler
         $this->_ErrorKiller($dieIfError);
+
+        // set the main core path
+        $this->_corePath = "Core" . $this->getSubLine();
     }
 
     function _ErrorKiller($dieIfError)
@@ -69,10 +74,10 @@ class Core
     function _GoogleAuthenticator()
     {
         // load the required class file
-        require "auth/Google.php";
+        require $this->_corePath . "auth/Google.php";
 
         // check if defined
-        if (!isset($googleAuth)) die("Undefined variables at line " . __LINE__);
+        if (!isset($googleAuth)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['googleAuth'] = new Google();
@@ -84,10 +89,10 @@ class Core
     function _Message()
     {
         // load the required class file
-        require "message.php";
+        require $this->_corePath . "Message.php";
 
         // check if defined
-        if (!isset($message)) die("Undefined variables at line " . __LINE__);
+        if (!isset($message)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS["message"] = $message;
@@ -101,10 +106,10 @@ class Core
     function _Database()
     {
         // load the required class file
-        require "database.php";
+        require $this->_corePath . "Database.php";
 
         // check if defined
-        if (!isset($database)) die("Undefined variables at line " . __LINE__);
+        if (!isset($database)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $database->_init($this->dieIfError);
@@ -118,10 +123,10 @@ class Core
     function _Settings()
     {
         // load the required class file
-        require "settings.php";
+        require $this->_corePath . "Settings.php";
 
         // check if defined
-        if (!isset($settings)) die("Undefined variables at line " . __LINE__);
+        if (!isset($settings)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['settings'] = $settings;
@@ -134,10 +139,10 @@ class Core
     function _Links()
     {
         // load the required class file
-        require "Links.php";
+        require $this->_corePath . "Links.php";
 
         // check if defined
-        if (!isset($links)) die("Undefined variables at line " . __LINE__);
+        if (!isset($links)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['links'] = $links;
@@ -149,10 +154,10 @@ class Core
     function _Groups()
     {
         // load the required class file
-        require "Groups.php";
+        require $this->_corePath . "Groups.php";
 
         // check if defined
-        if (!isset($groups)) die("Undefined variables at line " . __LINE__);
+        if (!isset($groups)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['groups'] = $groups;
@@ -164,10 +169,10 @@ class Core
     function _ViewController()
     {
         // load the required class file
-        require "viewController.php";
+        require $this->_corePath . "ViewController.php";
 
         // check if defined
-        if (!isset($viewController)) die("Undefined variables at line " . __LINE__);
+        if (!isset($viewController)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['viewController'] = $viewController;
@@ -180,10 +185,10 @@ class Core
     function _Translator()
     {
         // load the required class file
-        require "Translator.php";
+        require $this->_corePath . "Translator.php";
 
         // check if defined
-        if (!isset($translator)) die("Undefined variables at line " . __LINE__);
+        if (!isset($translator)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['translator'] = $translator;
@@ -195,10 +200,10 @@ class Core
     function _Browser()
     {
         // load the required class file
-        require "Browser.php";
+        require $this->_corePath . "Browser.php";
 
         // check if defined
-        if (!isset($browser)) die("Undefined variables at line " . __LINE__);
+        if (!isset($browser)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['browser'] = $browser;
@@ -210,10 +215,10 @@ class Core
     function _Captcha()
     {
         // load the required class file
-        require "Captcha.php";
+        require $this->_corePath . "Captcha.php";
 
         // check if defined
-        if (!isset($captcha)) die("Undefined variables at line " . __LINE__);
+        if (!isset($captcha)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['captcha'] = $captcha;
@@ -225,10 +230,10 @@ class Core
     function _Mail()
     {
         // load the required class file
-        require "Mail.php";
+        require $this->_corePath . "Mail.php";
 
         // check if defined
-        if (!isset($mail)) die("Undefined variables at line " . __LINE__);
+        if (!isset($mail)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['mail'] = $mail;
@@ -240,18 +245,18 @@ class Core
     function _User()
     {
         // load the required class file
-        require "user/device.php";
-        require "user/devices.php";
+        require $this->_corePath . "user/device.php";
+        require $this->_corePath . "user/devices.php";
 
         // check if defined
-        if (!isset($devices)) die("Undefined variables at line " . __LINE__);
+        if (!isset($devices)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
         $GLOBALS['devices'] = $devices;
 
         // load the User class
-        require "User.php";
+        require $this->_corePath . "User.php";
 
         // check if defined
-        if (!isset($user)) die("Undefined variables at line " . __LINE__);
+        if (!isset($user)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['user'] = $user;
@@ -263,10 +268,10 @@ class Core
     function _PasswordManager()
     {
         // load the required class file
-        require "passwordManager.php";
+        require $this->_corePath . "passwordManager.php";
 
         // check if defined
-        if (!isset($passwordManager)) die("Undefined variables at line " . __LINE__);
+        if (!isset($passwordManager)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['passwordManager'] = $passwordManager;
@@ -278,10 +283,10 @@ class Core
     function _Functions()
     {
         // load the required class file
-        require "Functions.php";
+        require $this->_corePath . "Functions.php";
 
         // check if defined
-        if (!isset($functions)) die("Undefined variables at line " . __LINE__);
+        if (!isset($functions)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['functions'] = $functions;
@@ -293,10 +298,10 @@ class Core
     function _Session()
     {
         // load the required class file
-        require "Session.php";
+        require $this->_corePath . "Session.php";
 
         // check if defined
-        if (!isset($session)) die("Undefined variables at line " . __LINE__);
+        if (!isset($session)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['session'] = $session;
@@ -309,10 +314,10 @@ class Core
     function _Administrator()
     {
         // load the required class file
-        require "administrator.php";
+        require $this->_corePath . "administrator.php";
 
         // check if defined
-        if (!isset($admin)) die("Undefined variables at line " . __LINE__);
+        if (!isset($admin)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['admin'] = $admin;
@@ -324,10 +329,10 @@ class Core
     function _ProfileManager()
     {
         // load the required class file
-        require "profileManager.php";
+        require $this->_corePath . "profileManager.php";
 
         // check if defined
-        if (!isset($profileManager)) die("Undefined variables at line " . __LINE__);
+        if (!isset($profileManager)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['profileManager'] = $profileManager;
@@ -336,10 +341,10 @@ class Core
     function _Authenticator()
     {
         // load the required class file
-        require "Authenticator.php";
+        require $this->_corePath . "Authenticator.php";
 
         // check if defined
-        if (!isset($authenticator)) die("Undefined variables at line " . __LINE__);
+        if (!isset($authenticator)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['authenticator'] = $authenticator;
@@ -348,10 +353,10 @@ class Core
     function _Applications()
     {
         // load the required class file
-        require "Applications.php";
+        require $this->_corePath . "Applications.php";
 
         // check if defined
-        if (!isset($applications)) die("Undefined variables at line " . __LINE__);
+        if (!isset($applications)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['applications'] = $applications;
@@ -363,10 +368,10 @@ class Core
     function _MailTemplates()
     {
         // load the required class file
-        require "MailTemplates.php";
+        require $this->_corePath . "MailTemplates.php";
 
         // check if defined
-        if (!isset($mailTemplates)) die("Undefined variables at line " . __LINE__);
+        if (!isset($mailTemplates)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['mailTemplates'] = $mailTemplates;
@@ -378,10 +383,10 @@ class Core
     function _Firebase()
     {
         // load the required class file
-        require "Firebase.php";
+        require $this->_corePath . "Firebase.php";
 
         // check if defined
-        if (!isset($firebase)) die("Undefined variables at line " . __LINE__);
+        if (!isset($firebase)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['firebase'] = $firebase;
@@ -393,10 +398,10 @@ class Core
     function _Avatars()
     {
         // load the required class file
-        require "Avatars.php";
+        require $this->_corePath . "Avatars.php";
 
         // check if defined
-        if (!isset($avatars)) die("Undefined variables at line " . __LINE__);
+        if (!isset($avatars)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
 
         // store the variable and initiate the class
         $GLOBALS['avatars'] = $avatars;
@@ -426,6 +431,22 @@ class Core
                 }
             }
         }
+    }
+
+    /**
+     * get the required sub line for the current server's os
+     * @return string
+     */
+    function getSubLine()
+    {
+        // check the servers current OS
+        if (PHP_OS == "Linux") {
+            $sub = "/";
+        } else {
+            $sub = "\\";
+        }
+
+        return $sub;
     }
 
 }

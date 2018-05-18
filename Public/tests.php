@@ -10,6 +10,8 @@ class Tests
         $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
         new init();
 
+
+
     }
 
 }

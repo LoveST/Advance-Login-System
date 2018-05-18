@@ -8,6 +8,7 @@
 
 namespace ALS;
 error_reporting(-1);
+
 class ALS
 {
     var $_Root = "Public";
@@ -19,6 +20,8 @@ class ALS
 
     public function __construct()
     {
+        // init the main framework path
+
         // load the Core class without initializing it
         include_once "Core/Core.php";
 
@@ -200,7 +203,8 @@ class ALS
 
         if (isset($_GET['__dir'])) {
             // get the current
-            $currentDir = $this->secureInput($_GET['__dir']);
+            $page = array_key_exists('__dir', $_GET) ? $_GET['__dir'] : null;
+            $currentDir = $this->secureInput($page);
 
             // check if special path found
             if (strpos($currentDir, "/") !== false && isset($currentDir)) {
@@ -251,7 +255,7 @@ class ALS
         }
 
         // check if file exists & include it
-        $newPath = FRAMEWORK_PATH . $this->_Root . $this->getSubLine() . $requiredDir;
+        $newPath = FRAMEWORK_PATH . $this->getSubLine() . $this->_Root . $this->getSubLine() . $requiredDir;
 
         // check if current path is a directory and if it exists
         // check if folder exists
@@ -299,7 +303,8 @@ class ALS
     function getRequestedFolder()
     {
         // get the current requested directory
-        $currentDir = $this->secureInput($_GET['__dir']);
+        $page = array_key_exists('__dir', $_GET) ? $_GET['__dir'] : null;
+        $currentDir = $this->secureInput($page);
 
         // check if special character found
         if (isset($currentDir) && strpos($currentDir, "/") !== false) {

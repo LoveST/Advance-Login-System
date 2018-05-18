@@ -88,7 +88,7 @@ class Groups
         if (is_null($permissions) || empty($permissions)) {
             $permissions = "";
         } else {
-            $permissions = serialize($permissions);
+            $permissions = implode(", ", $permissions);
         }
 
         // setup the sql query
@@ -216,6 +216,11 @@ class Groups
                     continue;
                 }
 
+                // check if string contains a strict variable ','
+                if (strpos($permission, ",") !== false) {
+                    continue;
+                }
+
                 // check if permission already exists
                 if ($group->permissionExist($permission)) {
                     continue;
@@ -231,7 +236,7 @@ class Groups
         }
 
         // serialize the array
-        $newPermissions = serialize($newPermissions);
+        $newPermissions = implode(",", $newPermissions);
 
         // setup the sql query
         $sql = "UPDATE " . TBL_LEVELS . " SET " . TBL_LEVELS_PERMISSIONS . " = '" . $newPermissions . "' WHERE " . TBL_LEVELS_NAME . " = '" . $group->getName() . "'";
@@ -314,6 +319,11 @@ class Groups
                     continue;
                 }
 
+                // check if string contains a strict variable ','
+                if (strpos($permission, ",") !== false) {
+                    continue;
+                }
+
                 // check if permission already exists
                 if (!$group->permissionExist($permission)) {
                     continue;
@@ -330,7 +340,7 @@ class Groups
         }
 
         // serialize the array
-        $newPermissions = serialize($newPermissions);
+        $newPermissions = implode(",", $newPermissions);
 
         // setup the sql query
         $sql = "UPDATE " . TBL_LEVELS . " SET " . TBL_LEVELS_PERMISSIONS . " = '" . $newPermissions . "' WHERE " . TBL_LEVELS_NAME . " = '" . $group->getName() . "'";

@@ -1,0 +1,88 @@
+{:glob dbSettings}
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-md-12">
+
+        <? if({:$$message}->anyError()){ ?>
+        <div class="alert alert-danger">
+            <? echo $message->getError(3); ?>
+        </div>
+        <? } ?>
+
+        <? if({:$$message}->is_success()){ ?>
+        <div class="alert alert alert-success text-center">
+            <?=$message->printSuccess();?>
+        </div>
+        <? } ?>
+
+        <form action="" class="form-horizontal m-t-20" method="post">
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-20 header-title"><b>Add a new setting</b></h4>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Setting</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="__newSetting_name" required="true" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Value</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value=""
+                               name="__newSetting_value" required="true" placeholder="">
+                    </div>
+                </div>
+
+                <button name="add" type="submit" class="btn btn-primary alert-success">
+                    Add new
+                </button>
+
+            </div>
+        </form>
+
+
+        <? if($dbSettings){
+                foreach($dbSettings as $setting){
+                ?>
+
+        <form action="" class="form-horizontal m-t-20" method="post">
+
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-20 header-title"><b><? echo $setting['field'];?></b></h4>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Setting</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<? echo $setting['field'];?>"
+                               name="<? echo $setting['field'];?>" required="true"
+                               placeholder="<? echo $setting['field'];?>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Value</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" value="<? echo $setting['value'];?>"
+                               name="<? echo $setting['field'];?>_value"
+                               placeholder="<? echo $setting['value'];?>">
+                    </div>
+                </div>
+
+                <button type="submit" name="update__<? echo $setting['field'];?>"
+                        class="btn label-table alert-warning">
+                    Update
+                </button>
+                <button type="submit" name="remove__<? echo $setting['field'];?>"
+                        class="btn label-table alert-danger">
+                    Remove
+                </button>
+
+            </div>
+
+        </form>
+        <? } } else { ?>
+        <p class="col-4 text-muted m-b-20 font-16">No Settings Available</p>
+        <? } ?>
+    </div>
+</div>

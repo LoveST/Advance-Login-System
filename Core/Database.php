@@ -51,7 +51,7 @@ class Database
         if (in_array(CONNECTION_TYPE, $this->_DBConnections)) {
 
             // get the connection class path
-            $classPath = FRAMEWORK_PATH . "Databases" . $this->getSubLine() . CONNECTION_TYPE . ".php";
+            $classPath = FRAMEWORK_PATH . $this->getSubLine() . "Databases" . $this->getSubLine() . CONNECTION_TYPE . ".php";
 
             // check if database connection class exists
             if (!is_readable($classPath)) {
@@ -277,6 +277,22 @@ class Database
 
         // return the array
         return $names;
+    }
+
+    function getTableColumns($tableName)
+    {
+
+        // secure the table name
+        $tableName = $this->secureInput($tableName);
+
+        // prepare the required statement
+        $sql = "SHOW COLUMNS FROM " . $tableName;
+
+        // execute the query
+        $results = $this->getQueryResults($sql);
+
+        // return the results
+        return $this->getQueryEffectedRows($results, true);
     }
 
     function countTableFields($tableName)

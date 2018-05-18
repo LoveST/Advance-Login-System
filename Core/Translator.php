@@ -34,7 +34,7 @@ class Translator
         define("LANGUAGE", $this->lang);
 
         // set the languages folder path
-        $this->folderPath = "languages" . $settings->getSubLine();
+        $this->folderPath = "Languages" . $settings->getSubLine();
 
         // set the cache folder path
         $this->cachePath = "cache" . $settings->getSubLine();
@@ -245,6 +245,8 @@ class Translator
                                 $variable .= "$" . $var;
                                 $i++;
                             }
+                        } else {
+                            $variable = "$" . $variable;
                         }
 
                         // set the replacement

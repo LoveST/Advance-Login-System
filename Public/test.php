@@ -10,10 +10,17 @@ class Tests1
         $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
         new init();
 
-        die($functions->decryptIt("zykkZPDXc0Ik5mjIGq1JCb9jOc4T3puYrOubGb0sVk16qYZ7DAniPk3WI6K8UqwIGgECe4NLu45Xr0EGZbIHju5wb1wkwLIS2UtNx2BQ5zk="));
+        // init the globals
+        global $groups, $message;
 
-        // load the view controller
-        include_once "test.html";
+        // update records
+        var_dump($groups->loadGroup("user")->removePermission(array("test1", "test3")));
+
+        echo "<br><br><br>";
+
+        // print error
+        $message->printError();
+        $message->printSuccess();
     }
 
 }

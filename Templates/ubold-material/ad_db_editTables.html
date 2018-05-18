@@ -1,10 +1,22 @@
-{:glob tableNames,database,table}
+{:glob tableColumns,tableName,database,table,message}
 <link href="{:settings_templateURL}plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <link href="{:settings_templateURL}plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet"/>
 <link href="{:settings_templateURL}plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-12">
         <div class="card-box">
+
+            <? if({:$$message}->anyError()){ ?>
+            <div class="alert alert-danger">
+                <? echo $message->getError(3); ?>
+            </div>
+            <? } ?>
+
+            <? if({:$$message}->is_success()){ ?>
+            <div class="alert alert alert-success text-center">
+                <?=$message->printSuccess();?>
+            </div>
+            <? } ?>
 
             <? if($database->anyError()){ ?>
             <div class="alert alert-danger">
@@ -13,29 +25,31 @@
             <? } ?>
 
             <div class="card-box table-responsive">
-                <h4 class="m-t-0 header-title"><b>Database Tables</b></h4><br>
+                <h4 class="m-t-0 header-title"><b>Editing table</b></h4><br>
 
-                <? if(!{:$$tableNames}){ ?>
-                <h4 class="m-t-0 text-muted text-center"><b>There are no tables</b></h4>
+                <? if(!{:$$tableColumns}){ ?>
+                <h4 class="m-t-0 text-muted text-center"><b>There are no columns</b></h4>
                 <? } else { ?>
 
                 <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <td>Total Columns</td>
+                        <th>Field</th>
+                        <td>Type</td>
+                        <td>Is NULL</td>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <? foreach($tableNames as $table){ ?>
+                    <? foreach($tableColumns as $column){ ?>
                     <tr>
-                        <td>{:msg table}</td>
-                        <td>{:msgc database...countTableFields($table)}</td>
+                        <td><input class="form-control" type="text" name="<? echo $column['Field']; ?>" value="<? echo $column['Field']; ?>"></td>
+                        <td><? echo $column['Type']; ?></td>
+                        <td><? echo $column['Null']; ?></td>
                         <td>
                             <label type="submit" class="btn alert-warning"><a
-                                    href="?page=db_editTable&dbName={:msgc table}">Edit</a></label>
+                                    href="?page=db_editTable&dbName={:msgc table}">Update</a></label>
                         </td>
                         <td>
                             <label type="submit" class="btn alert-danger">Remove</label>

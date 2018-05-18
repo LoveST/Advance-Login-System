@@ -9,6 +9,8 @@
 
 namespace ALS;
 
+if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
+
 class Mail
 {
 
@@ -22,6 +24,11 @@ class Mail
     private $message = "";
     private $text = "";
     private $mime_boundary = "";
+
+    public function __construct()
+    {
+
+    }
 
     /**
      * init the class
