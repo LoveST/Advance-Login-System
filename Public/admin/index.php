@@ -16,7 +16,7 @@ class MainAdmin
     public function __construct()
     {
         // init the required globals
-        global $settings;
+        global $settings, $customScripts;
 
         // load the main required init.php file
         include_once FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php";

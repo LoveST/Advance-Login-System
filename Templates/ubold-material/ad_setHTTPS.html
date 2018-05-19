@@ -4,7 +4,8 @@
 
             <div class="panel-heading">
                 <h3 class="text-center"> Enable/Disable HTTPS </h3>
-                <h5 class="text-muted text-center">Make sure the site supports ssl. Otherwise, you won't have access to the
+                <h5 class="text-muted text-center">Make sure the site supports ssl. Otherwise, you won't have access to
+                    the
                     script.</h5>
             </div>
 
@@ -15,13 +16,13 @@
 
                     <? if({:$$message}->anyError()){ ?>
                     <div class="alert alert-danger">
-                        <? echo $message->getError(3); ?>
+                        {:msgc message...getError(3)}
                     </div>
                     <? } ?>
 
                     <? if({:$$message}->is_success()){ ?>
                     <div class="alert alert alert-success text-center">
-                        <?=$message->printSuccess();?>
+                        {:msgc message...printSuccess()}
                     </div>
                     <? } ?>
 

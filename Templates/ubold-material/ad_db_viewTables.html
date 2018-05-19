@@ -6,9 +6,15 @@
     <div class="col-md-12">
         <div class="card-box">
 
-            <? if($database->anyError()){ ?>
+            <? if({:$$message}->anyError()){ ?>
             <div class="alert alert-danger">
-                {:msgc database...getError()}
+                {:msgc message...getError(3)}
+            </div>
+            <? } ?>
+
+            <? if({:$$message}->is_success()){ ?>
+            <div class="alert alert alert-success text-center">
+                {:msgc message...printSuccess()}
             </div>
             <? } ?>
 

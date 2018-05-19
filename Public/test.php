@@ -5,17 +5,16 @@ class Tests1
 
     public function __construct()
     {
-        global $functions;
+        global $functions, $user;
         // load the main required init.php file
         $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
         new init();
 
         // init the globals
-        global $groups, $message;
+        global $viewController, $message;
 
-        // update records
-        var_dump($groups->loadGroup("user")->removePermission(array("test1", "test3")));
-
+        $text = strstr("msg viewController[0]", "[", true);
+        echo $text;
         echo "<br><br><br>";
 
         // print error

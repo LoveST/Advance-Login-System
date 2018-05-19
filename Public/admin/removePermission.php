@@ -18,7 +18,7 @@ class Admin_removePermission
         global $viewController, $settings, $groups;
 
         // set the required variables
-        global $listGroups, $customScripts;
+        global $listGroups;
         $listGroups = $groups->listGroups();
 
         // check if form has been submitted
@@ -37,6 +37,7 @@ class Admin_removePermission
         }
 
         // load the required scripts
+        global $customScripts;
         $customScripts = '<script src="' . $settings->getTemplatesURL() . 'plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>' . "\n";
 
         // load the view

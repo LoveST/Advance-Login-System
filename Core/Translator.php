@@ -201,68 +201,102 @@ class Translator
                 } else {
                     // Don't replace the tag if a value is not assigned for it
                     // check if a special Variable is present
-                    if (strpos($key, '$$') !== false) {
-                        $variable = substr($key, 2);
-                        $newReplacement = '$GLOBALS["' . $variable . '"]';
-                        return $newReplacement;
-                    } else if (strpos($key, 'msgc') !== false) { // check if a 'msg' character exists
-
-                        // get the current method call
-                        $variable = substr($key, 5);
-
-                        // check if it contains ...
-                        if (strpos($variable, '...') !== false) {
-                            $newStrings = explode('...', $variable);
-                            $variable = "GLOBALS['" . $newStrings[0] . "']->" . $newStrings[1];
-                        }
-
-                        $newReplacement = "<? echo $" . $variable . "; ?>";
-
-                        return $newReplacement;
-                    } else if (strpos($key, 'msg') !== false) { // check if a 'msg' character exists
-
-                        // grab the variable
-                        $variable = substr($key, 4);
-
-                        $newReplacement = '<? echo $GLOBALS["' . $variable . '"];?>';
-
-                        return $newReplacement;
-                    } else if (strpos($key, 'glob') !== false) { // check if glob exists
-
-                        // get the current method call
-                        $variable = substr($key, 5);
-
-                        // check if variable contains ',' then separate them
-                        if (strpos($variable, ',') !== false) {
-                            $newStrings = explode(',', $variable);
-                            $variable = "";
-
-                            // loop throw each one
-                            $i = 0;
-                            foreach ($newStrings as $var) {
-                                if ($i != 0)
-                                    $variable .= ",";
-                                $variable .= "$" . $var;
-                                $i++;
-                            }
-                        } else {
-                            $variable = "$" . $variable;
-                        }
-
-                        // set the replacement
-                        $newReplacement = "<? global " . $variable . "; ?>";
-
-                        return $newReplacement;
+                    if (substr($key, 0, 2) == "$$") {                 // '$$'
+                        return $this->tr_globVariable($key);
+                    } else if (substr($key, 0, 4) == "msgc") {        // 'msgc'
+                        return $this->tr_msgC($key);
+                    } else if (strpos($key, 'msg') !== false) {         // 'msg'
+                        return $this->tr_msg($key);
+                    } else if (strpos($key, 'glob') !== false) {        // 'glob'
+                        return $this->tr_glob($key);
                     } else {
                         return $matches[0];
                     }
-
                     // Alternatively, you can return a default placeholder string
                     // or return '' to remove the tag completely
                 }
             },
             $template
         );
+    }
+
+    private function tr_globVariable($string)
+    {
+        // grab the variable
+        $string = substr($string, 2);
+
+        // set the replacement
+        $string = '$GLOBALS["' . $string . '"]';
+
+        // return the new string
+        return $string;
+    }
+
+    private function tr_glob($string)
+    {
+        // grab the variable
+        $string = substr($string, 5);
+
+        // check if variable contains ',' then separate them
+        if (strpos($string, ',') !== false) {
+            $newStrings = explode(',', $string);
+            $variable = "";
+
+            // loop throw each one
+            $i = 0;
+            foreach ($newStrings as $var) {
+                if ($i != 0)
+                    $variable .= ",";
+                $variable .= "$" . $var;
+                $i++;
+            }
+        } else {
+            $variable = "$" . $string;
+        }
+
+        // set the replacement
+        $string = "<? global " . $variable . "; ?>";
+
+        // return the new string
+        return $string;
+    }
+
+    private function tr_msgC($string)
+    {
+        // grab the variable
+        $string = substr($string, 5);
+
+        // check if it contains ...
+        if (strpos($string, '...') !== false) {
+            $newStrings = explode('...', $string);
+            $string = "GLOBALS['" . $newStrings[0] . "']->" . $newStrings[1];
+        }
+
+        // set the required return statement
+        $string = "<? echo $" . $string . "; ?>";
+
+        // return the new string
+        return $string;
+    }
+
+    private function tr_msg($string)
+    {
+        // grab the variable
+        $string = substr($string, 4);
+
+        // check if the variable contains '[' array start char
+        if (strstr($string, "[", true) && strstr($string, "]")) {
+            // set the required return statement
+            $beforeArray = strstr($string, "[", true);
+            $arrayVars = strstr($string, "[");
+            $string = '<? echo $GLOBALS["' . $beforeArray . '"]' . $arrayVars . ';?>';
+        } else {
+            // set the required return statement
+            $string = '<? echo $GLOBALS["' . $string . '"];?>';
+        }
+
+        // return the new string
+        return $string;
     }
 }
 

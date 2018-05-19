@@ -11,13 +11,13 @@
 
                 <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
-                    <? echo $message->getError(3); ?>
+                    {:msgc message...getError(3)}
                 </div>
                 <? } ?>
 
                 <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
-                    <?=$message->printSuccess();?>
+                    {:msgc message...printSuccess()}
                 </div>
                 <? } ?>
 
@@ -37,7 +37,8 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label">Permissions</label>
                     <div class="col-md-10">
-                        <input type="text" name="permissions" value="" data-role="tagsinput" placeholder="add permission"/>
+                        <input type="text" name="permissions" value="" data-role="tagsinput"
+                               placeholder="add permission"/>
                     </div>
                 </div>
 

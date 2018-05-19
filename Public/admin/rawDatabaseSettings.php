@@ -15,7 +15,7 @@ class ad_rawDatabaseSettings
     public function __construct()
     {
         // init the required globals
-        global $viewController, $database, $dbSettings;
+        global $viewController, $database, $dbSettings, $customScripts;
 
         // set the required variables
         $sql = "SELECT * FROM " . TBL_SETTINGS;

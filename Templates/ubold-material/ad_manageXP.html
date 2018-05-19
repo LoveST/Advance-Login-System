@@ -9,16 +9,15 @@
             <form action="" class="form-horizontal m-t-20" method="post">
 
 
-
                 <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
-                    <? echo $message->getError(3); ?>
+                    {:msgc message...getError(3)}
                 </div>
                 <? } ?>
 
                 <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
-                    <?=$message->printSuccess();?>
+                    {:msgc message...printSuccess()}
                 </div>
                 <? } ?>
 
@@ -41,10 +40,11 @@
                 </div>
 
 
-                    <div class="col-md-12 text-center">
-                        <button name="addXP" class="btn btn-primary waves-effect waves-light" type="submit">Add</button>
-                        <button name="subtractXP" class="btn btn-danger waves-effect waves-light" type="submit">Subtract</button>
-                    </div>
+                <div class="col-md-12 text-center">
+                    <button name="addXP" class="btn btn-primary waves-effect waves-light" type="submit">Add</button>
+                    <button name="subtractXP" class="btn btn-danger waves-effect waves-light" type="submit">Subtract
+                    </button>
+                </div>
 
             </form>
 

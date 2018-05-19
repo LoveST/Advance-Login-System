@@ -2,23 +2,23 @@
     <div class="col-md-12">
         <div class="card-box">
 
-			<h4 class="m-t-0 m-b-20 header-title"><b>Security settings</b></h4>
+            <h4 class="m-t-0 m-b-20 header-title"><b>Security settings</b></h4>
 
             <form action="" class="form-horizontal m-t-20" method="post">
 
                 <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
-                    <? echo $message->getError(3); ?>
+                    {:msgc message...getError(3)}
                 </div>
                 <? } ?>
 
                 <? if({:$$message}->is_success()){ ?>
                 <div class="alert alert alert-success text-center">
-                    {:msgc message->printSuccess()}
+                    {:msgc message...printSuccess()}
                 </div>
                 <? } ?>
 
-				<div class="form-group row">
+                <div class="form-group row">
                     <label class="col-2 col-form-label">Site secret key</label>
                     <div class="col-10">
                         <input class="form-control" type="text" value="{:msg siteSecretKey}"
@@ -27,7 +27,7 @@
                     <p class="col-2 text-muted m-b-30 font-13">32 hex characters ONLY</p>
                 </div>
 
-				<div class="form-group row">
+                <div class="form-group row">
                     <label class="col-2 col-form-label">Captcha key</label>
                     <div class="col-10">
                         <input class="form-control" type="text" value="{:msg captchaKey}"
@@ -36,13 +36,14 @@
                     <p class="col-2 text-muted m-b-30 font-13">Captcha key used to connect to the google API</p>
                 </div>
 
-				<div class="form-group row">
+                <div class="form-group row">
                     <label class="col-2 col-form-label">Captcha secret</label>
                     <div class="col-10">
                         <input class="form-control" type="text" value="{:msg captchaSecretKey}"
                                name="captcha_secret" required="true" placeholder="{:msg captchaSecretKey}">
                     </div>
-                    <p class="col-2 text-muted m-b-30 font-13">Captcha secret key used to authenticate with the google API</p>
+                    <p class="col-2 text-muted m-b-30 font-13">Captcha secret key used to authenticate with the google
+                        API</p>
                 </div>
 
                 <div class="form-group text-center m-t-40">

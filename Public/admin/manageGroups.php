@@ -19,6 +19,7 @@ class ad_manageGroups
         $listGroups = $groups->listGroups();
         $listGroups[0];
         // load the required scripts
+        global $customScripts;
         $customScripts = '<script src="' . $settings->getTemplatesURL() . 'assets/js/popper.min.js"></script>' . "\n";
         $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/jquery.dataTables.min.js"></script>' . "\n";
         $customScripts .= '<script src="' . $settings->getTemplatesURL() . 'plugins/datatables/dataTables.bootstrap4.min.js"></script>' . "\n";

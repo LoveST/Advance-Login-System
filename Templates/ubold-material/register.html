@@ -32,7 +32,13 @@
 
                 <? if({:$$message}->anyError()){ ?>
                 <div class="alert alert-danger">
-                    <? echo $message->getError(3); ?>
+                    {:msgc message...getError(3)}
+                </div>
+                <? } ?>
+
+                <? if({:$$message}->is_success()){ ?>
+                <div class="alert alert alert-success text-center">
+                    {:msgc message...printSuccess()}
                 </div>
                 <? } ?>
 
