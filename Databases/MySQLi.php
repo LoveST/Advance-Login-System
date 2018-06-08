@@ -11,7 +11,7 @@ namespace ALS\Databases;
 
 use ALS\Message;
 
-class MySQLi
+class MySQLi extends _dbConnection
 {
 
     /**
@@ -19,36 +19,27 @@ class MySQLi
      */
     function __construct()
     {
-        // init the required globals
-        global $message;
-
-        // init the complete list of functions
-        $functions = array("getResults", "getNumRows", "getRow", "getRows");
-
-        // loop throw each function in the current connection type and check for availability
-        for ($i = 0; $i < count($functions); $i++) {
-
-            // get the function
-            $function = $functions[$i];
-
-            // check if doesn't exist
-            if (!method_exists($this, $function)) {
-                $message->setError("Missing Function In Database Connection : function(" . $function . ")", Message::Fatal);
-            }
-        }
+        // init the parent class
+        parent::__construct();
     }
 
     /**
      * connect to the database
+     * @param String $dbName
      * @return \mysqli
      */
-    function connect()
+    function connect($dbName = null)
     {
 
         // init the required globals
         global $message;
 
-        $connection = new \mysqli(DBURL, DBUSER, DBPASS, DBNAME, DBPORT);
+        // check if dbName is null
+        if (is_null($dbName)) {
+            $dbName = DBNAME;
+        }
+
+        $connection = new \mysqli(DBURL, DBUSER, DBPASS, $dbName, DBPORT);
 
         // Check for any connection errors
         if ($connection->connect_error) {

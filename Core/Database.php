@@ -8,23 +8,27 @@
 
 namespace ALS;
 
+use ALS\Databases\_dbConnection;
+
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file."); // disable direct access to the file.
 
 class Database
 {
 
     var $connection; // public variable for the database connection
-    public $_CONNECTION_TYPE = "";
-    var $_DBConnections = array();
+    public $_CONNECTION_TYPE;
+    var $_DBConnections;
     private $_dbError = false;
     private $_dbErrorMSG = "";
     var $_errorKILL;
-    private $_rootPath = "../";
 
     public function _init($dieIfError = true)
     {
         // set the error handler
         $this->anyErrorKill($dieIfError);
+
+        // get the parent connection class
+        include FRAMEWORK_PATH . $this->getSubLine() . "Databases" . $this->getSubLine() . "_dbConnection.php";
 
         // init the supported Database Drivers
         $this->_DBConnections = array("MySQLi", "PDO");
@@ -33,10 +37,10 @@ class Database
         $this->checkConnectionType();
     }
 
-    final function connect()
+    final function connectToDB($dbName = null)
     {
         // connect to the Database
-        $this->connection = $this->_CONNECTION_TYPE->connect();
+        $this->connection = $this->getConnectionType()->connect($dbName);
     }
 
     /**
@@ -68,6 +72,15 @@ class Database
             // store the object
             $this->_CONNECTION_TYPE = $object;
         }
+    }
+
+    /**
+     * Get the required database connection type class
+     * @return _dbConnection
+     */
+    public function getConnectionType()
+    {
+        return $this->_CONNECTION_TYPE;
     }
 
     /**
@@ -161,7 +174,7 @@ class Database
      */
     function getQueryResults($sqlRequest, $parameters = null, $types = null)
     {
-        return $this->_CONNECTION_TYPE->getResults($sqlRequest, $parameters, $types);
+        return $this->getConnectionType()->getResults($sqlRequest, $parameters, $types);
     }
 
     /**
@@ -184,7 +197,7 @@ class Database
         }
 
         // get the total rows effected
-        $numRows = $this->_CONNECTION_TYPE->getNumRows($results);
+        $numRows = $this->getConnectionType()->getNumRows($results);
 
         // return the total number of effected rows
         return $numRows;
@@ -212,7 +225,7 @@ class Database
         }
 
         // get the effected rows
-        $row = $this->_CONNECTION_TYPE->getRow($results);
+        $row = $this->getConnectionType()->getRow($results);
 
         // return the effected rows
         return $row;
@@ -243,7 +256,7 @@ class Database
         $rows = [];
 
         // get the effected rows
-        while ($row = $this->_CONNECTION_TYPE->getRows($results)) {
+        while ($row = $this->getConnectionType()->getRows($results)) {
             $rows[] = $row;
         }
 
@@ -317,8 +330,6 @@ class Database
      */
     function getSubLine()
     {
-        $sub = "";
-
         // check the servers current OS
         if (PHP_OS == "Linux") {
             $sub = "/";

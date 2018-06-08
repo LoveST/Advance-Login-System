@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Created by PhpStorm.
  * User: LoveMST
@@ -11,10 +11,10 @@ if (count(get_included_files()) == 1) exit("You don't have the permission to acc
 
 // Set Error Reporting
 define("ERROR_REPORTING", E_ALL);
-define("DB_ERROR_DIE", false);
+define("DB_ERROR_DIE", "0");
 
 // Main Framework Path
-define("FRAMEWORK_PATH", "D:\AppServ\www\ALS/");
+define("FRAMEWORK_PATH", "D:\\xampp\htdocs\ALS/");
 define("FRAMEWORK_PUBLIC_PATH", "Public/");
 
 //Set the Database Connection Type
@@ -23,7 +23,7 @@ define("CONNECTION_TYPE", "PDO");
 //Declare all the database variables
 define("DBURL", "localhost"); // Set the database url (ex : localhost || 127.0.01 ).
 define("DBUSER", "root"); // Set the database user.
-define("DBPASS", "199601997masis@"); // Set the database password to access it.
+define("DBPASS", ""); // Set the database password to access it.
 define("DBNAME", "als"); // Set the database name used to store all the data.
 define("DBPORT", "3306"); // Set the sql port that is used to connect to the database ( default : 3306 ).
 
@@ -152,3 +152,5 @@ define("TBL_USERS_API_CALLS_PLATFORM", "platform");
 define("TBL_LINKS", "links");
 define("TBL_LINKS_NAME", "name");
 define("TBL_LINKS_VALUE", "value");
+
+?>

@@ -1,0 +1,7 @@
+- Implement support for custom databases, tables & fields.
+
+- Function
+    * connectToDB("Database name here");
+
+- Support for more function tags inside an HTML form
+-

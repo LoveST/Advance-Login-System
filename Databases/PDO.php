@@ -8,9 +8,7 @@
 
 namespace ALS\Databases;
 
-use Als\Message;
-
-class PDO
+class PDO extends _dbConnection
 {
 
     /**
@@ -18,39 +16,30 @@ class PDO
      */
     function __construct()
     {
-        // init the required globals
-        global $message, $database;
-
-        // init the complete list of functions
-        $functions = array("getResults", "getNumRows", "getRow", "getRows");
-
-        // loop throw each function in the current connection type and check for availability
-        for ($i = 0; $i < count($functions); $i++) {
-
-            // get the function
-            $function = $functions[$i];
-
-            // check if doesn't exist
-            if (!method_exists($this, $function)) {
-                $database->setError("Missing Function In Database Connection : function(" . $function . ")");
-            }
-        }
+        // init the parent class
+        parent::__construct();
     }
 
     /**
      * connect to the database
+     * @param String $dbName
+     * @return \PDO|bool
      */
-    function connect()
+    function connect($dbName = null)
     {
         // init the required globals
-        global $message, $database;
+        global $database;
+
+        // check if dbName is null
+        if (is_null($dbName)) {
+            $dbName = DBNAME;
+        }
 
         try {
-            $connection = new \PDO("mysql:host=" . DBURL . ";port=" . DBPORT . ";dbname=" . DBNAME, DBUSER, DBPASS);
+            $connection = new \PDO("mysql:host=" . DBURL . ";port=" . DBPORT . ";dbname=" . $dbName, DBUSER, DBPASS);
             // set the PDO error mode to exception
             $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            var_dump($database->setError($this->getErrorMSG($e)));
             $database->setError("Database Connection Failed: " . $this->getErrorMSG($e));
             return false;
         }
@@ -69,9 +58,10 @@ class PDO
     {
 
         // define all the global variables
-        global $database, $message;
+        global $database;
 
         // try and catch for any errors
+        $result = false;
         try {
 
             // check for any errors
@@ -136,7 +126,6 @@ class PDO
      */
     private function getErrorMSG($err)
     {
-        $msg = "";
         switch ($err->getCode()) {
             case 1045;
                 $msg = "Database Access Denied";

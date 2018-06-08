@@ -25,9 +25,6 @@ class Core
      */
     function __construct($dieIfError = true)
     {
-        // Start the session
-        session_start();
-
         // set the error handler
         $this->_ErrorKiller($dieIfError);
 
@@ -114,7 +111,7 @@ class Core
         // store the variable and initiate the class
         $database->_init($this->dieIfError);
         $GLOBALS['database'] = $database;
-        $database->connect();
+        $database->connectToDB();
     }
 
     /**

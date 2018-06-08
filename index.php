@@ -22,6 +22,9 @@ class ALS
     {
         // init the main framework path
 
+        // Start the session
+        session_start();
+
         // load the Core class without initializing it
         include_once "Core/Core.php";
 
@@ -33,7 +36,6 @@ class ALS
 
         // load the config
         $this->loadConfig();
-
 
         // check if current requested folder is in the reserved section
         if ($this->isReservedFolder($this->getRequestedFolder()) || $this->getRequestedFolder() == $this->_methodsCall) {
@@ -67,7 +69,7 @@ class ALS
     public function loadConfig()
     {
         // load the required file
-        include_once "Settings/config.php";
+        require_once "Settings/config.php";
     }
 
     /**
@@ -181,7 +183,7 @@ class ALS
     {
         // create a new instance of the Core class
         $core = new Core();
-        $core->_ErrorKiller(DB_ERROR_DIE);
+        $core->_ErrorKiller(ERROR_REPORTING);
 
         // init the core classes
         $core->initClasses();

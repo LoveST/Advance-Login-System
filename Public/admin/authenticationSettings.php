@@ -9,13 +9,27 @@
 // disable direct access to the file
 if (count(get_included_files()) == 1) exit("You don't have the permission to access this file.");
 
-// set the required templates
-$canLogin = $settings->get(TBL_SETTINGS_LOGIN_ENABLE);
-$canRegister = $settings->get(TBL_SETTINGS_REGISTER_ENABLE);
-$pinRequired = $settings->get(TBL_SETTINGS_PIN_REQUIRED);
-$activationRequired = $settings->get(TBL_SETTINGS_ACTIVATION_REQUIRED);
-$minimumAgeRequired = $settings->get(TBL_SETTINGS_MINIMUM_AGE_REQUIRED);
-$minimumAge = $settings->minimumAge();
+class ad_authenticationSettings
+{
 
-// load the view
-$viewController->loadView("ad_authenticationSettings.html");
+    public function __construct()
+    {
+
+        // init the required globals
+        global $settings, $viewController, $canLogin, $canRegister, $pinRequired, $activationRequired, $minimumAgeRequired, $minimumAge;
+
+        // set the required templates
+        $canLogin = $settings->get(TBL_SETTINGS_LOGIN_ENABLE);
+        $canRegister = $settings->get(TBL_SETTINGS_REGISTER_ENABLE);
+        $pinRequired = $settings->get(TBL_SETTINGS_PIN_REQUIRED);
+        $activationRequired = $settings->get(TBL_SETTINGS_ACTIVATION_REQUIRED);
+        $minimumAgeRequired = $settings->get(TBL_SETTINGS_MINIMUM_AGE_REQUIRED);
+        $minimumAge = $settings->minimumAge();
+
+        // load the view
+        $viewController->loadView("ad_authenticationSettings.html");
+    }
+
+}
+
+new ad_authenticationSettings();
