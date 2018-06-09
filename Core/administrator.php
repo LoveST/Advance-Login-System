@@ -416,7 +416,7 @@ class Administrator
         }
 
         // call the database and get the results back
-        $query = "SELECT COUNT(*) FROM  " . TBL_USERS . " WHERE  " . TBL_USERS_LAST_LOGIN . " > NOW() - INTERVAL $since DAY";
+        $query = "SELECT COUNT(*) FROM  " . TBL_USERS . " WHERE  " . TBL_USERS_LAST_LOGIN . " > NOW() - INTERVAL $since SECOND";
 
         // get the sql results
         if (!$result = $database->getQueryResults($query)) {

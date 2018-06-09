@@ -153,13 +153,18 @@ class User_Default
     }
 
     /**
-     * get the required user data as needed by using User::'Data Type'
+     * get the required user data as needed by using User::'Data Type' or column name
      * @param $dataType
      * @return mixed
      */
     function get($dataType)
     {
-        return $this->userData[$dataType];
+        // check if in array
+        if (array_key_exists($dataType, $this->userData)) {
+            return $this->userData[$dataType];
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -408,6 +413,15 @@ class User_Default
     function getLoginID()
     {
         return $this->userData[TBL_USERS_LOGIN_ID];
+    }
+
+    /**
+     * Get the user login ID init time
+     * @return string
+     */
+    function getLoginIDInitTime()
+    {
+        return $this->userData[TBL_USERS_LOGIN_ID_INIT];
     }
 
     /**

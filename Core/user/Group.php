@@ -61,6 +61,21 @@ class Group
     }
 
     /**
+     * get the required group data as needed by using the column name
+     * @param $dataType
+     * @return mixed
+     */
+    function get($dataType)
+    {
+        // check if in array
+        if (array_key_exists($dataType, $this->data)) {
+            return $this->data[$dataType];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * get the group permissions
      * @return array
      */

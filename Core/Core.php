@@ -66,6 +66,7 @@ class Core
         $this->_Applications();
         $this->_Avatars();
         $this->_Firebase();
+        $this->_Statistics();
     }
 
     function _GoogleAuthenticator()
@@ -404,6 +405,20 @@ class Core
         $GLOBALS['avatars'] = $avatars;
     }
 
+    /**
+     * init the Statistics Class
+     */
+    function _Statistics()
+    {
+        // load the required class file
+        require $this->_corePath . "Statistics.php";
+
+        // check if defined
+        if (!isset($statistics)) die("Undefined variables at line " . __LINE__ . " " . __FUNCTION__);
+
+        // store the variable and initiate the class
+        $GLOBALS['statistics'] = $statistics;
+    }
 
     public final function loadClasses($classes)
     {

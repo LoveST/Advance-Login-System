@@ -72,6 +72,7 @@ define("TBL_USERS_API_TOKEN", "api_token");
 define("TBL_USERS_AUTHENTICATORS", "authenticators");
 define("TBL_USERS_AVATAR_ID", "avatar_id");
 define("TBL_USERS_LOGIN_ID", "login_id");
+define("TBL_USERS_LOGIN_ID_INIT", "login_id_init");
 
 /**
  * Settings Table
@@ -108,6 +109,7 @@ define("TBL_SETTINGS_MIN_PASSWORD_LENGTH", "min_password_length");
 define("TBL_SETTINGS_AVATARS_PATH", "avatars_path");
 define("TBL_SETTINGS_AVATARS_URL", "avatars_url");
 define("TBL_SETTINGS_AVATARS_DEFAULT_NAME", "avatars_default_name");
+define("TBL_SETTINGS_LOGIN_ID_EXP_INTERVAL", "login_id_expiration_interval");
 
 /**
  * Levels-Groups Table

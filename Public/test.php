@@ -5,21 +5,19 @@ class Tests1
 
     public function __construct()
     {
-        global $functions, $user;
+        global $functions, $user, $statistics;
         // load the main required init.php file
         $functions->loadFile(FRAMEWORK_PATH . FRAMEWORK_PUBLIC_PATH . "init.php");
-        new init();
+        $init = new init();
 
-        // init the globals
-        global $viewController, $message;
+        // check for logged in user
+        $init->loginCheck();
 
-        $text = strstr("msg viewController[0]", "[", true);
-        echo $text;
-        echo "<br><br><br>";
-
-        // print error
-        $message->printError();
-        $message->printSuccess();
+        echo $user->get("email") . "<br>";
+        $time = date("Y-m-d H:i:s", // this line is for demonstration
+            mktime(0, 0, 0));
+        echo strtotime($time);
+        echo "<br>" . $statistics->getTotalLoggedUsers(60 * 5); // 5 minutes
     }
 
 }

@@ -1,7 +1,8 @@
-- Implement support for custom databases, tables & fields.
+- Implement support for custom databases, tables & fields.  .....90% done
 
-- Function
-    * connectToDB("Database name here");
+- Support for more. function tags inside an HTML form
+-- create an algorithm to look for all the special tags and check if a corresponding function or variables exists
+    in a private or a global scope.
+-- implement Memcache to reduce the required load time for the templates by storing them in the cache
 
-- Support for more function tags inside an HTML form
 -

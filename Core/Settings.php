@@ -56,7 +56,12 @@ class Settings
      */
     function get($dataType)
     {
-        return $this->settings[$dataType];
+        // check if in array
+        if (array_key_exists($dataType, $this->settings)) {
+            return $this->settings[$dataType];
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -515,6 +520,15 @@ class Settings
     function getAvatarsURL()
     {
         return $this->settings[TBL_SETTINGS_AVATARS_URL];
+    }
+
+    /**
+     * Get the amount of time before the login via email link expires
+     * @return string
+     */
+    function getLoginIDExpiration()
+    {
+        return $this->settings[TBL_SETTINGS_LOGIN_ID_EXP_INTERVAL];
     }
 
     /**

@@ -349,7 +349,7 @@ class Session
     function loginThrowEmail($email, $id, $loginID)
     {
         // define the required global variables
-        global $database, $message, $functions;
+        global $database, $message, $functions, $settings;
 
         // secure the inputs
         $email = $database->secureInput($email);
@@ -378,10 +378,21 @@ class Session
             return false;
         }
 
-        // TODO check for expired link
-
         // grab the user data
         $row = $database->getQueryEffectedRow($results, true);
+
+        // TODO make sure link expiration works
+        // check if the given ID is expired
+        if (time() - $row[TBL_USERS_LOGIN_ID_INIT] >= $settings->getLoginIDExpiration()) {
+
+            // delete the login ID
+            $sql = "UPDATE " . TBL_USERS . " SET " . TBL_USERS_LOGIN_ID . " = '' WHERE " . TBL_USERS_ID . " = '" . $id . "' AND " . TBL_USERS_EMAIL . " = '" . $email . "'";
+            $database->getQueryResults($sql);
+
+            // print the error message and return false
+            $message->setError("Login ID already expired.", Message::Error);
+            return false;
+        }
 
         // create a new session without the need of confirmation
         // ** Update the current session data ** //
@@ -589,23 +600,20 @@ class Session
             $to = $email;
             $content = file_get_contents('templates/' . $settings->get(Settings::SITE_THEME) . "/activateAccountEmailTemplate.html");
             $subject = "Activate Account || " . $settings->get(Settings::SITE_NAME);
+
             // convert variables to actual values
             $content = strtr($content, $vars);
+
             // initiate the mail class to prepare to send the email
             $mail = new Mail();
+
             // set the sender email
-            $mail->fromEmail($settings->get(Settings::SITE_EMAIL));
-            // set the sender name
-            $mail->fromName("Support");
-            // set the receiver email
-            $mail->to($to);
-            // set the subject
-            $mail->subject($subject);
-            // check if include a template is checked
-            // Set mail to template
-            $mail->isTemplate(true);
-            // set the mail template content
-            $mail->template($content);
+            $mail->fromEmail($settings->get(Settings::SITE_EMAIL))
+                ->fromName("Support")
+                ->to($to)
+                ->subject($subject)
+                ->isTemplate(true)
+                ->template($content);
 
             if ($mail->send()) {
                 return true;
